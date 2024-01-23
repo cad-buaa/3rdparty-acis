@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -59,9 +59,6 @@ class pattern;
 class VOID_LIST;
 
 class tolerize_options;
-
-// 支撑性测试
-//  #define GME_KERN_EDGE //将ACIS接口切换为GME接口
 
 // STI TOL_MOD jmg: convexity enum
 // convexity - these values are used for subscripts into the scoring array
@@ -351,8 +348,6 @@ protected:
  * internal use only.
  */
 	virtual void set_start_ptr( VERTEX *, logical reset_pattern = TRUE );
-	/* @todo: 采用virtual会导致cstrapi.cpp中的gme_api_split_curve接口异常，故临时采用非虚函数*/
-	/*virtual*/ void gme_set_start_ptr( VERTEX *, logical reset_pattern = TRUE );
 /**
  * Assigns a pointer to the end <tt>VERTEX</tt> of this <tt>EDGE</tt>.
  * <br><br>
@@ -369,8 +364,6 @@ protected:
  * internal use only.
  */
 	virtual void set_end_ptr( VERTEX *vertex, logical reset_pattern = TRUE );
-	/* @todo: 采用virtual会导致cstrapi.cpp中的gme_api_split_curve接口异常，故临时采用非虚函数*/
-	/*virtual*/ void gme_set_end_ptr( VERTEX *vertex, logical reset_pattern = TRUE );
 
 /**
  * Sets the pointer to the underlying <tt>CURVE</tt> geometry for this <tt>EDGE</tt>.
@@ -381,8 +374,6 @@ protected:
  * internal use only.
  */
 	virtual void set_geometry_ptr( CURVE *crv );// internal use only
-	/* @todo: 采用virtual会导致该接口被调用时异常，临时采用非虚函数*/
-	/*virtual*/ void gme_set_geometry_ptr( CURVE *crv );// internal use only
 
 // STI ROLL begin - added virtual compare function for api_get_modified_faces
 protected:
@@ -439,7 +430,6 @@ public:
  * management.
  */
 	EDGE();
-	EDGE(const char *gme);
 
 
 	// Public constructor which initialises the record and interfaces
@@ -475,13 +465,6 @@ public:
  * parametric domain of the constructed EDGE (optional).
  */
 	EDGE( VERTEX *start,
-		  VERTEX *end,
-		  CURVE *geometry,
-		  REVBIT sense,
-		  EDGE_cvty cvty = EDGE_cvty_unknown,
-		  SPAinterval const &domain = *(const class SPAinterval *)NULL_REF);
-	EDGE( const char *gme,
-		VERTEX *start,
 		  VERTEX *end,
 		  CURVE *geometry,
 		  REVBIT sense,
@@ -553,12 +536,6 @@ public:
 	virtual void lose();
 #endif
 
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>EDGE</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
 	// Data reading routines.
 
 /**
@@ -567,14 +544,12 @@ public:
  * <b>Role:</b> The pointer can be <tt>NULL</tt>.
  */
 	VERTEX *start() const ;
-	VERTEX *gme_start() const ;
 /**
  * Returns a pointer to the end <tt>VERTEX</tt> of this <tt>EDGE</tt>.
  * <br><br>
  * <b>Role:</b> The pointer can be <tt>NULL</tt>.
  */
 	VERTEX *end() const ;
-	VERTEX *gme_end() const ;
 /**
  * Returns a pointer to one of the <tt>COEDGEs</tt> lying on this <tt>EDGE</tt>.
  * <br><br>
@@ -600,13 +575,11 @@ public:
  * the internal coordinate system of the <tt>BODY</tt>). The return may be <tt>NULL</tt>
  * if the bound was not calculated since the <tt>EDGE</tt> was last modified.
  */
-	SPAbox *bound() const { return box_container.get_box(); }	  
-
+	SPAbox *bound() const { return box_container.get_box(); }
 /**
  * Returns a pointer to the owning entity.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 /**
  * Returns the tolerance of the tolerant <tt>TEDGE</tt> made from this <tt>EDGE</tt>.
  * <br><br>
@@ -615,8 +588,6 @@ public:
  * <tt>EDGE</tt> for future use, but is required for constant <tt>EDGEs</tt>.
  */
     virtual double get_tolerance() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ double gme_get_tolerance() const;
 /**
  * Returns the tolerance of the tolerant <tt>TEDGE</tt> made from this <tt>EDGE</tt>.
  * <br><br>
@@ -624,8 +595,6 @@ public:
  * evaluated range and cannot be declared <tt>const</tt>.
  */
 	virtual double get_tolerance();
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ double gme_get_tolerance();
 
 	// Extended tolerance routines which return the current value of the
 	// tolerance that should be used.  For ordinary edges it is resabs/2 in
@@ -635,21 +604,15 @@ public:
  * @nodoc
  */
 	virtual double get_curr_tolerance() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ double gme_get_curr_tolerance() const;
 /**
  * @nodoc
  */
 	virtual double get_curr_tolerance();
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ double gme_get_curr_tolerance();
 
 /**
  * @nodoc
  */
     virtual logical is_tolerant() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ logical gme_is_tolerant() const;
 
 /**
  * Returns a pointer to one of the <tt>COEDGEs</tt> lying on this <tt>EDGE</tt>, associated with the given <tt>FACE</tt>.
@@ -658,13 +621,11 @@ public:
  * the FACE upon which the returned COEDGE is to lie.
  */
 	COEDGE *coedge(FACE* face) const;
-	COEDGE *gme_coedge(FACE* face) const;
 
 /**
  * Returns the convexity of this <tt>EDGE</tt>.
  */
 	EDGE_cvty get_convexity() const;
-	EDGE_cvty gme_get_convexity() const;
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -688,7 +649,6 @@ public:
  * internal use only.
  */
 	void set_start( VERTEX *vertex, logical reset_pattern = TRUE, int update_pr = 1 );
-	void gme_set_start( VERTEX *vertex, logical reset_pattern = TRUE, int update_pr = 1 );
 
 // This member has been merged with the VERTEX version. AL 07Mar2007
 //    void set_start( TVERTEX *tvertex, logical reset_pattern = TRUE );
@@ -708,7 +668,7 @@ public:
  * internal use only.
  */
 	void set_end( VERTEX *vertex, logical reset_pattern = TRUE, int update_pr = 1 );
-	void gme_set_end( VERTEX *vertex, logical reset_pattern = TRUE, int update_pr = 1 );
+
 // This member has been merged with the VERTEX version. AL 07Mar2007  
 //    void set_end( TVERTEX *tvertex, logical reset_pattern = TRUE );
 
@@ -725,7 +685,6 @@ public:
  * internal use only.
  */
 	void set_coedge( COEDGE *coedge, logical reset_pattern = TRUE );
-	void gme_set_coedge( COEDGE *coedge, logical reset_pattern = TRUE );
 
 /**
  * Sets this <tt>EDGE</tt>'s geometry to the given <tt>CURVE</tt>.
@@ -742,11 +701,7 @@ public:
  * internal use only.
  */
 	virtual void set_geometry( CURVE *crv, logical reset_pattern , logical reset_tol_geom );
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ void gme_set_geometry( CURVE *crv, logical reset_pattern , logical reset_tol_geom );
     virtual void set_geometry( CURVE *crv, logical reset_pattern  = TRUE);
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ void gme_set_geometry( CURVE *crv, logical reset_pattern  = TRUE);
     
 /**
  * Sets the sense of this <tt>EDGE</tt> with respect to the underlying <tt>CURVE</tt>.
@@ -761,8 +716,6 @@ public:
  * internal use only.
  */
 	virtual void set_sense( REVBIT sense, logical reset_pattern = TRUE );
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ void gme_set_sense( REVBIT sense, logical reset_pattern = TRUE );
 
 /**
  * Sets the bounding region (box) of this <tt>EDGE</tt> to the specified box.
@@ -775,7 +728,7 @@ public:
  * @param box
  * the new SPAbox.
  */
-	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }			  
+	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }
 
 /**
  * Sets the convexity of this <tt>EDGE</tt> to the given value.
@@ -786,7 +739,6 @@ public:
  * internal use only.
  */
 	void set_convexity( EDGE_cvty cvty, logical reset_pattern = TRUE );
-	void gme_set_convexity( EDGE_cvty cvty, logical reset_pattern = TRUE );
 
 	// This function checks the given range with the start
 	// and end vertexes if they do not agree it returns
@@ -803,7 +755,6 @@ public:
  * the parameter range to check.
  */
 	logical set_param_range( SPAinterval const &range );
-	logical gme_set_param_range( SPAinterval const &range );
 
 	// Routines for finding the positions of the start and end of
 	// the edge. Used a lot, so convenient to have.
@@ -815,8 +766,6 @@ public:
  * on the owning body. That is the responsibility of the calling function. 
  */
 	virtual SPAposition start_pos() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAposition gme_start_pos() const;
 /**
  * Returns the end position of this <tt>EDGE</tt>.
  * <br><br>
@@ -824,8 +773,6 @@ public:
  * on the owning body. That is the responsibility of the calling function. 
  */
 	virtual SPAposition end_pos() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAposition gme_end_pos() const;
 /**
  * Returns the midpoint of this <tt>EDGE</tt>.
  * <br><br>
@@ -845,8 +792,6 @@ public:
  * flag to use approximate (parametric) midpoint.
  */
 	virtual SPAposition mid_pos(logical approx = TRUE) const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAposition gme_mid_pos(logical approx = TRUE) const;
 /**
  * Returns the derivative at the start parameter of this <tt>EDGE</tt>.
  * <br><br>
@@ -854,8 +799,6 @@ public:
  * on the owning body. That is the responsibility of the calling function. 
  */
 	virtual SPAvector start_deriv() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAvector gme_start_deriv() const;
 /**
  * Returns the derivative at the end parameter of this <tt>EDGE</tt>.
  * <br><br>
@@ -863,8 +806,6 @@ public:
  * on the owning body. That is the responsibility of the calling function. 
  */
 	virtual SPAvector end_deriv() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAvector gme_end_deriv() const;
 /**
  * Returns the derivative at the midpoint of this <tt>EDGE</tt>.
  * <br><br>
@@ -884,8 +825,6 @@ public:
  * flag to use approximate (parametric) midpoint.
  */
 	virtual SPAvector mid_point_deriv(logical approx = TRUE) const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAvector gme_mid_point_deriv(logical approx = TRUE) const;
 
 	// Routines for finding the SPAparameter bounds of the edge on its
 	// curve. The first two are for backwards compatibility, the third
@@ -900,7 +839,6 @@ public:
  * evaluated range and cannot be declared const.
  */
 	SPAparameter start_param();
-	SPAparameter gme_start_param();
 /**
  * Returns the parameter defining the end of this <tt>EDGE</tt>.
  * <br><br>
@@ -908,10 +846,8 @@ public:
  * start and end parameters. It saves the evaluated range and cannot be declared <tt>const</tt>.
  */
 	SPAparameter end_param();
-	SPAparameter gme_end_param();
     	
 	logical param_bounded() const;
-	logical gme_param_bounded() const;
 	
 /**
  * Returns the parameter range of this <tt>EDGE</tt>.
@@ -920,7 +856,7 @@ public:
  * evaluated range and cannot be declared <tt>const</tt>.
  */
 	SPAinterval param_range();
-	SPAinterval gme_param_range();
+
 	// For emergency use, we also have a const version which does not
 	// save the value. Since this can be expensive, one hopes it is
 	// not used too often.
@@ -933,7 +869,6 @@ public:
  * the <tt>EDGE</tt> for future use, but is required for constant <tt>EDGEs</tt>.
  */
 	SPAparameter start_param() const;
-	SPAparameter gme_start_param() const;
 /**
  * Returns the parameter defining the end of this <tt>EDGE</tt>.
  * <br><br>
@@ -942,7 +877,6 @@ public:
  * the <tt>EDGE</tt> for future use, but is required for constant <tt>EDGEs</tt>.
  */
 	SPAparameter end_param() const;
-	SPAparameter gme_end_param() const;
 /**
  * Returns the parameter range of this <tt>EDGE</tt>.
  * <br><br>
@@ -951,7 +885,6 @@ public:
  * the <tt>EDGE</tt> for future use, but is required for constant <tt>EDGEs</tt>.
  */
 	SPAinterval param_range() const;
-	SPAinterval gme_param_range() const;
 /**
  * Returns the parameter range of this <tt>EDGE</tt>.
  * <br><br>
@@ -964,21 +897,18 @@ public:
  * @nodoc
  */
 	SPAinterval calculate_param_range() const;
-	SPAinterval gme_calculate_param_range() const;
 
 	// Make a tolerant TEDGE out of this edge.
 /**
  * Makes a tolerant <tt>TEDGE</tt> from this <tt>EDGE</tt>.
  */
 	TEDGE *make_tolerant(double tol, logical approx_ok);
-	TEDGE *gme_make_tolerant(double tol, logical approx_ok);
 
 	// Check to see if we have an edge bounded by vertices
 /**
  * Returns <tt>TRUE</tt> if this <tt>EDGE</tt> is bounded by <tt>VERTEXes</tt>.
  */
 	logical vertex_bounded() const;
-	logical gme_vertex_bounded() const;
 
 /**
  * Returns a string representing the convexity of this <tt>EDGE</tt>.
@@ -987,7 +917,6 @@ public:
  * for example, <tt>"concave"</tt>, <tt>"tangent"</tt>, and <tt>"unknown"</tt>.
  */
 	char const *convexity_string() const;
-	char const *gme_convexity_string() const;
 /**
  * Assigns a convexity to this <tt>EDGE</tt>, for example, <tt>"concave"</tt>, <tt>"tangent"</tt>, and <tt>"unknown"</tt>.
  * <br><br>
@@ -995,7 +924,6 @@ public:
  * string indicating the convexity.
  */
 	EDGE_cvty string_convexity(char *string) const;
-	EDGE_cvty gme_string_convexity(char *string) const;
 
 	// Utility methods
 /**
@@ -1003,18 +931,14 @@ public:
  * and the edge curve has a B-spline approximation, then this approximation is used in the length calculation.
  */
 	double	length(logical approx_ok=TRUE)	const;
-	double	gme_length(logical approx_ok=TRUE)	const;
-
 /**
  * Returns <tt>TRUE</tt> if this <tt>EDGE</tt> is closed.
  */
 	logical closed()	const;
-	logical gme_closed()	const;
 /**
  * Returns <tt>TRUE</tt> if this <tt>EDGE</tt> is periodic.
  */
 	logical periodic()	const;
-	logical gme_periodic()	const;
 
 // STI jmb: Handle save/restore of use counted histories
 	/**
@@ -1025,24 +949,6 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 // STI jmb: end
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const EDGE* in_edge, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE type, ENTITY* ent);
-
-public:
-	// get and set functions for access.
-	void** get_start_ptr();
-	void** get_end_ptr();
-	void** get_coedge_ptr();
-	void** get_geometry_ptr();
 };
 /** @} */
 #endif

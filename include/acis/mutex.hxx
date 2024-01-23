@@ -1,4 +1,4 @@
-﻿/* $Id: mutex.hxx,v 1.11 2001/09/19 20:37:59 ktatters Exp $ */
+/* $Id: mutex.hxx,v 1.11 2001/09/19 20:37:59 ktatters Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -139,17 +139,11 @@ public:
  * @param call_create
  * call create method during construction.
  */
-	// #define GME_BASE_DLL
-	#ifdef GME_BASE_DLL
-	mutex_resource( logical call_create = TRUE) { }
-	~mutex_resource() { }
-	#else
 	mutex_resource( logical call_create = TRUE);
 /**
  * Destructs an <tt>mutex_resource</tt> object.
  */
 	~mutex_resource();
-	#endif
 /**
  * Initializes the <tt>mutex_resource</tt> object.
  */
@@ -169,13 +163,7 @@ public:
 /**
  * Returns TRUE if the <tt>mutex_resource</tt> is acquired.
  */
-	#ifndef GME_BASE_DLL
 	logical acquired();
-	#else
-	logical acquired() {
-		return true;
-	}
-	#endif
 };
 
 /**
@@ -206,11 +194,7 @@ public:
  * Destructs the <tt>mutex_object</tt> an releases its encapsulated mutex_resource.
  * <br><br>
  */
-	#ifndef GME_BASE_DLL
 	~mutex_object();
-	#else
-	~mutex_object(){}
-	#endif
 /**
  * Returns TRUE if the encapsulated <tt>mutex_resource</tt> is acquired.
  */

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -9,7 +9,7 @@
 /* Main modeller header, containing system-wide information */
 /* For obvious reasons, changes to this file have very serious */
 /* knock-on effects */
-#if!defined( BASE_HEADER_INCLUDED )
+#if !defined( BASE_HEADER_INCLUDED )
 #define BASE_HEADER_INCLUDED
 
 /**
@@ -318,11 +318,10 @@
 	     */
 	    complex_destructor_fn complex_destructor;
 
-            /**
+		/**
 	     * @nodoc
 	     */
-            base_configuration();
-            base_configuration( const char* gme);
+		base_configuration();
     };
     /** @} */
     /**
@@ -351,7 +350,6 @@
      */
     DECL_BASE logical initialize_base( base_configuration * base_config = NULL);
 
-    DECL_BASE logical gme_initialize_base( base_configuration * base_config = NULL);
 
     /**
      * Terminates the Base library.
@@ -365,15 +363,11 @@
      */
     DECL_BASE logical terminate_base();
 
-    DECL_BASE logical gme_terminate_base();
-
     /**
      * Returns TRUE if initialize_base has been called.
      * @see initialize_base
      */
     DECL_BASE logical base_initialized();
-
-    DECL_BASE logical gme_base_initialized();
 
 #endif
 
@@ -401,8 +395,6 @@
 
 #ifdef THREAD_SAFE_ACIS
 
-    //#define GME_BASE_DLL
-    #ifndef GME_BASE_DLL
     /**
      * distance criterion
      */
@@ -420,12 +412,6 @@
      * machine precision
      */
     extern DECL_BASE safe_floating_type<double> SPAresmch;
-    #else
-    const double SPAresabs = 1E-6;
-    const double SPAresnor = 1E-10;
-    const double SPAresfit = 1E-3;
-    const double SPAresmch = 1E-11;
-    #endif
 #else
     /**
      * distance criterion

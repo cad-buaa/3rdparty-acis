@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -172,7 +172,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	pcurve();
-	pcurve(const char* gme);
 
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
@@ -181,7 +180,6 @@ public:
  * parameter curve.
  */
 	pcurve( pcurve const &cur );
-	pcurve(const char* gme, pcurve const &cur );
 
 /**
  * Creates a copy of an item that does not share any data with the original.
@@ -201,7 +199,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual pcurve *deep_copy(pointer_map * pm = NULL) const;
-	pcurve *gme_deep_copy(pointer_map * pm = NULL) const;
 
 	// Make an explicit pcurve from its components.
 
@@ -239,18 +236,6 @@ public:
             logical owns_bs2 = TRUE,
 			double = -1.0
 		);
-	pcurve(
-			const char* gme,
-			bs2_curve curve,
-			double para,
-			surface const &sur,
-            int knot = -1,
-            int hull_cur = -1,
-            int hull_angle = -1,
-            int hull_selfintr = -1,
-            logical owns_bs2 = TRUE,
-			double par_tol1= -1.0
-		);
 
 	// Make an implicit pcurve referring to the given intcurve.
 
@@ -287,12 +272,7 @@ public:
 			surface const &sur,
 			double para
 		);
-	pcurve(
-			const char *gme,
-			curve const &cur,
-			surface const &sur,
-			double para
-		);
+
 	// Make an pcurve referring to the given law.
 
 /**
@@ -340,13 +320,6 @@ public:
             surface const &sur,
             curve const &cur = *(curve*)NULL_REF
           );
-	pcurve(
-			const char* gme,
-            logical udir,
-            double param,
-            surface const &sur,
-            curve const &cur = *(curve*)NULL_REF
-          );
 
 	// used to set the surface of a pcurve after a space warp
 
@@ -369,14 +342,14 @@ public:
  * parameter curve.
  */
 	pcurve( par_cur *cur );
-	pcurve( const char* gme,par_cur *cur );
+
 
 /**
  * C++ destructor, deleting a <tt>PCURVE</tt>.
  */
 	virtual ~pcurve();  // Ensure any derived class destructor gets
 						// a say when we destroy a surface.
-	void gme_terminte();
+
 
 /**
  * Inquires whether the parameter space curve is in the same or opposite direction of the underlying <tt>2D NURBS</tt> curve.
@@ -561,22 +534,18 @@ public:
  * Returns the underlying <tt>2D NURBS</tt> defining the parameter curve.
  */
 	bs2_curve cur() const;
-	bs2_curve gme_cur() const;
 /**
  * Returns the fit tolerance of the parameter curve.
  */
 	double fitol() const;
-	double gme_fitol() const;
 /**
  * Returns the par tolerance of the parameter curve.
  */
 	double partol() const;
-	double gme_partol() const;
 /**
  * Returns the surface that the parameter space curve is defined.
  */
 	surface const &surf() const;
-	surface const &gme_surf() const;
 
 
 	// Make a negated curve
@@ -585,7 +554,7 @@ public:
  * Makes a negated curve.
  */
 	pcurve operator-() const;
-	pcurve gme_operator_substract() const;
+
 
 	// Displace the curve in surface SPAparameter space.
 
@@ -596,7 +565,6 @@ public:
  * parameter vector.
  */
 	pcurve operator+( SPApar_vec const &param_vec ) const;
-	pcurve gme_operator_add( SPApar_vec const &param_vec ) const;
 /*
 // tbrv
 */
@@ -607,7 +575,6 @@ public:
 	{
 		return pc + pv;
 	}
-	friend DECL_KERN pcurve gme_operator_add( SPApar_vec const &pv, pcurve const &pc );
 /**
  * Makes a negated curve given a <tt>SPApar_vec</tt>.
  *<br><br>
@@ -615,7 +582,6 @@ public:
  * parameter vector.
  */
 	pcurve operator-( SPApar_vec const &param_vec ) const;
-	pcurve gme_operator_substract( SPApar_vec const &param_vec ) const;
 /**
  * Adds a <tt>SPApar_vec</tt> to a pcurve's offset.
  *<br><br>
@@ -627,7 +593,6 @@ public:
 		off += pv;
 		return *this;
 	}
-	pcurve const &gme_operator_add_assign( SPApar_vec const &pv );
 /**
  * Subtracts a <tt>SPApar_vec</tt> to a pcurve's offset.
  *<br><br>
@@ -639,7 +604,7 @@ public:
 		off -= pv;
 		return *this;
 	}
-	pcurve const &gme_operator_sub_assign( SPApar_vec const &pv );
+
 
 	// Perform a linear transformation on the curve parametrisation,
 	// so that it starts and ends at the given values (which must be
@@ -669,7 +634,7 @@ public:
  * pcurve to be assigned.
  */
 	pcurve &operator=( pcurve const &cur );
-	pcurve &gme_operator_assign( pcurve const &cur );
+
 
 	// Transform a pcurve in object space.
 
@@ -680,8 +645,6 @@ public:
  * @nodoc
  */
 	friend DECL_KERN pcurve operator*( pcurve const &, SPAtransf const & );
-	friend DECL_KERN pcurve gme_operator_multiply( pcurve const &, SPAtransf const & );
-
 /**
  * Transforms a pcurve in object space.
  *<br><br>
@@ -689,7 +652,7 @@ public:
  * transformation.
  */
 	pcurve &operator*=( SPAtransf const &trans );
-	pcurve &gme_operator_multiply_assign( SPAtransf const &trans );
+
 
 
 	// Evaluate a pcurve at a SPAparameter value, giving SPAposition and
@@ -716,14 +679,6 @@ public:
 			SPApar_vec &second_der = *(SPApar_vec *)NULL_REF
 							// second derivative
 		) const;
-	void gme_eval(
-			double par,
-			SPApar_pos &par_pos,		// SPAposition in SPAparameter space
-			SPApar_vec &first_der = *(SPApar_vec *)NULL_REF,
-							// first derivative
-			SPApar_vec &second_der = *(SPApar_vec *)NULL_REF
-							// second derivative
-		) const;
 
 	// Evaluate a pcurve at a SPAparameter value.
 
@@ -735,7 +690,6 @@ public:
  * parameter at which the pcurve is evaluated.
  */
 	SPApar_pos eval_position( double par) const;
-	SPApar_pos gme_eval_position( double par) const;
 
 	// Evaluate a pcurve at a SPAparameter value, to give the derivative
 	// with respect to its SPAparameter.
@@ -748,7 +702,7 @@ public:
  * parameter at which the pcurve is evaluated.
  */
 	SPApar_vec eval_deriv( double par) const;
-	SPApar_vec gme_eval_deriv( double par) const;
+
 
 	// Evaluate a pcurve exactly at an object-space point and SPAparameter
 	// value, by inverting the point in the surface, using the
@@ -766,7 +720,6 @@ public:
  * use point_perp if true, param if false. The recommended value for this parameter is TRUE.
  */
 	SPApar_pos eval_position( SPAposition const &pos_par, double par, logical point_perp = FALSE ) const;
-	SPApar_pos gme_eval_position( SPAposition const &pos_par, double par, logical point_perp = FALSE ) const;
 
 	// Return the SPAparameter of a pcurve, given a SPApar_pos.
 
@@ -776,13 +729,10 @@ public:
  * @nodoc
  */
 	logical periodic();
-	logical gme_periodic();
 
 	logical closed();
-	logical gme_closed();
 
 	logical open();
-	logical gme_open();
 
 
 /**
@@ -792,7 +742,6 @@ public:
  * parameter position.
  */
 	double param( const SPApar_pos &uv );
-	double gme_param( const SPApar_pos &uv );
 
 	// Return the principal SPAparameter range of a pcurve. A periodic
 	// curve is defined for all SPAparameter values, by reducing the
@@ -804,7 +753,6 @@ public:
  * Returns the principal parameter range of a pcurve.
  */
 	SPAinterval param_range() const;
-	SPAinterval gme_param_range() const;
 
 
 	// Return the SPAparameter period - the length of the SPAparameter range
@@ -814,7 +762,6 @@ public:
  * Returns the parameter period - the length of the parameter range if periodic, <tt>0</tt> otherwise.
  */
 	double param_period() const;
-	double gme_param_period() const;
 
 
 	// Negate a pcurve in place.
@@ -823,7 +770,6 @@ public:
  * Negates a pcurve in place.
  */
 	pcurve &negate();
-	pcurve &gme_negate();
 
 
 	// Divide a pcurve into two pieces at a SPAparameter value. Creates
@@ -901,10 +847,6 @@ public:
 				SPAinterval const &int_name,
 		        const curve *true_cu = NULL
 			) const;
-	SPApar_box gme_bound(
-				SPAinterval const &int_name,
-		        const curve *true_cu = NULL
-			) const;
 
 /**
  * Returns a box around the curve.
@@ -917,11 +859,6 @@ public:
  * curve.
  */
 	SPApar_box bound(
-				double first_param,
-				double second_param,
-		        const curve *true_cu = NULL
-			) const;
-	SPApar_box gme_bound(
 				double first_param,
 				double second_param,
 		        const curve *true_cu = NULL
@@ -1189,7 +1126,6 @@ public:
  * <b>Role:</b>  For <tt>exp_par_cur</tt> and its derived types, this method returns <tt>"exppc"</tt>.
  */
 	char const *type_name() const;
-	char const *gme_type_name() const;
 
 
 	// Save and restore.
@@ -1279,10 +1215,6 @@ public:
 				char const *title,
 				FILE *file_name = debug_file_ptr
 			) const;
-	void gme_debug(
-				char const *title,
-				FILE *file_name = debug_file_ptr
-			) const;
 
 	// STI ROLL
 	// Function to count the full size in bytes of this object and
@@ -1323,11 +1255,6 @@ public:
 	   );
 
 #endif
-
-public:
-	// get and set functions for access.
-	par_cur* get_fit();
-	void set_rev(int data);
 };
 
 // Class for the fitted spline itself, defined so that we shall be able
@@ -1401,30 +1328,23 @@ protected:
 	// Straightforward constructor and (virtual) destructor.
 
 	par_cur();
-	par_cur( const char *gme );
 	virtual ~par_cur();
+
 	// Extract the defining data, which is assumed to take the same
 	// form for each subtype, though represented differently.
 
 	virtual bs2_curve cur() const = 0;
-	/*virtual*/ bs2_curve gme_cur() const/*= 0*/;
 	virtual double fitol() const = 0;
-	/*virtual*/ double gme_fitol() const/*= 0*/;
 	virtual double partol() const = 0;
-	/*virtual*/ double gme_partol() const/*= 0*/;
 	virtual surface const *surf() const = 0;
-	/*virtual*/ surface const *gme_surf() const/*= 0*/;
 
 	// The closure of the pcurve in object space.
 /**
  * @nodoc
  */
 	virtual logical periodic();
-	/*virtual*/ logical gme_periodic();
 	virtual logical closed();
-	/*virtual*/ logical gme_closed();
 	virtual logical open();
-	/*virtual*/ logical gme_open();
 
 	SPAinterval checked_range() const
 	    { return check_range; }
@@ -1501,7 +1421,7 @@ protected:
 	// Transformation
 
 	virtual void operator*=( SPAtransf const & ) = 0;
-	/*virtual*/ void gme_operator_multiply_assign( SPAtransf const & ) /*= 0*/;
+
 
 	// Simple SPAparameter-space bounding SPAbox. The pcurve function handles
 	// any limiting to a SPAparameter range, so this just bound the whole
@@ -1514,7 +1434,7 @@ protected:
 	// a periodic curve.
 
 	virtual SPAinterval param_range() const;
-	SPAinterval gme_param_range() const;
+
 
 	// Return the SPAparameter period - the length of the SPAparameter range
 	// if periodic, zero otherwise.
@@ -1575,30 +1495,19 @@ protected:
 			SPApar_vec & = *(SPApar_vec *)NULL_REF
 							// second derivative
 		) const = 0;
-	/*virtual*/ void gme_eval(
-			double,
-			SPApar_pos &,		// SPAposition in SPAparameter space
-			SPApar_vec & = *(SPApar_vec *)NULL_REF,
-							// first derivative
-			SPApar_vec & = *(SPApar_vec *)NULL_REF
-							// second derivative
-		) const /*= 0*/;
 
 	// Evaluate a par_cur at a SPAparameter value.
 
 	SPApar_pos eval_position( double ) const;
-	SPApar_pos gme_eval_position( double ) const;
 
 	// Return the SPAparameter of a par_cur, given a SPApar_pos.
 
 	virtual double param( const SPApar_pos &uv );
-	double gme_param( const SPApar_pos &uv );
 
 	// Evaluate a par_cur at a SPAparameter value, to give the derivative
 	// with respect to its SPAparameter.
 
 	SPApar_vec eval_deriv( double ) const;
-	SPApar_vec gme_eval_deriv( double ) const;
 
 	// Function to make up a bounded surface from the underlying surface.
 	// This does not have to accurately bound the par_cur, but is just
@@ -1748,10 +1657,11 @@ protected:
 	// object of the right class. Instead our parent subtype_object
 	// class searches a table for the right restore function, and
 	// then calls it.
-public:
+
 	virtual char const *type_name() const = 0;
 
 	virtual void save_data() const = 0;
+
 //	friend subtype_object *restore_par_cur();
 //	void restore_data();
 
@@ -1796,7 +1706,7 @@ public:
 
 public:
 	virtual par_cur *deep_copy(pointer_map * pm = NULL) const = 0;
-	par_cur *gme_deep_copy(pointer_map * pm = NULL) const;
+
 	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL

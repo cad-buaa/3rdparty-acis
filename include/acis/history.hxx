@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -45,8 +45,6 @@ class ENTITY_ARRAY;
 
 class StreamFinder;
 
-class HistoryManagerPrivate;
-
 /**
  * Creates a history state on the specified history stream.
  * <br>
@@ -63,7 +61,6 @@ friend class DELTA_STATE;
 friend class HISTORY_STREAM;
 friend class ATTRIB_HISTORY;
 friend class StreamFinder;
-friend class HistoryManagerPrivate;
 
 public:
 
@@ -74,8 +71,6 @@ public:
  * delta state.
  */
     static int count_bulletins(DELTA_STATE* pState);
-	
-	static int gme_count_bulletins(DELTA_STATE* pState);
 
 	// take the bulletins in the current delta state and create a
 	// history state on the specified history stream. The current
@@ -95,13 +90,9 @@ public:
  * @param clearDeltaState
  * clear status.
  */
-    static DELTA_STATE* acquireCurrentDelta(
-		 HISTORY_STREAM* h_stream,
-		 logical clearDeltaState = TRUE);
-
-    static DELTA_STATE* gme_acquireCurrentDelta(
-		 HISTORY_STREAM* h_stream,
-		 logical clearDeltaState = TRUE);
+   static DELTA_STATE* acquireCurrentDelta(
+		HISTORY_STREAM* h_stream,
+		logical clearDeltaState = TRUE);
 
 	// take the bulletins in the current delta state and "distribute"
 	// them onto history streams based on their "owning entities".
@@ -131,12 +122,6 @@ public:
 		logical       clearDeltaState = TRUE,
 		logical       hideStates = FALSE);
 
-	static outcome gme_distributeDeltaState(
-	    DELTA_STATE*  pState,
-		StreamFinder* pStreamFinder,
-		logical       clearDeltaState = TRUE,
-		logical       hideStates = FALSE);
-
 	// Run some advance checks on a DELTA_STATE to make sure it is OK to
 	// distribute it.  Thus, problems can be detected before changing
 	// any of the data structure.
@@ -159,8 +144,6 @@ public:
  */
 	static void clearCurrentDelta();
 
-	static void gme_clearCurrentDelta();
-
 	// dump the BULLETIN_BOARD(s) in the current delta
 /**
  * Dumps bulletin board into current delta.
@@ -177,8 +160,6 @@ public:
  */
 	static HISTORY_STREAM* getAttachedStream(ENTITY* ent);
 
-	static HISTORY_STREAM* gme_getAttachedStream(ENTITY* ent);
-
 	// detach the given entity from any history stream it may be
 	// attached to.  strips the entity of the connecting attribute.
 
@@ -189,6 +170,7 @@ public:
  * entity.
  */
 	static void detach(ENTITY* ent);
+
 
 /**
  * Saves the history stream and associated entities.
@@ -263,12 +245,6 @@ public:
 		int&            statesChanged
 	);
 
-    static void gme_changeToState(
-		HISTORY_STREAM* pStream,
-		DELTA_STATE*    pTarget,  // The state you want to change to
-		int&            statesChanged
-	);
-
 	// Roll a stream a given number of states or to the end of a branch,
 	// which ever comes first.  Returns the number of states actually rolled
 
@@ -286,11 +262,6 @@ public:
 		int            nstates  // How many states to roll, positive for forward
 	);
 
-    static int gme_rollNStates(
-		HISTORY_STREAM* pStream, // The stream you want to roll
-		int            nstates  // How many states to roll, positive for forward
-	);
-
 	// Test for the existance of any BULLETINs in the given state
 
 /**
@@ -300,9 +271,6 @@ public:
  * delta_state.
  */
 	static logical isStateEmpty(
-		DELTA_STATE* pState);
-
-	static logical gme_isStateEmpty(
 		DELTA_STATE* pState);
 
 /**
@@ -319,23 +287,10 @@ public:
 	static logical makeRootDS(
 		DELTA_STATE* pState);
 
-    static logical gme_makeRootDS(
-		DELTA_STATE* pState);
-
-	static BULLETIN_BOARD* debug_lastBB(DELTA_STATE* pState) {
-		return gme_lastBB(pState);
-	}
-
-	// 合并BULLETIN_BOARD中的BULLETIN
-	static void gme_compressBB(BULLETIN_BOARD* bb);
 
  private:
 	// Find the last BULLETIN_BOARD in the given state
 	static BULLETIN_BOARD* lastBB(
-		DELTA_STATE* pState
-		);
-
-	static BULLETIN_BOARD* gme_lastBB(
 		DELTA_STATE* pState
 		);
 
@@ -345,17 +300,9 @@ public:
 		BULLETIN* pB,
 		BULLETIN_BOARD*& pBB);
 
-    static BULLETIN* gme_nextBulletin(
-		BULLETIN* pB,
-		BULLETIN_BOARD*& pBB);
-
 	// get the first bulletin in the given delta state and set the
 	// bulletin board in which it lives in pBB.
 	static BULLETIN* firstBulletin(
-		DELTA_STATE* pState,
-		BULLETIN_BOARD*& pBB);
-
-	static BULLETIN* gme_firstBulletin(
 		DELTA_STATE* pState,
 		BULLETIN_BOARD*& pBB);
 
@@ -364,15 +311,7 @@ public:
 		BULLETIN* b,
 		BULLETIN_BOARD* bb);
 
-    static void gme_detachBulletin(
-		BULLETIN* b,
-		BULLETIN_BOARD* bb);
-
 	static void addBToState(
-		BULLETIN* b,
-		DELTA_STATE* pBB);
-
-    static void gme_addBToState(
 		BULLETIN* b,
 		DELTA_STATE* pBB);
 
@@ -390,10 +329,6 @@ public:
 		ENTITY* ent
 		);
 
-    static ENTITY* gme_findOwningEntity(
-		ENTITY* ent
-		);
-
 	static logical entityCreatedInStream(
 		HISTORY_STREAM* pStream,
 		ENTITY*         pEntity
@@ -408,71 +343,7 @@ public:
 		);
 
  private:
-};
 
-// used for inner tests only
-// testing of some private calls of HistoryManager
-class HistoryManagerPrivate {
-	friend class HISTORY_MANAGER;
-
-public:
-    static BULLETIN_BOARD* debug_lastBB(DELTA_STATE* ds) {
-		return HISTORY_MANAGER::lastBB(ds);
-	}
-	static BULLETIN_BOARD* debug_gme_lastBB(DELTA_STATE* ds) {
-		return HISTORY_MANAGER::gme_lastBB(ds);
-	}
-
-	static BULLETIN* debug_nextBulletin(
-		BULLETIN* pB,
-		BULLETIN_BOARD*& pBB) {
-		return HISTORY_MANAGER::nextBulletin(pB, pBB);
-	}
-	static BULLETIN* debug_gme_nextBulletin(
-		BULLETIN* pB,
-		BULLETIN_BOARD*& pBB) {
-		return HISTORY_MANAGER::gme_nextBulletin(pB, pBB);
-	}
-
-	static BULLETIN* debug_firstBulletin(
-		DELTA_STATE* pState,
-		BULLETIN_BOARD*& pBB) {
-		return HISTORY_MANAGER::firstBulletin(pState, pBB);
-	}
-	static BULLETIN* debug_gme_firstBulletin(
-		DELTA_STATE* pState,
-		BULLETIN_BOARD*& pBB) {
-		return HISTORY_MANAGER::gme_firstBulletin(pState, pBB);
-	}
-
-	static void debug_detachBulletin(
-		BULLETIN* b,
-		BULLETIN_BOARD* bb) {
-		HISTORY_MANAGER::detachBulletin(b, bb);
-	}
-	static void debug_gme_detachBulletin(
-		BULLETIN* b,
-		BULLETIN_BOARD* bb) {
-		HISTORY_MANAGER::gme_detachBulletin(b, bb);
-	}
-
-	static void debug_addBToState(
-		BULLETIN* b,
-		DELTA_STATE* pBB) {
-		HISTORY_MANAGER::addBToState(b, pBB);
-	}
-	static void debug_gme_addBToState(
-		BULLETIN* b,
-		DELTA_STATE* pBB) {
-		HISTORY_MANAGER::gme_addBToState(b, pBB);
-	}
-	
-	static ENTITY* debug_findOwningEntity(ENTITY* b) {
-		return HISTORY_MANAGER::findOwningEntity(b);
-	}
-    static ENTITY* debug_gme_findOwningEntity(ENTITY* b) {
-		return HISTORY_MANAGER::gme_findOwningEntity(b);
-	}
 };
 
 #include "lists.hxx"
@@ -559,8 +430,6 @@ public:
  */
  class DECL_KERN StreamFinder : public ACIS_OBJECT {
  friend class HISTORY_MANAGER;
- friend class StreamFinderProtected;
-
 	EntityStreamMap mmEntityStreamMap;
 
  public:
@@ -633,47 +502,12 @@ public:
 		return HISTORY_MANAGER::findOwningEntity(pEntity);
 	}
 	HISTORY_STREAM* findStreamFromAttribute( ENTITY* );
-	HISTORY_STREAM* gme_findStreamFromAttribute(ENTITY*);
-
 	HISTORY_STREAM* findInStreamMap(ENTITY*);
-	HISTORY_STREAM* gme_findInStreamMap(ENTITY*);
-
 	void clearMap() { mmEntityStreamMap.clear(); }
 	void addToStreamMap(ENTITY*, HISTORY_STREAM*);
-	void gme_addToStreamMap(ENTITY*, HISTORY_STREAM*);
-
 	void addGeometryFromTopology(ENTITY*, HISTORY_STREAM*);
 };
 
-// used for inner tests only
-// testing of some protected calls of StreamFinder
-class StreamFinderProtected {
-    friend class StreamFinder;
-    StreamFinder* stream_finder;
-
-public:
-	StreamFinderProtected(StreamFinder* sf):stream_finder(sf){}
-
-	HISTORY_STREAM* findStreamFromAttribute(ENTITY* ent) {
-		return stream_finder->findStreamFromAttribute(ent);
-	}
-    HISTORY_STREAM* gme_findStreamFromAttribute(ENTITY* ent) {
-		return stream_finder->gme_findStreamFromAttribute(ent);
-	}
-
-	HISTORY_STREAM* findInStreamMap(ENTITY* ent) {
-		return stream_finder->findInStreamMap(ent);
-	}
-	HISTORY_STREAM* gme_findInStreamMap(ENTITY* ent) {
-		return stream_finder->gme_findInStreamMap(ent);
-	}
-	void addToStreamMap(ENTITY* ent, HISTORY_STREAM* hs) {
-		stream_finder->addToStreamMap(ent, hs);
-	}
-	void gme_addToStreamMap(ENTITY* ent, HISTORY_STREAM* hs) {
-		stream_finder->gme_addToStreamMap(ent, hs);
-	}
-};
 /** @} */
 #endif
 

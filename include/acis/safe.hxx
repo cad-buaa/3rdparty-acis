@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -36,43 +36,36 @@
  * Defines the maximum number of threads ACIS can utilize.
  */
 #define MAX_ACTIVE_THREADS 1024
-#define GME_MAX_ACTIVE_THREADS 1024
 
 /**
  * Returns the number of currently active threads.
  */
 DECL_BASE int thread_count();
-DECL_BASE int gme_thread_count();
 
 /**
  * Returns the maximum number of threads ACIS can utilize.
  */
 DECL_BASE int max_thread_count();
-DECL_BASE int gme_max_thread_count();
 
 /**
  * Returns the current thread's (ACIS assigned) ID.
  */
 DECL_BASE int thread_id();
-DECL_BASE int gme_thread_id();
 
 /**
  * Returns TRUE if ACIS is running in thread-safe mode.
  */
 DECL_BASE logical thread_safety_enabled();
-DECL_BASE logical gme_thread_safety_enabled();
 
 /**
  * Sets ACIS into thread-safe mode.
  */
 DECL_BASE void thread_safe_region_begin();
-DECL_BASE void gme_thread_safe_region_begin();
 
 /**
  * Sets ACIS into non-thread-safe mode (i.e. serial mode).
  */
 DECL_BASE void thread_safe_region_end();
-DECL_BASE void gme_thread_safe_region_end();
 
 
 #ifdef THREAD_SAFE_ACIS
@@ -95,13 +88,11 @@ struct thread_control_block {
  * @nodoc
  */
 DECL_BASE thread_control_block* get_thread_control_block();
-DECL_BASE thread_control_block* gme_get_thread_control_block();
 
 /**
  * @nodoc
  */
 DECL_BASE void set_thread_control_block( thread_control_block*);
-DECL_BASE void gme_set_thread_control_block( thread_control_block*);
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -125,13 +116,11 @@ protected:
 public:
 
 	DECL_BASE safe_base( const void * );
-	DECL_BASE safe_base( const char *, const void * );
 
 #ifdef ENABLE_TSA_STATS
 	DECL_BASE const void* address( const void*, int access) const;
 #else
 	DECL_BASE const void* address( void ) const;
-	DECL_BASE const void* gme_address( void ) const;
 #endif
 
 	safe_base* next() const;

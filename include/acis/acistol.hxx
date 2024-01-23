@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -43,8 +43,6 @@ class SPAunit_vector;
 * second double.
 **/
 DECL_BASE logical is_equal(double n1,double n2);
-
-DECL_BASE logical gme_is_equal(double n1,double n2);
 /**
 * Determines if two <tt>SPApositions</tt> are equal.
 * <br><br>
@@ -62,8 +60,6 @@ DECL_BASE logical gme_is_equal(double n1,double n2);
 * second position.
 **/
 DECL_BASE logical is_equal(const SPAposition& p1, const SPAposition& p2);
-
-DECL_BASE logical gme_is_equal(const SPAposition& p1, const SPAposition& p2);
 /**
 * Determines if two <tt>SPAvectors</tt> are equal.
 * <br><br>
@@ -81,7 +77,6 @@ DECL_BASE logical gme_is_equal(const SPAposition& p1, const SPAposition& p2);
 * second vector.
 **/
 DECL_BASE logical is_equal(const SPAvector& v1, const SPAvector& v2);
-DECL_BASE logical gme_is_equal(const SPAvector& v1, const SPAvector& v2);
 /**
 * Determines if two <tt>SPAunit_vectors</tt> are equal.
 * <br><br>
@@ -99,7 +94,6 @@ DECL_BASE logical gme_is_equal(const SPAvector& v1, const SPAvector& v2);
 * second unit vector.
 **/
 DECL_BASE logical is_equal(const SPAunit_vector& v1, const SPAunit_vector& v2);
-DECL_BASE logical gme_is_equal(const SPAunit_vector& v1, const SPAunit_vector& v2);
 
 // Test if two vectors are parallel
 /**
@@ -121,11 +115,6 @@ DECL_BASE logical gme_is_equal(const SPAunit_vector& v1, const SPAunit_vector& v
 * TRUE means same direction.
 **/
 DECL_BASE logical are_parallel(const SPAunit_vector& v1, // first SPAvector
-                     const SPAunit_vector& v2, // second SPAvector
-                     logical same_dir = FALSE     // TRUE means same direction also
-                     );
-
-DECL_BASE logical gme_are_parallel(const SPAunit_vector& v1, // first SPAvector
                      const SPAunit_vector& v2, // second SPAvector
                      logical same_dir = FALSE     // TRUE means same direction also
                      );
@@ -151,10 +140,6 @@ DECL_BASE logical are_parallel(const SPAvector& v1,  // first SPAvector
                      const SPAvector& v2,  // second SPAvector
                      logical same_dir = FALSE // TRUE means same direction also
                      );
-DECL_BASE logical gme_are_parallel(const SPAvector& v1,  // first SPAvector
-                     const SPAvector& v2,  // second SPAvector
-                     logical same_dir = FALSE // TRUE means same direction also
-                     );
 
 // Test if two vectors are perpendicular
 
@@ -175,10 +160,6 @@ DECL_BASE logical gme_are_parallel(const SPAvector& v1,  // first SPAvector
 * second unit vector.
 **/
 DECL_BASE logical are_perpendicular(const SPAunit_vector& v1, // First SPAvector
-                          const SPAunit_vector& v2  // second SPAvector
-                          );
-
-DECL_BASE logical gme_are_perpendicular(const SPAunit_vector& v1, // First SPAvector
                           const SPAunit_vector& v2  // second SPAvector
                           );
 /**
@@ -202,10 +183,6 @@ DECL_BASE logical are_perpendicular(const SPAvector& v1, // First SPAvector
                           const SPAvector& v2  // second SPAvector
                           );
 
-DECL_BASE logical gme_are_perpendicular(const SPAvector& v1, // First SPAvector
-                          const SPAvector& v2  // second SPAvector
-                          );
-
 // Test for zero numbers, positions or vectors.  The tests uses SPAresabs
 /**
 * Determines if the double value is zero relative to <tt>SPAresabs</tt>.
@@ -219,8 +196,6 @@ DECL_BASE logical gme_are_perpendicular(const SPAvector& v1, // First SPAvector
 * double.
 **/
 DECL_BASE logical is_zero(double n);
-
-DECL_BASE logical gme_is_zero(double n);
 /**
 * Determines if a position is zero relative to <tt>SPAresabs</tt>.
 * <br><br>
@@ -233,7 +208,6 @@ DECL_BASE logical gme_is_zero(double n);
 * position.
 **/
 DECL_BASE logical is_zero(const SPAposition& p);
-DECL_BASE logical gme_is_zero(const SPAposition& p);
 /**
 * Determines if a vector is zero relative to <tt>SPAresabs</tt>.
 * <br><br>
@@ -246,7 +220,6 @@ DECL_BASE logical gme_is_zero(const SPAposition& p);
 * vector.
 **/
 DECL_BASE logical is_zero(const SPAvector& v);
-DECL_BASE logical gme_is_zero(const SPAvector& v);
 /**
 * Determines if an unit vector is zero relative to <tt>SPAresabs</tt>.
 * <br><br>
@@ -259,7 +232,6 @@ DECL_BASE logical gme_is_zero(const SPAvector& v);
 * unit vector.
 **/
 DECL_BASE logical is_zero(const SPAunit_vector& p);
-DECL_BASE logical gme_is_zero(const SPAunit_vector& p);
 /**
 * Test for zero numbers relative to <tt>SPAresabs</tt> squared.
 * <br><br>
@@ -279,7 +251,6 @@ DECL_BASE logical gme_is_zero(const SPAunit_vector& p);
 * double.
 **/
 DECL_BASE logical is_zero_squared(double n);
-DECL_BASE logical gme_is_zero_squared(double n);
 /**
 * Test if a value is zero relative to <tt>SPAresmch</tt>.
 * <br><br>
@@ -292,8 +263,6 @@ DECL_BASE logical gme_is_zero_squared(double n);
 * double.
 **/
 DECL_BASE logical is_zero_mch(double n);
-
-DECL_BASE logical gme_is_zero_mch(double n);
 /**
 * Test if a value is zero relative to <tt>SPAresnor</tt>.
 * <br><br>
@@ -306,7 +275,6 @@ DECL_BASE logical gme_is_zero_mch(double n);
 * double.
 **/
 DECL_BASE logical is_zero_nor(double n);
-DECL_BASE logical gme_is_zero_nor(double n);
 /**
 * Determines if the double value is positive.
 * <br><br>
@@ -316,8 +284,6 @@ DECL_BASE logical gme_is_zero_nor(double n);
 * double.
 **/
 DECL_BASE logical is_positive(double n);
-
-DECL_BASE logical gme_is_positive(double n);
 /**
 * Determines if the double value is negative.
 * <br><br>
@@ -327,7 +293,6 @@ DECL_BASE logical gme_is_positive(double n);
 * double.
 **/
 DECL_BASE logical is_negative(double n);
-DECL_BASE logical gme_is_negative(double n);
 /**
 * Determines if the first double value is less than the second double value.
 * <br><br>
@@ -339,7 +304,6 @@ DECL_BASE logical gme_is_negative(double n);
 * second double.
 **/
 DECL_BASE logical is_less_than(double n1, double n2);
-DECL_BASE logical gme_is_less_than(double n1, double n2);
 /**
 * Determines if the first double value is greater than the second double value.
 * <br><br>
@@ -351,29 +315,24 @@ DECL_BASE logical gme_is_less_than(double n1, double n2);
 * second double.
 **/
 DECL_BASE logical is_greater_than(double n1, double n2);
-DECL_BASE logical gme_is_greater_than(double n1, double n2);
 /**
 * Gets the <tt>SPAresabs</tt> resolution.
 * <br><br>
 * <b>Effect:</b> Read-only
 **/
 DECL_BASE double get_resabs();
-DECL_BASE double gme_get_resabs();
 /**
 * Gets the <tt>SPAresnor</tt> resolution.
 * <br><br>
 * <b>Effect:</b> Read-only
 **/
 DECL_BASE double get_resnor();
-DECL_BASE double gme_get_resnor();
 /**
 * Gets the <tt>SPAresfit</tt> resolution.
 * <br><br>
 * <b>Effect:</b> Read-only
 **/
 DECL_BASE double get_resfit();
-DECL_BASE double gme_get_resfit();
-
 /**
 * Gets the <tt>resmch</tt> resolution.
 * <br><br>
@@ -381,7 +340,7 @@ DECL_BASE double gme_get_resfit();
 **/
 DECL_BASE double get_resmch();
 
-DECL_BASE double gme_get_resmch();
+
 /** @} */
 #endif
 

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -371,13 +371,6 @@ DECL_FCT outcome api_facet_entity(
 		AcisOptions* ao = NULL
 	);
 
-
-DECL_FCT outcome gme_api_facet_entity(
-		ENTITY		*entity,					// entity to facet
-		facet_options*	fo = NULL,
-		AcisOptions* ao = NULL
-	);
-
 /**
 * Creates facets for a list of entities.
 * <br><br>
@@ -449,7 +442,6 @@ DECL_FCT outcome api_facet_entities (
 * <tt>AcisOptions</tt> object controlling journalling etc.
 **/
 DECL_FCT outcome api_facet_bodies(ENTITY_LIST const& bodies, facet_options* fo = NULL, AcisOptions* ao = NULL);
-DECL_FCT outcome gme_api_facet_bodies(ENTITY_LIST const& bodies, facet_options* fo = NULL, AcisOptions* ao = NULL);
 
 /**
 * Deletes facets.
@@ -970,7 +962,6 @@ DECL_FCT outcome api_get_facet_edge_points (
 		AcisOptions* ao = NULL
 		);
 
-DECL_FCT outcome gme_api_get_facet_edge_points(EDGE* edge, SPAposition*& polyline, int& num_pts, AcisOptions* ao = NULL);
 /**
  * @nodoc
  */
@@ -1273,7 +1264,6 @@ DECL_FCT outcome api_facet_edge(
 		double**		io_params,		// parameter values on curve
 		AcisOptions*	ao = NULL);		// version==12 for old behavior
 
-
 /**
 * Returns facets that approximate an edge.
 * <br><br>
@@ -1329,13 +1319,6 @@ DECL_FCT outcome api_facet_edge(
 		int&			out_count,		// number of points generated
 		AF_POINT*&		out_points,		// linked list of facets
 		AcisOptions*	ao = NULL);		// version==12 for old behavior
-DECL_FCT outcome gme_api_facet_edge(EDGE* in_EDGE,      // EDGE to approximate with linear polygons
-                           const double in_max_tol,     // max tolerance between real curve and facet
-                           const double in_max_length,  // max length of facet
-                           const double in_max_angle,   // max tangental angle facet passes thru
-                           int& out_count,              // number of points generated
-                           AF_POINT*& out_points,       // linked list of facets
-                           AcisOptions* ao = NULL);     // version==12 for old behavior
 
 /**
 * Delete the linked list of AF_POINTs.

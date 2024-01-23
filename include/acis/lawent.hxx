@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: ACIS 5.0 kern\kernel\geomhusk\lawent.hx  */
+/* ORIGINAL: ACIS 5.0 kern\kernel\geomhusk\lawent.hx  */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -144,7 +144,6 @@ public:
   * law mathematic function.
   */
 	LAW(law* law_copy);
-	LAW(const char* gme, law* law_copy);
 
 /**
   * Constructs a <tt>LAW</tt> from the specified <tt>LAW</tt> object (copy constructor).

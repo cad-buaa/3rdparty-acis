@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -135,6 +135,9 @@ DECL_KERN curve *restore_intcurve();
  */
 class DECL_KERN intcurve: public curve
 {
+	// NOTES SHEVO
+	friend int_cur* shevo_get_int_cur(intcurve* ic);
+	
 // Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
 #ifdef intcurve_FRIENDS
 intcurve_FRIENDS
@@ -173,7 +176,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	intcurve();
-	intcurve(const char* gme);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -241,8 +243,6 @@ public:
 			int_cur *intcur,
 			logical make_tight_approx = FALSE
 		);
-	intcurve(const char* gme, int_cur *intcur, logical make_tight_approx = FALSE);
-
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * <br><br>
@@ -252,7 +252,6 @@ public:
 	intcurve(
 				intcurve const &intcur
 			);
-	intcurve(const char* gme,intcurve const &intcur);
 /**
  * C++ destructor, deleting an intcurve.
  * <br><br>
@@ -306,11 +305,6 @@ public:
 				SPAposition const &pos2,
 				SPAtransf const & trans= *(SPAtransf *)NULL_REF
 			) const;
-	SPAbox gme_bound(
-				SPAposition const &pos1,
-				SPAposition const &pos2,
-				SPAtransf const & trans= *(SPAtransf *)NULL_REF
-			) const;
 /**
  * Returns a box enclosing the specified interval the curve.
  * <br><br>
@@ -320,10 +314,6 @@ public:
  * optional transformation.
  */
 	virtual SPAbox bound(
-				SPAinterval const &inter,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	SPAbox gme_bound(
 				SPAinterval const &inter,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -429,11 +419,6 @@ public:
 				check_fix                &result          = *(check_fix*) NULL_REF,
 				const check_status_list* list             = (const check_status_list*) NULL_REF
 				);
-	/*virtual*/	check_status_list*	gme_check(
-  		        const                    check_fix& input = *(const check_fix*) NULL_REF,
-				check_fix                &result          = *(check_fix*) NULL_REF,
-				const check_status_list* list             = (const check_status_list*) NULL_REF
-				);
 /**
  * Indicates if an intcurve is closed.
  * <br><br>
@@ -442,7 +427,6 @@ public:
  * <tt>periodic</tt> returns <tt>TRUE</tt>.
  */
 	virtual logical closed() const;
-	/*virtual*/ logical gme_closed() const;
 /**
  * Finds the closest point on the curve (the foot) to the given point, and optionally its parameter value.
  * <br><br>
@@ -479,7 +463,6 @@ public:
  * if <tt>TRUE</tt>, method will return a <tt>bs3_curve</tt> even if it self-intersects
  */
 	bs3_curve cur( double tol = -1.0, logical force=FALSE ) const;
-	bs3_curve gme_cur( double tol = -1.0, logical force=FALSE ) const;
 
 
  /**
@@ -545,10 +528,6 @@ public:
 				char const *title,
 				FILE *fp = debug_file_ptr
 			) const;
-	void gme_debug(
-				char const *title,
-				FILE *fp = debug_file_ptr
-			) const;
 /**
  * @nodoc
  * Force recalculate discontinuity info.
@@ -570,7 +549,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual curve *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ curve *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Returns the number and parameter values of discontinuities of the curve in a read-only array of the given order (maximum three).
  * <br><br>
@@ -622,14 +600,6 @@ public:
 				logical repeat= FALSE,
 				logical approx= FALSE
 			) const;
-    /*virtual*/ void gme_eval(
-                            double value,
-                            SPAposition &pos,
-                            SPAvector &der1 = *(SPAvector *)NULL_REF,
-                            SPAvector &der2 = *(SPAvector *)NULL_REF,
-                            logical repeat= FALSE,
-                            logical approx= FALSE
-                    ) const;
 /**
  * Finds the curvature at given parameter value.
  * <br><br>
@@ -641,11 +611,6 @@ public:
  * approx results OK?
  */
 	virtual SPAvector eval_curvature(
-				double value,
-				logical repeat = FALSE,
-				logical approx = FALSE
-			) const;
-	/*virtual*/ SPAvector gme_eval_curvature(
 				double value,
 				logical repeat = FALSE,
 				logical approx = FALSE
@@ -665,11 +630,6 @@ public:
 				logical repeat = FALSE,
 				logical approx = FALSE
 			) const;
-    /*virtual*/ SPAvector gme_eval_deriv(
-                    double value,
-                    logical repeat = FALSE,
-                    logical approx = FALSE
-            ) const;
 /**
  * Finds the tangent direction at the given parameter value on the curve.
  * <br><br>
@@ -681,11 +641,6 @@ public:
  * approx results OK?
  */
 	virtual SPAunit_vector eval_direction(
-				double value,
-				logical tangency = FALSE,
-				logical approx = FALSE
-			) const;
-	/*virtual*/ SPAunit_vector gme_eval_direction(
 				double value,
 				logical tangency = FALSE,
 				logical approx = FALSE
@@ -705,11 +660,6 @@ public:
 				logical repeat = FALSE,
 				logical approx = FALSE
 			) const;
-    /*virtual*/ SPAposition gme_eval_position(
-			double value,
-			logical repeat = FALSE,
-			logical approx = FALSE
-		) const;
 /**
  * Evaluates the position and the first and second derivatives at given parameter value.
  * <br><br>
@@ -725,13 +675,6 @@ public:
  * the evaluation location - above, below or don't care.
  */
 	virtual int evaluate(
-				double              param,
-				SPAposition         &pt,
-				SPAvector**         vec = NULL,
-				int                 der= 0,
-				evaluate_curve_side location = evaluate_curve_unknown
-			) const;
-	/*virtual*/ int gme_evaluate(
 				double              param,
 				SPAposition         &pt,
 				SPAvector**         vec = NULL,
@@ -881,11 +824,6 @@ public:
 				double param2,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length(
-				double param1,
-				double param2,
-				logical approx_ok=TRUE
-			) const;
 /**
  * Returns the parameter value of the point on the curve at the given algebraic arc length from that defined by the datum parameter.
  * <br><br>
@@ -905,16 +843,10 @@ public:
 				double arc,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length_param(
-				double datum,
-				double arc,
-				logical approx_ok=TRUE
-			) const;
 /**
  * Virtual function to copy a curve without knowing what its type is.
  */
 	virtual curve *make_copy() const;
-	/*virtual*/ curve *gme_make_copy() const;
 /**
  * Constructs a data object to retain evaluation information across calls to <tt>evaluate_iter</tt>.
  * <br><br>
@@ -936,12 +868,10 @@ public:
  * instead of an <tt>intcurve&</tt>.
  */
 	virtual curve &negate();
-	/*virtual*/ curve &gme_negate();
 /**
  * Negates the curve.
  */
 	intcurve operator-() const;
-	intcurve gme_operator_substract() const;
 /**
  * Assignment operator, which copies only the intcurve record and adjusts the use counts of the underlying information.
  * <br><br>
@@ -949,9 +879,6 @@ public:
  * intcurve.
  */
 	intcurve &operator=(
-				intcurve const &intcur
-			);
-	intcurve &gme_operator_assign(
 				intcurve const &intcur
 			);
 /**
@@ -966,7 +893,6 @@ public:
  * intcurve.
  */
 	virtual logical operator==( curve const &intcur ) const;
-	/*virtual*/ logical gme_operator_equal( curve const &intcur ) const;
 /**
  * Determines whether a <tt>intcurve</tt> is entirely enclosed within another.
  */
@@ -993,7 +919,6 @@ public:
 	virtual curve &operator*=(
 				SPAtransf const &trans
 			);
-	/*virtual*/ curve& gme_operator_multiply_assign( const SPAtransf& transf );
 /**
  * Returns the parameter value for a given point.
  * <br><br>
@@ -1006,17 +931,12 @@ public:
 				SPAposition const &pos,
 				SPAparameter const &param = *(SPAparameter *)NULL_REF
 			) const;
-	/*virtual*/ double gme_param(
-				SPAposition const &pos,
-				SPAparameter const &param = *(SPAparameter *)NULL_REF
-			) const;
 /**
  * Returns the period of a periodic curve.
  * <br><br>
  * <b>Role:</b> It returns 0 if the curve is not periodic.
  */
 	virtual double param_period() const;
-	/*virtual*/ double gme_param_period() const;
 /**
  * Returns the parameter range of the intcurve.
  * <br><br>
@@ -1024,9 +944,6 @@ public:
  * region of interest.
  */
 	virtual SPAinterval param_range(
-				SPAbox const &box = *(SPAbox *)NULL_REF
-			) const;
-	/*virtual*/ SPAinterval gme_param_range(
 				SPAbox const &box = *(SPAbox *)NULL_REF
 			) const;
 /**
@@ -1044,7 +961,6 @@ public:
  * at the ends of its principal parameter range so that edges may span the seam.
  */
 	virtual logical periodic() const;
-	/*virtual*/ logical gme_periodic() const;
 /**
  * Returns the parameter space curves with respect to the surfaces defining this <tt>intcurve</tt>.
  * <br><br>
@@ -1060,10 +976,6 @@ public:
  * flag indicating if the pcurve returned is temporary.
  */
 	virtual pcurve *pcur(
-				int index,
-                logical temporary = FALSE
-			) const;
-	/*virtual*/ pcurve *gme_pcur(
 				int index,
                 logical temporary = FALSE
 			) const;
@@ -1090,7 +1002,6 @@ public:
  * force surface return.
  */
 	bs2_curve pcur1( logical force = FALSE ) const;
-	bs2_curve gme_pcur1( logical force = FALSE ) const;
 /**
  * Returns a curve in parameter space of the surface returned by <tt>surf2</tt>, if the surface is parametric.
  * <br><br>
@@ -1101,7 +1012,6 @@ public:
  * force surface return.
  */
 	bs2_curve pcur2( logical force = FALSE ) const;
-	bs2_curve gme_pcur2( logical force = FALSE ) const;
 /**
  * Finds the curvature at a point on the <tt>intcurve</tt>.
  * <br><br>
@@ -1111,10 +1021,6 @@ public:
  * param guess.
  */
 	virtual SPAvector point_curvature(
-				SPAposition const &pt,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
-			) const;
-	/*virtual*/ SPAvector gme_point_curvature(
 				SPAposition const &pt,
 				SPAparameter const &guess = *(SPAparameter *)NULL_REF
 			) const;
@@ -1130,10 +1036,6 @@ public:
 				SPAposition const &pt,
 				SPAparameter const &guess = *(SPAparameter *)NULL_REF
 			) const;
-        /*virtual*/ SPAunit_vector gme_point_direction(
-                        SPAposition const &pt,
-                        SPAparameter const &guess = *(SPAparameter *)NULL_REF
-                ) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve and the curve tangent direction and curvature at that point and its parameter value.
  * <br><br>
@@ -1159,15 +1061,6 @@ public:
  * weak flag.
  */
 	virtual void point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAunit_vector     &tangent,
-				SPAvector          &cur,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak = FALSE
-			) const;
-	/*virtual*/ void gme_point_perp(
 				SPAposition const  &pos,
 				SPAposition        &foot,
 				SPAunit_vector     &tangent,
@@ -1206,14 +1099,6 @@ public:
 				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
 				logical            f_weak = FALSE
 			) const;
-	void gme_point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAunit_vector     &tangent,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak = FALSE
-			) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve and its parameter value.
  * <br><br>
@@ -1241,13 +1126,6 @@ public:
 				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
 				logical            f_weak = FALSE
 			) const;
-	void gme_point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak = FALSE
-			) const;
 /**
  * Reparameterizes the curve to start and end at the given parameter values, which are in increasing order.
  * <br><br>
@@ -1257,10 +1135,6 @@ public:
  * end parameter value.
  */
 	void reparam(
-				double start,
-				double end
-			);
-	void gme_reparam(
 				double start,
 				double end
 			);
@@ -1381,8 +1255,6 @@ public:
  */
 	void set_cur( bs3_curve cur, double tol = -1.0,
 		logical delete_old_bs3 = TRUE, logical allow_zero_fitol = FALSE );
-	void gme_set_cur( bs3_curve cur, double tol = -1.0,
-		logical delete_old_bs3 = TRUE, logical allow_zero_fitol = FALSE );
 /**
  * Sets the curve enclosure in the underlying <tt>int_cur</tt>.
  * <br><br>
@@ -1422,10 +1294,6 @@ public:
 				double param,
 				SPAposition const &pos = *(SPAposition *)NULL_REF
 			);
-	curve *gme_split(
-				double param,
-				SPAposition const &pos = *(SPAposition *)NULL_REF
-			);
 /**
  * Constructs a new curve, which is a copy of the portion of the given one within the specified parameter bounds.
  * <br><br>
@@ -1450,7 +1318,6 @@ public:
  * force surface to be returned.
  */
 	surface const &surf1( logical force = FALSE ) const;
-	surface const &gme_surf1( logical force = FALSE ) const;
 /**
  * Returns the second surface supporting the curve.
  * <br><br>
@@ -1463,7 +1330,6 @@ public:
  * force surface to be returned.
  */
 	surface const &surf2( logical force = FALSE ) const;
-	surface const &gme_surf2( logical force = FALSE ) const;
 /**
  * Returns a cone bounding the tangent direction of a curve.
  * <br><br>
@@ -1510,22 +1376,14 @@ public:
 				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
 				SPAparameter       &actual = *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ logical gme_test_point_tol(
-                    SPAposition const  &pt,
-                    double             tol     = 0,
-                    SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-                    SPAparameter       &actual = *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Returns the type of <tt>intcurve</tt>.
  */
 	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 /**
  * Returns the string <tt>"intcurve"</tt>.
  */
 	virtual char const *type_name() const;
-	/*virtual*/ char const *gme_type_name() const;
 /**
  * Indicates if the curve is defined or undefined.
  */
@@ -1547,10 +1405,7 @@ public:
 			) const;
 
 #endif
-public:
-	// get and set functions for access.
-	int_cur* get_fit();
-	void set_rev(int data);
+
 };
 /**
  * @nodoc
@@ -1636,6 +1491,8 @@ public:
  */
 class DECL_KERN int_cur: public subtrans_object
 {
+	// NOTES SHEVO
+	friend bs2_curve shevo_get_pcur1(int_cur* ptr);
 private:
 
 // Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
@@ -1905,14 +1762,10 @@ protected:
  * Update the range and closure information from a bs3_curve.
  */
     void update_data( bs3_curve );
-	void gme_update_data();
-
 /**
  * Calculate the closure of the curve from geometric tests.
  */
     closed_forms	calculate_closure();
-	closed_forms    gme_calculate_closure();
-
 /**
  * Curve safe range.
  * <br><br>
@@ -2112,17 +1965,6 @@ protected:
 			const SPAinterval&         safe_range = *(const class SPAinterval*) NULL_REF,
 	        const discontinuity_info&  disc_info  = *(discontinuity_info*) NULL_REF
 		);
-	int_cur(
-			const char *gme,
-			bs3_curve            bs3,
-			double               bs3tol,
-			surface const &      surf1,
-			surface const &      surf2,
-			bs2_curve            pcurve1,
-			bs2_curve            pcurve2,
-			const SPAinterval&         safe_range = *(const class SPAinterval*) NULL_REF,
-	        const discontinuity_info&  disc_info  = *(discontinuity_info*) NULL_REF
-		);
 /**
  * A version of the constructor which takes the range and closure instead
  * of an approximating curve. 
@@ -2162,7 +2004,6 @@ protected:
  * Curve to be copied.
  */
 	int_cur( const int_cur& intc);
-	int_cur( const char *gme,const int_cur& intc);
 /**
  * C++ Destructor.
  * <br><br>
@@ -2223,10 +2064,6 @@ protected:
 		          double tol = -1.0,
 				  logical delete_old_bs3 = TRUE,
 				  logical allow_zero_fitol = FALSE);
-	void gme_set_cur( bs3_curve bs3,
-		          double tol = -1.0,
-				  logical delete_old_bs3 = TRUE,
-				  logical allow_zero_fitol = FALSE);
 /**
 * Return the first surface.
 * <br><br>
@@ -2238,7 +2075,6 @@ protected:
 * Return the surface regardless.
 */
 	virtual surface const *surf1( logical force = FALSE ) const;
-	
 /**
 * Return the second surface.
 * <br><br>
@@ -2250,7 +2086,6 @@ protected:
 * Return the surface regardless.
 */
 	virtual surface const *surf2( logical force = FALSE ) const;
-	
 /**
  * Return curve in parameter-space of surface returned by <tt>surf1</tt>,
  * if the surface is parametric. Return <tt>NULL</tt> if the surface
@@ -2297,9 +2132,6 @@ protected:
 * as part of the operation.
 */
 	virtual logical operator==( subtype_object const & rhs) const;
-	
-	logical gme_operator_equal(subtype_object const & rhs) const;
-
 /**
 * Determine whether a <tt>int_cur</tt> is entirely enclosed within
 * another. (used in merging)
@@ -2316,10 +2148,6 @@ protected:
 * be copied, improving performance.
 */
 	virtual pcurve *pcur(
-				int     index,
-                logical temporary = FALSE
-			) const;
-	/*virtual*/ pcurve *gme_pcur(
 				int     index,
                 logical temporary = FALSE
 			) const;
@@ -2368,10 +2196,6 @@ protected:
 				double start,
 				double end
 			);
-	/*virtual*/ void gme_reparam(
-				double start,
-				double end
-			);
 /**
 * Construct a new curve which is a copy of the part of the
 * given one within the given parameter bounds, unless this means
@@ -2396,11 +2220,6 @@ protected:
 				SPAposition const & exact,
 				int_cur *           piece[ 2 ]
 			) = 0;
-	void gme_split(
-				double              param,
-				SPAposition const & exact,
-				int_cur *           piece[ 2 ]
-			);
 /**
 * The same specification as for <tt>split</tt>, except that a newly-
 * created, but empty, <tt>int_cur</tt> (normally in fact a derived object)
@@ -2433,7 +2252,6 @@ protected:
  * approximations and the surfaces, and scales the fit tolerance.
  */
 	virtual void operator*=( SPAtransf const &trans );
-	void gme_operator_multiply_assign(SPAtransf const &trans);
 /**
  * Calculate the tangent direction at given point on the curve. The base class
  * version uses <tt>param</tt> and <tt>eval</tt>, and so is always valid, but
@@ -2443,20 +2261,12 @@ protected:
 				SPAposition const &  pos,
 				SPAparameter const & guess = *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ SPAunit_vector gme_point_direction(
-                    SPAposition const &  pos,
-                    SPAparameter const & guess = *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Calculate the curvature at the given point on the curve. The base class version uses
  * <tt>param</tt> and <tt>eval</tt>, and so is always valid, but many derived
  * types will have a better way.
 */
 	virtual SPAvector point_curvature(
-				SPAposition const &  pt,
-				SPAparameter const & guess = *(SPAparameter *)NULL_REF
-			) const;
-	/*virtual*/ SPAvector gme_point_curvature(
 				SPAposition const &  pt,
 				SPAparameter const & guess = *(SPAparameter *)NULL_REF
 			) const;
@@ -2493,15 +2303,6 @@ protected:
 * most derived classes.
 */
 	virtual void point_perp(
-				SPAposition const &  pos,
-				SPAposition &        foot,
-				SPAunit_vector &     tangent,
-				SPAvector &          curvature,
-				SPAparameter const & guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter &       actual = *(SPAparameter *)NULL_REF,
-				logical              f_weak = FALSE
-			) const;
-	void gme_point_perp(
 				SPAposition const &  pos,
 				SPAposition &        foot,
 				SPAunit_vector &     tangent,
@@ -2548,22 +2349,6 @@ protected:
 				param_actual, FALSE
 			);
     }
-	void gme_closest_point(
-				SPAposition const &  pos,
-				SPAposition &        foot,
-				SPAparameter const & param_guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &       param_actual = *(SPAparameter *)NULL_REF
-			) const
-    {
-		gme_point_perp(
-				pos,
-				foot,
-				*(SPAunit_vector *)NULL_REF,
-				*(SPAvector *)NULL_REF,
-				param_guess,
-				param_actual, FALSE
-			);
-    }
 /**
 * This non-virtual function looks in the cache for a given position.
 * If found it returns the parameter value, otherwise it finds the parameter
@@ -2582,10 +2367,6 @@ protected:
 * correct for many derived types, but not necessarily all.
  */
 	virtual double param(
-				SPAposition const &  pos,
-				SPAparameter const & param = *(SPAparameter *)NULL_REF
-			) const;
-	/*virtual*/ double gme_param(
 				SPAposition const &  pos,
 				SPAparameter const & param = *(SPAparameter *)NULL_REF
 			) const;
@@ -2629,13 +2410,6 @@ protected:
 				SPAvector &   ffd       = *(SPAvector *)NULL_REF,
 				logical       approx_ok = FALSE
 			) const;
-     /*virtual*/ void gme_eval(
-                double        par,
-                SPAposition & pos,
-                SPAvector &   fd        = *(SPAvector *)NULL_REF,
-                SPAvector &   ffd       = *(SPAvector *)NULL_REF,
-                logical       approx_ok = FALSE
-        ) const;
 /**
  * Find the position on curve at given parameter value. The default
  * uses <tt>eval</tt>.
@@ -2644,10 +2418,6 @@ protected:
 				double        par,
 				logical       approx_ok = FALSE
 			) const;
-	/*virtual*/ SPAposition gme_eval_position(
-                double        par,
-                logical       approx_ok = FALSE
-            ) const;
 /**
  * Find parametric derivative, magnitude and direction, at the given parameter value. The
  * default uses <tt>eval</tt>.
@@ -2656,10 +2426,6 @@ protected:
 				double        par,
 				logical       approx_ok = FALSE
 			) const;
-    /*virtual*/ SPAvector gme_eval_deriv(
-                    double        par,
-                    logical       approx_ok = FALSE
-            ) const;
 /**
  * Find the tangent direction at the given parameter value on
  * the curve. Default uses <tt>eval_deriv</tt>.
@@ -2673,10 +2439,6 @@ protected:
  * the curve. The default uses <tt>eval</tt>.
  */
 	virtual SPAvector eval_curvature(
-				double        par,
-				logical       approx_ok = FALSE
-			) const;
-	/*virtual*/ SPAvector gme_eval_curvature(
 				double        par,
 				logical       approx_ok = FALSE
 			) const;
@@ -2732,13 +2494,6 @@ protected:
 * Evaluation location (above, bellow or unknown)
 */
 	virtual int evaluate(
-                double        par,
-                SPAposition&  pos,
-                SPAvector**   der  = NULL,
-                int           nd   = 0,
-				evaluate_curve_side eval_at = evaluate_curve_unknown
-            ) const;
-	/*virtual*/ int gme_evaluate(
                 double        par,
                 SPAposition&  pos,
                 SPAvector**   der  = NULL,
@@ -2886,11 +2641,6 @@ protected:
 				double second_p,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length(
-				double first_p,
-				double second_p,
-				logical approx_ok=TRUE
-			) const;
 /**
  * Returns the parameter value of the point on the curve at the given
  * algebraic arc length from that defined by the datum parameter.
@@ -2907,11 +2657,6 @@ protected:
  * If <tt>approx_ok</tt> is <tt>TRUE</tt>, the B-spline approximation is used in the length calculation.
  */
 	virtual double length_param(
-				double datum_p,
-				double al,
-				logical approx_ok = TRUE
-			) const;
-	/*virtual*/ double gme_length_param(
 				double datum_p,
 				double al,
 				logical approx_ok = TRUE
@@ -2939,12 +2684,6 @@ protected:
 				SPAparameter const & param_guess  = *(SPAparameter *)NULL_REF,
 				SPAparameter &       param_actual = *(SPAparameter *)NULL_REF
 			) const;
-	/*virtual*/ logical gme_test_point_tol(
-								SPAposition const &  point,
-				double               tol = 0,
-				SPAparameter const & param_guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter &       param_actual = *(SPAparameter *)NULL_REF
-		) const;
 
 /**
  * Return a cylinder which encloses the portion of the curve bounded
@@ -2954,7 +2693,10 @@ protected:
 */
 	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval & interv =
 											  *(SPAinterval*)NULL_REF ) const;
-
+/**
+ * Returns the string "intcurve"
+ */
+	virtual char const *type_name() const = 0;
 /**
  * Save the int_cur to the save file.
  */
@@ -3047,17 +2789,11 @@ protected:
 /**
  * Outputs a title line and the details of the int_cur to the specified file.
  */
-	public://将debug和debug_data接口设置为public接口，便于测试
 	virtual void debug(
 				char const *title,
 				logical brief,
 				FILE *fp
 			) const = 0;
-	void gme_debug(
-				char const *title,
-				logical brief,
-				FILE *fp = debug_file_ptr
-			) const;
 /**
 * Debug utility function.
 * <br>
@@ -3078,20 +2814,11 @@ protected:
 				logical brief,
 				FILE *fp
 			) const;
-	protected://将debug和debug_data接口设置为public接口，便于测试
 /**
  * Saves the incurve as a bs3_curve approximation.
  */
 	void save_as_approx() const;
 public:
-
-/**
- * Returns the string "intcurve"
- */
-	virtual char const *type_name() const = 0;
-	char const *gme_type_name() const;
-
-	/*virtual*/ int gme_type() const;
 /**
  * Calculates the discontinuity information for the <tt>int_cur</tt> if none had been stored in <tt>disc_info</tt>.
  * <br>
@@ -3274,9 +3001,6 @@ public:
 		SPAUNUSED(box)
 		return range;
 	}
-
-	SPAinterval gme_param_range( SPAbox const & box = *(SPAbox*)NULL_REF );
-	
 /**
  * Indicates whether the curve is periodic.
  * <br><br>
@@ -3301,24 +3025,7 @@ public:
 	virtual logical pcur_present(
 				int index
 			) const;
-	surface const *gme_surf1( logical force = FALSE ) const;
-	surface const *gme_surf2( logical force = FALSE ) const;
 
-	// 仅用于测试
-	bool debug_operator_equal_acis(subtrans_object const& rhs);
-	bool debug_operator_equal_gme(subtrans_object const& rhs);
-
-public:
-	// get and set functions for access.
-	bs3_curve get_cur_data();
-	double get_fitol_data();
-	surface* get_surf1_data();
-	surface* get_surf2_data();
-	bs2_curve get_pcur1_data();
-	bs2_curve get_pcur2_data();
-	SPAinterval get_safe_range();
-	void set_fitol_data(double data);
-	void set_safe_range(SPAinterval data);
 };
 #if defined D3_STANDALONE || defined D3_DEBUG
 /**

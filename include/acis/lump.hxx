@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -18,7 +18,6 @@
 #include "dcl_kern.h"
 #include "tophdr.hxx"
 #include "en_macro.hxx"
-
 /**
  * @file lump.hxx
  * @CAA2Level L1
@@ -31,10 +30,6 @@ class SPAbox;
 class pattern_holder;
 class pattern;
 class VOID_LIST;
-
-// 支撑性测试
-// #define GME_KERN_LUMP  //将ACIS接口切换为GME接口
-
 /**
  * @nodoc
  */
@@ -278,7 +273,6 @@ public:
  * management.
  */
 	LUMP();
-	LUMP( const char *gme );
 
 
 	// Public constructor, which initialises all the class data, and
@@ -312,7 +306,6 @@ public:
  * next LUMP in the owning BODY.
  */
 	LUMP( SHELL *shell, LUMP *lump);
-	LUMP( const char *gme, SHELL *shell, LUMP *lump);
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -363,12 +356,7 @@ public:
  */
 	virtual void lose();
 #endif
-/**
- * Posts a delete bulletin to the bulletin board indicating <tt>this</tt> <tt>LUMP</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
+
 	// Data reading routines.
 
 /**
@@ -389,12 +377,10 @@ public:
  * (see Role).
  */
 	LUMP *next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	LUMP *gme_next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
 /**
  * Returns a pointer to the first <tt>SHELL</tt> contained in <tt>this</tt> <tt>LUMP</tt>.
  */
 	SHELL *shell() const;
-	SHELL *gme_shell() const;
 /**
  * Returns a pointer to the containing <tt>BODY</tt>.
  */
@@ -406,13 +392,12 @@ public:
  * the internal coordinate system of the <tt>BODY</tt>). The pointer is <tt>NULL</tt> if a bound was not
  * calculated since the <tt>LUMP</tt> was last modified.
  */
-	SPAbox *bound() const{ return box_container.get_box(); }
+	SPAbox *bound() const { return box_container.get_box(); }
 
 /**
  * Returns a pointer to the owning <tt>BODY</tt>.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 	// Data changing routines.  Each of these routines checks
@@ -435,7 +420,6 @@ public:
  * internal use only.
  */
 	void set_next( LUMP *lump , logical reset_pattern = TRUE);
-	void gme_set_next( LUMP *lump , logical reset_pattern = TRUE);
 /**
  * Sets <tt>this</tt> <tt>LUMP</tt>'s <tt>SHELL</tt> pointer to the given <tt>SHELL</tt>.
  * <br><br>
@@ -449,7 +433,6 @@ public:
  * internal use only.
  */
 	void set_shell( SHELL *shell , logical reset_pattern = TRUE);
-	void gme_set_shell( SHELL *shell , logical reset_pattern = TRUE);
 /**
  * Sets <tt>this</tt> <tt>LUMP</tt>'s <tt>BODY</tt> backpointer to the specified <tt>BODY</tt>.
  * <br><br>
@@ -463,7 +446,6 @@ public:
  * internal use only.
  */
 	void set_body( BODY *body , logical reset_pattern = TRUE);
-	void gme_set_body( BODY *body , logical reset_pattern = TRUE);
 /**
  * Sets the bounding region (box) of <tt>this</tt> <tt>LUMP</tt> to the specified box.
  * <br><br>
@@ -477,20 +459,6 @@ public:
  */
 	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }
 
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const LUMP* in_lump, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_shell_ptr();
-	void** get_body_ptr();
 };
 /** @} */
 #endif

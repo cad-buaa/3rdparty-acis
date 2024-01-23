@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -73,9 +73,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * Constructs a <tt>constant_law</tt>.
  * <br><br>
@@ -85,10 +83,6 @@ public:
  * value returned by law.
  */
 	constant_law(double in_constant_value);
-	constant_law(const char* gme, double in_constant_value);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~constant_law();
-	#endif
 /**
  * @nodoc
  */
@@ -97,12 +91,10 @@ public:
  * @nodoc
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-	law* gme_deep_copy(base_pointer_map* pm = NULL) const;
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -115,7 +107,6 @@ public:
  * @nodoc
  */
 	logical			isa(int t) const; // virtual method in base class
-	logical			gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -126,9 +117,7 @@ public:
  * @param in_constant_value
  * value.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual constant_law *make_one(double in_constant_value=0.0) const;
-	#endif
 /**
  * @nodoc
  */
@@ -137,32 +126,13 @@ public:
  * @nodoc
  */
 	int same(const law* law1, const law* law2) const; // virtual method in base class
-	int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-	double getValue()const;
-
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class		
-	char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const;
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
-
+        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -201,13 +171,11 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 /**
  * @nodoc
  */
 	law* sub_inverse() const; // virtual method in base class
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -216,7 +184,6 @@ public:
  * @nodoc
  */
 	logical			isa(int t) const; // virtual method in base class
-	logical			gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -242,48 +209,21 @@ public:
  */
 	identity_law(int  in_which,
 		         char in_name='X');
-	identity_law(const char* gme,
-				int  in_which,
-				char in_name = 'X');
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~identity_law();
-	#endif
 /**
  * @nodoc
  */
-	int get_which() const ;
-	char get_name() const ;
-
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
         law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-			char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-			char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
-
 /**
  * @nodoc
  */
 	int same(const law* law1, const law* law2) const; // virtual method in base class
-	int gme_same(const law* law1, const law* law2) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -292,7 +232,6 @@ public:
  * @nodoc
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-	law* gme_deep_copy(base_pointer_map* pm = NULL) const;
 };
 /**
  * Provides methods and data for laws that have multiple sublaws.
@@ -356,17 +295,10 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
         law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -378,9 +310,7 @@ public:
  * @param in_sub_num
  * size of array.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual multiple_law* make_one(law** in_sub, int in_sub_num) const;
-	#endif
 /**
  * Returns whether or not the given law is commutative.
  * <br><br>
@@ -390,9 +320,7 @@ public:
  * An example of a multiple law that is not commutative is the cross law;
  * "CROSS(A,B)" is not equal to "CROSS(B,A)".
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical commutative() const;
-	#endif
 /**
  * @nodoc
  */
@@ -442,28 +370,22 @@ public:
 /**
  * @nodoc
  */
-		#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical	in_domain(double* where) const; // virtual method in base class
-		#endif
 /**
  * @nodoc
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-	law* gme_deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
+
 	// STI ROLL
 /**
  * @nodoc
  */
-	#ifndef 	LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const; // virtual method in base class
-	#endif
 	// STI ROLL
 /**
  * @nodoc
  */
-		#ifndef 	LAW_VIRTUAL_FUNCTION
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
-		#endif
 };
 
 /**
@@ -503,7 +425,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; 
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -527,7 +448,6 @@ public:
  * pointer to 2nd sublaw.
  */
 	binary_law(law* in_left_law = NULL, law* in_right_law = NULL);
-	binary_law(const char* ,law* in_left_law = NULL, law* in_right_law = NULL);
 /**
  * Returns whether or not the given law is associative.
  * <br><br>
@@ -536,9 +456,7 @@ public:
  * The default is <tt>FALSE</tt>, signaling that the law is not associative. An example of a binary
  * law that is not associative is the minus law.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int associative() const;
-	#endif
 /**
  * Returns whether or not the given law is commutative.
  * <br><br>
@@ -547,24 +465,14 @@ public:
  * The default is <tt>FALSE</tt>, signaling that the law is not commutative. An example of a binary law that
  * is not commutative is the minus law.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int commutative() const;
-	#endif
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
-		char* string(
+	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
         law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
-
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -577,9 +485,7 @@ public:
  * @param in_right_law
  * pointer to 2nd sublaw.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual binary_law* make_one(law* in_left_law, law* in_right_law) const;
-	#endif
 /**
  * @nodoc
  */
@@ -599,9 +505,7 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical term_domain(int term, SPAinterval& domain) const; // virtual method in base class
-	#endif
 /**
  * @nodoc
  */
@@ -632,31 +536,25 @@ public:
  * method should be called.
  */
 	law* fright() const { return right_law;}  // Use with extreme caution!
-
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical	in_domain(double* where) const; // virtual method in base class
-	#endif
 /**
  * @nodoc
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
+
 	// STI ROLL
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	#endif
 	// STI ROLL
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
-	#endif
 };
 /**
  * Provides methods and data for laws that have one sublaw.
@@ -677,7 +575,6 @@ protected:
  * This is a pointer to the sublaw that the unary law is to act upon.
  */
 	law* sub_law;
-
 	virtual ~unary_law();
 public:
     //const char* class_name();    // virtual method in base class
@@ -685,7 +582,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -707,21 +603,13 @@ public:
  * pointer to sublaw.
  */
 	unary_law(law* in_sub_law);
-	unary_law(const char* gme, law* in_sub_law);
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
         law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -735,9 +623,7 @@ public:
  * @param in_sub_law
  * pointer to sub law.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual unary_law* make_one(law* in_sub_law) const;
-	#endif
 /**
  * @nodoc
  */
@@ -784,9 +670,7 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical	in_domain(double* where) const; // virtual method in base class
-	#endif
 /**
  * @nodoc
  */
@@ -795,16 +679,12 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	#endif
 	// STI ROLL
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
-	#endif
 };
 /**
  * Provides methods and data for laws that have one law data member.
@@ -820,7 +700,6 @@ public:
  * containing sublaws should call <tt>remove</tt> on the latter for correct memory management.
  * @see law_data
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW unary_data_law : public law
 {
 protected:
@@ -867,9 +746,7 @@ public:
  * @param in_data
  * pointer to law data.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual unary_data_law* make_one(law_data* in_data) const;
-	#endif
 /**
  * @nodoc
  */
@@ -877,17 +754,10 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	char* string(
         law_symbol_type type    = DEFAULT,
         int&            count   = *(int*) NULL_REF,
         law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
-	#else
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-	#endif
 /**
  * @nodoc
  */
@@ -918,9 +788,7 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-
 
 	// STI ROLL
 /**
@@ -932,9 +800,8 @@ public:
  * @nodoc
  */
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
-	#endif
 };
-#endif
+
 // multiple_data_laws have an array of law_data's of size
 // "size"
 
@@ -979,7 +846,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -1006,8 +872,6 @@ public:
  */
 	multiple_data_law(law_data** in_sub_law,
 		              int        in_size);
-	multiple_data_law(const char* gme,law_data** in_sub_law,
-		              int        in_size);
 /**
  * Default constructor for the multiple law data.
  */
@@ -1024,10 +888,8 @@ public:
  * @param in_size
  * size of array.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual multiple_data_law* make_one(law_data** in_data,
 		                                int        in_size) const;
-	#endif
 /**
  * @nodoc
  */
@@ -1037,8 +899,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
+        int&            count   = *(int*) NULL_REF,
+        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -1064,16 +926,12 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	#endif
 	// STI ROLL
 /**
  * @nodoc
  */
-		#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
-		#endif
 };
 /**
  * Constant PI law
@@ -1083,17 +941,12 @@ class DECL_LAW pi_law: public constant_law
 public:
     char         const *class_name();    // virtual method in base class
 	logical      isa(int t) const;
-	logical      gme_isa(int t) const;
 	static int   id();
 	int          type() const;
 	pi_law();
-	pi_law(const char*);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~pi_law();
-	#endif
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) nullptr,
-                         law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		                 int &count=*(int *) NULL_REF,
+                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 };
@@ -1106,21 +959,15 @@ class DECL_LAW e_law: public constant_law
 public:
     char         const *class_name();    // virtual method in base class
 	logical      isa(int t) const;
-	logical      gme_isa(int t) const;
 	static int   id();
 	int          type() const;
 	e_law();
-	e_law(const char*);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~e_law();
-	#endif
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) nullptr,
-                         law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		                 int &count=*(int *) NULL_REF,
+                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 };
-#ifndef LAW_VIRTUAL_FUNCTION
 /**
  * True law.
  */
@@ -1133,8 +980,8 @@ public:
 	int          type() const;
 	true_law();
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) nullptr,
-                         law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		                 int &count=*(int *) NULL_REF,
+                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 	int          date() const;
@@ -1152,8 +999,8 @@ public:
 	int          type() const;
 	false_law();
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) nullptr,
-                         law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		                 int &count=*(int *) NULL_REF,
+                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 	int          date() const;
@@ -1233,7 +1080,6 @@ public:
 	multiple_law  *make_one(law **subs,int size) const;
 	logical    commutative() const;
 };
-#endif
 /**
  * Combines one dimensional laws into a multi-dimensional law.
  * <br>
@@ -1263,7 +1109,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -1288,10 +1133,6 @@ public:
  * size of array.
  */
 	vector_law(law** in_sublaw, int in_dim);
-	vector_law(const char * gme,law** in_sublaw, int in_dim);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~vector_law();
-	#endif
 /**
  * Constructs a <tt>vector_law</tt> from a three-dimensional vector.
  * <br><br>
@@ -1302,7 +1143,6 @@ public:
  * vector defining the law.
  */
 	vector_law(SPAvector v);
-	vector_law(const char*,SPAvector v);
 /**
  * Constructs a <tt>vector_law</tt> from a position.
  * <br><br>
@@ -1369,17 +1209,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	#endif
-	#ifdef LAW_VIRTUAL_FUNCTION
-			char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-			#endif
 };
 
 /**
@@ -1394,7 +1226,6 @@ public:
  * like <tt>(law:eval "term(my_law, 3)" 1)</tt> evaluates the third coordinate of <tt>my_law</tt>,
  * "X+2", at the value 1. It returns 3.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW term_law: public multiple_law
 {
 protected:
@@ -1484,7 +1315,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 };
 
 /**
@@ -1510,7 +1341,7 @@ public:
 	law_domain *domain();
 	logical	   term_domain(int term,SPAinterval &domain) const;
 	law        *set_domain(SPAinterval *new_domain, logical set=FALSE);
-    virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)nullptr ) const;
+    virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
 };
 /**
  * Permanent domain law.
@@ -1615,7 +1446,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 };
 
 /**
@@ -1682,7 +1513,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 };
 
 /**
@@ -1757,7 +1588,7 @@ public:
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law  *make_one(law **subs,int size) const;
-	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)nullptr ) const;
+	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
 	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
@@ -1993,7 +1824,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2145,7 +1976,7 @@ public:
 		                   int in_size) const;
 	int        return_size() const;	  // 3
 	int        take_size() const;
-	virtual law	*sub_simplify(int level=0,char const *& what= *(char const **)nullptr) const;
+	virtual law	*sub_simplify(int level=0,char const *& what= *(char const **)NULL_REF) const;
 	int        date() const;
 	virtual law *enable_branching() const;
 	virtual int  branches() const;
@@ -2155,7 +1986,7 @@ public:
 	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
-#endif
+
 /**
  * Provides methods for the plus, or addition, mathematical function.
  */
@@ -2166,13 +1997,11 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 /**
  * @nodoc
  */
 	law* sub_inverse() const; // virtual method in base class
 public:
-    law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2181,7 +2010,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -2205,12 +2033,10 @@ public:
  * pointer to 2nd sublaw.
  */
 	plus_law(law* in_left_law, law* in_right_law);
-	plus_law(const char* gme, law* in_left_law, law* in_right_law);
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -2242,26 +2068,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-			#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		~plus_law();
-
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-			char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-			#endif
 };
 
 /**
@@ -2274,9 +2083,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2285,7 +2092,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -2309,15 +2115,10 @@ public:
  * pointer to 2nd sublaw.
  */
 	minus_law(law* in_left_law, law* in_right_law);
-	minus_law(const char* gme, law* in_left_law, law* in_right_law);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~minus_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -2341,25 +2142,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
-			#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-					char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-					#endif
-
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 };
 
 /**
@@ -2372,9 +2157,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2383,7 +2166,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -2407,15 +2189,10 @@ public:
  * pointer to 2nd sublaw.
  */
 	times_law(law* in_left_law, law* in_right_law);
-	times_law(const char* gme, law * in_left_law, law* in_right_law);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~times_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -2447,24 +2224,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-			#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-		char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		#endif
 };
 
 /**
@@ -2477,9 +2239,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2488,7 +2248,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -2512,15 +2271,10 @@ public:
  * pointer to 2nd sublaw.
  */
 	division_law(law* in_left_law, law* in_right_law);
-	division_law(const char* gme, law* in_left_law, law* in_right_law);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~division_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -2548,25 +2302,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-		#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-									char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-									#endif
-
 };
 
 /**
@@ -2575,41 +2313,21 @@ public:
 class DECL_LAW exponent_law: public binary_law
 {
 protected:
-	law* deriv(int which=0) const;
-	
+	law        *deriv(int which=0) const;
 public:
-	law* gme_deriv(int which=0) const;
     const char* class_name();    // virtual method in base class
 	logical			isa(int t) const;
-	logical			gme_isa(int t) const;
 	static int		id();
 	int				type() const;
 	exponent_law(law *in_left_law, law *in_right_law);
-	exponent_law(const char *gme, law *in_left_law, law *in_right_law);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~exponent_law();
-	#endif
 	void			evaluate(double const *x,double *answer) const;
-	void			gme_evaluate(double const *x,double *answer) const;
 	void			evaluate_with_side(double const *x,double *answer,int const *side) const;
 	int				precedence() const;
 	char const 		*symbol(law_symbol_type type=DEFAULT) const;
 	binary_law      *make_one(law *in_left_law,law *in_right_law) const;
 	law_polynomial  *polynomial(law *in) const;
 	logical          in_domain(double *where) const;
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law	    *sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
-		#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-		char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-		#endif
 };
 
 // This law has two constructors. The first one returns a law
@@ -2629,7 +2347,6 @@ public:
  * calls the law destructor if <tt>use_count</tt> falls to zero.  The destructors of laws
  * containing sublaws should call <tt>remove</tt> on the latter for correct memory management.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW composite_law: public binary_law
 {
 protected:
@@ -2746,7 +2463,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2793,7 +2510,6 @@ public:
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
 };
-
 /**
  * Provides methods for the greater than boolean function.
  */
@@ -2989,9 +2705,11 @@ public:
 	unary_law *make_one(law *in_sub_law) const;
 	int        date() const;
 };
+
 /**
  * Provides methods for the AND boolean function.
  */
+
 class DECL_LAW and_law: public binary_law
 {
 public:
@@ -3007,7 +2725,6 @@ public:
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
 };
-
 /**
  * Provides methods for the OR boolean function.
  */
@@ -3054,7 +2771,7 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
 };
-#endif
+
 /**
  * Provides methods for the unary minus, or negation, mathematical function.
  */
@@ -3065,9 +2782,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -3076,7 +2791,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const;
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -3098,15 +2812,10 @@ public:
  * pointer to sublaw.
  */
 	negate_law(law* in_sublaw);
-	negate_law(const char* gme, law* in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~negate_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -3126,27 +2835,13 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-		#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-		char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-		#endif
-
 };
 /**
  * Provides methods for the NATURAL LOG mathematical function.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW natural_log_law: public unary_law
 {
 protected:
@@ -3241,7 +2936,6 @@ public:
 	unary_law  *make_one(law *in_sublaw) const;
 	int        date() const;  // 700
 };
-#endif
 /**
  * Provides methods for the SINE mathematical function.
  */
@@ -3252,9 +2946,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -3263,7 +2955,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const;
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -3285,15 +2976,10 @@ public:
  * pointer to sublaw.
  */
 	sin_law(law* in_sublaw);
-	sin_law(const char* gme, law* in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~sin_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -3309,21 +2995,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class			
-	#endif
-			char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-			law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-			int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-			#ifdef LAW_VIRTUAL_FUNCTION
-			law* deep_copy(base_pointer_map* pm = NULL) const;
-			char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-			#endif
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 };
 
 /**
@@ -3337,9 +3011,7 @@ protected:
  * @nodoc
  */
 	law* deriv(int which = 0) const; // virtual method in base class
-	
 public:
-	law* gme_deriv(int which = 0) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -3348,7 +3020,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -3370,15 +3041,10 @@ public:
  * pointer to sublaw.
  */
 	cos_law(law* in_sublaw);
-	cos_law(const char* gme, law* in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~cos_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -3394,21 +3060,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-		char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-		#endif
 };
 
 /**
@@ -3419,43 +3073,24 @@ public:
 class DECL_LAW tan_law: public unary_law
 {
 protected:
-	law* deriv(int which=0) const;
-	
+	law        *deriv(int which=0) const;
 public:
-	law* gme_deriv(int which=0) const;
     const char* class_name();    // virtual method in base class
 	logical    isa(int t) const;
-	logical    gme_isa(int t) const;
 	static int id();
 	int        type() const;
 	tan_law(law *in_sublaw);
-	tan_law(const char* gme,law *in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~tan_law();
-	#endif
 	void       evaluate(double const *x,double *answer) const;
-	void       gme_evaluate(double const *x,double *answer) const;
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
 	logical    in_domain(double *where) const;
-			char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-			law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-			int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-			#ifdef LAW_VIRTUAL_FUNCTION
-			law* deep_copy(base_pointer_map* pm = NULL) const;
-			char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-			#endif
 };
 /**
  * Provides methods for the COTANGENT mathematical function.
  * Where ever the sin(x) is zero this law is undefined
  * i.e.	n*pi for all integers n. 
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW cot_law: public unary_law
 {
 protected:
@@ -3472,7 +3107,7 @@ public:
 	unary_law  *make_one(law *in_sublaw) const;
 	logical    in_domain(double *where) const;
 };
-#endif
+
 /**
  * Provides methods for the SECANT mathematical function.
  * Where ever the cos(x) is zero this law is undefined
@@ -3485,33 +3120,15 @@ protected:
 public:
     const char* class_name();    // virtual method in base class
 	logical    isa(int t) const;
-	logical    gme_isa(int t) const;
 	static int id();
 	int        type() const;
 	sec_law(law *in_sublaw);
-	sec_law(const char*,law *in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~sec_law();
-	#endif
 	void       evaluate(double const *x,double *answer) const;
-	void       gme_evaluate(double const *x,double *answer) const;
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
 	logical    in_domain(double *where) const;
-
-				char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-				law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-				int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-				#ifdef LAW_VIRTUAL_FUNCTION
-				law* deep_copy(base_pointer_map* pm = NULL) const;
-				char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-				#endif
 };
-
 
 // Where ever the sin(x) is zero this law is undefined
 // i.e.	n*pi for all integers n.
@@ -3521,7 +3138,6 @@ public:
 /**
  * Provides methods for the COSECANT mathematical function.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW csc_law: public unary_law
 {
 protected:
@@ -3967,7 +3583,6 @@ public:
 /**
  * Provides methods for the ABS mathematical function.
  */
-
 class DECL_LAW abs_law: public unary_law
 {
 protected:
@@ -3983,7 +3598,7 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
 };
-#endif
+
 // Only defined for non negative values
 /**
  * Provides methods and data for the square root mathematical function.
@@ -4004,7 +3619,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const;
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -4026,15 +3640,10 @@ public:
  * pointer to sublaw.
  */
 	sqrt_law(law* in_sublaw);
-	sqrt_law(const char*,law* in_sublaw);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~sqrt_law();
-	#endif
 /**
  * @nodoc
  */
 	void evaluate(const double* x, double* answer) const;  // virtual method in base class
-	void gme_evaluate(const double* x, double* answer) const;  // virtual method in base class
 /**
  * @nodoc
  */
@@ -4054,22 +3663,9 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	#endif
-		char* gme_string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) nullptr,
-        law_data_node*& ldn     = *(law_data_node**) nullptr) const; // virtual method in base class
-		law* gme_deep_copy(base_pointer_map* pm = NULL) const;
-		int gme_same(const law* law1, const law* law2) const; // virtual method in base class
-		#ifdef LAW_VIRTUAL_FUNCTION
-		law* deep_copy(base_pointer_map* pm = NULL) const;
-		char* string(law_symbol_type type = DEFAULT,int&count = *(int*) nullptr,law_data_node*& ldn = *(law_data_node**) nullptr) const;
-		#endif
-
 };
 
 // Not defined for a value of zero lenght
@@ -4085,7 +3681,6 @@ public:
  * to a law that returns any dimension.
  * @see law
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW norm_law : public unary_law
 {
 	law        *this_law;
@@ -4153,7 +3748,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 	// STI ROLL
 /**
  * @nodoc
@@ -4257,7 +3852,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 	// STI ROLL
 /**
  * @nodoc
@@ -4351,7 +3946,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -4390,7 +3985,7 @@ public:
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
-	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)nullptr ) const;
+	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
 	int        return_size() const;  // 1
 	int        date() const;
 	// STI ROLL
@@ -4398,7 +3993,7 @@ public:
 	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
-#endif
+
 ////////////////////////////////////////////////////
 //
 // unary_data_law sub class
@@ -4416,7 +4011,6 @@ class base_pcurve_law_data;
  * It is not defined for x's where the path sub law's
  * derivative is undefined.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW curvature_law: public unary_data_law
 {
 protected:
@@ -4437,7 +4031,7 @@ public:
 							 double end=DBL_MAX,
 							 double **period=NULL) const;
 };
-#endif
+
 // Curve_law's returns the parametric SPAposition of a curve.
 // It returns three values and takes 1.
 
@@ -4454,7 +4048,6 @@ class SPAtransf;
  * calls the law destructor if <tt>use_count</tt> falls to zero.  The destructors of laws
  * containing sublaws should call <tt>remove</tt> on the latter for correct memory management.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW curve_law : public unary_data_law
 {
 protected:
@@ -4525,7 +4118,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -4575,7 +4168,7 @@ public:
  */
 	SPAposition* get_points_on_curve(int num_pts);
 };
-#endif
+
 // When evaluated, a pcurve_law returns an SPApar_pos <i>uv</i> value, given an
 // SPAparameter value as input.
 // It returns two values and takes 1.
@@ -4585,7 +4178,6 @@ public:
  * <b>Role:</b> When evaluated, <tt>pcurve_law</tt> returns an <tt>SPApar_pos</tt> <i>uv</i> value given,
  * a parameter value as input. It returns two values and takes one.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW pcurve_law : public unary_data_law
 {
 protected:
@@ -4662,6 +4254,7 @@ public:
  */
 	int date() const;   // virtual method in base class
 };
+
 /*
 // tbrv
 */
@@ -5030,7 +4623,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)nullptr) const; // virtual method in base class
+        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -5132,7 +4725,7 @@ public:
 	//logical	   term_domain(int term,SPAinterval &domain) const;
 	law*       set_domain(SPAinterval* new_domain, logical set = FALSE); // virtual method in base class
 };
-#endif
+
 class SPAtransf;
 // This law takes in three values and returns three values
 // The first argument to the transfore_law is a law.
@@ -5174,7 +4767,6 @@ public:
  * @nodoc
  */
 	logical isa(int t) const; // virtual method in base class
-	logical gme_isa(int t) const; // virtual method in base class
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -5201,10 +4793,6 @@ public:
  * size of array (2).
  */
 	transform_law(law_data** in_law_datas, int in_size);
-	transform_law(const char* gme,law_data** in_law_datas, int in_size);
-	#ifdef LAW_VIRTUAL_FUNCTION
-	~transform_law();
-	#endif
 /**
  * @nodoc
  */
@@ -5242,15 +4830,12 @@ public:
  * returns TRUE if the transform is the identity.
  */
 	SPAtransf get_trans(logical& f_simple_trans);
-	SPAtransf gme_get_trans(logical& f_simple_trans);
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(
         int             level = 0,
         const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	#endif
 };
 
 
@@ -5263,7 +4848,6 @@ public:
  * The second argument is a transform_law_data.
  * This law is used to transform laws that return SPAvector.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW rotate_law: public multiple_data_law
 {
 	friend void transform_rotation_constructor(multiple_data_law *law_create,
@@ -5593,8 +5177,8 @@ public:
 	void       evaluate(double const *x,double *answer) const;
 	void       evaluate_with_side(double const *x,double *answer,int const *side=NULL) const;
 	char       *string(law_symbol_type type=DEFAULT,
-		               int &count=*(int *) nullptr,
-                       law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		               int &count=*(int *) NULL_REF,
+                       law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law *make_one(law **subs, int size) const;
 	logical	   term_domain(int term,SPAinterval &domain) const;
@@ -5614,6 +5198,7 @@ public:
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 };
+
 // The multiple_curveperp_law represents the inverse of a
 // multiple_curve_law.  It's constructor takes the same
 // sublaws as were used to make the multiple_curve_law.  The
@@ -5645,8 +5230,8 @@ public:
 	void       evaluate(double const *x,double *answer) const;
 	void       evaluate_with_guess(double const *x,double *answer,double const *guess=NULL) const;
 	char       *string(law_symbol_type type=DEFAULT,
-		               int &count=*(int *) nullptr,
-                       law_data_node *& ldn=*(law_data_node **) nullptr) const;
+		               int &count=*(int *) NULL_REF,
+                       law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law *make_one(law **subs, int size) const;
     int        return_size() const;
@@ -5927,7 +5512,7 @@ public:
 	logical	   term_domain(int term,SPAinterval &domain) const;
 	int        date() const;	   // 700
 };
-#endif
+
 
 /**
  * @nodoc

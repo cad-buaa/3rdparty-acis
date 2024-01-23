@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -65,7 +65,6 @@ public:
 	 * C++ constructor, creating an empty <tt>error_info_base_list</tt> object.
 	 */
 	readonly_error_info_base_list();
-	readonly_error_info_base_list(char const * gme);
 
 	/**
 	 * C++ copy constructor which copies the whole <tt>other</tt> list passed.
@@ -74,7 +73,6 @@ public:
 	 * <tt>readonly_error_info_base_list</tt> to copy from.
 	 */
 	readonly_error_info_base_list(const readonly_error_info_base_list& other);
-	readonly_error_info_base_list(char const * gme, const readonly_error_info_base_list& other);
 
 	/**
 	 * Assignment operator, performs a full copy of the list completely. It clears the entries
@@ -85,7 +83,6 @@ public:
 	 * <tt>readonly_error_info_base_list</tt> to assign from.
 	 */
 	readonly_error_info_base_list& operator= (const readonly_error_info_base_list& other);
-	readonly_error_info_base_list& gme_operater_assign(const readonly_error_info_base_list& other);
 
 	/**
 	 * C++ destructor, deleting itself. It clears the list by removing all the <tt>error_info_base</tt> objects 
@@ -94,22 +91,15 @@ public:
 	virtual ~readonly_error_info_base_list();
 
 	/**
-	 * 获取保护成员变量m_raw_list
-	 */
-	VOID_LIST gme_get_m_raw_list() const;
-
-	/**
 	 * Initializes the iterator, which is used by the <tt>next</tt> method, to the beginning of the list.
 	 */
 	void init() const;
-	void gme_init() const;
 
 	/**
 	 * Returns a pointer to the first undeleted <tt>error_info_base</tt> and 
 	 * updates the iterator correctly for the <tt>next</tt> method.
 	 */
 	const error_info_base* first() const;
-	const error_info_base* gme_first() const;
 	
 	/**
 	 * Returns a pointer to an <tt>error_info_base</tt> object in list order.
@@ -123,13 +113,11 @@ public:
 	 * <b>Usage</b>: Call <tt>init</tt> once, then <tt>next</tt> repeatedly until it returns <tt>NULL</tt>.
 	 */
 	const error_info_base* next() const;
-	const error_info_base* gme_next() const;
 
 	/**
 	 * Returns a count of how many <tt>error_info_base</tt> objects are pointed to by the list.
 	 */
 	int count() const;
-	int gme_count() const;
 
 	/**
 	 * Removes an <tt>error_info_base</tt> object from the list.
@@ -138,13 +126,11 @@ public:
 	 * <tt>error_info_base</tt> object to remove.
 	 */
 	void remove(const error_info_base* ei);
-	void gme_remove(const error_info_base* ei);
 
 	/**
 	 * Empties the list by removing all of the <tt>error_info_base</tt> objects that it contains.
 	 */
 	void clear();
-	void gme_clear();
 
 };
 
@@ -179,21 +165,12 @@ class DECL_BASE error_info_base_list : public readonly_error_info_base_list
 public:
 
 	/**
-	 * @brief error_info_base_list的默认构造函数
-	 * @param gme
-	 * 用于区分GME默认构造函数与ACIS默认构造函数
-	 * @return 空
-	 */
-	error_info_base_list();
-	error_info_base_list(char const * gme);
-	/**
 	 * Adds an <tt>error_info_base</tt> object to the list if not already there.
 	 * <br><br>
 	 * @param ei
 	 * <tt>error_info_base</tt> to add
 	 */
 	void add(const error_info_base* ei);
-	void gme_add(const error_info_base* ei);
 
 	/**
 	 * Adds an <tt>error_info_base_list</tt> by adding all the individual <tt>error_info_base</tt> objects that are
@@ -203,7 +180,6 @@ public:
 	 * <tt>error_info_base_list</tt> to add
 	 */
 	void add(const error_info_base_list& ei);
-	void gme_add(const error_info_base_list& ei);
 
 };
 

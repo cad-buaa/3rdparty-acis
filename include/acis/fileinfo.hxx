@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -88,7 +88,6 @@ public:
  * file name.
  */
 	FileInfo &operator=(FileInfo const &finfo);
-	FileInfo & operator_equal(FileInfo const &finfo);
 
 	// Save/Restore (The whole purpose of the class!)
 /**
@@ -116,13 +115,10 @@ public:
  * Resets the values to the default settings for the file information.
  */
 	void reset();
-	void gme_reset();
-	
 /**
  * Routine to reset the values for the file information to the default values.
  */
 	void reset_vars();
-	void gme_reset_vars();
 
 	// Routine to check the values of the units and product id
 /**
@@ -146,7 +142,6 @@ public:
  * ID.
  */
 	void set_product_id(const char * id);
-	void gme_set_product_id(const char * id);
 /**
  * Sets the model units scale (in millimeters).
  * <br><br>
@@ -160,7 +155,6 @@ public:
  * number of millimeters.
  */
 	void set_units(double count);
-	void gme_set_units(double count);
 
 	// Copy selected fields from another instance
 /**
@@ -178,40 +172,30 @@ public:
  * Returns the <tt>ID</tt> of the product.
  */
 	const char *product_id() const { return Prod; }
-	const char *gme_product_id() const { return Prod; }
 /**
  * Returns the <tt>ACIS</tt> version number used to save the model.
  */
 	const char *acis_version() const { return AVers; }
-	const char *gme_acis_version() const { return AVers; }
 /**
  * Returns the value of the millimeters per model unit.
  */
 	double units() const { return Units; }
-	double gme_units() const { return Units; }
 /**
  * Returns the date on the save file.
  */
 	const char *date() const { return Date; }
-	const char *gme_date() const { return Date; }
 /**
  * Returns the save file version used in storing the file.
  */
 	int file_version() const { return FVers; }
-	int gme_file_version() const { return FVers; }
 /**
  * Returns the value of the <tt>SPAresabs</tt> when the model was saved.
  */
 	double tol_abs() const { return Tol_abs; }
-	double gme_tol_abs() const { return Tol_abs; }
 /**
  * Returns the value of the <tt>SPAresnor</tt> when the model was saved.
  */
 	double tol_nor() const { return Tol_nor; }
-	double gme_tol_nor() const { return Tol_nor; }
-
-	// 默认设置函数
-	void gme_default_set();
 };
 
 /** @} */

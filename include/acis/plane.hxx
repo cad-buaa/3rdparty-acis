@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/plane.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/plane.hxx */
 /* $Id: plane.hxx,v 1.12 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -120,7 +120,7 @@ public:
  * management.
  */
 	PLANE();
-	PLANE(const char* gme);
+
 	// Create a PLANE that passes through given SPAposition and with
 	// given unit SPAvector as normal.
 /**
@@ -137,7 +137,7 @@ public:
  * normal to the constructed PLANE.
  */
 	PLANE( const SPAposition &pos, const SPAunit_vector &normal );
-	PLANE( const char* gme, const SPAposition &pos, const SPAunit_vector &normal );
+
 	// Create a PLANE from a plane.
 /**
  * Constructs a <tt>PLANE</tt> from the specified plane.
@@ -151,7 +151,7 @@ public:
  * plane to be wrapped by the constructed PLANE.
  */
 	PLANE( const plane &p );
-	PLANE( const char* gme,const plane &p );
+
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
 #if 0
@@ -207,7 +207,6 @@ public:
  * Returns the point defining this <tt>PLANE</tt>.
  */
 	const SPAposition &root_point() const { return def.root_point; }
-
 /**
  * Returns the normal defining this <tt>PLANE</tt>.
  */
@@ -231,7 +230,6 @@ public:
  * the new root point.
  */
 	void set_root_point( const SPAposition &pos );
-	void gme_set_root_point( const SPAposition &pos );
 /**
  * Sets this <tt>PLANE</tt>'s normal to the given unit vector.
  * <br><br>
@@ -243,14 +241,13 @@ public:
  * the new normal.
  */
 	void set_normal( const SPAunit_vector &normal );
-	void gme_set_normal( const SPAunit_vector &normal );
 
 	// Return the surface equation for reading only.
 /**
  * Returns the surface equation of this <tt>PLANE</tt>.
  */
 	surface const &equation() const;
-	surface const &gme_equation() const;
+
 	// Return the surface equation, checking first for backup.
 /**
  * Returns the <tt>surface</tt> equation for update operations.
@@ -260,7 +257,7 @@ public:
  * to put an entry on the bulletin board.
  */
 	surface &equation_for_update();
-	surface &gme_equation_for_update();
+
 	// Get a new (lower-case) surface being the plane of the PLANE,
 	// transformed if the given SPAtransf is non-null and reversed
 	// in sense if the logical is true.
@@ -278,10 +275,7 @@ public:
 						const SPAtransf &t = *(SPAtransf*)NULL_REF,
 						logical negate = FALSE
 					) const;
-		surface *gme_trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
+
 	// Transform the stored plane in place.
 /**
  * Transforms this <tt>PLANE</tt>.
@@ -294,7 +288,7 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
+
 	// The generic SURFACE version of make_box is sufficient
 	// so version for plane is left in abeyance.
 
@@ -320,12 +314,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
 	// STI ROLL
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	plane get_def();
 };
 
 

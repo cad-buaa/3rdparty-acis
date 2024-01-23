@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -34,12 +34,6 @@ class ENTITY;
  * Internal Use Only.
 */
 DECL_KERN void sg_rm_pcurves_from_entity( 
-	ENTITY *ent, 
-	logical analytic_only = FALSE,
-	logical do_tcoedges = FALSE,
-	logical reset_pattern = TRUE
-);
-DECL_KERN void gme_sg_rm_pcurves_from_entity( 
 	ENTITY *ent, 
 	logical analytic_only = FALSE,
 	logical do_tcoedges = FALSE,

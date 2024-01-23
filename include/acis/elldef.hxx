@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -38,10 +38,6 @@ class ellipse;
  * Define an identifying type for this (lower-case) curve.
  */
 #define ellipse_type 2
-
-//// 支撑性测试
-// #define GME_KERN_ELLDEF  //将ACIS接口切换为GME接口
-
 /**
  * Returns an ellipse transformed by the given transformation.
  * <br><br>
@@ -51,7 +47,6 @@ class ellipse;
  * transformation.
  */
 DECL_KERN ellipse operator*(ellipse const &name,SPAtransf const &transf);
-DECL_KERN ellipse gme_operator_multiply(ellipse const &name,SPAtransf const &transf);
 /**
  * @nodoc
  * Internal use. Restore mechanism.
@@ -87,7 +82,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
  	ellipse();
-	ellipse(const char *gme);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -111,14 +105,6 @@ public:
 			double                ratio,
 			double                param_off = 0.0
 		);
-	ellipse(
-			const char*           gme,
-			SPAposition const&    center,
-			SPAunit_vector const& normal,
-			SPAvector const&      maj_axis,
-			double                ratio,
-			double                param_off = 0.0
-	   );
 /**
  * C++ destructor, deleting an <tt>ellipse</tt>.
  */
@@ -130,7 +116,6 @@ public:
  * ellipse name.
  */
  	ellipse( ellipse const &name	);
-	ellipse(const char*gme,ellipse const &name);
 /**
  * Center point of ellipse.
  */
@@ -153,7 +138,6 @@ public:
  * <b>Role:</b> It is stored to allow the parameterization to remain unchanged under
  * transformation.
  */
-
  	SPAparameter param_off;
 /**
  * Ratio between length of minor axis and major axis.
@@ -200,9 +184,6 @@ public:
  	virtual int accurate_derivs(
 				SPAinterval const &cur = *(SPAinterval*)NULL_REF
 			) const;
- 	/*virtual*/ int gme_accurate_derivs(
-				SPAinterval const &cur = *(SPAinterval*)NULL_REF
-			) const;
 /**
  * Finds box around an ellipse or portion thereof bounded by points on the curve.
  * <br><br>
@@ -221,11 +202,6 @@ public:
 				SPAposition const &posi,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-	/*virtual*/ SPAbox gme_bound(
-				SPAposition const &p1,
-				SPAposition const &p2,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
 /**
  * Finds box around an ellipse or portion thereof bounded by parameter values (in increasing order).
  * <br><br>
@@ -240,10 +216,6 @@ public:
 				SPAinterval const &range,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-	/*virtual*/ SPAbox gme_bound(
-				SPAinterval const &range,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
 /**
  * Returns a bounding box around the portion of the ellipse inside a given box.
  * <br><br>
@@ -255,10 +227,6 @@ public:
  * transformation.
  */
  	virtual SPAbox bound(
-				SPAbox const &region ,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	/*virtual*/ SPAbox gme_bound(
 				SPAbox const &region ,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -280,19 +248,12 @@ public:
 	{
 		return bound( SPAinterval( start, end ), t );
 	}
-	SPAbox gme_bound(
-				double start,
-				double end,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
-			) const;
-
 /**
  * Indicates whether a curve is closed, that is joins itself (smoothly or not) at the ends of its principal parameter range.
  * <br><br>
  * <b>Role:</b> This function should always return <tt>TRUE</tt> if periodic does.
  */
  	virtual logical closed() const;
-	/*virtual*/ logical gme_closed() const;
 /**
  * Finds closest point.
  * <br><br>
@@ -319,13 +280,6 @@ public:
 				SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
 				SPAparameter &param_actual = *(SPAparameter *)NULL_REF
 			) const;
-	
-	/*virtual*/ void gme_closest_point(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &param_actual = *(SPAparameter *)NULL_REF
-			) const;
 /**
  * Output details of the ellipse for inspection.
  * <br><br>
@@ -335,10 +289,6 @@ public:
  * file pointer.
  */
  	virtual void debug(
-				char const *leader,
-				FILE *fp = debug_file_ptr
-			) const;
-	void gme_debug(
 				char const *leader,
 				FILE *fp = debug_file_ptr
 			) const;
@@ -352,7 +302,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
  	virtual curve *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ curve *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Returns a cylinder that encloses the portion of the curve bounded by the interval.
  * <br><br>
@@ -395,14 +344,6 @@ public:
 				logical repeat= FALSE,
 				logical logi = FALSE
 			) const;
-	/*virtual*/ void gme_eval(
-				double val,
-				SPAposition &posi,
-				SPAvector &first = *(SPAvector *)NULL_REF,
-				SPAvector &second = *(SPAvector *)NULL_REF,
-				logical repeat= FALSE,
-				logical logi = FALSE
-			) const;
 /**
  * Calculates derivatives, of any order up to the number requested, and stores them in vectors provided by the user.
  * <br><br>
@@ -430,14 +371,6 @@ public:
                 int          num = 0,
 				evaluate_curve_side loc = evaluate_curve_unknown
             ) const;
-
-	/*virtual*/ int gme_evaluate(
-                double       val,
-                SPAposition& pt,
-                SPAvector**  ptr_arr = NULL,
-                int          num = 0,
-				evaluate_curve_side loc = evaluate_curve_unknown
-            ) const;
 /**
  * Finds the extrema of an ellipse in a given direction.
  * <br><br>
@@ -445,7 +378,6 @@ public:
  * direction.
  */
  	virtual curve_extremum *find_extrema(SPAunit_vector const &dirc ) const;
-	/*virtual*/ curve_extremum *gme_find_extrema(SPAunit_vector const &dirc) const;
 /**
  * @nodoc
  * Internal use. Roll mechanism
@@ -455,7 +387,6 @@ public:
  * This method returns the length of major axis.
  */
  	double GetMajorAxisLength() const;
-	double gme_GetMajorAxisLength() const;
 /**
  * Finds regions of high curvature of the curve.
  * <br><br>
@@ -467,13 +398,11 @@ public:
  * @param spans
  * interval list.
  */
-   	int	high_curvature( double k, SPAinterval*& spans ) const;
-	int gme_high_curvature( double k, SPAinterval*& spans ) const;
+   		int	 high_curvature( double k, SPAinterval*& spans ) const;
 /**
  * Returns a pointer to the law form that is part of the ellipse definition.
  */
  	law *law_form();
-	law *gme_law_form();
 /**
  * Arc length.
  * <br><br>
@@ -496,7 +425,6 @@ public:
  * not used for ellipses
  */
  	virtual double length( double first, double second, logical approx_ok=TRUE ) const;
-	/*virtual*/ double gme_length( double first, double second, logical approx_ok=TRUE ) const;
 /**
  * The inverse of the length function returns the parameter value of the point on the curve at the given algebraic arc length from that defined by the datum parameter.
  * <br><br>
@@ -516,26 +444,18 @@ public:
 				double	len,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length_param(
-				double para,
-				double	len,
-				logical approx_ok=TRUE
-			) const;
 /**
  * Makes a copy of this ellipse on the heap, and return a pointer to it.
  */
  	virtual curve *make_copy() const;
-	/*virtual*/ curve *gme_make_copy() const;
 /**
  * Negates this ellipse, negate the normal.
  */
  	virtual curve &negate();
-	/*virtual*/ curve &gme_negate();
 /**
  * Returns an ellipse with the opposite sense from this one.
  */
  	ellipse operator-() const;
-	ellipse gme_operator_substract() const;
 /**
  * Tests two curves for equality.
  * <br><br>
@@ -546,7 +466,6 @@ public:
  * curve name.
  */
  	virtual logical operator==( curve const &name ) const;
-	/*virtual*/ logical gme_operator_equal( curve const &name ) const;
 /**
  * @nodoc
  * Returns this <tt>ellipse</tt> transformed by the given <tt>SPAtransf</tt>.
@@ -555,10 +474,6 @@ public:
 				ellipse const &,
 				SPAtransf const &
 			);
-	/*friend DECL_KERN ellipse gme_operator_multiply(
-				ellipse const &,
-				SPAtransf const &
-	);*/
 /**
  * Transforms this <tt>ellipse</tt> by the given <tt>SPAtransf</tt>, in place.
  * <br><br>
@@ -566,7 +481,6 @@ public:
  * transformation.
  */
  	virtual curve &operator*=( SPAtransf const &trans);
- 	/*virtual*/ curve &gme_operator_multiply_assign( SPAtransf const &trans);//@todo:非虚实现
 /**
  * Finds the parameter value at the given point on the ellipse.
  * <br><br>
@@ -582,15 +496,10 @@ public:
 				SPAposition const &name,
 				SPAparameter const &cur= *(SPAparameter *)NULL_REF
 			) const;
-	/*virtual*/ double gme_param(
-		SPAposition const &name,
-		SPAparameter const &cur= *(SPAparameter *)NULL_REF
-	) const;
 /**
  * Returns the period of the curve parameter.
  */
  	virtual double param_period() const;
- 	/*virtual*/ double gme_param_period() const;
 /**
  * Returns the parameter range of the ellipse.
  * <br><br>
@@ -598,10 +507,6 @@ public:
  * bounding box.
  */
  	virtual SPAinterval param_range(
-				SPAbox const &box = *(SPAbox *)NULL_REF
-			) const;
-
- 	/*virtual*/ SPAinterval gme_param_range(
 				SPAbox const &box = *(SPAbox *)NULL_REF
 			) const;
 
@@ -620,10 +525,6 @@ public:
 				SPAposition const &posi,
 				SPAparameter const &para = *(SPAparameter *)NULL_REF
 			) const;
-	/*virtual*/ SPAvector gme_point_curvature(
-		SPAposition const &posi,
-		SPAparameter const &para = *(SPAparameter *)NULL_REF
-	) const;
 /**
  * Finds the tangent to an ellipse at the given point on the curve.
  * <br><br>
@@ -642,11 +543,6 @@ public:
 				SPAposition const &posi,
 				SPAparameter const &para = *(SPAparameter *)NULL_REF
 			) const;
-
-	/*virtual*/ SPAunit_vector gme_point_direction(
-		SPAposition const &posi,
-		SPAparameter const &para = *(SPAparameter *)NULL_REF
-	) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -681,17 +577,6 @@ public:
 				SPAparameter&       act_guess   = *(SPAparameter *)NULL_REF,
 				logical             f_weak      = FALSE
 			) const;
-
-	/*virtual*/ void gme_point_perp(
-				SPAposition const&  pt,
-				SPAposition&        ft,
-				SPAunit_vector&     vec,
-				SPAvector&          cur,
-				SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
-				SPAparameter&       act_guess   = *(SPAparameter *)NULL_REF,
-				logical             f_weak      = FALSE
-			) const;
-
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -715,27 +600,7 @@ public:
  * @param f_weak
  * weak flag.
  */
-	#ifdef GME_KERN_ELLDEF
-	void point_perp(
-				SPAposition const&  pos,
-				SPAposition&        foot,
-				SPAunit_vector&     foot_dt,
-				SPAparameter const& guess = *(SPAparameter *)NULL_REF,
-				SPAparameter&       actual = *(SPAparameter *)NULL_REF,
-				logical             f_weak = FALSE
-			) const
-	{
-		gme_point_perp(
-					pos,
-					foot,
-					foot_dt,
-					*(SPAvector *)NULL_REF,
-					guess,
-					actual, f_weak
-				);
-	}
-	#else
-	void point_perp(
+ 	void point_perp(
 				SPAposition const&  pos,
 				SPAposition&        foot,
 				SPAunit_vector&     foot_dt,
@@ -753,16 +618,6 @@ public:
 					actual, f_weak
 				);
 	}
-	#endif
-
-	void gme_point_perp(
-				SPAposition const&  pos,
-				SPAposition&        foot,
-				SPAunit_vector&     foot_dt,
-				SPAparameter const& guess = *(SPAparameter *)NULL_REF,
-				SPAparameter&       actual = *(SPAparameter *)NULL_REF,
-				logical             f_weak = FALSE
-			) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -782,26 +637,7 @@ public:
  * @param f_weak
  * weak flag.
  */
-	#ifdef GME_KERN_ELLDEF
-	void point_perp(
-				SPAposition const&  pos,
-				SPAposition&        foot,
-				SPAparameter const& guess = *(SPAparameter *)NULL_REF,
-				SPAparameter&       actual = *(SPAparameter *)NULL_REF,
-				logical             f_weak = FALSE
-			) const
-	{
-		gme_point_perp(
-					pos,
-					foot,
-					*(SPAunit_vector *)NULL_REF,
-					*(SPAvector *)NULL_REF,
-					guess,
-					actual, f_weak
-				);
-	}
-	#else
-	void point_perp(
+ 	void point_perp(
 				SPAposition const&  pos,
 				SPAposition&        foot,
 				SPAparameter const& guess = *(SPAparameter *)NULL_REF,
@@ -818,15 +654,6 @@ public:
 					actual, f_weak
 				);
 	}
-	#endif
-
-	void gme_point_perp(
-				SPAposition const&  pt,
-				SPAposition&        ft,
-				SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
-				SPAparameter&       act_guess   = *(SPAparameter *)NULL_REF,
-				logical             f_weak      = FALSE
-			) const;
 /**
  * Indicates whether a curve is periodic.
  * <br><br>
@@ -834,7 +661,6 @@ public:
  * so that edges may span the seam.
  */
  	virtual logical periodic() const;
-	/*virtual*/ logical gme_periodic() const;
 /**
  * Restores the data for a ellipse from a save file.
  * <br><br>
@@ -907,28 +733,18 @@ public:
 				SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
 				SPAparameter&       act_param   = *(SPAparameter *)NULL_REF
 			) const;
-
-	/*virtual*/ logical gme_test_point_tol(
-		SPAposition const&  pt,
-		double              tol         = 0,
-		SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
-		SPAparameter&       act_param   = *(SPAparameter *)NULL_REF
-	) const;
 /**
  * Returns an identifier uniquely specifying the curve type.
  */
  	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 /**
  * Returns a string <tt>"ellipse"</tt>.
  */
  	virtual char const *type_name() const;
-	/*virtual*/ char const *gme_type_name() const;
 /**
  * Indicates whether the ellipse is properly defined.
  */
  	virtual logical undef() const;
-	/*virtual*/ logical gme_undef() const;
 /**
  * Saves the curve type or id, then calls <tt>save_data</tt>.
  */
@@ -953,6 +769,7 @@ public:
 			) const;
 
 #endif
+
 };
 
 /** @} */

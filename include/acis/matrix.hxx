@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -34,7 +34,7 @@ class SPAtransf;
  * second matrix.
  */
 DECL_BASE SPAmatrix operator*( SPAmatrix const & m1, SPAmatrix const & m2 );
-DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const & m1, SPAmatrix const & m2 );
+
 /**
  * Multiplies a matrix by a double.
  * <br><br>
@@ -44,7 +44,7 @@ DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const & m1, SPAmatrix const
  * matrix.
  */
 DECL_BASE SPAmatrix operator*( double const & d, SPAmatrix const & m);
-DECL_BASE SPAmatrix gme_operator_multiply( double const & d, SPAmatrix const & m);
+
 /**
  * @nodoc
  * This is already documented in vector.hxx
@@ -57,7 +57,7 @@ DECL_BASE SPAmatrix gme_operator_multiply( double const & d, SPAmatrix const & m
  * vector.
  */
 DECL_BASE SPAvector operator*( SPAmatrix const & m, SPAvector const & vec);
-DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const & m, SPAvector const & vec);
+
 /**
  * @nodoc
  * This is already documented in vector.hxx
@@ -70,7 +70,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const & m, SPAvector const 
  * matrix.
  */
 DECL_BASE SPAvector operator*( SPAvector const & vec, SPAmatrix const & m);
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const & vec, SPAmatrix const & m);
+
 /**
  * @nodoc
  * This is already documented in position.hxx
@@ -83,7 +83,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAvector const & vec, SPAmatrix cons
  * position.
  */
 DECL_BASE SPAposition operator*( SPAmatrix const & m, SPAposition const & pos);
-DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const & m, SPAposition const & pos);
+
 /**
  * @nodoc
  * This is already documented in position.hxx
@@ -96,7 +96,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const & m, SPAposition co
  * matrix.
  */
 DECL_BASE SPAposition operator*( SPAposition const & pos, SPAmatrix const & m);
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const & pos, SPAmatrix const & m);
+
 /**
 * Determines if two matrices are equal, within a tolerance.
 * <br><br>
@@ -110,7 +110,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAposition const & pos, SPAmatrix 
 * optional tolerance.
 **/
 DECL_BASE logical same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res = SPAresabs);
-DECL_BASE logical gme_same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res = SPAresabs);
+
 /**
 * Creates the matrix for scaling.
 * Scaling is equal for each coordinate.
@@ -121,7 +121,7 @@ DECL_BASE logical gme_same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, con
 * scale factor.
 **/
 DECL_BASE SPAmatrix scaling( double factor );
-DECL_BASE SPAmatrix gme_scaling( double factor );
+
 /**
 * Creates the matrix for scaling.
 * Scaling is differential by coordinate.
@@ -136,7 +136,7 @@ DECL_BASE SPAmatrix gme_scaling( double factor );
 * z scale factor.
 **/
 DECL_BASE SPAmatrix scaling( double xfactor, double yfactor, double zfactor );
-DECL_BASE SPAmatrix gme_scaling( double xfactor, double yfactor, double zfactor );
+
 /**
 * Creates the matrix for scaling.
 * <br><br>
@@ -146,7 +146,7 @@ DECL_BASE SPAmatrix gme_scaling( double xfactor, double yfactor, double zfactor 
 * xyz factors in a vector.
 **/
 DECL_BASE SPAmatrix scaling( const SPAvector & factor );
-DECL_BASE SPAmatrix gme_scaling( const SPAvector & factor );
+
 /**
 * Creates the matrix for scaling.
 * Scaling is differential by coordinate.
@@ -167,19 +167,17 @@ DECL_BASE SPAmatrix gme_scaling( const SPAvector & factor );
 * yz shear factor.
 **/
 DECL_BASE SPAmatrix scaling( double xfactor, double yfactor, double zfactor, double xyshear, double xzshear, double yzshear );
-DECL_BASE SPAmatrix gme_scaling( double xfactor, double yfactor, double zfactor, double xyshear, double xzshear, double yzshear );
+
 /**
  * @nodoc
  */
 DECL_BASE SPAmatrix rotation( double, SPAvector const & );
-DECL_BASE SPAmatrix gme_rotation( double, SPAvector const & );
+
 /**
  * @nodoc
  */
 DECL_BASE SPAmatrix reflection( SPAvector const & );
-DECL_BASE SPAmatrix gme_reflection( SPAvector const & );
 
-DECL_BASE SPAmatrix gme_get_rotate( SPAvector const & ,SPAvector const & );
 /**
  * Transforms a matrix by an affine transformation.
  * <br><br>
@@ -189,7 +187,7 @@ DECL_BASE SPAmatrix gme_get_rotate( SPAvector const & ,SPAvector const & );
  * transform.
  */
 DECL_BASE SPAmatrix operator*( SPAmatrix const & m, SPAtransf const & trans);
-DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const & m, SPAtransf const & trans);
+
 /**
  * Transforms a matrix by an affine transformation.
  * <br><br>
@@ -199,7 +197,6 @@ DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const & m, SPAtransf const 
  * transform.
  */
 DECL_BASE SPAmatrix operator*( SPAmatrix const & m, SPAtransf const * trans);
-DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const & m, SPAtransf const * trans);
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -250,7 +247,7 @@ public:
 	 * third vector.
 	 */
 	SPAmatrix( SPAvector const & vector1, SPAvector const & vector2, SPAvector const & vector3);
-	SPAmatrix(const char * gme, SPAvector const & vector1, SPAvector const & vector2, SPAvector const & vector3);
+
 	/**
 	 * @nodoc
 	 */
@@ -305,12 +302,12 @@ public:
 	 * Returns a transpose of this matrix.
 	 */
 	SPAmatrix transpose() const;
-	SPAmatrix gme_transpose() const;
+
 	/**
 	 * Returns the determinant of this matrix.
 	 */
 	double determinant() const;
-	double gme_determinant() const;
+
 	/**
 	 * Returns the inverse of this matrix.
 	 * <br><br>
@@ -319,17 +316,17 @@ public:
 	 * unit determinant.
 	 */
 	SPAmatrix inverse() const;
-	SPAmatrix gme_inverse() const;
+
 	/**
 	 * Returns <tt>TRUE</tt> if this matrix is the identity matrix.
 	 */
 	logical is_identity() const;
-	logical gme_is_identity() const;
+
 	/**
 	 * @nodoc
 	 */
 	void polar_decomposition( SPAmatrix &P, SPAmatrix &U ) const;
-	void gme_polar_decomposition( SPAmatrix &P, SPAmatrix &U ) const;
+
 	/**
 	 * Multiplies two matrices.
 	 * <br><br>
@@ -337,7 +334,7 @@ public:
 	 * matrix.
 	 */
 	SPAmatrix const &operator*=( SPAmatrix const & mat1);
-	SPAmatrix const &gme_operator_multiply_assign( SPAmatrix const & mat1);
+
 	/**
 	 * Multiplies this matrix by a double.
 	 * <br><br>
@@ -345,7 +342,7 @@ public:
 	 * double.
 	 */
 	SPAmatrix const &operator*=( double const & d);
-	SPAmatrix const &gme_operator_multiply_assign( double const & d);
+
 	/**
 	 * Transforms this matrix by an affine transformation.
 	 * <br><br>
@@ -353,7 +350,7 @@ public:
 	 * transformation.
 	 */
 	SPAmatrix const &operator*=( SPAtransf const & trans);
-	SPAmatrix const &gme_operator_multiply_assign( SPAtransf const & trans);
+
 	// Output details of this matrix.
 	/**
 	 * Writes output about this matrix to the debug file or to the specified file.
@@ -364,17 +361,17 @@ public:
 	 * output file.
 	 */
 	void debug( char const * title, FILE * fp= debug_file_ptr ) const;
-	void gme_debug( char const * title, FILE * fp= debug_file_ptr ) const;
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix operator*( SPAmatrix const &m1, SPAmatrix const &m2 );
-	friend DECL_BASE SPAmatrix gme_operator_multiply( SPAmatrix const &m1, SPAmatrix const &m2 );
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix operator*( double const &d, SPAmatrix const &m );
-	friend DECL_BASE SPAmatrix gme_operator_multiply( double const &d, SPAmatrix const &m );
+
 	/**
 	 * @nodoc
 	 */
@@ -384,27 +381,27 @@ public:
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAvector operator*( SPAmatrix const &m, SPAvector const &vec );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const &m, SPAvector const &vec );
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAvector operator*( SPAvector const &vec, SPAmatrix const &m );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAvector const &vec, SPAmatrix const &m );
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAposition operator*( SPAmatrix const &m, SPAposition const &pos );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const &m, SPAposition const &pos );
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAposition operator*( SPAposition const &pos, SPAmatrix const &m );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAposition const &pos, SPAmatrix const &m );
+
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE logical same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res);
-	friend DECL_BASE logical gme_same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res);
+
 	// "Constructors" for particular types of transformation.
 	// These are not actually constructors because there is
 	// insufficient information in their argument types to
@@ -415,41 +412,39 @@ public:
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix scaling( double factor );
-	friend DECL_BASE SPAmatrix gme_scaling( double factor );
+
 	// Form SPAmatrix for differential scaling.
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix scaling( double xfactor, double yfactor, double zfactor );
-	friend DECL_BASE SPAmatrix gme_scaling( double xfactor, double yfactor, double zfactor );
+
 	// Form SPAmatrix for differential scaling.
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix scaling( const SPAvector &factor );
-	friend DECL_BASE SPAmatrix gme_scaling( const SPAvector &factor );
+
 	// Form SPAmatrix for differential scaling.
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix scaling( double xfactor, double yfactor, double zfactor, 
 		double xyshear, double xzshear, double yzshear);
-		friend DECL_BASE SPAmatrix gme_scaling( double xfactor, double yfactor, double zfactor, 
-		double xyshear, double xzshear, double yzshear);
+
 	// Form SPAmatrix for rotation by angle about SPAvector.
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix rotation( double, SPAvector const & );
-		friend DECL_BASE SPAmatrix gme_rotation( double, SPAvector const & );
+
 	// Form SPAmatrix for reflection about a plane through the origin
 	// with the given SPAvector as normal.
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAmatrix reflection( SPAvector const & );
-	friend DECL_BASE SPAmatrix gme_reflection( SPAvector const & );
-	friend DECL_BASE SPAmatrix gme_get_rotate(SPAvector const &,SPAvector const &);
+
 	// Transform a SPAmatrix i.e. by an affine transformation.
 	/**
 	 * @nodoc
@@ -479,8 +474,6 @@ public:
 **/
 inline logical operator==( SPAmatrix const &m1, SPAmatrix const &m2 )
 	{ return same_matrix( m1, m2, SPAresnor ); }
-inline logical gme_operator_equal( SPAmatrix const& m1, SPAmatrix const& m2 )
-	{ return gme_same_matrix( m1, m2, SPAresnor ); }
 
 /**
 * Determines if two matrices are not equal with respect to resnor.
@@ -492,9 +485,6 @@ inline logical gme_operator_equal( SPAmatrix const& m1, SPAmatrix const& m2 )
 **/
 inline logical operator!=( SPAmatrix const &m1, SPAmatrix const &m2 )
 	{ return !same_matrix( m1, m2, SPAresnor ); }
-inline logical gme_operator_unequal( SPAmatrix const& m1, SPAmatrix const& m2 )
-	{ return !gme_same_matrix( m1, m2, SPAresnor ); }
-
 
 /** @} */
 #endif

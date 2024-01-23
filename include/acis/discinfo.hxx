@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -150,7 +150,6 @@ public:
  * <b>Role:</b> The allocation constructor is used primarily by the restore mechanism. 
  */
      discontinuity_info();
-     discontinuity_info( const char *gme);
 /**
  * C++ copy constructor requests memory for this object.
  * <br><br>
@@ -161,7 +160,6 @@ public:
  * instance to copy.
  */
      discontinuity_info( const discontinuity_info& old );
-     discontinuity_info( const char*gme ,const discontinuity_info& old );
 /**
  * C++ destructor for <tt>discontinuity_info</tt> which deallocates memory.
  */
@@ -196,7 +194,6 @@ public:
  * order of discontinuity.
  */
      const double*	all_discontinuities( int& n_discont, int order );
-     const double*	gme_all_discontinuities( int& n_discont, int order );
 /**
  * Compares this list with another list.
  * <br><br>
@@ -220,8 +217,6 @@ public:
  * file pointer.
  */
  	void	debug( char const *tline, FILE *fp) const;
-    void	gme_debug( char const *, FILE * = stdout) const;
-
 /**
  * Returns a read-only array containing discontinuities of a given order.
  * <br><br>
@@ -231,7 +226,6 @@ public:
  * order of disccontinuity.
  */
      const double*	discontinuities( int& n_discont, int order ) const;
-     const double*	gme_discontinuities( int& n_discont, int order ) const;
 /**
  * Returns whether a discontinuity exists at the given parameter value.
  * <br><br>

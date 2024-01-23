@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -38,9 +38,6 @@
  *
  * @{
  */
-
-// 支撑性测试
-// #define GME_KERN_TRANSFRM  //将ACIS接口切换为GME接口
 
 /**
  * @nodoc
@@ -116,7 +113,6 @@ public:
  * course override this behavior
  */
 	virtual logical deletable() const;
-	virtual logical gme_deletable() const;
 
 	// Now the functions specific to TRANSFORM.
 
@@ -130,7 +126,6 @@ public:
   * on the heap, a requirement to support roll back and history management.
   */
 	TRANSFORM();
-	TRANSFORM( const char *gme);
 
 	// Make a TRANSFORM from a SPAtransf.
 /**
@@ -145,7 +140,6 @@ public:
  * SPAtransf to be wrapped by the constructed TRANSFORM.
  */
 	TRANSFORM( const SPAtransf & transf);
-	TRANSFORM( const char *gme, const SPAtransf & transf);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -172,12 +166,6 @@ public:
  */
 	virtual void lose();
 #endif
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>TRANSFORM</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -216,13 +204,11 @@ public:
  * the new SPAtransf.
  */
 	void set_transform( const SPAtransf & transf);
-	void gme_set_transform( const SPAtransf & transf);
 
 /**
  * Returns a pointer to the owning <tt>BODY</tt>.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 	// Data changing routine.
 
@@ -236,7 +222,6 @@ public:
  * entity.
  */
 	void set_owner( ENTITY * owner);
-	void gme_set_owner( ENTITY * owner);
 
 	// Operator to combine two transformations.
 /**
@@ -254,7 +239,6 @@ public:
  * the new SPAtransf.
  */
 	TRANSFORM& operator*=( const SPAtransf & transf);
-	TRANSFORM& gme_operator_multiply_assign( const SPAtransf & transf);
 
 
 	// Find a TRANSFORM in its list, returning the sequence number.
@@ -264,15 +248,6 @@ public:
  * @nodoc
  */
 	int lookup( logical ) const;
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/  logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/  void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const TRANSFORM* in_transfrm, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
 };
 /** @} */
 #endif

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -13,17 +13,11 @@
 #endif
 
 #include "importexport.h"
-#include "acis/gme/base/gme_base.hxx"
-
 #ifdef IMPORT_EXPORT_SYMBOLS
 # ifdef BUILDING_LOCAL_FILE
 #  define DECL_BASE EXPORT_SYMBOL
 # else
-#  ifndef GME_BASE_DLL
-#   define DECL_BASE IMPORT_SYMBOL
-#  else
-#   define DECL_BASE EXPORT_SYMBOL
-#  endif
+#  define DECL_BASE IMPORT_SYMBOL
 # endif
 #else
 # define DECL_BASE

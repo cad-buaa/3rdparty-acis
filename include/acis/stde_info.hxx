@@ -1,4 +1,4 @@
-﻿// $Id: stde_info.hxx,v 1.5 2000/12/26 18:48:12 products Exp $
+// $Id: stde_info.hxx,v 1.5 2000/12/26 18:48:12 products Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -93,7 +93,6 @@ public:
      * Pointer to second entity associated with the error.
      */
     standard_error_info( ENTITY* e0 = NULL, ENTITY* e1 = NULL );
-    standard_error_info( char const* gme, ENTITY* e0 = NULL, ENTITY* e1 = NULL );
     /**
      * C++ destructor, deleting a <tt>standard_error_info</tt>.
      */
@@ -111,22 +110,20 @@ public:
 	 * would be equal to the one returned by <tt>standard_error_info::id</tt>.
 	 */
     virtual int type() const;
-    virtual int gme_type() const;
 
 	/**
 	 * @nodoc 
 	 */
 	// Sets the entity0. This method is recommended for setting entity0 instead of directly
 	// setting through the member variable
-    void set_entity0(ENTITY *ent);
-    void gme_set_entity0(ENTITY *ent);
+	void set_entity0(ENTITY *ent);
+	
 	/**
 	 * @nodoc 
 	 */
 	// Sets the entity1. This method is recommended for setting entity1 instead of directly
 	// setting through the member variable
-    void gme_set_entity1(ENTITY *ent);
-    void set_entity1(ENTITY *ent);
+	void set_entity1(ENTITY *ent);
 };
 
 /** @} */

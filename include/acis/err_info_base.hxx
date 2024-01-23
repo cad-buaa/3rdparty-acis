@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -17,6 +17,7 @@
 
 #include "base.hxx"
 #include "dcl_base.h"
+
 
 /**
  * @file err_info_base.hxx
@@ -136,8 +137,7 @@ public:
 	 * C++ default constructor to construct an <tt>error_info_base</tt> object.
 	 */
     error_info_base();
-
-	error_info_base(char const * gme);
+	
 	/**
 	 * C++ constructor to construct an <tt>error_info_base</tt> object specified by
 	 * an error number and severity.
@@ -149,20 +149,17 @@ public:
 	 */
 	error_info_base(err_mess_type err_mess, spa_outcome_severity_type);
 
-	error_info_base(char const * gme,err_mess_type err_mess, spa_outcome_severity_type spa_severity);
 	/**
 	 * Increments the use count. Customers should only have to
 	 * pay attention to use counting if they explicitly call <tt>add</tt>.
 	 */
-	void gme_add();
-	void add();
+    void add();
 
 	/**
 	 * Decrements the use count. Customers should only have to
 	 * pay attention to use counting if they explicitly call <tt>add</tt>.
 	 */
-	void gme_remove();
-	void remove();
+    void remove();
 
 	/**
 	 * Returns the id number for the class <tt>error_info_base</tt>.
@@ -175,7 +172,7 @@ public:
 	 * would be equal to the one returned by <tt>error_info::id</tt>.
 	 */
     virtual int type() const;
-	virtual int gme_type() const;
+
 	error_info* error_info_cast();
 
 	/**
@@ -183,25 +180,24 @@ public:
 	 * encapsulating.
 	 */
 	err_mess_type error_number() const;
-	err_mess_type gme_error_number() const;
 	
 	/**
 	 * Returns the message string of the error that this <tt>error_info_base</tt> object is
 	 * encapsulating.
 	 */
 	char const* error_message() const;
-	char const* gme_error_message() const;
+
 	/**
 	 * Returns the severity of the error that this <tt>error_info_base</tt> object is
 	 * encapsulating.
 	 */
 	spa_outcome_severity_type severity() const;
-	spa_outcome_severity_type gme_severity() const;
+	
 	/**
 	 * Returns <tt>TRUE</tt> if this <tt>error_info_base</tt> object has at least one reason; returns <tt>FALSE</tt> otherwise.
 	 */
 	logical has_reasons() const;
-	logical gme_has_reasons() const;
+
 	/**
 	 * Adds all the reasons of this <tt>error_info_base</tt> into the given list, <tt>err_reasons</tt>.
 	 * In some cases, an <tt>error_info_base</tt> may need to provide some additional information 
@@ -215,35 +211,35 @@ public:
 	 * <tt>error_info_base_list</tt> to which the reasons are added.
 	 */
 	void reasons(error_info_base_list& err_reasons) const;
-	void gme_reasons(error_info_base_list& err_reasons) const;
+
 	/**
 	 * @nodoc
 	 */
 	// This method is for internal use only
 	// Sets the error number
 	void set_error_number(err_mess_type err_mess);
-	void gme_set_error_number(err_mess_type err_mess);
+
 	/**
 	 * @nodoc
 	 */
 	// This method is for internal use only
 	// Sets the severity of the error
 	void set_severity(spa_outcome_severity_type err_severity);
-	void gme_set_severity(spa_outcome_severity_type err_severity);
+
 	/**
 	 * @nodoc
 	 */
 	// This method is for internal use only
 	// Adds a reason to this error_info_base
 	void add_reason(error_info_base* ei);
-	void gme_add_reason(error_info_base* ei);
+
 	/**
 	 * @nodoc
 	 */
 	// This method is for internal use only
 	// Adds a list of reasons
 	void add_reasons(const error_info_base_list& eil);
-	void gme_add_reasons(const error_info_base_list& eil);
+
 	/**
 	 * @nodoc
 	 */
@@ -267,7 +263,7 @@ DECL_BASE void assign_error_type_no( int * etn );
  * @nodoc
  */
 DECL_BASE void set_global_error_info( error_info_base *e = NULL );
-DECL_BASE void gme_set_global_error_info( error_info_base *e = NULL );
+
 // Function to read global error info pointer.  Called in API_SYS_BEGIN
 // after an error return to automatically put the error info
 // object into the API outcome.
@@ -275,7 +271,7 @@ DECL_BASE void gme_set_global_error_info( error_info_base *e = NULL );
  * @nodoc
  */
 DECL_BASE error_info_base* global_error_info();
-DECL_BASE error_info_base* gme_global_error_info();
+
 /** @} */
 #endif
 

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -201,8 +201,6 @@ public:
 	check_details_type type() const { return _type; }
 
 	virtual check_status_details* clone() const = 0;
-	/*virtual*/ check_status_details* gme_clone() const;
-
 	virtual ~check_status_details();
 };
 
@@ -229,7 +227,6 @@ public:
      *.
      */
 	virtual check_status_details* clone() const;
-	/*virtual*/ check_status_details* gme_clone() const;
     /**
      *.
      */
@@ -280,7 +277,6 @@ public:
 	      _required_fitol(required),_current_fitol(current) {}
 
 	virtual check_status_details* clone() const;
-	/*virtual*/ check_status_details* gme_clone() const;
 
 	/**
 	 * Access the value of the required fit tolerance found
@@ -309,13 +305,10 @@ private:
 	SPApar_pos _uv2;
 public:
 	check_self_intersection_details(SPApar_pos const& uv1, SPApar_pos const& uv2);
-	check_self_intersection_details(const char* gme, SPApar_pos const& uv1, SPApar_pos const& uv2);
 
 	virtual check_status_details* clone() const;
-	/*virtual*/ check_status_details* gme_clone() const;
 
 	SPApar_pos uv(logical first=TRUE) const;
-	SPApar_pos gme_uv(logical first=TRUE) const;
 };
 
 
@@ -330,7 +323,6 @@ public:
  */
 class DECL_KERN check_status_list : public ACIS_OBJECT
     {
-	friend class debug_check_status_list;
 private:
 /**
  * Special case.
@@ -360,17 +352,7 @@ private:
 		check_status_list* next,
 		check_status_details* details);
 
-	check_status_list(const char* gme, check_status       status,
-		check_status_list* next,
-		check_status_details* details);
-
 public:
-	// public GME constructor
-	check_status_list(check_status       status,
-		check_status_list* next,
-		check_status_details* details,
-		const char* gme="gme");
-
 	/**
  * Destructor, destroying the list from here on.
  */
@@ -387,9 +369,6 @@ public:
  */
     check_status_list* add_error( check_status status,
 						  check_status_details* details = 0);
-	check_status_list* gme_add_error( check_status status,
-						  check_status_details* details = 0);
-
 /**
  * Adds a list of errors to the front of the list, Returns the new start.
  * <br><br>
@@ -397,17 +376,13 @@ public:
  * error list.
  */
      check_status_list* add_list( check_status_list* list );
-	 check_status_list* gme_add_list( check_status_list* list );
-
-	 /**
+/**
  * Checks for a particular status.
  * <br><br>
  * @param wanted
  * status to check for.
  */
     logical	contains( check_status wanted )	const;
-	logical	gme_contains( check_status wanted )	const;
-
 /**
  * Returns the next element of the error <tt>check_status_list</tt>, or <tt>NULL</tt> if there is none.
  */
@@ -430,8 +405,6 @@ public:
  * <b>Role:</b> The caller is responsible for deleting the returned list.
  */
 	static check_status_list* all_errors();
-	static check_status_list* gme_all_errors();
-
 /**
  * Removes  all  occurrences of an  error from the list, returning the new start of the list.
  * <br><br>
@@ -441,8 +414,6 @@ public:
  * error to remove from list.
  */
 	check_status_list* remove_error(check_status status);
-	check_status_list* gme_remove_error(check_status status);
-
 /**
  * @nodoc
  * Get special case.
@@ -461,27 +432,7 @@ public:
  * Returns a copy of the current check_list
  */
 	 check_status_list* copy_list() const;
-	 check_status_list* gme_copy_list() const;
  };
-
- class debug_check_status_list {
- public:
-	// only used for debugging construct
-	static check_status_list* construct_check_status_list(
-		check_status status,
-		check_status_list* next,
-		check_status_details* details) {
-		return new check_status_list(status, next, details, "gme");
-	}
-	static check_status_list* construct_check_status_list(
-		const char* gme,
-		check_status status,
-		check_status_list* next,
-		check_status_details* details) {
-		return new check_status_list(gme, status, next, details);
-	}
- };
-
 /**
  * @nodoc
  * Available checks.
@@ -614,8 +565,6 @@ public:
  * Returns the enum in a check_status as a readable string.
  */
 DECL_KERN char const *get_check_status_name( check_status );
-DECL_KERN char const *gme_get_check_status_name( check_status );
-
 /**
  * @nodoc
  * Self intersecting test function type.
@@ -662,12 +611,6 @@ DECL_KERN logical sg_check_surface_self_intersections(surface*   sf,
 									logical    points_on_surface = FALSE,
 									SPApar_pos &uv				 = *(SPApar_pos*)NULL_REF);
 
-DECL_KERN logical gme_sg_check_surface_self_intersections(surface*   sf,
-									SPApar_box &exclude_region	 = *(SPApar_box*)NULL_REF,
-									SPApar_box &range            = *(SPApar_box*)NULL_REF,
-									logical    points_on_surface = FALSE,
-									SPApar_pos &uv				 = *(SPApar_pos*)NULL_REF);
-
 /**
  * @nodoc
  * Surface self intersection check.
@@ -683,13 +626,6 @@ DECL_KERN logical gme_sg_check_surface_self_intersections(surface*   sf,
  */
 DECL_KERN logical
 sg_check_surface_self_intersections(bs3_surface       sf,
-									SPApar_box const& range,
-									SPApar_box&       exclude_region    = *(SPApar_box*)NULL_REF,
-									logical           points_on_surface = FALSE,
-									SPApar_pos &uv				 = *(SPApar_pos*)NULL_REF);
-
-DECL_KERN logical
-gme_sg_check_surface_self_intersections(bs3_surface       sf,
 									SPApar_box const& range,
 									SPApar_box&       exclude_region    = *(SPApar_box*)NULL_REF,
 									logical           points_on_surface = FALSE,

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -10,11 +10,6 @@
 // The plane is instanced in the PLANE entity.
 #if !defined( plane_CLASS )
 #define plane_CLASS
-
-// 支撑性测试
-// #define GME_KERN_PLADEF  //将ACIS接口切换为GME接口
-
-
 /**
  * @file pladef.hxx
  * @CAA2Level L1
@@ -46,7 +41,7 @@ class plane;
  * transform.
  */
 DECL_KERN plane operator*(plane const &pla, SPAtransf const &trans);
-DECL_KERN plane gme_operator_multiply(plane const &pla,SPAtransf const &trans);
+
 /*
 // tbrv
 */
@@ -143,7 +138,7 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	plane();
-	plane(const char *gme);
+
 
 	// Construct a plane as a copy of another one
 
@@ -156,7 +151,7 @@ public:
 	plane(
 				plane const &plane_name
 			);
-	plane(const char *gme,plane const &plane_name);
+
 
 	// Construct a plane with given SPAposition and normal.
 
@@ -172,10 +167,7 @@ public:
 				SPAposition const &pos,
 				SPAunit_vector const &vec
 			);
-	plane(      const char *gme,
-				SPAposition const &pos,
-				SPAunit_vector const &vec
-			);
+
 /**
 * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
 * <br><br>
@@ -186,13 +178,7 @@ public:
 * @param udir
 * In plane u-direction vector.
 */
-	plane(  
-			SPAposition const &pos,
-			SPAunit_vector const &vec,
-			SPAvector const &udir
-	);
-	plane(  
-		    const char *gme,
+	plane(
 			SPAposition const &pos,
 			SPAunit_vector const &vec,
 			SPAvector const &udir
@@ -213,7 +199,7 @@ public:
  * Returns a copy of the plane.
  */
 	virtual surface *make_copy() const;
-		/*virtual*/ surface *gme_make_copy() const;
+
 	// Make a copy without any sharing of subdata.
 
 /**
@@ -225,7 +211,7 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual surface *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ surface *gme_deep_copy(pointer_map * pm = NULL) const;
+
 	// Return a plane being (a copy of) this plane negated (i.e. with
 	// opposite normal).
 
@@ -233,7 +219,7 @@ public:
  * Returns a plane being (a copy of) this plane negated; that is, with opposite normal.
  */
 	plane operator-() const;
-	plane gme_operator_substract() const;
+
 
 	// Test two surfaces for equality. This, like testing floating-
 	// point numbers for equality, is not guaranteed to say "equal" for
@@ -252,7 +238,7 @@ public:
  * surface.
  */
 	virtual logical operator==( surface const &sur ) const;
-	/*virtual*/ logical gme_operator_equal( surface const &sur ) const;
+
 
 	// Return a plane being (a copy of) this plane transformed by
 	// the given SPAtransf.
@@ -267,10 +253,7 @@ public:
 				plane const &,
 				SPAtransf const &
 			);
-	friend DECL_KERN plane gme_operator_multiply(
-				plane const &,
-				SPAtransf const &
-			);
+
 
 	// Transform this plane by the given SPAtransf.
 
@@ -283,16 +266,15 @@ public:
 	virtual surface &operator*=(
 				SPAtransf const &trans
 			);
-	/*virtual*/ surface &gme_operator_multiply_assign(
-				SPAtransf const &trans
-			);
+
+
 	// Negate this plane.
 
 /**
  * Negates this plane; that is reverses the surface normal.
  */
 	virtual surface &negate();
-	/*virtual*/ surface &gme_negate();
+
 
 	// Classification of a plane. The only thing we can say about it
 	// is whether it is properly defined or not.
@@ -301,7 +283,7 @@ public:
  * Classification of a plane.
  */
 	virtual logical undef() const;
-	/*virtual*/ logical gme_undef() const;
+
 
 	// Return a SPAbox around the surface. This need not be the smallest
 	// SPAbox which contains the specified portion of the surface, but
@@ -319,10 +301,6 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPApar_box const &box = *(SPApar_box *)NULL_REF,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	/*virtual*/ SPAbox gme_bound(
 				SPApar_box const &box = *(SPApar_box *)NULL_REF,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -385,7 +363,6 @@ public:
  * Gets the u-parameter direction.
  */
 	SPAvector u_axis() const;
-	SPAvector gme_u_axis() const;
 
 	// Geometric enquiry routines.
 
@@ -401,7 +378,7 @@ public:
  * calculate without and independent of parameter values.
  */
 	virtual logical parametric() const;
-	/*virtual*/ logical gme_parametric() const;
+
 
 	// Return the surface normal at a given point on the surface.
 
@@ -417,10 +394,7 @@ public:
 				SPAposition const &pos,
 				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
 			) const;
-		/*virtual*/ SPAunit_vector gme_point_normal(
-				SPAposition const &pos,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
-			) const;
+
 
 	// Return the principal directions and magnitudes of curvature
 	// at a given point on the surface. The curvature is zero
@@ -454,14 +428,6 @@ public:
 				double &para2,			// curvature in second direction
 				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
 			) const;
-		/*virtual*/ void gme_point_prin_curv(
-				SPAposition const &pos,
-				SPAunit_vector &vec1,		// first axis direction
-				double &para1,			// curvature in first direction
-				SPAunit_vector &vec2,		// second axis direction
-				double &para2,			// curvature in second direction
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
-			) const;
 /**
  * Returns the principal directions and magnitudes of curvature at a given point on the surface.
  * <br><br>
@@ -480,10 +446,7 @@ public:
 	{
 		return surface::point_prin_curv( pos, param_guess );
 	}
-	surf_princurv gme_point_prin_curv(
-				SPAposition const &pos,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF
-			) const;
+
 
 	// Return the curvature of a curve in the surface through a
 	// given point normal to a given direction in the surface.
@@ -506,11 +469,7 @@ public:
 				SPAunit_vector const &vec,
 				SPApar_pos const &para = *(SPApar_pos *)NULL_REF
 			) const;
-		/*virtual*/ double gme_point_cross(
-				SPAposition const &pos,
-				SPAunit_vector const &vec,
-				SPApar_pos const &para = *(SPApar_pos *)NULL_REF
-			) const;
+
 
 	// Find the point on the surface nearest to the given point and
 	// optionally the normal to and principal curvatures of the
@@ -539,15 +498,6 @@ public:
  * weak flag.
  */
 	virtual void point_perp(
-				SPAposition const &pos,
-				SPAposition &pos_plane,
-				SPAunit_vector &pt_plane,
-				surf_princurv &cur,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &act_pos = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
-	/*virtual*/ void gme_point_perp(
 				SPAposition const &pos,
 				SPAposition &pos_plane,
 				SPAunit_vector &pt_plane,
@@ -592,14 +542,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-	void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPAunit_vector &norm,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
 /**
  * Finds the point on the surface nearest to the given point.
  * <br><br>
@@ -633,13 +575,7 @@ public:
 				param_actual, f_weak
 			);
 	}
-	void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
+
 
 	// Now there is a set of SPAparameter-based functions. The Acis
 	// kernel only requires them to have defined results if the
@@ -670,10 +606,7 @@ public:
 				SPAposition const &pos,
 				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
 			) const;
-	/*virtual*/ SPApar_pos gme_param(
-				SPAposition const &pos,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
-			) const;
+
 
 	// Find the rate of change in surface SPAparameter corresponding to
 	// a unit velocity in a given object-space direction at a given
@@ -691,10 +624,8 @@ public:
 				SPAunit_vector const &vec,
 				SPApar_pos const &param_pos
 			) const;
-	/*virtual*/ SPApar_vec gme_param_unitvec(
-				SPAunit_vector const &vec,
-				SPApar_pos const &param_pos
-			) const;
+
+
 	// Find the point on a parametric surface with given SPAparameter
 	// values, and optionally the first and second derivatives as
 	// well or instead.
@@ -714,14 +645,6 @@ public:
  * second derivatives - array of length 3, in order xuu, xuv, xvv.
  */
 	virtual void eval(
-				SPApar_pos const &param_pos,
-				SPAposition &pos,
-				SPAvector *first_der = NULL,	// first derivatives - array of
-									// length 2, in order xu, xv
-				SPAvector *second_der = NULL		// second derivatives - array of
-									// length 3, in order xuu, xuv, xvv
-			) const;
-		/*virtual*/ void gme_eval(
 				SPApar_pos const &param_pos,
 				SPAposition &pos,
 				SPAvector *first_der = NULL,	// first derivatives - array of
@@ -751,9 +674,7 @@ public:
 	virtual SPAunit_vector eval_normal(
 				SPApar_pos const &param_pos
 			) const;
-		/*virtual*/ SPAunit_vector gme_eval_normal(
-				SPApar_pos const &param_pos
-			) const;
+
 
 	// Find the principal axes of curvature of the surface at a
 	// point with given SPAparameter values, and the curvatures in those
@@ -782,13 +703,7 @@ public:
 				SPAunit_vector &vec2,		// second axis direction
 				double &cur2			// curvature in second direction
 			) const;
-		/*virtual*/ void gme_eval_prin_curv(
-				SPApar_pos const &param_pos,
-				SPAunit_vector &vec1,		// first axis direction
-				double &cur1,			// curvature in first direction
-				SPAunit_vector &vec2,		// second axis direction
-				double &cur2			// curvature in second direction
-			) const;
+
 /**
  * Finds the principal axes of curvature of the surface at a point with given parameter values.
  * <br><br>
@@ -803,9 +718,7 @@ public:
 	{
 		return surface::eval_prin_curv( param );
 	}
-	surf_princurv gme_eval_prin_curv(
-				SPApar_pos const &param
-			) const;
+
 
 	// Find the curvature of a cross-section curve of the parametric
 	// surface at the point with given SPAparameter values.  The
@@ -828,10 +741,7 @@ public:
 				SPApar_pos const &pos,
 				SPAunit_vector const &vec
 			) const;
-		/*virtual*/ double gme_eval_cross(
-				SPApar_pos const &pos,
-				SPAunit_vector const &vec
-			) const;
+
 
 	// The evaluate() function calculates derivatives, of any order
 	// up to the number requested, and stores them in vectors provided
@@ -880,24 +790,7 @@ public:
 									// below for each SPAparameter direction,
 									// or don't care.
             ) const;
-	/*virtual*/ int gme_evaluate(
-                SPApar_pos const &param_pos,	// Parameter
-                SPAposition &pos,			// Point on surface at given SPAparameter
-                SPAvector **ptrs = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-                int nd = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant loc = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each SPAparameter direction,
-									// or don't care.
-            ) const;
+
 
 	// Return the number of derivatives which evaluate() can find
 	// "accurately" (and fairly directly), rather than by finite
@@ -918,10 +811,7 @@ public:
 				SPApar_box const &para = *(SPApar_box *)NULL_REF
 								 	// Defaults to the whole surface
 			) const;
-		/*virtual*/ int gme_accurate_derivs(
-				SPApar_box const &para = *(SPApar_box *)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
+
 
 // STI aed: add planar method
 	// Report whether surface is planar
@@ -938,10 +828,6 @@ public:
 				SPAposition &pt,
 				SPAunit_vector &vec
 			) const;
-	/*virtual*/ logical gme_planar(
-				SPAposition &pt,
-				SPAunit_vector &vec
-			) const;
 // STI aed: end
 
 	// Report whether the surface is periodic in either SPAparameter
@@ -954,14 +840,12 @@ public:
  * <b>Role:</b> A plane is not periodic in the u-direction.
  */
 	virtual logical periodic_u() const;
-	/*virtual*/ logical gme_periodic_u() const;
 /**
  * Reports whether the surface is periodic in the v-parameter direction; that is it is smoothly closed, so faces can run over the seam.
  * <br><br>
  * <b>Role:</b> A plane is not periodic in the v-direction.
  */
 	virtual logical periodic_v() const;
-	/*virtual*/ logical gme_periodic_v() const;
 
 
 	// Report whether the surface is closed, smoothly or not, in
@@ -973,14 +857,12 @@ public:
  * <b>Role:</b> A plane is open in both directions.
  */
 	virtual logical closed_u() const;
-	/*virtual*/ logical gme_closed_u() const;
 /**
  * Reports if the surface is closed, smoothly or not, in the v-parameter direction.
  * <br><br>
  * <b>Role:</b> A plane is open in both directions.
  */
 	virtual logical closed_v() const;
-	/*virtual*/ logical gme_closed_v() const;
 
 
 	// Return the period of a periodic parametric surface, zero if
@@ -993,14 +875,12 @@ public:
  * <b>Role:</b> A plane is not periodic in both directions.
  */
 	virtual double param_period_u() const;
-	/*virtual*/ double gme_param_period_u() const;
 /**
  * Returns the period of a periodic parametric surface, or <tt>0</tt> if the surface is not periodic in the v-parameter or not parametric.
  * <br><br>
  * <b>Role:</b> A plane is not periodic in both directions.
  */
 	virtual double param_period_v() const;
-	/*virtual*/ double gme_param_period_v() const;
 
 
 	// Return the principal SPAparameter range of a surface in
@@ -1034,9 +914,6 @@ public:
 	virtual SPApar_box param_range(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
-		/*virtual*/ SPApar_box gme_param_range(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the u-parameter direction.
  * <br><br>
@@ -1049,9 +926,6 @@ public:
  * box name.
  */
 	virtual SPAinterval param_range_u(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
-		/*virtual*/ SPAinterval gme_param_range_u(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
 /**
@@ -1068,9 +942,7 @@ public:
 	virtual SPAinterval param_range_v(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
-		/*virtual*/ SPAinterval gme_param_range_v(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
+
 
 	// Report whether the surface parametrisation is singular at
 	// the specified u or v SPAparameter value. The only singularity
@@ -1093,9 +965,7 @@ public:
 	virtual logical singular_u(
 					double uparam		// constant u SPAparameter
 				) const;
-	/*virtual*/ logical gme_singular_u(
-					double uparam		// constant u SPAparameter
-				) const;
+
 /**
  * Reports whether the surface parameterization is singular at the specified v-parameter value.
  * <br><br>
@@ -1110,9 +980,7 @@ public:
 	virtual logical singular_v(
 					double vparam		// constant v SPAparameter
 				) const;
-	/*virtual*/ logical gme_singular_v(
-					double vparam		// constant v SPAparameter
-				) const;
+
 
 	// Indicate whether the SPAparameter coordinate system of the surface
 	// is right- or left-handed. With a right-handed system, at any
@@ -1129,7 +997,7 @@ public:
  * left-handed system the outward normal is in the opposite direction from this cross product.
  */
 	virtual logical left_handed_uv() const;
-	/*virtual*/ logical gme_left_handed_uv() const;
+
 
 	// Construct a SPAparameter line on the surface. A u SPAparameter line
 	// runs in the direction of increasing u SPAparameter, at constant v.
@@ -1160,9 +1028,6 @@ public:
 	virtual curve *u_param_line(
 				double val			// constant v SPAparameter
 			) const;
-		/*virtual*/ curve *gme_u_param_line(
-				double val			// constant v SPAparameter
-			) const;
 /**
  * Constructs a parameter line on the surface.
  * <br><br>
@@ -1179,9 +1044,6 @@ public:
  * parameter value.
  */
 	virtual curve *v_param_line(
-				double val			// constant u SPAparameter
-			) const;
-		/*virtual*/ curve *gme_v_param_line(
 				double val			// constant u SPAparameter
 			) const;
 
@@ -1209,12 +1071,7 @@ public:
 				SPApar_pos const &param_pos1 = *(SPApar_pos *)NULL_REF,
 				SPApar_pos &param_pos2 = *(SPApar_pos *)NULL_REF
 			) const;
-	/*virtual*/ logical gme_test_point_tol(
-				SPAposition const &pos,
-				double tol = 0,
-				SPApar_pos const &param_pos1 = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_pos2 = *(SPApar_pos *)NULL_REF
-			) const;
+
 
 	// Return type of (lower-case) surface.
 
@@ -1222,14 +1079,15 @@ public:
  * Returns the type of plane.
  */
 	virtual int type() const;
-	/*virtual*/ int gme_type() const;
+
 	// Return string identifier of surface.
 
 /**
  * Returns string <tt>"plane"</tt>.
  */
 	virtual char const *type_name() const;
-	/*virtual*/ char const *gme_type_name() const;
+
+
 	// Save and restore. Save is easy, as derived class switching goes
 	// through the normal virtual function mechanism. Restore is more
 	// complicated, because until it is invoked we do not have an
@@ -1312,18 +1170,12 @@ public:
 				FILE *ptr = debug_file_ptr
 			) const;
 
-	void gme_debug(
-				char const *,
-				FILE * = debug_file_ptr
-			) const;
-
 // STI swa 27Jul98 -- functions to get sweep information on a plane
 public:
 /**
  * Gets the type of sweeping path used for sweeping a plane.
  */
     virtual sweep_path_type get_path_type() const {return straight_path_type; }
-	/*virtual*/ sweep_path_type gme_get_path_type() const;
 /**
  * Gets the curve used as a sweeping path.
  * <br><br>

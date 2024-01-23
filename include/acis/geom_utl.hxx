@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -64,9 +64,6 @@ DECL_KERN logical dist_pt_to_line(
 		double              &dist,
 		double              &line_prm
 	);
-
-DECL_KERN logical gme_dist_pt_to_line(SPAposition const& pt, SPAposition const& line_pt, SPAvector const& line_vec, double& dist, double& line_prm);
-
 /**
 * Projects a <tt>SPAposition</tt> onto a <tt>line</tt>.
 * <br><br>
@@ -85,12 +82,6 @@ DECL_KERN SPAposition proj_pt_to_line(
     const SPAunit_vector &line_dir
     );
 
-DECL_KERN SPAposition gme_proj_pt_to_line(
-    const SPAposition    &pt,
-    const SPAposition    &line_pt,
-    const SPAunit_vector &line_dir
-    );
-
 /**
 * Projects a <tt>SPAposition</tt> onto a <tt>plane</tt>.
 * <br><br>
@@ -104,12 +95,6 @@ DECL_KERN SPAposition gme_proj_pt_to_line(
 * plane normal.
 **/
 DECL_KERN SPAposition proj_pt_to_plane(
-    const SPAposition    &pt,
-    const SPAposition    &c,
-    const SPAunit_vector &n
-    );
-
-DECL_KERN SPAposition gme_proj_pt_to_plane(
     const SPAposition    &pt,
     const SPAposition    &c,
     const SPAunit_vector &n
@@ -141,8 +126,6 @@ DECL_KERN double angle_between(
     const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF
     );
 
-DECL_KERN double gme_angle_between(const SPAunit_vector& v1, const SPAunit_vector& v2, const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF);
-
 /**
 * Gets the angle between two vectors.<br><br>
 * <b>Role:</b> Gets the angle (in radians) between two vectors or two unit vectors in the
@@ -168,8 +151,6 @@ DECL_KERN double angle_between(
     const SPAvector& v2,
     const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF
     );
-
-DECL_KERN double gme_angle_between(const SPAvector& v1, const SPAvector& v2, const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF);
 
 /**
 * Gets the intersection of a line with a plane.
@@ -202,14 +183,6 @@ DECL_KERN int intersect_line_plane(
     double                &line_param,
     SPAposition           &intersection_position);
 
-DECL_KERN int gme_intersect_line_plane(
-    const SPAposition     &line_point,
-    const SPAvector       &line_vector,
-    const SPAposition     &plane_point,
-    const SPAunit_vector  &plane_normal,
-    double                &line_param,
-    SPAposition           &intersection_position);
-
 /**
 * Gets the intersection of two planes.
 * <br><br>
@@ -233,15 +206,6 @@ DECL_KERN int gme_intersect_line_plane(
 * returns line direction.
 **/
 DECL_KERN int intersect_plane_plane(
-    const SPAposition    &p1,
-    const SPAunit_vector &n1,
-    const SPAposition    &p2,
-    const SPAunit_vector &n2,
-    SPAposition          &line_pt,
-    SPAunit_vector       &line_dir
-    );
-
-DECL_KERN int gme_intersect_plane_plane(
     const SPAposition    &p1,
     const SPAunit_vector &n1,
     const SPAposition    &p2,
@@ -289,18 +253,6 @@ DECL_KERN logical closest_points(
     double                &t2,
     SPAposition           &pt2
     );
-
-DECL_KERN logical gme_closest_points(
-    const SPAposition     &p1,
-    const SPAunit_vector  &v1,
-    const SPAposition     &p2,
-    const SPAunit_vector  &v2,
-    double                &t1,
-    SPAposition           &pt1,
-    double                &t2,
-    SPAposition           &pt2
-    );
-
 /**
 * Gets the intersections of a line with a circle.
 * <br><br>
@@ -329,14 +281,6 @@ DECL_KERN int intersect_line_circle(
     double                radius,
     SPAposition*          intpts
     );
-DECL_KERN int gme_intersect_line_circle(
-    const SPAposition     &line_pt,
-    const SPAunit_vector  &line_dir,
-    const SPAposition     &center,
-    const SPAunit_vector  &normal,
-    double                radius,
-    SPAposition*          intpts
-    );
 
 /**
 * Determines two orthogonal <tt>vectors</tt> to define a coordinate system, given a <tt>SPAunit_vector</tt>.
@@ -354,10 +298,6 @@ DECL_KERN int gme_intersect_line_circle(
 * second orthogonal vector returned.
 **/
 DECL_KERN void compute_axes_from_z(
-    const SPAunit_vector &z_axis,
-    SPAunit_vector       &x_axis,
-    SPAunit_vector       &y_axis);
-DECL_KERN void gme_compute_axes_from_z(
     const SPAunit_vector &z_axis,
     SPAunit_vector       &x_axis,
     SPAunit_vector       &y_axis);
@@ -392,11 +332,6 @@ DECL_KERN int find_best_pt(
     const SPAposition&     pt
     );
 
-DECL_KERN int gme_find_best_pt(
-    const int              npts,
-    const SPAposition      *pts,
-    const SPAposition&     pt
-    );
 /**
  * Find the <tt>SPAposition</tt> in array of positions which is closest to a <tt>pick_ray</tt>.
  * <br><br>
@@ -413,23 +348,12 @@ DECL_KERN int find_best_pt(
     const SPAposition   *pts,
     const pick_ray&      pray
     );
-DECL_KERN int gme_find_best_pt(
-    const int           npts,
-    const SPAposition   *pts,
-    const pick_ray&      pray
-    );
 
 /**
  * Determines whether points in a list are collinear, to a given tolerance.
  */
 
 DECL_KERN logical collinear(
-		int                npts,
-		const SPAposition  pts[],
-		double             tol
-	);
-
-DECL_KERN logical gme_collinear(
 		int                npts,
 		const SPAposition  pts[],
 		double             tol
@@ -444,14 +368,6 @@ DECL_KERN double dist_pt_to_plane(
 		SPAposition const    &plane_pt,
 		SPAunit_vector const &norm
 	);
-
-DECL_KERN double gme_dist_pt_to_plane(
-		SPAposition const    &xyz,
-		SPAposition const    &plane_pt,
-		SPAunit_vector const &norm
-	);
-
-
 /**
  * Finds which side of a plane a <tt>SPAposition</tt> lies by returning a positive or negative distance.
  * <br><br>
@@ -466,14 +382,8 @@ DECL_KERN double gme_dist_pt_to_plane(
 DECL_KERN double side_of_plane(
     const SPAposition     &root,
     const SPAunit_vector  &dir,
-    const SPAposition     &point
-    );
+    const SPAposition     &point);
 
-DECL_KERN double gme_side_of_plane(
-    const SPAposition     &root,
-    const SPAunit_vector  &dir,
-    const SPAposition     &point
-    );
 
 /**
  * Intersects three planes using only geometry: no ACIS <tt>ENTITYs</tt>.
@@ -501,16 +411,6 @@ DECL_KERN double gme_side_of_plane(
  */
 
 DECL_KERN logical intersect_3_planes(
-		const SPAposition   &p1,
-		SPAvector const     &n1,
-		const SPAposition   &p2,
-		SPAvector const     &n2,
-		const SPAposition   &p3,
-		SPAvector const     &n3,
-		SPAposition         &int_pt,
-		double              tol = SPAresabs
-	);
-DECL_KERN logical gme_intersect_3_planes(
 		const SPAposition   &p1,
 		SPAvector const     &n1,
 		const SPAposition   &p2,
@@ -560,16 +460,6 @@ DECL_KERN logical intersect_3_planes(
 		double					tol = SPAresabs
 	);
 
-DECL_KERN logical gme_base_intersect_3_planes(
-		const SPAposition		&p1,
-		SPAunit_vector const    &n1,
-		const SPAposition		&p2,
-		SPAunit_vector const    &n2,
-		const SPAposition		&p3,
-		SPAunit_vector const    &n3,
-		SPAposition				&int_pt,
-		double					tol = SPAresabs
-	);
 /**
  * Intersects two circles using only geometry: no ACIS <tt>ENTITYs</tt>.
  * <br><br>
@@ -604,15 +494,7 @@ DECL_KERN int intersect_2_circles(
 		SPAposition         &int2
 	);
 
-DECL_KERN int gme_intersect_2_circles(
-		const SPAposition   &C1,
-		double              r1,
-		const SPAposition   &C2,
-		double              r2,
-		const SPAvector     &norm,
-		SPAposition         &int1,
-		SPAposition         &int2
-	);
+
 /**
  * Finds where two lines defined by positions and directions are closest.
  * <br><br>
@@ -644,14 +526,6 @@ DECL_KERN logical int_2_lines_3d(
 		double            &dt2
 	);
 
-DECL_KERN logical gme_int_2_lines_3d(
-		const SPAposition &p1,
-		const SPAvector   &v1,
-		const SPAposition &p2,
-		const SPAvector   &v2,
-		double            &dt1,
-		double            &dt2
-	);
 /**
  * Finds a circular arc defined by 3 positions.
  * <br><br>
@@ -681,8 +555,6 @@ DECL_KERN logical circle_3_pos(
 	double            &radius
 	);
 
-DECL_KERN logical gme_circle_3_pos(const SPAposition& pt1, const SPAposition& pt2, const SPAposition& pt3, SPAposition& center, SPAunit_vector& normal, double& radius);
-
 /**
  * Brings a value into, or near, a base <tt>SPAinterval</tt> in a periodic domain.
  * <br><br>
@@ -705,11 +577,6 @@ DECL_KERN double reduce_to_range(
 		double            param
 	);
 
-DECL_KERN double gme_reduce_to_range(
-		const SPAinterval &range,
-		const double      period,
-		double            param
-	);
 /** @} */
 #endif
 

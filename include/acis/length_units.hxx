@@ -11,7 +11,7 @@
 */
 #if !defined(LENGTH_UNITS_HXX)
 #define LENGTH_UNITS_HXX
-
+#pragma once
 #include "dcl_compound.h"
 #include "acis.hxx"
 

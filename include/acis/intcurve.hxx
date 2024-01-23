@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -88,6 +88,8 @@ extern DECL_KERN int INTCURVE_TYPE;
  * @see intcurve
  */
 class DECL_KERN INTCURVE: public CURVE {
+	// NOTES SHEVO
+	friend intcurve* shevo_get_intcurve(INTCURVE* sp);
 
 	// Record an INTCURVE as an intcurve.
 
@@ -143,7 +145,6 @@ public:
  * management.
  */
 	INTCURVE();
-	INTCURVE( const char *gme);
 
 	// Create an INTCURVE from an intcurve.
 /**
@@ -158,7 +159,6 @@ public:
  * intcurve to be wrapped by the constructed INTCURVE.
  */
 	INTCURVE( const intcurve &icrv );
-	INTCURVE( const char *gme, const intcurve &icrv );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -217,14 +217,12 @@ public:
  * intcurve to which <tt>def</tt> is to be set.
  */
 	void set_def( const intcurve &icrv );
-	void gme_set_def( const intcurve &icrv );
 
 	// Return the curve equation, for reading only.
 /**
  * Returns the curve's equation, for reading only.
  */
 	const curve &equation() const;
-	const curve &gme_equation() const;
 
 	// Return the curve equation, checking for backup first.
 /**
@@ -235,7 +233,6 @@ public:
  * entry on the bulletin board.
  */
 	curve &equation_for_update();
-	curve &gme_equation_for_update();
 
 	// Get a new (lower-case) curve being the intcurve of the
 	// INTCURVE, transformed if the given SPAtransf is non-null and
@@ -254,10 +251,6 @@ public:
 					const SPAtransf &t = *(SPAtransf*)NULL_REF,
 					logical negate = FALSE
 				) const;
-	curve *gme_trans_curve(
-					const SPAtransf &t = *(SPAtransf*)NULL_REF,
-					logical negate = FALSE
-				) const;
 
 	// Transform the stored intcurve in place.
 /**
@@ -271,7 +264,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// Make a SPAbox enclosing a segment of this intersection curve
 	// between two positions.
@@ -298,11 +290,6 @@ public:
 
 	// lookup is done using CURVE::lookup()
 	// int lookup( logical ) const;
-    ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	intcurve get_def();
 };
 
 /** @} */

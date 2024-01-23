@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -28,8 +28,6 @@
  * @{
  */
 class SPAbox;
-// 支撑性测试
-// #define GME_KERN_SUBSHELL //将ACIS接口切换为GME接口
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
 extern DECL_KERN int SUBSHELL_TYPE;
@@ -151,7 +149,7 @@ public:
  * management.
  */
 	SUBSHELL();
-	SUBSHELL(const char* gme);
+
 
 	// Public constructor which initialises the record and interacts
 	// with the bulletin board.  The arguments initialise face_ptr,
@@ -182,7 +180,6 @@ public:
  * a sibling SUBSHELL in the owning BODY.
  */
 	SUBSHELL( FACE *face, SUBSHELL *child, SUBSHELL *sibling );
-	SUBSHELL( const char* gme, FACE *face, SUBSHELL *child, SUBSHELL *sibling );
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -245,13 +242,6 @@ public:
 	virtual void lose();
 #endif
 
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>SUBSHELL</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
-
 	// Data reading routines.
 
 /**
@@ -297,7 +287,6 @@ public:
  * Returns a pointer to the owning parent.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 	// Data changing routines.  Each of these routines checks
@@ -318,7 +307,6 @@ public:
  * the new parent SUBSHELL.
  */
 	void set_parent( SUBSHELL *parent );
-	void gme_set_parent( SUBSHELL *parent);
 /**
  * Sets this <tt>SUBSHELL</tt>'s sibling pointer to the given <tt>SUBSHELL</tt>.
  * <br><br>
@@ -330,7 +318,6 @@ public:
  * the new sibling SUBSHELL.
  */
 	void set_sibling( SUBSHELL *sibling );
-	void gme_set_sibling( SUBSHELL *sibling );
 /**
  * Sets this <tt>SUBSHELL</tt>'s child pointer to the given this <tt>SUBSHELL</tt>.
  * <br><br>
@@ -343,7 +330,6 @@ public:
  * pointer to the first child SUBSHELL in the list.
  */
 	void set_child( SUBSHELL *child );
-	void gme_set_child( SUBSHELL *child );
 /**
  * Sets this <tt>SUBSHELL</tt>'s <tt>FACE</tt> pointer to the given <tt>FACE</tt>.
  * <br><br>
@@ -356,7 +342,6 @@ public:
  * pointer to the first FACE in the list.
  */
 	void set_face( FACE *face );
-	void gme_set_face( FACE *face );
 /**
  * Sets this <tt>SUBSHELL</tt>'s <tt>WIRE</tt> pointer to the given <tt>WIRE</tt>.
  * <br><br>
@@ -369,7 +354,6 @@ public:
  * pointer to the first WIRE in the list.
  */
 	void set_wire( WIRE *wire );
-	void gme_set_wire( WIRE *wire );
 /**
  * Sets the bounding region (box) of this <tt>SUBSHELL</tt> to the specified <tt>box</tt>.
  * <br><br>
@@ -396,7 +380,6 @@ public:
  * <b>Role:</b> The enumeration is continued by repeated use of <tt>FACE::next</tt>.
  */
 	FACE *face() const;
-	FACE *gme_face() const;
 
 	// STI let (12/98): SUBSHELL::first_face() is officially OBSOLETE in ACIS 5.0
 /**
@@ -412,24 +395,6 @@ public:
  * <b>Role:</b> The enumeration is continued by repeated use of <tt>WIRE::next</tt>.
  */
 	WIRE *wire() const;
-	WIRE *gme_wire() const;
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const SUBSHELL* in_subshell, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	void** get_parent_ptr();
-	void** get_sibling_ptr();
-	void** get_child_ptr();
-	void** get_face_ptr();
-	void** get_wire_ptr();
 };
 
 /** @} */

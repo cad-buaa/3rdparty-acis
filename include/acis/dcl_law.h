@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -13,17 +13,11 @@
 #endif
 
 #include "importexport.h"
-#include "acis/gme/law/gme_law.hxx"
-
 #ifdef IMPORT_EXPORT_SYMBOLS
 # ifdef BUILDING_LOCAL_FILE
 #  define DECL_LAW EXPORT_SYMBOL
 # else
-#  ifndef GME_LAW_DLL
 #  define DECL_LAW IMPORT_SYMBOL
-#  else
-#   define DECL_LAW EXPORT_SYMBOL
-#  endif
 # endif
 #else
 # define DECL_LAW

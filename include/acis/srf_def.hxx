@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -25,7 +25,7 @@
 
 struct ag_surface;
 struct ag_snode;
-class gme_ag_surface;
+
 
 class DECL_SPLINE bs3_surf_def : public ACIS_OBJECT {
 
@@ -48,18 +48,6 @@ public:
 #endif
 
 public:
-        gme_ag_surface *gme_sur = nullptr;
-        bs3_surf_def( gme_ag_surface *surf,
-                  bs3_surf_form form_u = bs3_surf_unknown_ends,
-                  bs3_surf_form form_v = bs3_surf_unknown_ends,
-                  int initial_u_seam_mult = -1,
-                  int start_u_mult = 0,
-                  int initial_v_seam_mult = -1,
-                  int start_v_mult = 0
-        );
-        void gme_terminate();
-
-public:
 
 	bs3_surf_def( ag_surface *, 
                   bs3_surf_form = bs3_surf_unknown_ends,
@@ -75,22 +63,14 @@ public:
 	void trash();
 
 	ag_surface * get_sur();
-    ag_surface * gme_get_sur();
 	ag_surface ** get_sur_ref();
 	void set_sur( ag_surface *c);
-    void gme_set_sur( ag_surface *c);
 
 	bs3_surf_form get_formu();
 	void set_formu( bs3_surf_form fu);
 
-        bs3_surf_form gme_get_formu();
-        void gme_set_formu(bs3_surf_form fu);
-
 	bs3_surf_form get_formv();
 	void set_formv( bs3_surf_form fu);
-
-        bs3_surf_form gme_get_formv();
-	void gme_set_formv( bs3_surf_form fv);
 
 	void page();
 	void unpage();
@@ -100,10 +80,6 @@ public:
 
     int  initial_u_seam_multiplicity(int &start_u_mult = *(int*)NULL_REF);
     int  initial_v_seam_multiplicity(int &start_v_mult = *(int*)NULL_REF);
-
-    bool is_gme() const;
-    bool is_acis() const;
-    void mark_as_gme();
 };
 
 #endif

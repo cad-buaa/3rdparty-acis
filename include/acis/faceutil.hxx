@@ -1,4 +1,4 @@
-﻿/*ORIGINAL: acis2.1/sg_husk/face/face_utl.hxx */
+/*ORIGINAL: acis2.1/sg_husk/face/face_utl.hxx */
 // $Id: faceutil.hxx,v 1.7 2002/08/09 17:15:35 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -43,11 +43,6 @@ sg_get_face_normal(
  */
 DECL_KERN logical
 sg_get_face_par_box(
-			FACE *this_face, 		// Input: the given face
-			SPApar_box& face_range		// Output: the SPAparameter space SPAbox
-		);
-DECL_KERN logical
-gme_sg_get_face_par_box(
 			FACE *this_face, 		// Input: the given face
 			SPApar_box& face_range		// Output: the SPAparameter space SPAbox
 		);

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -74,24 +74,6 @@ class glue_options;
 
 #include "api.hxx"
 #include "exchg_funcs.hxx"
-#include <vector>
-#include <unordered_map>
-
-//slice容差定义
-#define wire_merge_tolerance  SPAresabs //将交线合并为wire时检测交线端点是否重合的容差
-#define intersection_length_tolerance SPAresfit//slice生成交线的最小长度
-#define intersection_isolate_point_dist_tolerance SPAresabs//面相切形成的孤立点与面的距离的容差，由于各种误差该点可能不在面上
-#define isolate_vertex_tolerance SPAresabs //在容差处理过程中处理各种孤立点是否重合时使用的容差
-
-//拓扑求交容差与相关参数定义
-#define param_tol 10 * SPAresabs//同一曲线上的相邻交点最小的参数差距，暂定
-#define expand_factor 0.1//包围盒与参数域向外扩展的范围
-#define plane_sin_tol SPAresnor//共面平面sin值的容差
-#define face_face_vertex_dist_tol SPAresabs//面面求交中判断交点是否重合
-#define edge_vertex_dislocation_tol SPAresabs//面面求交中判断交线边的端点是否靠近形体上的某个已经存在的顶点
-
-//其他参数
-#define position_compare_factor 0.1//构造positon的set的时候使用，定义坐标值之间的等价关系，不同的position之间x，y，z分别的最小差值与默认容差之比
 
 class BoolOptions;
 class AcisOptions;
@@ -260,22 +242,6 @@ DECL_BOOL outcome api_boolean(
     );
 
 /**
- * 示例
- */
-DECL_BOOL outcome gme_api_boolean(
-		BODY* tool,
-		BODY* blank,
-		BOOL_TYPE op,
-		NDBOOL_KEEP ndbool_keep =
-		NDBOOL_KEEP_NEITHER,
-		BODY*& result_body =
-		*(BODY**)NULL_REF,
-		AcisOptions* ao =
-		NULL,
-	    int imprint_option = 0
-);
-
-/**
  * Executes a general Boolean operation.
  * <br><b>Technical Article:</b> <i>[Booleans](http://doc.spatial.com/articles/b/o/o/Component~Booleans_da65.html)</i>
  * <br><br>
@@ -382,15 +348,7 @@ DECL_BOOL outcome api_imprint(
 			AcisOptions* ao =			// options. It contains aditional information
 				NULL					//            and version and journaling data
 );
-DECL_BOOL outcome gme_api_imprint(
-			BODY *tool,						// first argument body
-			BODY *blank,                 // second argument body
-	        bool simplify = false,
-			AcisOptions* ao =			// options. It contains aditional information
-				NULL,					//            and version and journaling data
-	        std::vector<EDGE*>&tool_intersect_edge_array = *(std::vector<EDGE*>*)NULL,
-	        std::vector<EDGE*>&blank_intersect_edge_array = *(std::vector<EDGE*>*)NULL
-);
+
 
 /**
  * Executes a Boolean intersect operation on two bodies.
@@ -422,13 +380,6 @@ DECL_BOOL outcome api_intersect(
 			BODY *blank,						// second argument body, returns result
 			AcisOptions* ao =			// options. It contains aditional information
 				NULL					//            and version and journaling data
-);
-DECL_BOOL outcome gme_api_intersect(
-			BODY *tool,						// first argument body, to be discarded
-			BODY *blank,						// second argument body, returns result
-			AcisOptions* ao =			// options. It contains aditional information
-				NULL,					//            and version and journaling data
-	        int imprint_option = 0
 );
 
 /**
@@ -480,18 +431,6 @@ DECL_BOOL outcome gme_api_intersect(
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  **/
-struct Intersection_Line_Info {
-	std::vector<int>from_tool_face_index;
-	std::vector<int>from_blank_face_index;
-    std::vector<int>from_tool_wire_index;
-	std::vector<int>from_blank_wire_index;
-	std::vector<FACE*>tool_face_array;
-	std::vector<FACE*>blank_face_array;
-};
-struct Boarder_Info {
-	bool tool_flag = 1;
-	bool blank_flag = 1;
-};
 DECL_BOOL outcome api_slice(
 			BODY *tool,				// slicing body
 			BODY *blank,				// body to be sliced
@@ -501,38 +440,7 @@ DECL_BOOL outcome api_slice(
 			BODY *&graph,				// intersection graph
 			AcisOptions* ao = NULL
 		);
-DECL_BOOL outcome gme_api_slice(
-			BODY *tool,				// slicing body
-			BODY *blank,				// body to be sliced
-			const SPAunit_vector &normal,           // (optional) normal about which
-								// wire edges at a vertex are to be
-								// ordered.
-			BODY *&graph,				// intersection graph
-			AcisOptions* ao = NULL,
-	        bool error_info_ret = true,
-	        std::vector<Intersection_Line_Info>&inter_info_array = *(std::vector<Intersection_Line_Info>*)NULL, double intersection_tol = SPAresabs
-		);
 
-DECL_BOOL outcome gme_api_slice_without_decouple(
-			BODY *tool,				// slicing body
-			BODY *blank,				// body to be sliced
-			const SPAunit_vector &normal,           // (optional) normal about which
-								// wire edges at a vertex are to be
-								// ordered.
-			BODY *&graph,				// intersection graph
-			AcisOptions* ao = NULL,
-	        bool error_info_ret = true,
-	        std::vector<Intersection_Line_Info>&inter_info_array = *(std::vector<Intersection_Line_Info>*)NULL, double intersection_tol = SPAresabs
-		);
-
-DECL_BOOL outcome gme_api_slice(BODY *tool, BODY* blank, std::vector<EDGE*>&intersect_edge_array, std::vector<Intersection_Line_Info>&inter_info_array = *(std::vector<Intersection_Line_Info>*)NULL, double intersection_tol = SPAresabs, std::unordered_map<FACE*, std::vector<FACE*>>& face_face_map = *(std::unordered_map<FACE*, std::vector<FACE*>>*)nullptr);
-
-DECL_BOOL outcome do_slice_without_decouple(BODY *tool, BODY* blank, std::vector<EDGE*>&ptrEdges, bool error_info_ret, std::vector<Intersection_Line_Info>&inter_info_array = *(std::vector<Intersection_Line_Info>*)NULL, std::unordered_map<EDGE*, Intersection_Line_Info>&inter_map = *(std::unordered_map<EDGE*, Intersection_Line_Info>*)NULL, double intersection_tol = SPAresabs, std::unordered_map<FACE*, std::vector<FACE*>>& face_face_map = *(std::unordered_map<FACE*, std::vector<FACE*>>*)nullptr);
-
-DECL_BOOL outcome do_slice(BODY *tool, BODY* blank, std::vector<EDGE*>&ptrEdges, bool error_info_ret, std::vector<Intersection_Line_Info>&inter_info_array = *(std::vector<Intersection_Line_Info>*)NULL, std::unordered_map<EDGE*, Intersection_Line_Info>&inter_map = *(std::unordered_map<EDGE*, Intersection_Line_Info>*)NULL, double intersection_tol = SPAresabs, std::unordered_map<FACE*, std::vector<FACE*>>& face_face_map = *(std::unordered_map<FACE*, std::vector<FACE*>>*)nullptr);
-
-// 耦合版本的测试用函数，不需要同步
-DECL_BOOL outcome do_slice_without_deduplication(BODY *tool, BODY* blank, std::vector<EDGE*>&ptrEdges, std::vector<Intersection_Line_Info>&inter_info_array= *(std::vector<Intersection_Line_Info>*)NULL);
 /**
  * Performs a slice operation between two bodies.
  * <br><b>Technical Article:</b> <i>[Slice](http://doc.spatial.com/articles/s/l/i/Slice.html)</i>
@@ -628,13 +536,6 @@ DECL_BOOL outcome api_subtract(
 			AcisOptions* ao =			// options. It contains aditional information
 			NULL						//            and version and journaling data
 );
-DECL_BOOL outcome gme_api_subtract(
-			BODY *tool,						// first argument body, to be discarded
-			BODY *blank,						// second argument body, returns result
-			AcisOptions* ao =			// options. It contains aditional information
-			NULL,						//            and version and journaling data
-	        int imprint_option = 0
-);
 
 /**
  * Executes a Boolean unite operation.
@@ -662,14 +563,7 @@ DECL_BOOL outcome api_unite(
 			BODY *tool,						// first argument body, to be discarded
 			BODY *blank,						// second argument body, returns result
 			AcisOptions* ao =			// options. It contains aditional information
-				NULL                    //            and version and journaling data
-);
-DECL_BOOL outcome gme_api_unite(
-			BODY *tool,						// first argument body, to be discarded
-			BODY *blank,						// second argument body, returns result
-			AcisOptions* ao =			// options. It contains aditional information
-				NULL,					//            and version and journaling data
-		    int imprint_option = 0
+				NULL					//            and version and journaling data
 );
 
 /**
@@ -1150,23 +1044,7 @@ DECL_BOOL outcome api_scribe(
                       AcisOptions* ao = NULL
 	);
 
-DECL_BOOL outcome gme_api_scribe(
-                      ENTITY*	entity,
-                      EDGE*		edge,
-                      bool trans = true,
-                      double tol = -1,
-                      logical split_on_intersections = TRUE,
-                      AcisOptions* ao = NULL,
-                      std::vector<EDGE*>&intersect_edge_array = *(std::vector<EDGE*>*)NULL,
-std::vector<FACE*>* inter_faces = nullptr
-	);
 
-DECL_BOOL outcome gme_api_scribes(BODY* entity,
-BODY* edge, double tol = -1.0,
-logical split_on_intersections = TRUE,
-AcisOptions* ao = nullptr,
-std::vector<EDGE*>&intersect_edge_array = *(std::vector<EDGE*>*)NULL,
-std::unordered_map<EDGE*, std::vector<FACE*>*>* inter_info = nullptr);
 
 /*! @} */
 
@@ -1236,11 +1114,6 @@ DECL_BOOL outcome api_remove_wire_edge(
 			EDGE *given_edge,					// EDGE to be removed
 			AcisOptions* ao = NULL
 		);
-DECL_BOOL outcome gme_api_remove_wire_edge(
-			EDGE *given_edge,					// EDGE to be removed
-			AcisOptions* ao = NULL
-		);
-
 /**
  * Removes a face from a body.
  * <br><b>Technical Article:</b> <i>[Removing Faces or Wire Edges](http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_b537.html#Removing_Faces_or_Wire_Edges)</i>
@@ -1269,10 +1142,6 @@ DECL_BOOL outcome gme_api_remove_wire_edge(
  * (in) ACIS options such as versioning and journaling.
  **/
 DECL_BOOL outcome api_remove_face(
-			FACE *given_face,					// FACE to be removed
-			AcisOptions* ao = NULL
-		);
-DECL_BOOL outcome gme_api_remove_face(
 			FACE *given_face,					// FACE to be removed
 			AcisOptions* ao = NULL
 		);
@@ -1428,43 +1297,7 @@ DECL_BOOL outcome api_fafa_int(
 			AcisOptions* ao          // contains journal and version
 				 = NULL                 //  information
 );
-/*
- * @brief 求出给定FACE和FACE的求交结果
- * @return API运行的结果
- * @param tool
- * 给定的第一个face
- * @param blank 
- * 给定的第二个face
- * @param graph
- * 求交得到的交线图
- * @param ao 
- * acis选项
- */
-DECL_BOOL outcome gme_api_fafa_int(
-			FACE *tool,                
-			FACE *blank,                 
-			BODY *&graph,                
-			AcisOptions* ao = NULL,
-            int * cur_sur_num = NULL,
-            int * cur_cur_num = NULL,
-            int * ed_ed_num = NULL,
-	        std::unordered_map<EDGE*, Boarder_Info>&edge_boarder_info = *(std::unordered_map<EDGE*, Boarder_Info>*)NULL,
-	        double intersection_tol = SPAresabs, 
-	        std::unordered_map<FACE*, std::unordered_map<FACE*, int>>&face_face_relation_map = *(std::unordered_map<FACE*, std::unordered_map<FACE*, int>>*)NULL
-);
 
-DECL_BOOL outcome gme_api_fafa_int_without_decouple(
-			FACE *tool,                
-			FACE *blank,                 
-			BODY *&graph,                
-			AcisOptions* ao = NULL,
-            int * cur_sur_num = NULL,
-            int * cur_cur_num = NULL,
-            int * ed_ed_num = NULL,
-	        std::unordered_map<EDGE*, Boarder_Info>&edge_boarder_info = *(std::unordered_map<EDGE*, Boarder_Info>*)NULL,
-	        double intersection_tol = SPAresabs, 
-	        std::unordered_map<FACE*, std::unordered_map<FACE*, int>>&face_face_relation_map = *(std::unordered_map<FACE*, std::unordered_map<FACE*, int>>*)NULL
-);
 /**
  * Computes the intersections between the given edge and the given face.
  * <br><br>
@@ -1499,51 +1332,7 @@ DECL_BOOL outcome api_edfa_int(
 			AcisOptions* ao              // contains journal and version
 				 = NULL                  //  information
 );
-/*
- * @brief 求出给定EDGE和FACE的求交结果
- * @return API运行的结果
- * @param edge 
- * 给定的边
- * @param face 
- * 给定的面
- * @param inter 
- * 存储求交结果元素的链表
- * @param ao 
- * acis属性
- * @param cur_sur_num
- * 调用curve_surface求交的次数
- * @param ed_ed_num
- * 调用ed_ed求交的次数
- */
-DECL_BOOL outcome gme_api_edfa_int(
-	EDGE* edge,					 // Tool edge
-	FACE* face,					 // Blank face
-	ENTITY_LIST*& inter,     // Intersection graph returned
-	AcisOptions* ao              // contains journal and version
-	= NULL,                      //  information
-	int * cur_sur_num = NULL,  
-	int * ed_ed_num = NULL,
-	SPAbox&box = *(SPAbox*)NULL,
-	int fafa_int_flag = 0, //该边面求交是否是面面求交调用的
-	std::vector<bool>&face_boundary_flag = *(std::vector<bool>*)NULL,
-	int closed_edge_vertex_change_flag = 0,
-	double intersection_tol = SPAresabs
-);
 
-DECL_BOOL outcome gme_api_edfa_int_without_decouple(
-	EDGE* edge,					 // Tool edge
-	FACE* face,					 // Blank face
-	ENTITY_LIST*& inter,     // Intersection graph returned
-	AcisOptions* ao              // contains journal and version
-	= NULL,                      //  information
-	int * cur_sur_num = NULL,  
-	int * ed_ed_num = NULL,
-	SPAbox&box = *(SPAbox*)NULL,
-	int fafa_int_flag = 0, //该边面求交是否是面面求交调用的
-	std::vector<bool>&face_boundary_flag = *(std::vector<bool>*)NULL,
-	int closed_edge_vertex_change_flag = 0,
-	double intersection_tol = SPAresabs
-);
 /**
  * Determines the intersection between two faces.
  * <br><br>
@@ -1703,6 +1492,8 @@ DECL_BOOL outcome api_embed_wire_in_faces(
                       double tol = -1,
                       AcisOptions* ao = NULL
 	);
+
+
 
 /*! @} */
 
@@ -2840,11 +2631,6 @@ DECL_BOOL outcome api_clean_entity(
 								// and vertices are to be removed.
 			AcisOptions* ao = NULL
 		);
-DECL_BOOL outcome gme_api_clean_entity(
-			ENTITY *ent,			// entity from which unnecessary edges
-								// and vertices are to be removed.
-			AcisOptions* ao = NULL
-		);
 
 
 /**
@@ -3165,10 +2951,6 @@ DECL_BOOL outcome api_set_no_merge_attrib(
 			ENTITY_LIST& list,
 			AcisOptions* ao = NULL
 		);
-DECL_BOOL outcome gme_api_set_no_merge_attrib(
-			ENTITY_LIST& list,
-			AcisOptions* ao = NULL
-		);
 /**
  * Removes @href NO_MERGE_ATTRIB attributes from each entity in a list.
  * <br><b>Technical Article:</b> <i>[Preventing Entities from Being Removed by Merging]
@@ -3189,10 +2971,6 @@ DECL_BOOL outcome gme_api_set_no_merge_attrib(
  * ACIS options such as versioning and journaling.
  **/
 DECL_BOOL outcome api_remove_no_merge_attrib(
-			ENTITY_LIST& list,
-			AcisOptions* ao = NULL
-		);
-DECL_BOOL outcome gme_api_remove_no_merge_attrib(
 			ENTITY_LIST& list,
 			AcisOptions* ao = NULL
 		);
@@ -3311,12 +3089,6 @@ DECL_BOOL outcome api_join_edges(
  * ACIS options such as versioning and journaling.
  **/
 DECL_BOOL outcome api_stitch(
-			BODY *b1, 					// Resultant body
-			BODY *b2,					// Body to stitch
-			logical split = FALSE,			// split option
-			AcisOptions* ao = NULL
-		);
-DECL_BOOL outcome gme_api_stitch(
 			BODY *b1, 					// Resultant body
 			BODY *b2,					// Body to stitch
 			logical split = FALSE,			// split option
@@ -3630,13 +3402,6 @@ DECL_BOOL logical imprint_edge_array(
 		FACE	*blank_face			// Input: blank face
 	);
 
-/**
- * @brief 将两个物体进行合并，不管是否有相同的边
- *
- * @param b1 作为输出结果的物体
- * @param b2 合并后丢弃的物体
- */
- void merge_bodies(BODY* b1, BODY* b2);
 
 /**
  * @nodoc
@@ -3668,11 +3433,6 @@ DECL_BOOL outcome api_clean_body(
 			BODY *body,				// body from which unnecessary edges
 								// and vertices are to be removed.
 			AcisOptions* ao = NULL
-		);
-
-DECL_BOOL outcome gme_api_join_bodies(
-			BODY* tool, 
-			BODY* blank
 		);
 
 #endif

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -8,9 +8,6 @@
 /*******************************************************************/
 #ifndef _PTLIST
 #define _PTLIST
-
-#include <unordered_map>
-
 #include "base.hxx"
 /**
  * @file ptlist.hxx
@@ -105,22 +102,10 @@ public:
 	 * forward or reverse sense during the insertion.
 	 */
 	AF_POINT(
-		/**
-		 * 规定：按照顺序FORWARD，首节点的id为0.
-		 * 需要在new AF_POINT对象时指定正确的id
-		 */
 		AF_POINT_ID _id=0,
 		AF_POINT* prev = (AF_POINT*)NULL,
 		int sense = 0
 	);
-
-	AF_POINT(
-		const char* gme,
-		AF_POINT_ID _id=0,
-		AF_POINT* prev = (AF_POINT*)NULL,
-		int sense = 0
-	);
-
 	/**
 	 * Set the position of this AF_POINT.
 	 * <br><br>
@@ -128,10 +113,6 @@ public:
 	 * The position.
 	 */
 	void set_position(
-		const SPAposition &Xtemp		// Cartesian coordinates
-	);
-	void set_position(
-		const char* gme,
 		const SPAposition &Xtemp		// Cartesian coordinates
 	);
 
@@ -145,10 +126,6 @@ public:
 	void set_parameter(
 		const double &_t			// Parametric coordinate
 	);
-	void set_parameter(
-		const char* gme,
-		const double &_t			// Parametric coordinate
-	);
 
 	/**
 	 * Set the unique identifier (if needed).
@@ -157,11 +134,6 @@ public:
 	 * Any value.
 	 */
 	inline void set_user_id(
-		const AF_POINT_ID _id		// Id field
-	)
-	{ id = _id; }
-	inline void set_user_id(
-		const char* gme,
 		const AF_POINT_ID _id		// Id field
 	)
 	{ id = _id; }
@@ -192,13 +164,6 @@ public:
 		if(sense){ return prev_point;
 		}else{ return next_point; }
 	}
-	AF_POINT *next(const char* gme, int sense) const;
-
-	void set_next(AF_POINT* nxt);
-
-    void set_prev(AF_POINT* pre);
-
-    void insert(AF_POINT* prev, int sense);
 
 	/**
 	 * Search the given entity for an attached pointlist. If found,
@@ -219,13 +184,6 @@ public:
 			AF_POINT *&P0,	// Start point (according to sense)
 			AF_POINT *&P1	// End point (according to sense)
 			);
-	LOCAL_PROC logical find(
-			const char* gme,
-			ENTITY*E,		// Entity on which pointlist is sought.
-			int sense,		// 0=forward order, 1=reverse order.
-			AF_POINT *&P0,	// Start point (according to sense)
-			AF_POINT *&P1	// End point (according to sense)
-			);
 	/**
 	 * Attach an AF_POINT to the given entity.  Any prior AF_POINT
 	 * is removed.
@@ -233,10 +191,6 @@ public:
 	 * Entity on which the pointlist is attached, normally an EDGE
 	 */
 	void attach(
-		ENTITY *E		// Entity to which _THIS_ is to be attached.
-	);
-	void attach(
-		const char* gme,
 		ENTITY *E		// Entity to which _THIS_ is to be attached.
 	);
 
@@ -272,22 +226,15 @@ DECL_FCT void delete_all_connected_af_points( AF_POINT* pts );
 /**
  * @nodoc
  */
-class  AF_POINT_LIST : public ACIS_OBJECT
+class DECL_FCT AF_POINT_LIST : public ACIS_OBJECT
 {
 private:
 	AF_POINT* m_pAfPoint;
 	int m_useCount;
 
-	friend class ATTRIB_EYE_POINTLIST_HEADER;
-
+	~AF_POINT_LIST();
 public:
 	AF_POINT_LIST(AF_POINT*);
-	AF_POINT_LIST(const char* gme, AF_POINT*);
-
-	//~AF_POINT_LIST();
-
-	// Get number of points
-    inline int get_number() { return m_useCount; }
 
 	// Get the real list
 	AF_POINT* GetPoint() { return m_pAfPoint; }
@@ -353,46 +300,32 @@ public:
  *
  * Do not delete these attributes.
  */
-class ATTRIB_EYE_POINTLIST_HEADER : public ATTRIB_EYE
+class DECL_FCT ATTRIB_EYE_POINTLIST_HEADER : public ATTRIB_EYE
 {
-	AF_POINT_LIST* m_pPointList;
+   AF_POINT_LIST* m_pPointList;
 	unsigned long flags;
-	ENTITY* ent;
-    static std::unordered_map<ENTITY*, ATTRIB_EYE_POINTLIST_HEADER*> ep_set;
 
    public:
 		//MEMBER
 		// Construct a pointlist header attached to the  given entity.
       ATTRIB_EYE_POINTLIST_HEADER( ENTITY* = NULL);
-      ATTRIB_EYE_POINTLIST_HEADER( const char* gme, ENTITY* = NULL);
-
-	  //~ATTRIB_EYE_POINTLIST_HEADER();
 
 		//MEMBER
 		// Return the first AF_POINT of the cyclic list in the header.
 	  AF_POINT *get_pointlist();
-	  AF_POINT *get_pointlist(const char* gme);
-
-		// 得到AF_POINT_LIST指针
-        inline AF_POINT_LIST* get_afpointlist() { return m_pPointList; }
-
 		//MEMBER
 		// Replace the AF_POINT list.  All members of the previous
 		// list are deleted.
 	  void replace_pointlist(AF_POINT *);
-	  void replace_pointlist(const char* gme, AF_POINT *);
 
 		//MEMBER
 		// Search the given entity for an ATTRIB_EYE_POINTLIST_HEADER
 	LOCAL_PROC ATTRIB_EYE_POINTLIST_HEADER *find(ENTITY*E);
-	LOCAL_PROC ATTRIB_EYE_POINTLIST_HEADER *find(const char* gme, ENTITY*E);
 
 		//MEMBER
 		// set and query control flags:
 		unsigned int get_flag(unsigned long mask);
-		unsigned int get_flag(const char* gme, unsigned long mask);
 		void set_flag(unsigned long mask, int value);
-		void set_flag(const char* gme, unsigned long mask, int value);
 
 		//END
 

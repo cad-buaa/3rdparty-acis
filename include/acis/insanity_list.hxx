@@ -1,4 +1,4 @@
-﻿/* $Id: insanity_list.hxx,v 1.12 2002/08/23 20:49:56 bloyd Exp $ */
+/* $Id: insanity_list.hxx,v 1.12 2002/08/23 20:49:56 bloyd Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -161,16 +161,6 @@ public:
 				  char *mesg,
 				  msg_data *data
 				  );
-	insanity_data(const char* gme,
-				  ENTITY *e,
-				  int id,
-				  insanity_type type,
-				  primary_fail_fn pfunc,
-				  subsequent_fail_fn sub_pfunc,
-		          const insanity_sub_category& sub,
-				  char *mesg,
-				  msg_data *data
-				  );
 	/**
 	 * @nodoc
 	 */
@@ -207,16 +197,6 @@ public:
 				  subsequent_fail_fn sub_pfunc = NULL,
 		          const insanity_sub_category& sub_category = NO_SUB_CATEGORY
 		  );
-	insanity_data(const char* gme,
-				  ENTITY *e,
-				  int id,
-				  insanity_type type,
-				  primary_fail_fn pfunc = NULL,
-				  subsequent_fail_fn sub_pfunc = NULL,
-		          const insanity_sub_category& sub_category = NO_SUB_CATEGORY
-		  );
-
-	void debug_mem(const int n);
 
 	/**
 	 * Set the parameter position property for this instance.
@@ -224,32 +204,27 @@ public:
 	 * The parameter position to set.
 	 */
 	void set_par_pos(const SPApar_pos& uv);
-	void gme_set_par_pos(const SPApar_pos& uv);
 
 	/**
 	 * Gets <tt>ENTITY</tt>.
 	 */
 	ENTITY* get_ent() const;
-	ENTITY* gme_get_ent() const;
 
 	/**
 	 * Gets <tt>insane_id</tt>. The insanity message string can be 
 	 * obtained from <tt>insanity_data::get_message()</tt>.
 	 */
 	int get_insane_id() const;
-	int gme_get_insane_id() const;
 
 	/**
 	 * Returns the sub-category for this instance.
 	 */
 	insanity_sub_category get_sub_category() const;
-	insanity_sub_category gme_get_sub_category() const;
 
 	/**
 	 * Gets insanity type.
 	 */
 	insanity_type get_type() const;
-	insanity_type gme_get_type() const;
 
 	/** 
 	 * Sets uv to the related surface parameter position for the
@@ -260,7 +235,6 @@ public:
      * (Output) parameter position for error.
 	 */
 	logical get_par_pos(SPApar_pos& uv) const;
-	logical gme_get_par_pos(SPApar_pos& uv) const;
 
     /**
 	 * @nodoc
@@ -279,7 +253,6 @@ public:
 	 * file pointer.
 	 */
 	void print_message(FILE *fptr) const;
-	void gme_print_message(FILE *fptr) const;
 
 	/**
 	 * @nodoc
@@ -292,7 +265,6 @@ public:
 	 * Gets the error or insanity message.
 	 */
 	const char* get_message();
-	const char* gme_get_message();
 
 	/**
 	 * Gets the auxiliary message (with any parameters filled in) as a new string.
@@ -303,7 +275,6 @@ public:
      * characters, and may be broken over several lines.
 	 */
 	char* get_aux_msg() const;
-	char* gme_get_aux_msg() const;
 };
 
 // This class is used to implement a linked list of problems (insanities) that are found when
@@ -331,7 +302,6 @@ public:
 	 * pointer to next insanity data.
 	 */
 	insanity_list(insanity_data *data = NULL, insanity_list *next = NULL, int error_count=0);
-	insanity_list(const char* gme, insanity_data *data = NULL, insanity_list *next = NULL, int error_count=0);
 
 	// Destructor
 	/**
@@ -344,33 +314,28 @@ public:
 	 * Returns the <tt>insanity_data</tt>.
 	 */
 	insanity_data* data();
-    insanity_data* gme_data();
 
 	/**
 	 * Returns the <tt>insanity_data</tt>.
 	 */
 	const insanity_data* data() const;
-    const insanity_data* gme_data() const;
 
 	// Return next list.
 	/**
 	 * Returns the next list.
 	 */
 	insanity_list* next();
-	insanity_list* gme_next();
 
 	/**
 	 * Returns the next list.
 	 */
 	const insanity_list* next() const;
-	const insanity_list* gme_next() const;
 
 	// Return pointer
 	/**
 	 * Returns a pointer to this insanity list.
 	 */
 	insanity_list* output();
-	insanity_list* gme_output();
 
 	// Print insanity messages.
 	/**
@@ -382,7 +347,6 @@ public:
 	 * type of insanity.
 	 */
 	void print_messages(FILE* fp, insanity_type itype = ALL) const;
-    void gme_print_messages(FILE* fp, insanity_type itype = ALL) const;
 
 	// Append aux message to the last insanity_data in the list.
 	// NB - explicitly cast input arguments to simple data types, e.g., SPAparameter ==> double
@@ -393,7 +357,6 @@ public:
 	 * @nodoc
 	 */
 	void append_aux_msg(char*, ...);
-    void gme_append_aux_msg(char*, ...);
 
 	// Count insanity
 	/**
@@ -403,7 +366,6 @@ public:
 	 * type of insanity.
 	 */
 	int count(insanity_type itype = ALL);
-	int gme_count(insanity_type itype = ALL);
 	
 	// Add insane entities to the given ENTITY_LIST
 	/**
@@ -415,7 +377,6 @@ public:
 	 * type of insanity.
 	 */
 	void make_entity_list(ENTITY_LIST* insane_ents, insanity_type itype = ALL);
-	void gme_make_entity_list(ENTITY_LIST* insane_ents, insanity_type itype = ALL);
 
 	// Add insane entities to the given ENTITY_LIST
 	/**
@@ -429,7 +390,6 @@ public:
 	 * type of insanity.
 	 */
 	void make_entity_list(ENTITY_LIST& insane_ents, int insanity_id, insanity_type itype = ALL);
-	void gme_make_entity_list(ENTITY_LIST& insane_ents, int insanity_id, insanity_type itype = ALL);
 
 	// Check if a specific insanity exists in the lists.
 	/**
@@ -439,7 +399,6 @@ public:
 	 * insanity id.
 	 */
 	logical exist(int insanity_id);
-	logical gme_exist(int insanity_id);
 
     /**
     * Checks if a specific insanity exists in the list.
@@ -449,7 +408,6 @@ public:
     * @param type        insanity_type.
     */
     logical exist(const ENTITY* ent, int insanity_id, insanity_type type = ERROR_TYPE );
-	logical gme_exist(const ENTITY* ent, int insanity_id, insanity_type type = ERROR_TYPE );
 
     /**
     * Checks if a specific insanity exists in the list.
@@ -457,7 +415,6 @@ public:
     * @param ent         ENTITY to find
     */
     logical exist( const ENTITY* insane_ent );
-	logical gme_exist( const ENTITY* insane_ent );
 
 	// Re-check the sanity of entities only with the failed check functions.
 	/**
@@ -479,38 +436,25 @@ public:
 					  insanity_list* (*sub_pfunc)( ENTITY* ) = NULL,
 			          const insanity_sub_category& sub_category = NO_SUB_CATEGORY
 					  );
-	void gme_add_insanity(ENTITY *e,
-					  int id,
-					  insanity_type type,
-					  int (*pfunc)( ENTITY*, const SPAtransf*, insanity_list* ) = NULL,
-					  insanity_list* (*sub_pfunc)( ENTITY* ) = NULL,
-			          const insanity_sub_category& sub_category = NO_SUB_CATEGORY
-					  );
-
 	/**
 	 * @nodoc
 	 */
 	void add_insanity(insanity_list *new_list);
-	void gme_add_insanity(insanity_list *new_list);
 	
 	/**
 	 * @nodoc
 	 */
 	void add_insanity(insanity_data *data);
-	void gme_add_insanity(insanity_data *data);
 	
 	/**
 	* @nodoc
 	*/
 	insanity_list* tail();
-	insanity_list* gme_tail();
-
+	
 	/**
 	 * @nodoc
 	 */
 	struct node;
-
-	void debug_node_mem(const int n = 24);
 
 private:
 	node *_node;

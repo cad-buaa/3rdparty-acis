@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -119,7 +119,6 @@ public:
  * flag to increment use count or not.
  */
     void add_owner(ENTITY* owner, logical increment = TRUE);
-    void gme_add_owner(ENTITY* owner, logical increment = TRUE);
 /**
  * Removes the <tt>owner</tt> argument from the list of owners.
  * <br><br>
@@ -131,14 +130,13 @@ public:
  * flag to lose if use count is zero.
  */
     void remove_owner(ENTITY* owner, logical decrement = TRUE, logical zero_flag = TRUE);
-    void gme_remove_owner(ENTITY* owner, logical decrement = TRUE, logical zero_flag = TRUE);
+
 /**
  * Returns the first owner of this <tt>APOINT</tt>.
  * <br><br>
  * <b>Role:</b> If there are no owners, NULL is returned.
  */
 	ENTITY *owner() const;
-    ENTITY *gme_owner() const;
 
 /**
  * Copies the list of owners of this <tt>APOINT</tt> to the <tt>list</tt> argument.
@@ -149,7 +147,6 @@ public:
  * list of owners.
  */
     int get_owners(ENTITY_LIST& list) const;
-    int gme_get_owners(ENTITY_LIST& list) const;
 
 	// method to write scheme commands to file for visualization
 	// [in] pFp - file pointer
@@ -224,7 +221,6 @@ public:
  * management.
  */
 	APOINT();
-	APOINT(const char *gme);
 
 	// Public constructor for a point, given its cartesian coordinates
 /**
@@ -243,7 +239,7 @@ public:
  * z-coordinate of the constructed APOINT.
  */
 	APOINT( double x, double y, double z);
-	APOINT( const char *gme, double x, double y, double z);
+
 	// Constructor for a point, given a SPAposition.
 /**
  * Constructs an <tt>APOINT</tt> at the specified position.
@@ -257,12 +253,6 @@ public:
  * position of the constructed APOINT.
  */
 	APOINT( const SPAposition &pos );
-	APOINT( const char *gme, const SPAposition &pos);
-
-/**
- * @brief destructor
- */
-	/*virtual*/ void gme_terminate();
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -395,7 +385,7 @@ public:
  * the new position.
  */
 	void set_coords( const SPAposition &pos );
-	void gme_set_coords( const SPAposition &pos );
+
 	// Transform a point
 /**
  * Transforms this <tt>APOINT</tt>.
@@ -408,21 +398,12 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// Routine used for system debugging
 /**
  * @nodoc
  */
 	int lookup( logical ) const;
-
-	// 拷贝相关接口
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	ENTITY* gme_make_copy() const;
-	
-	void gme_roll_notify( BULLETIN_TYPE, ENTITY* );
 };
 /** @} */
 #endif

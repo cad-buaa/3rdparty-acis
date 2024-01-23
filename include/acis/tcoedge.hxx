@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -43,9 +43,6 @@ class SPAparameter;
 class SPAposition;
 class SPAbox;
 class curve;
-
-// 支撑性测试
-// #define GME_KERN_TCOEDGE //将ACIS接口切换为GME接口
 /**
  * @nodoc
  */
@@ -144,7 +141,6 @@ public:
      * support roll back and history management.
      */
 	TCOEDGE();
-	TCOEDGE(const char* gme);
 
 
 	// Public constructor, which initialises the record, and interfaces
@@ -172,7 +168,6 @@ public:
      * bounding region.
      */
 	TCOEDGE( EDGE * edg, REVBIT sense, COEDGE * ne_coedge, COEDGE * prev_coedge, SPAinterval region);
-	TCOEDGE( const char* gme, EDGE * edg, REVBIT sense, COEDGE * ne_coedge, COEDGE * prev_coedge, SPAinterval region);
 
 	// Data reading routines.
 
@@ -186,7 +181,6 @@ public:
      */
 
 	SPAposition start_pos() const;
-	SPAposition gme_start_pos() const;
 	/*
 	// tbrv
 	*/
@@ -195,7 +189,6 @@ public:
 	 */
 
 	SPAposition end_pos() const;
-	SPAposition gme_end_pos() const;
 
 	// These two functions return the lazy 3D curve of the tcoedge.
 	/*
@@ -206,7 +199,6 @@ public:
 	 */
 
 	CURVE *get_3D_curve();
-	CURVE *gme_get_3D_curve();
 	/*
 	// tbrv
 	*/
@@ -215,7 +207,6 @@ public:
 	 */
 
 	CURVE *get_3D_curve() const;
-	CURVE *gme_get_3D_curve() const;
 	/*
 	// tbrv
 	*/
@@ -223,7 +214,7 @@ public:
 	 * @nodoc
 	 */
 
-	SPAbox *bound() const { return box_container.gme_get_box(); }
+	SPAbox *bound() const { return box_container.get_box(); }
 
 	CURVE *get_curve() const {return curve_ptr;}
 
@@ -240,7 +231,6 @@ public:
      */
 
 	SPAparameter start_param() const;
-	SPAparameter gme_start_param() const;
 	/*
 	// tbrv
 	*/
@@ -249,7 +239,6 @@ public:
 	 */
 
 	SPAparameter end_param() const;
-	SPAparameter gme_end_param() const;
 	/*
 	// tbrv
 	*/
@@ -258,7 +247,6 @@ public:
 	 */
 
 	SPAinterval param_range() const;
-	SPAinterval gme_param_range() const;
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -279,7 +267,6 @@ public:
      */
 
 	void set_param_range( SPAinterval const & );
-	void gme_set_param_range( SPAinterval const & );
     /*
     // tbrv
     */
@@ -287,7 +274,7 @@ public:
      * @nodoc
      */
 
-	void set_bound( SPAbox *in_box ) { box_container.gme_set_box( this, in_box); }
+	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }
 
     // (We need the second SPAparameter only in order for agreement with
     // the COEDGE virtual function of the same name)
@@ -298,7 +285,6 @@ public:
      * @nodoc
      */
 	void set_geometry( PCURVE * , logical reset_pattern = TRUE);
-	//void gme_set_geometry( PCURVE * , logical reset_pattern = TRUE);
     /*
     // tbrv
     */
@@ -306,11 +292,7 @@ public:
      * @nodoc
      */
 	void set_3D_curve( CURVE * );
-	void gme_set_3D_curve( CURVE * );
 
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE, ENTITY*);
 // STI jmb: Handle save/restore of use counted histories
 	/**
 	 * @nodoc

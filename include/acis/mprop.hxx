@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -23,9 +23,6 @@
 #include "matrix.hxx"
 #include "position.hxx"
 #include "vector.hxx"
-#include "../src_acis/query/gme_moments.hxx"
-#include <memory>
-
 
 
 /**
@@ -302,26 +299,20 @@ public:
  * <br><br>
  * @see api_body_mass_props, mass_props_options, mass_props_level, one_sided_sheet_opt
  */
-class moments;
 class DECL_QUERY mass_props : public ACIS_OBJECT {
     
-    std::shared_ptr<moments> _moments;
-    std::unique_ptr<gme_moments> _gme_moments;
-    // gme_moments* _gme_moments;
+    class moments * _moments;
 
     friend DECL_QUERY void mp_set_moments(
         mass_props&         mp, 
         const moments&      mom);
-    friend DECL_QUERY void gme_mp_set_moments(
-        mass_props& mp,
-        const gme_moments& mom);
+
 public:
 /**
  * C++ allocation constructor requests memory for this object and populates it with
  * data associated with an object of zero volume.
  */
-	mass_props();
-    mass_props(const char* gme);
+	mass_props();	
 
 /**
  * C++ allocation constructor requests memory for this object and populates it with
@@ -337,8 +328,7 @@ public:
 /**
  * Destructor
  */
-    // ~mass_props();
-
+    ~mass_props();
 
 /**
  * Returns the level used in the object's calculation.
@@ -351,14 +341,12 @@ public:
  * Returns the relative accuracy of the calculated volume.
  */
     double get_rel_accy_vol_achieved() const;
-    double gme_get_rel_accy_vol_achieved() const;
 /**
  * Returns the volume.
  * <br>
  * <b>Role:</b> This method returns zero if the volume has not been calculated.
  */
     double get_volume() const;
-    double gme_get_volume() const;
 /**
  * Returns the centroid (center of gravity).
  * <br>
@@ -405,7 +393,6 @@ public:
  * @nodoc
  */
 	const moments& get_moments() const;
-    const gme_moments& gme_get_moments() const;
 };
 
 /** @} */

@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerngeom/splsur/exct_spl.hxx */
+/* ORIGINAL: acis2.1/kerngeom/splsur/exct_spl.hxx */
 /* $Id: exct_spl.hxx,v 1.21 2002/08/09 17:15:25 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -12,9 +12,6 @@
 // Class to represent an exact spline surface. This is derived from
 // the base class spl_sur, which is used by the spline surface class
 // to contain the surface description proper.
-
-//支撑性测试
-//#define GME_KERN_EXCT_SPL
 
 #if !defined( exact_spl_sur_CLASS )
 #define exact_spl_sur_CLASS
@@ -85,65 +82,19 @@ public:
 	// corresponding spline constructor.
 
 	exact_spl_sur( bs3_surface );
-	exact_spl_sur(const char* ,bs3_surface);
 
 	// Copy constructor. 
 
 	exact_spl_sur( const exact_spl_sur& );
-	exact_spl_sur( const char *gme, const exact_spl_sur& );
 
 	// Make a copy without sharing subdata.
 
 	virtual spl_sur *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ spl_sur *gme_deep_copy(pointer_map * pm = NULL) const;
 
 	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 
-		void gme_split_u(
-				double,
-				spl_sur *[ 2 ]
-	);
-
-		void gme_split_v(
-				double,
-				spl_sur *[ 2 ]
-			);
-		void gme_reparam_u(
-				double,		// new start u SPAparameter
-				double		// new end u SPAparameter
-			);
-		void gme_reparam_v(
-				double,		// new start v SPAparameter
-				double		// new end v SPAparameter
-			);
-		void gme_reparam(
-				double,		// new start u SPAparameter
-				double,		// new end u SPAparameter
-				double,		// new start v SPAparameter
-				double		// new end v SPAparameter
-			);
-		SPApar_pos gme_param(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
-
-		void gme_eval(
-				SPApar_pos const &uv,
-				SPAposition &pos,
-				SPAvector *dpos,
-								
-				SPAvector *ddpos
-								
-			) const;
-		int gme_evaluate(
-                SPApar_pos const &,	
-                SPAposition &,		
-                SPAvector ** = NULL,					
-                int = 0,       		
-				evaluate_surface_quadrant = evaluate_surface_unknown
-            ) const;
 protected:
 
 	// The destructor eliminates all the dependent spline curve and
@@ -201,6 +152,7 @@ protected:
 				double		// new end v SPAparameter
 			);
 
+
 	// Divide a surface into two pieces at a given SPAparameter value.
 	// If the split is at the end of the SPAparameter range, the spl_sur
 	// is just returned as the appropriate half (in increasing
@@ -215,6 +167,7 @@ protected:
 				double,
 				spl_sur *[ 2 ]
 			);
+
 
 	// Concatenate the contents of two surfaces into one. The surfaces
 	// are guaranteed to be the same base or derived type, and to have
@@ -481,11 +434,6 @@ protected:
 				char const *,
 				logical,
 				FILE *
-			) const;
-	void gme_debug(
-				char const *,
-				logical,
-				FILE * = stdout
 			) const;
 };
 

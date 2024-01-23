@@ -1,4 +1,4 @@
-﻿// $Id: law.hxx,v 1.109 2002/08/09 17:15:32 jeff Exp $
+// $Id: law.hxx,v 1.109 2002/08/09 17:15:32 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -55,6 +55,7 @@ class SPAbox;
  */
 typedef void (*proc_extend_curve_callback)(curve &,	SPAinterval const &);
 
+
 /*
 // tbrv
 */
@@ -82,8 +83,16 @@ DECL_KERN void set_extend_surface_callback(proc_extend_surface_callback pfnCallb
 
 // These next 4 are defined in simpsurf.cxx
 
-
-
+/*
+// tbrv
+*/
+/**
+ * @nodoc
+ */
+DECL_KERN SURFACE  *simplify_surface_law(law *in_law,
+							             const SPAinterval& uint,
+							             const SPAinterval& vint,
+										 logical  flip);
 /*
 // tbrv
 */
@@ -161,14 +170,6 @@ DECL_KERN logical is_helix(law      *the_law,
 						   double   &radius = *(double *)NULL_REF,
 						   logical  &right_handed = *(logical *)NULL_REF
 						   );
-DECL_KERN logical gme_is_helix(law      *the_law,
-						   const SPAinterval& domain,
-						   SPAvector   &axis,
-						   SPAposition &root = *(SPAposition *)NULL_REF,
-						   double   &pitch = *(double *)NULL_REF,
-						   double   &radius = *(double *)NULL_REF,
-						   logical  &right_handed = *(logical *)NULL_REF
-						   );
 
 /*
 // tbrv
@@ -187,9 +188,7 @@ DECL_KERN logical is_planar(curve const &the_curve,
 /**
  * @nodoc
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 DECL_KERN curve_law * make_curve_law(EDGE *in_edge,SPAtransf &in_trans= *(SPAtransf *)NULL_REF);
-
 
 /*
 // tbrv
@@ -940,7 +939,7 @@ public:
 	SPAposition bs3_eval(const SPApar_pos& in_par_pos) const;// virtual method in base_surface_law_data class
 
 };
-#endif
+
 /**
  * Serves as a wrapper for an ACIS <tt>SPAtransf</tt> object.
  * <br>
@@ -992,7 +991,6 @@ public:
 /**
  * @nodoc
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_KERN position_array_law_data: public base_position_array_law_data
 {
 public:
@@ -1030,7 +1028,7 @@ public:
     int take_dim() const;
     int scale_dim() const;
 };
-#endif
+
 /*
 // tbrv
 */

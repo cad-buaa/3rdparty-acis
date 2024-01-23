@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -219,27 +219,7 @@ bs3_surface_from_ctrlpts(
 	const double		knots_v[],
 	double				knot_tol
 );
-DECL_SPLINE bs3_surface
-gme_bs3_surface_from_ctrlpts(
-	int					degree_u,
-	logical				rational_u,
-	int					form_u,
-	int					&pole_u,
-	int					num_ctrlpts_u,
-	int					degree_v,
-	logical				rational_v,
-	int					form_v,
-	int					&pole_v,
-	int					num_ctrlpts_v,
-	const SPAposition	 	ctrlpts[],
-	const double	 	weights[],
-	double				ctrlpt_tol,
-	int					num_knots_u,
-	const double		knots_u[],
-	int					num_knots_v,
-	const double		knots_v[],
-	double				knot_tol
-);
+
 
 /**
 * Creates a B-spline %surface from a collection of control points and knot vectors, using a periodic representation.
@@ -1287,10 +1267,6 @@ DECL_SPLINE void
 bs3_surface_set_open_u(
 	bs3_surface	surf		// Input surface
 );
-DECL_SPLINE void
-gme_bs3_surface_set_open_u(
-	bs3_surface	surf		// Input surface
-);
 
 // Mark the surface as being open in v
 
@@ -1305,10 +1281,6 @@ gme_bs3_surface_set_open_u(
 
 DECL_SPLINE void
 bs3_surface_set_open_v(
-	bs3_surface	surf		// Input surface
-);
-DECL_SPLINE void
-gme_bs3_surface_set_open_v(
 	bs3_surface	surf		// Input surface
 );
 
@@ -1327,10 +1299,6 @@ DECL_SPLINE void
 bs3_surface_set_closed_u(
 	bs3_surface	surf		// Input surface
 );
-DECL_SPLINE void
-gme_bs3_surface_set_closed_u(
-	bs3_surface	surf		// Input surface
-);
 
 // Mark the surface as being closed in v
 
@@ -1345,10 +1313,6 @@ gme_bs3_surface_set_closed_u(
 
 DECL_SPLINE void
 bs3_surface_set_closed_v(
-	bs3_surface	surf		// Input surface
-);
-DECL_SPLINE void
-gme_bs3_surface_set_closed_v(
 	bs3_surface	surf		// Input surface
 );
 
@@ -1367,10 +1331,6 @@ DECL_SPLINE void
 bs3_surface_set_periodic_u(
 	bs3_surface	surf		// Input surface
 );
-DECL_SPLINE void
-gme_bs3_surface_set_periodic_u(
-	bs3_surface	surf		// Input surface
-);
 
 // Mark the surface as being periodic in v
 
@@ -1385,10 +1345,6 @@ gme_bs3_surface_set_periodic_u(
 
 DECL_SPLINE void
 bs3_surface_set_periodic_v(
-	bs3_surface	surf		// Input surface
-);
-DECL_SPLINE void
-gme_bs3_surface_set_periodic_v(
 	bs3_surface	surf		// Input surface
 );
 
@@ -1467,14 +1423,6 @@ bs3_surface_add_mult_ekn(
 
 DECL_SPLINE int
 bs3_surface_add_knot(
-    double          par,        // Input SPAparameter
-    int             multp,      // Multiplicity wanted
-    bs3_surface     in_sur,     // Input surface
-    int             u_or_v,     // Add a knot in (= 0, u_dir; = 1, v_dir)
-    double          knot_tol    // Knot tolerance
-);
-DECL_SPLINE int
-gme_bs3_surface_add_knot(
     double          par,        // Input SPAparameter
     int             multp,      // Multiplicity wanted
     bs3_surface     in_sur,     // Input surface
@@ -1635,28 +1583,7 @@ bs3_surface_to_array(
 	double*&	vknots,				// knots in v
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
-DECL_SPLINE void
-gme_bs3_surface_to_array(
-	bs3_surface origin_srf,		    // surface
-	int&		dim,				// dimension
-	logical&	rational_u,			// rational in u
-	logical&	rational_v,			// rational in v
-	int&		form_u,				// open, closed, periodic in u
-	int&		form_v,				// open, closed, periodic in v
-	int&		pole_u,				// pole in u0, un
-	int&		pole_v,				// pole in v0, vn
-	int&		num_u,				// number of points in u
-	int&		num_v,				// number of points in v
-	SPAposition*&	ctrlpts,			// control points in desired order
-	double*&	weights,			// weights
-	int&		degree_u,			// degree in u
-	int&		num_uknots,			// number of knots in u
-	double*&	uknots,				// knots in u
-	int&		degree_v,			// degree in v
-	int&		num_vknots,			// number of knots in v
-	double*&	vknots,				// knots in v
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
+
 
 
 
@@ -1820,10 +1747,6 @@ DECL_SPLINE int
 bs3_surface_degree_u(
 	bs3_surface	bs		// Input surface
 );
-DECL_SPLINE int
-gme_bs3_surface_degree_u(
-	bs3_surface	bs		// Input surface
-);
 
 
 
@@ -1844,10 +1767,6 @@ DECL_SPLINE int
 bs3_surface_degree_v(
 	bs3_surface	bs		// Input surface
 );
-DECL_SPLINE int
-gme_bs3_surface_degree_v(
-	bs3_surface	bs		// Input surface
-);
 
 /**
 * Gets the number of control points in <tt>u_direction</tt>.
@@ -1863,11 +1782,6 @@ gme_bs3_surface_degree_v(
 // Return the number of control points in u_direction
 DECL_SPLINE int
 bs3_surface_ncu(
-	bs3_surface	bs,		// Input surface
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-DECL_SPLINE int
-gme_bs3_surface_ncu(
 	bs3_surface	bs,		// Input surface
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
@@ -1889,11 +1803,7 @@ bs3_surface_ncv(
 	bs3_surface	bs,		// Input surface
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
-DECL_SPLINE int
-gme_bs3_surface_ncv(
-	bs3_surface	bs,		// Input surface
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
+
 
 
 // Return wether the surface is rational in u_direction
@@ -1914,10 +1824,7 @@ DECL_SPLINE logical
 bs3_surface_rational_u(
 	bs3_surface	bs		// Input surface
 );
-DECL_SPLINE logical
-gme_bs3_surface_rational_u(
-	bs3_surface	bs		// Input surface
-);
+
 
 
 // Return wether the surface is rational in v_direction
@@ -1938,10 +1845,7 @@ DECL_SPLINE logical
 bs3_surface_rational_v(
 	bs3_surface	bs		// Input surface
 );
-DECL_SPLINE logical
-gme_bs3_surface_rational_v(
-	bs3_surface	bs		// Input surface
-);
+
 
 
 // Returns if the given surface has multiple end-knots at ustart and
@@ -2059,10 +1963,6 @@ DECL_SPLINE int bs3_surface_nku(
 	bs3_surface bs,		// Input surface
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
-DECL_SPLINE int gme_bs3_surface_nku(
-	bs3_surface bs,		// Input surface
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
 /**
 * Gets the number of knots in the <i>v</i> direction for the given %surface.
 * <br><br>
@@ -2073,10 +1973,6 @@ DECL_SPLINE int gme_bs3_surface_nku(
 **/
 
 DECL_SPLINE int bs3_surface_nkv(
-	bs3_surface bs,		// Input surface
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-DECL_SPLINE int gme_bs3_surface_nkv(
 	bs3_surface bs,		// Input surface
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
@@ -2100,12 +1996,6 @@ DECL_SPLINE int gme_bs3_surface_nkv(
 **/
 
 DECL_SPLINE void bs3_surface_knots_u(
-	bs3_surface bs,		// Input surface
-	int& num_knots_u,	// number of knots
-	double*& uknots,	// knot SPAvector
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-DECL_SPLINE void gme_bs3_surface_knots_u(
 	bs3_surface bs,		// Input surface
 	int& num_knots_u,	// number of knots
 	double*& uknots,	// knot SPAvector
@@ -2135,12 +2025,6 @@ DECL_SPLINE void gme_bs3_surface_knots_u(
 **/
 
 DECL_SPLINE void bs3_surface_knots_v(
-	bs3_surface bs,		// Input surface
-	int& num_knots_v,	// number of knots
-	double*& vknots,	// knot SPAvector
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-DECL_SPLINE void gme_bs3_surface_knots_v(
 	bs3_surface bs,		// Input surface
 	int& num_knots_v,	// number of knots
 	double*& vknots,	// knot SPAvector
@@ -2177,16 +2061,6 @@ DECL_SPLINE void bs3_surface_control_points(
 						// points stored in u,v order
 	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 );
-DECL_SPLINE void gme_bs3_surface_control_points(
-	bs3_surface bs,		// Input surface
-	int& num_u,			// number of control point in u
-	int& num_v,			// number of control point in v
-	SPAposition*& ctrlpts,	// control point array
-						// length of array is num_u*num_v
-						// points stored in u,v order
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-
 /**
 * Gets the number of weights in the <i>u</i> and <i>v</i> directions and the array of weights for the given %surface.
 * <br><br>
@@ -2207,16 +2081,6 @@ DECL_SPLINE void gme_bs3_surface_control_points(
 * array of weights.
 **/
 DECL_SPLINE void bs3_surface_weights(
-	bs3_surface bs,		// Input surface
-	int& num_u,			// number of weights in u
-	int& num_v,			// number of weights in v
-	double*& weights,	// weight array
-						// length of array is num_u*num_v
-						// points stored in u,v order
-	const int use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-);
-
-DECL_SPLINE void gme_bs3_surface_weights(
 	bs3_surface bs,		// Input surface
 	int& num_u,			// number of weights in u
 	int& num_v,			// number of weights in v

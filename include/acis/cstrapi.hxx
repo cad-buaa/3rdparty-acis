@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernapi/api/kernapi.hxx */
+/* ORIGINAL: acis2.1/kernapi/api/kernapi.hxx */
 /* $Id: cstrapi.hxx,v 1.62 2002/08/09 17:21:36 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -66,7 +66,6 @@ class SPAvector;
 class curve_curve_int;
 class SPAtransf;
 class law;
-class SPApar_pos;
 
 class TEXT_ENT;
 class entity_with_ray;
@@ -184,11 +183,6 @@ DECL_CSTR outcome api_body(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_body(
-			BODY*& body,                 // Returns empty body as output
-			AcisOptions* ao = NULL
-	);
-
 /**
 * Creates cuboid of given width (<i>x</i>), depth (<i>y</i>) and height (<i>z</i>).
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i> <br><br>
@@ -222,13 +216,6 @@ DECL_CSTR outcome api_make_cuboid(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_cuboid(
-			double x,				// size in x coordinate direction
-			double y,				// size in y coordinate direction
-			double z,				// size in z coordinate direction
-			BODY*& body,			// body constructed
-			AcisOptions* ao = NULL
-);
 
 /**
 * Creates a solid block given two positions on a diagonal of the block. 
@@ -258,13 +245,6 @@ DECL_CSTR outcome gme_api_make_cuboid(
 * ACIS options.
 **/
 DECL_CSTR outcome api_solid_block(
-		const SPAposition& pt1,  // first position
-		const SPAposition& pt2,  // positional diagonally opposite pt1
-		BODY*& block,            // block created
-		AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_solid_block(
 		const SPAposition& pt1,  // first position
 		const SPAposition& pt2,  // positional diagonally opposite pt1
 		BODY*& block,            // block created
@@ -303,11 +283,6 @@ DECL_CSTR outcome api_make_sphere(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_sphere(
-			double radius,				// radius of sphere
-			BODY*& sph,					// body constructed
-			AcisOptions* ao = NULL
-	);
 /**
 * Creates a solid sphere given the center position and radius.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -340,13 +315,6 @@ DECL_CSTR outcome gme_api_make_sphere(
 * ACIS options.
 **/
 DECL_CSTR outcome api_solid_sphere(
-		const SPAposition& center, // center of sphere
-		double radius,             // radius of sphere
-		BODY*& sph,                // sphere created
-		AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_solid_sphere(
 		const SPAposition& center, // center of sphere
 		double radius,             // radius of sphere
 		BODY*& sph,                // sphere created
@@ -454,17 +422,6 @@ DECL_CSTR outcome api_solid_cylinder_cone(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_solid_cylinder_cone(
-		const SPAposition& pt1, // position at bottom
-		const SPAposition& pt2, // position at top
-		double major_radius,    // major radius at bottom
-		double minor_radius,    // minor radius at bottom
-		double top_radius,      // major radius at top
-		const SPAposition* xpt, // position in direction of major axis (or NULL)
-		BODY*& cyl_or_cone,     // cylinder or cone created
-		AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a torus of given major and minor radii centered at the origin.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -541,14 +498,6 @@ DECL_CSTR outcome api_solid_torus(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_solid_torus(
-		const SPAposition& center, // center of torus
-		double major_radius,       // major radius
-		double minor_radius,       // minor radius
-		BODY*& tor,                // torus created
-		AcisOptions* ao = NULL
-	);
-
 /**
 * Creates an elliptical prism of given height, radii, and number of sides.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -588,15 +537,6 @@ DECL_CSTR outcome api_make_prism(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_prism(
-			double height,			// height
-			double radius1,			// major radius of circumscribed
-									// elliptical cylinder
-			double radius2,			// minor radius
-			int nsides,				// number of vertical sides
-			BODY*& prism,			// body constructed
-			AcisOptions* ao = NULL
-	);
 /**
 * Creates an elliptical pyramid of given height, radii, and number of sides.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -632,16 +572,6 @@ DECL_CSTR outcome gme_api_make_prism(
 * ACIS options.
 **/
 DECL_CSTR outcome api_make_pyramid(
-			double height,			// height
-			double radius1,			// major radius of circumscribed
-									// cylinder
-			double radius2,			// minor radius
-			double top,				// top major radius
-			int nsides,				// number of sides
-			BODY*& pyramid,			// body constructed
-			AcisOptions* ao = NULL
-	);
-DECL_CSTR outcome gme_api_make_pyramid(
 			double height,			// height
 			double radius1,			// major radius of circumscribed
 									// cylinder
@@ -734,19 +664,6 @@ DECL_CSTR outcome api_wiggle(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_wiggle(
-			double width,			// width of wiggle platform
-			double depth,  			// depth of wiggle platform
-			double height,			// height of wiggle platform
-			int    low_v_type,		// wiggle shape parameter
-			int    high_v_type,		// wiggle shape parameter
-			int    low_u_type,		// wiggle shape parameter
-			int    high_u_type,		// wiggle shape parameter
-			logical height_given,   // should wiggle have a height at all?
-			BODY*& wiggle,			// the wiggle body returned as output
-			AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a body consisting of a single-sided face that is the whole of a given spline %surface.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -803,13 +720,6 @@ DECL_CSTR outcome api_sheet_from_ff(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_sheet_from_ff(
-			int num_faces,			// number of faces
-			FACE* faces[],			// array of faces
-			BODY*& body,			// sheet body constructed
-			AcisOptions* ao = NULL
-	);
-
 /*! @} */
 /*! \addtogroup CSTRMAKEWBODYAPI
  *  \brief Defined at <cstrapi.hxx>, SPAcstr
@@ -854,12 +764,6 @@ DECL_CSTR outcome gme_api_sheet_from_ff(
 * ACIS options.
 **/
 DECL_CSTR outcome api_make_ewire(
-			int num_edges,				// number of edges
-			EDGE* edges[],				// array of edges
-			BODY*& body,				// body constructed
-			AcisOptions* ao = NULL
-	);
-DECL_CSTR outcome gme_api_make_ewire(
 			int num_edges,				// number of edges
 			EDGE* edges[],				// array of edges
 			BODY*& body,				// body constructed
@@ -957,14 +861,6 @@ DECL_CSTR outcome api_make_ewires(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_ewires(
-			int num_edges,			// number of unorganized edges
-			EDGE* edges[],			// array of edges
-			int& n_bodies,			// number of bodies constructed
-			BODY**& bodies,			// bodies constructed
-			AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a polygonal wire body in a %plane orthogonal to a given normal.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -1021,61 +917,6 @@ DECL_CSTR outcome api_make_polygon(
 	AcisOptions* ao = NULL
 	);
 
-/**
-* Creates a polygonal wire body in a %plane orthogonal to a given normal.
-* <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
-* <br><br>
-* <b>Role:</b> This API function constructs a polygonal wire body. The length of the sum of
-* the sides of the polygon is calculated and passed back.
-* <br><br>
-* Note that both the length of the vector <tt>start</tt> and the double <tt>length</tt> dictate the
-* length of the sides of the polygon. If the user passes in <tt>length &lt;= SPAresabs</tt>,
-* the length of the sides of the polygon will be determined solely by the vector
-* <tt>start</tt> and the number of sides in the polygon and the <tt>oncenter</tt> flag. In this case
-* the user is told the computed length of sides by the reference variable <tt>length</tt>.
-* If on the other hand <tt>length &gt; SPAresabs</tt>, the polygon
-* will be scaled so that the sides each have the proper length.
-* <br><br>
-* <dl>
-* <b>Errors:</b> The start vector must be non-zero.
-* <dd>&nbsp;The normal vector must be non-zero.</dd>
-* <dd>&nbsp;The start and normals must span a two dimensional space.</dd>
-* <dd>&nbsp;The number of sides must be at least 3</dd>
-* </dl>
-* <br>
-* <b>Effect:</b> Changes model
-* <br><br>
-* <b>Journal: </b> Available
-* <br><br>
-* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
-* <br><br>
-* @param polygon
-* polygon made.
-* @param centre
-* center of the polygon.
-* @param start
-* from center to a vertex or the center of an edge of polygon.
-* @param normal
-* a vector normal to the %plane of the polygon.
-* @param side_length
-* length of the side (this will scale "start").
-* @param number_of_sides
-* number of sides.
-* @param oncenter
-* <tt>TRUE</tt> when the start is a vector to the center of an edge.
-* @param ao
-* ACIS options.
-**/
-DECL_CSTR outcome gme_api_make_polygon(
-	BODY*& polygon,				// new polygonal wire body returned
-	SPAposition centre,			// centre of polygon
-	SPAvector start,			// centre + start is on edge vertex or edge centre
-	SPAvector& normal,			// normal to plane containing polygon
-	double& side_length,		// length of side (scales start vector to get this)
-	int number_of_sides = 6,	// defaulted to a hexagon
-	logical oncenter = FALSE,	// if TRUE, centre + start is on edge centre
-	AcisOptions* ao = NULL
-	);
 /**
 * Creates a wire from an instance of formatted_text.
 * <b>Technical Article:</b> <i>[Make a Wire Body from Text](http://doc.spatial.com/articles/m/a/k/Make_a_Wire_Body_from_Text_2a9a.html)</i>
@@ -1174,14 +1015,6 @@ DECL_CSTR outcome api_face_plane(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_face_plane(
-		const SPAposition&  p,        // anchor point
-		double           width,
-		double           height,
-		const SPAvector *normal,
-		FACE*&           face,
-		AcisOptions* ao = NULL
-	);
 /**
 * Creates a face that is a parallelogram specified by three points: origin,left, and right.
 * <br><br>
@@ -1225,14 +1058,6 @@ DECL_CSTR outcome api_make_plface(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_plface(
-			const SPAposition& origin, 		// origin point
-			const SPAposition& left,  		// left point
-			const SPAposition& right,  		// right point
-			FACE*& face,     				// ouput returned
-			AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a face that is a planar disk.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -1269,14 +1094,7 @@ DECL_CSTR outcome api_make_planar_disk(
 			logical half_space = FALSE,		// If set to true a full half space is returned
 			AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_make_planar_disk(
-			const SPAposition& origin, 		// origin point
-			const SPAunit_vector& normal,	// the normal
-			double radius,  	    		// the radius
-			FACE*& face,   					// output returned
-			logical half_space = FALSE,		// If set to true a full half space is returned
-			AcisOptions* ao = NULL
-	);
+	
 /**
 * Creates a spherical face.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -1350,17 +1168,7 @@ DECL_CSTR outcome api_face_sphere(
 		FACE*&           face,
 		AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_face_sphere(
-		const SPAposition&  center,
-		double           radius,
-		double           lat_start,    // latitude - start angle
-		double           lat_end,      //             end angle
-		double           lo_start,     // longitude  - start angle
-		double           lo_end,       //             end angle
-		const SPAvector* normal,       // pole direction
-		FACE*&           face,
-		AcisOptions* ao = NULL
-	);
+
 /**
 * Creates a face that is a portion of a sphere.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -1506,19 +1314,6 @@ DECL_CSTR outcome api_face_conic(
 * ACIS options.
 **/
 DECL_CSTR outcome api_face_cylinder_cone(
-		const SPAposition& center,   // center
-		const SPAvector&   normal,   // axis and height
-		double             bottom,   // bottom radius
-		double             top,      // top radius
-		double             start,    // start angle
-		double             end,      // end angle
-		double             ratio,    // elliptical major to minor ratio
-		const SPAposition* pt,       // point defining the major axis
-		FACE*&             face,
-		AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_face_cylinder_cone(
 		const SPAposition& center,   // center
 		const SPAvector&   normal,   // axis and height
 		double             bottom,   // bottom radius
@@ -1679,7 +1474,6 @@ DECL_CSTR outcome api_face_torus(
 		AcisOptions* ao = NULL
 	);
 
-
 /**
 * Creates a face that is a portion of a torus.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -1760,19 +1554,7 @@ DECL_CSTR outcome api_make_trface(
 			FACE*& face,					// output returned.
 			AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_make_trface(
-			const SPAposition& center,		// center of the torus.
-			const SPAunit_vector& normal,	// normal axis of the torus.
-			double major,					// major radius of the sphere.
-			double minor,					// minor radius of the sphere.
-			const SPAposition& pnt,			// point on the torus.
-			double uf,						// Start and end angles
-			double ut,						// in U direction.
-			double vf,						// Start and end angles
-			double vt,						// in V direction.
-			FACE*& face,					// output returned.
-			AcisOptions* ao = NULL
-	);
+
 /**
 * Creates a law face.
 * <br><br>
@@ -1954,29 +1736,6 @@ DECL_CSTR outcome api_face_spl_ctrlpts(
 * ACIS options.
 **/
 DECL_CSTR outcome api_mk_fa_spl_ctrlpts(
- 			int degree_u,					// degree in u
- 			logical rational_u,				// TRUE if rational in u
- 			int form_u,						// open/closed/periodic in u
- 			int pole_u,						// bit-pattern of singularities in u
- 			int num_ctrlpts_u,				// number of u control points in array
- 			int degree_v,					// degree in v
- 			logical rational_v,				// TRUE if rational in v
- 			int form_v,						// open/closed/periodic in v
- 			int pole_v,						// bit-pattern of singularities in v
- 			int num_ctrlpts_v,				// number of v control points in array
- 			const SPAposition ctrlpts[],	// array of control points
- 			const double weights[],			// array of weights
- 			double point_tol,				// identical points if within this tolerance
- 			int num_knots_u,				// number of u knots in array
- 			const double knots_u[],			// array of u knots
- 			int num_knots_v,				// number of v knots in array
- 			const double knots_v[],			// array of v knots
- 			double knot_tol,				// identical knots if within this tolerance
- 			FACE*& face,					// face returned
- 			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_mk_fa_spl_ctrlpts(
  			int degree_u,					// degree in u
  			logical rational_u,				// TRUE if rational in u
  			int form_u,						// open/closed/periodic in u
@@ -2252,13 +2011,6 @@ DECL_CSTR outcome api_curve_line(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_curve_line(
-		const SPAposition& pt1,		// start of line
-		const SPAposition& pt2,		// end of line
-		EDGE*& line,				// line created
-		AcisOptions* ao = NULL
-	);
-
 // Create a line tangent to two curves or through a position and tangent
 // to a curve
 /**
@@ -2372,14 +2124,7 @@ DECL_CSTR outcome api_curve_arc(
 		EDGE*& arc,                // arc created
 		AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_curve_arc(
-		const SPAposition& center, // center of arc
-		double radius,             // radius of arc
-		double start_angle,        // start angle in radians
-		double end_angle,          // end angle in radians
-		EDGE*& arc,                // arc created
-		AcisOptions* ao = NULL
-	);
+
 /**
 * Creates a circle edge or circular arc edge through three positions.
 * <br><br>
@@ -2416,14 +2161,7 @@ DECL_CSTR outcome api_curve_arc_3pt(
 		EDGE*& arc,                // arc created
 		AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_curve_arc_3pt(
-		const SPAposition& pt1,    // first position
-		const SPAposition& pt2,    // second position
-		const SPAposition& pt3,    // third position
-		logical full,              // == TRUE to get a full circle
-		EDGE*& arc,                // arc created
-		AcisOptions* ao = NULL
-	);
+
 // Create a circle or circular arc given a center and two edge points
 //    If the optional SPAunit_vector* norm is not NULL, then the arc is
 //  created in the plane defined by center and norm.  pt1 and pt2 are
@@ -2494,14 +2232,6 @@ DECL_CSTR outcome api_curve_arc_center_edge(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_curve_arc_center_edge(
-		const SPAposition& center,    // center position
-		const SPAposition& pt1,       // start position
-		const SPAposition& pt2,       // end position
-		const SPAunit_vector* norm,   // optional normal vector or NULL
-		EDGE*& arc,                 // the arc created
-		AcisOptions* ao = NULL
-	);
 /**
 * Creates a circular edge or a circular arc edge given two points on the diameter.
 * <br><br>
@@ -2533,7 +2263,7 @@ DECL_CSTR outcome gme_api_curve_arc_center_edge(
 * <b>Journal: </b> Available
 * <br><br>
 * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
-* <br><br>
+ * <br><br>
 * @param pt1
 * first point on the diameter.
 * @param pt2
@@ -2546,14 +2276,6 @@ DECL_CSTR outcome gme_api_curve_arc_center_edge(
 * ACIS options.
 **/
 DECL_CSTR outcome api_curve_arc_diagonal(
-		const SPAposition& pt1,    // first point on diagonal
-		const SPAposition& pt2,    // second point on diagonal
-		logical full,              // == TRUE to create full circle
-		EDGE*& arc,                // the arc created
-		AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_curve_arc_diagonal(
 		const SPAposition& pt1,    // first point on diagonal
 		const SPAposition& pt2,    // second point on diagonal
 		logical full,              // == TRUE to create full circle
@@ -2683,15 +2405,6 @@ DECL_CSTR outcome api_curve_ellipse(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_curve_ellipse(
-		const SPAposition& center,	// center of the ellipse
-		const SPAposition& major,	// position on ellipse on major axis
-		double ratio,				// ratio between major and minor axis length
-		double start_angle,			// end angle in radians
-		double end_angle,			// start angle in radians
-		EDGE*& ell,                 // ellipse created
-		AcisOptions* ao = NULL
-	);
 /**
 * Creates an <tt>EDGE</tt> that represents a bounded elliptical arc.
 * <br><br>
@@ -2747,16 +2460,6 @@ DECL_CSTR outcome api_mk_ed_ellipse(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_mk_ed_ellipse(
-			const SPAposition& center,		// centre
-			const SPAunit_vector& normal,	// normal
-			const SPAvector& major_axis,	// major axis
-			double radius_ratio,			// ratio of major to minor radii
-			double start_angle,				// starting angle of arc
-			double end_angle,				// ending angle of arc
-			EDGE*& ell,					// edge constructed
-			AcisOptions* ao = NULL
-	);
 /**
 * Creates a B-spline edge defined by a conic section.
 * <br><br>
@@ -2849,16 +2552,6 @@ DECL_CSTR outcome api_edge_helix(
     EDGE		*&hlx,
     AcisOptions *ao = NULL);
 
-DECL_CSTR outcome gme_api_edge_helix(
-    const SPAposition	&axis_start,
-	const SPAposition	&axis_end,
-	const SPAvector     &start_dir,
-	double		radius,
-	double		thread_distance,
-	logical		right_handed,
-    EDGE		*&hlx,
-    AcisOptions *ao = NULL);
-
 /**
 * Creates an edge from a spiral definition.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -2921,17 +2614,6 @@ DECL_CSTR outcome gme_api_edge_helix(
 * ACIS options.
 **/
 DECL_CSTR outcome api_edge_spiral(
-			SPAposition& center,
-			SPAvector& normal,
-			SPAposition& start_position,
-			double width,
-			double angle,
-			EDGE*& spiral,
-			logical right_handed = TRUE,
-			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_edge_spiral(
 			SPAposition& center,
 			SPAvector& normal,
 			SPAposition& start_position,
@@ -3443,14 +3125,6 @@ DECL_CSTR outcome api_curve_bezier(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_curve_bezier(
-		const SPAposition& pt1,    // first control point
-		const SPAposition& pt2,    // second control point
-		const SPAposition& pt3,    // third control point
-		const SPAposition& pt4,    // last control point
-		EDGE*& edge,               // Bezier curve created
-		AcisOptions* ao = NULL
-	);
 /**
 * Creates an <tt>EDGE</tt> on a B-spline %curve, given a sequence of control points and knots.
 * <br><br>
@@ -3511,22 +3185,6 @@ DECL_CSTR outcome gme_api_curve_bezier(
 * ACIS options.
 **/
 DECL_CSTR outcome api_mk_ed_int_ctrlpts(
- 			int degree,						// degree
- 			logical rational,				// TRUE if rational control points
- 			logical closed,					// TRUE if closed curve
- 			logical periodic,				// TRUE if periodic curve
- 			int num_ctrlpts,				// number of control points in array
- 			const SPAposition ctrlpts[],	// array of control points
- 			const double weights[],			// array of weights
- 			double point_tol,				// identical points if within this tolerance
- 			int num_knots,					// number of knots in array
- 			const double knots[],			// array of knots
- 			double knot_tol,				// identical knots if within this tolerance
- 			EDGE*& edge,					// edge returned
- 			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_mk_ed_int_ctrlpts(
  			int degree,						// degree
  			logical rational,				// TRUE if rational control points
  			logical closed,					// TRUE if closed curve
@@ -3650,17 +3308,6 @@ DECL_CSTR outcome api_curve_spline(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_curve_spline(
-		int numpts,                // number of positions in pts
-		const SPAposition* pts,       // array of positions
-		const SPAunit_vector* start,  // direction at start or NULL
-		const SPAunit_vector* end,    // direction at end or NULL
-		EDGE*& edge,                // B-spline edge created
-		logical approx_ok = TRUE,  // approximation ok?
-		logical periodic = FALSE,  // Periodic if closed and no end conds
-		AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a B-spline edge that interpolates an array of positions at specified parameter values.
 * <br><br>
@@ -3758,16 +3405,6 @@ DECL_CSTR outcome api_curve_spline2_periodic(
 DECL_CSTR outcome api_edge(
 			EDGE* in_edge,						// The edge to be copied
 			EDGE*& out_edge,					// The copied edge
-			AcisOptions* ao = NULL
-	);
-
-/**
- * @nodoc
- */
-DECL_CSTR outcome gme_api_edge(
-			EDGE* in_edge,						// The edge to be copied
-			EDGE*& out_edge,					// The copied edge
-			bool copy_geo = true,
 			AcisOptions* ao = NULL
 	);
 
@@ -3892,11 +3529,6 @@ DECL_CSTR outcome api_make_edge_from_curve(
 		AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_make_edge_from_curve(
-		const curve* cur,	// given curve
-		EDGE*& edge,		// returned edge
-		AcisOptions* ao = NULL
-	);
 /**
 * Creates an <tt>EDGE</tt> defined by a 3D NURBS %curve.
 * <br><br>
@@ -3919,12 +3551,6 @@ DECL_CSTR outcome gme_api_make_edge_from_curve(
 * ACIS options.
 **/
 DECL_CSTR outcome api_mk_ed_bs3_curve(
-			bs3_curve bs,			// spline curve
-			EDGE*& edge,			// edge constructed
-			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_mk_ed_bs3_curve(
 			bs3_curve bs,			// spline curve
 			EDGE*& edge,			// edge constructed
 			AcisOptions* ao = NULL
@@ -3978,13 +3604,7 @@ DECL_CSTR outcome api_split_curve(
 		ENTITY_LIST& new_eds,			// edges created by the split
 		AcisOptions* ao = NULL
 	);
-DECL_CSTR outcome gme_api_split_curve(
-		EDGE* edge,						// edge to split
-		const SPAposition* split_pt,	// position to split at or NULL
-		EDGE* split_ed,					// edge to split with or NULL
-		ENTITY_LIST& new_eds,			// edges created by the split
-		AcisOptions* ao = NULL
-	);
+
 /**
 * Splits an edge at G1 or G2 discontinuities.
 * <br><br>
@@ -4044,14 +3664,6 @@ DECL_CSTR outcome api_ed_inters_to_ents(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_ed_inters_to_ents(
-			EDGE* edge1,				// first edge
-			curve_curve_int* inters,	// list of curve/curve intersections
-			ENTITY_LIST& ents,			// list of intersection points or
-										// overlapping edges
-			AcisOptions* ao = NULL
-	);
-
 // STI let (10/99): Moved api_edge_to_spline() from oper to cstr
 
 // Create a spline edge using a given edge.
@@ -4083,11 +3695,6 @@ DECL_CSTR outcome gme_api_ed_inters_to_ents(
 * @see api_convert_to_spline
 **/
 DECL_CSTR outcome api_edge_to_spline(
-		EDGE*  edge1,
-		EDGE*& edge2,
-		AcisOptions* ao = NULL
-	);
-DECL_CSTR outcome gme_api_edge_to_spline(
 		EDGE*  edge1,
 		EDGE*& edge2,
 		AcisOptions* ao = NULL
@@ -4159,12 +3766,6 @@ DECL_CSTR outcome api_create_point(
 		AcisOptions* ao = NULL
 	);
 
-
-DECL_CSTR outcome gme_api_create_point(
-		const SPAposition& pos,		// position of APOINT
-		APOINT*& pnt,				// APOINT created
-		AcisOptions* ao = NULL
-	);
 //============================================================
 // TEXT_ENT creation
 /**
@@ -4311,18 +3912,6 @@ DECL_CSTR outcome api_build_wire(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_build_wire(
-			BODY* in_body,			// body to which wire is to be added,
-									// or NULL for a new body
-			logical closed,			// TRUE if wire is closed
-			int num_points,			// number of span end-points
-			SPAposition points[],	// array of span end-points
-			curve* curves[],		// array of span geometries
-			BODY*& body,			// original body with extra wire, or
-									// new body returned
-			AcisOptions* ao = NULL
-	);
-
 /**
 * Creates a wire from an array of positions and bulges.
 * <b>Technical Article:</b> <i>[Constructors](http://doc.spatial.com/articles/c/o/n/Component~Constructors_faba.html)</i>
@@ -4383,19 +3972,6 @@ DECL_CSTR outcome gme_api_build_wire(
 * ACIS options.
 **/
 DECL_CSTR outcome api_make_kwire(
-			BODY* in_body,					// body to which wire is to be added,
-											// or NULL for a new body
-			const SPAunit_vector& normal,	// normal to plane of wire
-			int length_pts,					// number of span end-points
-			SPAposition array_pts[],		// array of span end-points
-			double array_bulges[],			// array of "bulge factors", one for
-											// each span
-			BODY*& body,					// original body with extra wire, or
-											// new body returned
-			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_make_kwire(
 			BODY* in_body,					// body to which wire is to be added,
 											// or NULL for a new body
 			const SPAunit_vector& normal,	// normal to plane of wire
@@ -4649,11 +4225,6 @@ DECL_CSTR outcome api_reverse_wire(
 * ACIS options.
 **/
 DECL_CSTR outcome api_reverse_face(
-			FACE*& face, 				// face to reverse
-			AcisOptions* ao = NULL
-	);
-
-DECL_CSTR outcome gme_api_reverse_face(
 			FACE*& face, 				// face to reverse
 			AcisOptions* ao = NULL
 	);
@@ -5450,11 +5021,6 @@ DECL_CSTR outcome api_loop_external(
 			AcisOptions* ao = NULL
 	);
 
-DECL_CSTR outcome gme_api_loop_external(
-			LOOP* loop,					// loop to examine for external/internal
-			logical* if_external, 				// T or F answer
-			AcisOptions* ao = NULL
-	);
 /**
 * Classifies regions on a given body as being either manifold or nonmanifold.
 * <br><br>

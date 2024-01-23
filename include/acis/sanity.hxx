@@ -1,4 +1,4 @@
-﻿/* $Id: sanity.hxx,v 1.9 2002/08/09 17:19:04 jeff Exp $ */
+/* $Id: sanity.hxx,v 1.9 2002/08/09 17:19:04 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -12,8 +12,6 @@
 #ifndef SANITY_HXX
 #define SANITY_HXX
 
-#include <unordered_map>
-#include <string>
 #include <stdio.h>
 #include "dcl_intr.h"
 #include "insanity_list.hxx"
@@ -42,9 +40,9 @@ class SURFACE;
 DECL_INTR 
 insanity_list*
 check_entity_internal(
-    const ENTITY* ent
-//  ENTITY_LIST* insane_list,
-//  FILE* fptr
+	const ENTITY* ent
+//	ENTITY_LIST* insane_list,
+//	FILE* fptr
 );
 
 //------------------------------------------------------------------------------
@@ -54,7 +52,7 @@ check_entity_internal(
 //------------------------------------------------------------------------------
 DECL_INTR insanity_list*
 sg_check_edge_forms(
-    EDGE *edge
+	EDGE *edge
 );
 
 //------------------------------------------------------------------------------
@@ -64,8 +62,8 @@ sg_check_edge_forms(
 //------------------------------------------------------------------------------
 DECL_INTR insanity_list*
 sg_check_pcurve_form(
-    COEDGE *coedge 
-/*  PCURVE* PC */
+	COEDGE *coedge 
+/*	PCURVE* PC */
 );
 
 //------------------------------------------------------------------------------
@@ -75,51 +73,32 @@ sg_check_pcurve_form(
 //------------------------------------------------------------------------------
 DECL_INTR insanity_list*
 sg_check_surface_forms(
-    FACE *f
-/*  spline& spl */
-);
-
-DECL_INTR insanity_list*
-gme_sg_check_surface_forms(
-    FACE *f
-/*  spline& spl */
+	FACE *f
+/*	spline& spl */
 );
 
 // ywoo 7Aug01:
 // major checking functions
 DECL_INTR int sg_check_body(BODY*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_body(BODY*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_lump(LUMP*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_lump(LUMP*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_shell(SHELL*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_shell(SHELL*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_wire(WIRE*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_face(FACE*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_loop(LOOP*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_loop(LOOP*, const SPAtransf*, insanity_list*, std::unordered_map<std::string, option_header*> const* options = nullptr);
 DECL_INTR int sg_check_coedge(COEDGE*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_coedge(COEDGE*, const SPAtransf*, insanity_list*, std::unordered_map<std::string, option_header*> const* options = nullptr);
 DECL_INTR int sg_check_edge(EDGE*, const SPAtransf*, insanity_list*);
 DECL_INTR int sg_check_vertex(VERTEX*, const SPAtransf*, insanity_list*);
-DECL_INTR int gme_sg_check_vertex(VERTEX*, const SPAtransf*, insanity_list*, std::unordered_map<std::string, option_header*> const* options = nullptr);
 
 // subsequent checking functions
 DECL_INTR insanity_list* check_face_order(EDGE *e);
 DECL_INTR insanity_list* sg_check_transform( TRANSFORM* T);
-DECL_INTR insanity_list* gme_sg_check_transform( TRANSFORM* T);
 DECL_INTR insanity_list* sg_check_surface( SURFACE* srf);
-DECL_INTR insanity_list* gme_sg_check_surface( SURFACE* srf);
 DECL_INTR insanity_list* sg_check_face_area( FACE* face);
-DECL_INTR insanity_list* gme_sg_check_face_area( FACE* face);
 DECL_INTR insanity_list* sg_check_face_sense( FACE* face );
-DECL_INTR insanity_list* gme_sg_check_face_sense( FACE* face );
 DECL_INTR insanity_list* sg_check_face_loops( FACE* f );
-DECL_INTR insanity_list* gme_sg_check_face_loops( FACE* f );
 DECL_INTR insanity_list* sg_check_degenerate_spline(FACE *f);
 DECL_INTR insanity_list* sg_check_face_pcurves( FACE* face );
-DECL_INTR insanity_list* gme_sg_check_face_pcurves( FACE* face );
 DECL_INTR insanity_list* sg_check_conical_face( FACE* face );
-DECL_INTR insanity_list* gme_sg_check_conical_face( FACE* face );
 DECL_INTR insanity_list* sg_check_face_approximation( FACE *face );
 DECL_INTR insanity_list* sg_check_surface_param_test( FACE *face );
 DECL_INTR insanity_list* sg_check_surface_transform_test( FACE *face );
@@ -129,15 +108,11 @@ DECL_INTR insanity_list* sg_check_surface_derivs_test( FACE *face );
 DECL_INTR insanity_list* sg_check_face_box( FACE* face );
 //DECL_INTR insanity_list* check_edge_convexity(EDGE *edge);
 DECL_INTR insanity_list* sg_check_edge_curve(EDGE *edge);
-DECL_INTR insanity_list* gme_sg_check_edge_curve(EDGE *edge, std::unordered_map<std::string, option_header*> const* options = nullptr);
 DECL_INTR insanity_list* sg_check_edge_box( EDGE* edge );
 // ywoo: end
 DECL_INTR logical sg_check_face_pcurve(COEDGE* coedge, insanity_list *list);
-DECL_INTR logical gme_sg_check_face_pcurve(COEDGE* coedge, insanity_list *list, std::unordered_map<std::string, option_header*> const* options = nullptr);
 
 // uq2 - print sanity context (checked topology count)
 DECL_INTR void print_sanity_context(FILE* = debug_file_ptr);
-
-DECL_INTR int gme_sg_check_wire(WIRE*, const SPAtransf*, insanity_list*);
 
 #endif

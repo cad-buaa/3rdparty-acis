@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -45,9 +45,6 @@ class straight;
  */
 #define straight_type 1
 
-// 支撑性测试
-//#define GME_KERN_STRDEF  //将ACIS接口切换为GME接口
-
 /**
  * Applies transformation to straight curve.
  * <br><br>
@@ -83,7 +80,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	straight();
-	straight(const char *gme);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -101,12 +97,6 @@ public:
 				SPAunit_vector const &dir,
 				double               scale = 1.0
 			);
-	straight(
-				const char           *gme,
-				SPAposition const    &pos,
-				SPAunit_vector const &dir,
-				double               scale = 1.0
-			);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * <br><br>
@@ -114,10 +104,6 @@ public:
  * straight curve.
  */
 	straight(
-				straight const &line
-			);
-	straight(
-				const char *gme,
 				straight const &line
 			);
 /**
@@ -151,9 +137,6 @@ public:
 	virtual int accurate_derivs(
 				SPAinterval const &cur = *(SPAinterval*)NULL_REF
 			) const;
-	/*virtual*/ int gme_accurate_derivs(
-				SPAinterval const &cur = *(SPAinterval*)NULL_REF
-			) const;
 
 /**
  * Returns a box enclosing the two given points on the straight line.
@@ -170,11 +153,6 @@ public:
 				SPAposition const &pos2,
 				SPAtransf const   &trans = *(SPAtransf *)NULL_REF
 			) const;
-	/*virtual*/ SPAbox gme_bound(
-				SPAposition const &pos1,
-				SPAposition const &pos2,
-				SPAtransf const   &trans = *(SPAtransf *)NULL_REF
-			)const;
 /**
  * Returns a box enclosing the two given points on the straight line.
  * <br><br>
@@ -184,10 +162,6 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPAinterval const &inter,
-				SPAtransf   const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	/*virtual*/ SPAbox gme_bound(
 				SPAinterval const &inter,
 				SPAtransf   const &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -201,10 +175,6 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPAbox    const &box,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	/*virtual*/ SPAbox gme_bound(
 				SPAbox    const &box,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -228,12 +198,6 @@ public:
 	{
 		return bound( SPAinterval( start, end ), t );
 	}
-	SPAbox gme_bound(
-				double          start,
-				double          end,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
-			) const;
-
 /**
  * Indicates if a curve is closed.
  * <br><br>
@@ -241,7 +205,6 @@ public:
  * principal parameter range. This function should always return <tt>TRUE</tt> if periodic does.
  */
 	virtual logical closed() const;
-	/*virtual*/ logical gme_closed() const;
 /**
  * Outputs a title line and details about the straight line to the debug file or to the specified file.
  * <br><br>
@@ -251,10 +214,6 @@ public:
  * file name.
  */
 	virtual void debug(
-				char const* title,
-				FILE*       fp = debug_file_ptr
-			) const;
-	void gme_debug(
 				char const* title,
 				FILE*       fp = debug_file_ptr
 			) const;
@@ -268,7 +227,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual curve *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ curve *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Returns a cylinder that encloses the portion of the curve bounded by the interval.
  * <br><br>
@@ -301,14 +259,6 @@ public:
 				logical     flag= FALSE,
 				logical     approx= FALSE
 			) const;
-	/*virtual*/ void gme_eval(
-				double      val,
-				SPAposition &pos,
-				SPAvector   &der1 = *(SPAvector *)NULL_REF,
-				SPAvector   &der2 = *(SPAvector *)NULL_REF,
-				logical     flag= FALSE,
-				logical     approx= FALSE
-			) const;
 /**
  * Returns the curvature at a given parameter value.
  * <br><br>
@@ -326,11 +276,7 @@ public:
 				logical repeat = FALSE,
 				logical approx = FALSE
 			) const;
-	/*virtual*/ SPAvector gme_eval_curvature(
-				double param,
-				logical repeat = FALSE,
-				logical approx = FALSE
-			) const;
+
 /**
  * Finds the magnitude of the derivative at the given parameter value on the curve.
  * <br><br>
@@ -342,11 +288,6 @@ public:
  * approx ok?
  */
 	virtual double eval_deriv_len(
-				double pt,
-				logical repeat = FALSE,
-				logical approx = FALSE
-			) const;
-	/*virtual*/ double gme_eval_deriv_len(
 				double pt,
 				logical repeat = FALSE,
 				logical approx = FALSE
@@ -380,13 +321,6 @@ public:
                 int         deriv= 0,
 				evaluate_curve_side location = evaluate_curve_unknown
             ) const;
-	/*virtual*/ int gme_evaluate(
-                double      parameter,
-                SPAposition &pt,
-                SPAvector** vec = NULL,
-                int         deriv= 0,
-				evaluate_curve_side location = evaluate_curve_unknown
-            ) const;
 /**
  * Finds the extrema of the curve in the given direction.
  * <br><br>
@@ -396,9 +330,6 @@ public:
  * direction.
  */
 	virtual curve_extremum *find_extrema(
-				SPAunit_vector const &dir
-			) const;
-	/*virtual*/ curve_extremum *gme_find_extrema(
 				SPAunit_vector const &dir
 			) const;
 /**
@@ -417,12 +348,10 @@ public:
  * interval list
  */
 	virtual	int	high_curvature( double k, SPAinterval*& spans ) const;
-	/*virtual*/	int	gme_high_curvature( double k, SPAinterval*& spans ) const;
 /**
  * Returns the law form of the straight entity.
  */
 	law *law_form();
-	law *gme_law_form();
 /**
  * Returns the algebraic distance along the curve between the given parameters.
  * <br><br>
@@ -447,11 +376,6 @@ public:
 				double end,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length(
-				double start,
-				double end,//
-				logical approx_ok=TRUE
-			) const;
 /**
  * Returns the parameter value of the point on the curve at the given algebraic arc length from that defined by the datum parameter.
  * <br><br>
@@ -472,26 +396,18 @@ public:
 				double arc,
 				logical approx_ok=TRUE
 			) const;
-	/*virtual*/ double gme_length_param(
-				double datum,
-				double arc,
-				logical approx_ok=TRUE
-			) const;
 /**
  * Makes a copy of this straight on the heap, and returns a pointer to it.
  */
 	virtual curve *make_copy() const;
-	/*virtual*/ curve *gme_make_copy() const;
 /**
  * Negates this straight line by negating the direction.
  */
 	virtual curve &negate();
-	/*virtual*/ curve &gme_negate();
 /**
  * Returns a straight line with the opposite sense from this line.
  */
 	straight operator-() const;
-	straight gme_operator_substract() const;
 /**
  * Tests two straight curves for equality.
  * <br><br>
@@ -502,7 +418,6 @@ public:
  * curve.
  */
 	virtual logical operator==( curve const &cur ) const;
-	/*virtual*/ logical gme_operator_equal( curve const &cur ) const;
 
 /**
  * @nodoc
@@ -517,10 +432,6 @@ public:
 				straight const &,
 				SPAtransf const &
 			);
-	friend DECL_KERN straight gme_operator_multiply(
-				straight const &,
-				SPAtransf const &
-			);
 /**
  * Transforms this straight line by the given transformation.
  * <br><br>
@@ -530,9 +441,6 @@ public:
 	virtual curve &operator*=(
 				SPAtransf const &trans
 			);
-	/*virtual*/ curve &gme_operator_multiply_assign(
-				SPAtransf const &trans
-			);//@todo:非虚实现
 /**
  * Finds the parameter value at the given point on the curve.
  * <br><br>
@@ -548,15 +456,10 @@ public:
 				SPAposition const &pos,
 				SPAparameter const &guess = *(SPAparameter *)NULL_REF
 			) const;
-	double gme_param(
-				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
-			) const;
 /**
  * Returns the parameter period, 0 in this case because a straight line is not periodic.
  */
 	virtual double param_period() const;
-	/*virtual*/ double gme_param_period() const;
 /**
  * Returns the principal parameter range, or what is inside the given box, if one is indeed given.
  * <br><br>
@@ -568,14 +471,10 @@ public:
 	virtual SPAinterval param_range(
 				SPAbox const &box = *(SPAbox *)NULL_REF
 			) const;
-	/*virtual*/ SPAinterval gme_param_range(
-				SPAbox const &box = *(SPAbox *)NULL_REF
-			) const;
 /**
  * Indicates if the curve is periodic and joins itself smoothly at the ends of its principal parameter range, so that edges may span the seam.
  */
 	virtual logical periodic() const;
-	/*virtual*/ logical gme_periodic() const;
 /**
  * Returns the curvature, which is 0 for a straight line.
  * <br><br>
@@ -591,11 +490,6 @@ public:
 				SPAposition const &pos,
 				SPAparameter const &guess = *(SPAparameter *)NULL_REF
 			) const;
-
-	/*virtual*/ SPAvector gme_point_curvature(
-				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
-			) const;
 /**
  * Returns the direction of the curve at a point on it.
  * <br><br>
@@ -608,10 +502,6 @@ public:
  * param guess.
  */
 	virtual SPAunit_vector point_direction(
-				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
-			) const;
-	/*virtual*/ SPAunit_vector gme_point_direction(
 				SPAposition const &pos,
 				SPAparameter const &guess = *(SPAparameter *)NULL_REF
 			) const;
@@ -649,15 +539,6 @@ public:
 				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
 				logical            f_weak  = FALSE
 			) const;
-	/*virtual*/ void gme_point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAunit_vector     &dir,
-				SPAvector          &cur,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak  = FALSE
-			) const;
 
 /**
  * Drops a perpendicular from the given point to the line, returning the foot of the perpendicular, and the curve direction there.
@@ -675,19 +556,6 @@ public:
  * @param f_weak
  * weak flag.
  */
-	#ifdef GME_KERN_STRDEF
-	void point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAunit_vector     &foot_dt,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak  = FALSE
-			) const
-	{
-		gme_point_perp(pos,foot,foot_dt,*(SPAvector *)NULL_REF,guess,actual, f_weak);
-	}
-	#else
 	void point_perp(
 				SPAposition const  &pos,
 				SPAposition        &foot,
@@ -706,15 +574,6 @@ public:
 					actual, f_weak
 				);
 	}
-	#endif
-	void gme_point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAunit_vector     &foot_dt,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak  = FALSE
-			) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve, and tangent to the curve at that point, and its parameter value.
  * <br><br>
@@ -729,25 +588,6 @@ public:
  * @param f_weak
  * weak flag.
  */
-	#ifdef GME_KERN_STRDEF
-	void point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak  = FALSE
-			) const
-	{
-		gme_point_perp(
-					pos,
-					foot,
-					*(SPAunit_vector *)NULL_REF,
-					*(SPAvector *)NULL_REF,
-					guess,
-					actual, f_weak
-				);
-	}
-	#else
 	void point_perp(
 				SPAposition const  &pos,
 				SPAposition        &foot,
@@ -765,14 +605,6 @@ public:
 					actual, f_weak
 				);
 	}
-	#endif
-	void gme_point_perp(
-				SPAposition const  &pos,
-				SPAposition        &foot,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
-				logical            f_weak  = FALSE
-			) const;
 /**
  * Restores the data for a straight from a save file.
  * <br><br>
@@ -836,27 +668,18 @@ public:
 				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
 				SPAparameter       &actual = *(SPAparameter *)NULL_REF
 			) const;
-	logical gme_test_point_tol(
-				SPAposition const  &pos,
-				double             tol     = 0,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF
-			) const;
 /**
  * Returns the type of <tt>straight</tt>.
  */
 	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 /**
  * Returns a string <tt>"straight"</tt>.
  */
 	virtual char const *type_name() const;
-	/*virtual*/ char const *gme_type_name() const;
 /**
  * Determines whether this curve is undefined.
  */
 	logical undef() const;
-	logical gme_undef() const;
 
 #if defined D3_STANDALONE || defined D3_DEBUG
 /**
@@ -875,6 +698,7 @@ public:
 			);
 
 #endif
+
 };
 
 /** @} */

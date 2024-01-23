@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/bulletin/bulletin.hxx */
+/* ORIGINAL: acis2.1/kerndata/bulletin/bulletin.hxx */
 // $Id: bulletin.hxx,v 1.78 2002/03/06 17:24:06 jenglund Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -244,7 +244,6 @@ DECL_KERN void set_rollback_ptrs(BULLETIN_BOARD *bb);
  */
 
 DECL_KERN DELTA_STATE *note_state(HISTORY_STREAM* = NULL, logical delete_if_empty = FALSE);
-DECL_KERN DELTA_STATE *gme_note_state(HISTORY_STREAM* = NULL, logical delete_if_empty = FALSE);
 
 // STI ROLL begin: Function that deletes the current delta state and returns the
 //                 model to the state before construction of the current state began
@@ -264,11 +263,6 @@ DECL_KERN void abort_state(HISTORY_STREAM* = NULL);
 DECL_KERN void debug_history_stream(HISTORY_STREAM *hs = NULL,
                                     FILE *fp = debug_file_ptr,
                                     int id = 0, int ent_level = 0, int level = 1);
-
-DECL_KERN void gme_debug_history_stream(HISTORY_STREAM *hs = NULL,
-                                        FILE *fp = debug_file_ptr,
-                                        int id = 0, int ent_level = 0, int level = 1);
-
 // STI ROLL end
 
 // Change modeller state from current state, A say, to different state, B,
@@ -285,17 +279,11 @@ DECL_KERN void gme_debug_history_stream(HISTORY_STREAM *hs = NULL,
 
 DECL_KERN logical change_state( DELTA_STATE *, HISTORY_STREAM* = NULL );
 
-DECL_KERN logical gme_change_state( DELTA_STATE *, HISTORY_STREAM* = NULL );
-
 /**
  * @nodoc
  */
 
 DECL_KERN logical merge_states( DELTA_STATE* = NULL, DELTA_STATE* = NULL,
-                                HISTORY_STREAM* = NULL, logical = FALSE,
-                                logical = FALSE );
-
-DECL_KERN logical gme_merge_states( DELTA_STATE* = NULL, DELTA_STATE* = NULL,
                                 HISTORY_STREAM* = NULL, logical = FALSE,
                                 logical = FALSE );
 
@@ -309,9 +297,6 @@ DECL_KERN logical gme_merge_states( DELTA_STATE* = NULL, DELTA_STATE* = NULL,
 
 DECL_KERN void debug_delta_state( DELTA_STATE const *, FILE * );
 
-DECL_KERN void gme_debug_delta_state( DELTA_STATE const *, FILE * );
-DECL_KERN void gme_debug_bulletin_board( BULLETIN_BOARD const *, FILE *);
-
 // Deletes a DELTA_STATE and all DELTA_STATEs below it in the tree.
 
 /**
@@ -319,8 +304,6 @@ DECL_KERN void gme_debug_bulletin_board( BULLETIN_BOARD const *, FILE *);
  */
 
 DECL_KERN void delete_ds_branch(DELTA_STATE *, logical = FALSE);
-
-DECL_KERN void gme_delete_ds_branch(DELTA_STATE *, logical = FALSE);
 
 // Delete all recorded DELTA_STATEs
 // This is used by api_stop_modeller to safely release as much memory as
@@ -346,10 +329,7 @@ DECL_KERN void gme_delete_ds_branch(DELTA_STATE *, logical = FALSE);
  * keep the default stream if flag is <tt>TRUE</tt>.
  **/
 DECL_KERN logical delete_all_delta_states(HISTORY_STREAM *& del_stream, logical keep_stream = FALSE);
-
-DECL_KERN logical gme_delete_all_delta_states(HISTORY_STREAM *& del_stream, logical keep_stream = FALSE);
 // STI ROLL end
-
 
 /**
  * @nodoc
@@ -400,8 +380,6 @@ class DELTA_STATE_LIST;
  */
 
 DECL_KERN DELTA_STATE* current_delta_state();
-
-DECL_KERN DELTA_STATE* gme_current_delta_state();
 
 /**
  * @nodoc
@@ -552,23 +530,16 @@ class DECL_KERN BASE_ACIS_TAG_MANAGER : public BASE_TAG_MANAGER {
 public:
 
 	BASE_ACIS_TAG_MANAGER();
-    BASE_ACIS_TAG_MANAGER(const char* gme);
-
-    ~BASE_ACIS_TAG_MANAGER();
+	~BASE_ACIS_TAG_MANAGER();
 
 	void     set(int, const ENTITY *);
-    void     gme_set(int, const ENTITY *);
 	ENTITY * get(int, outcome &);
-    ENTITY * gme_get(int, outcome &);
 
 	void     grow(int);
-    void     gme_grow(int);
 	int      size() { return tag_array_size; }
 
 	int      get_next_tag( logical post_increment);
-    int      gme_get_next_tag( logical post_increment);
 	void     set_next_tag(int inTag);
-    void     gme_set_next_tag(int inTag);
 };
 
 
@@ -739,7 +710,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
      HISTORY_STREAM();
-     HISTORY_STREAM(const char* gme);
 /**
  * C++ destructor, deleting a <tt>HISTORY_STREAM</tt>.
  */
@@ -748,13 +718,10 @@ public:
  * Deletes delta states from this history stream.
  */
    	void delete_delta_states();
-    void gme_delete_delta_states();
-
 /**
  * Initialilzes the history stream.
  */
  	void initialize_delta_states();
-    void gme_initialize_delta_states();
 
 /**
  * Retrieves the delta state matching the state parameters.
@@ -769,8 +736,6 @@ public:
  * delta state.
  */
 	void get_delta_state(STATE_ID& cs, STATE_ID& ns, DELTA_STATE*& ds);
-    void gme_get_delta_state(STATE_ID& cs, STATE_ID& ns, DELTA_STATE*& ds);
-
 /**
  * Sets the current delta state to the given state.
  * <br><br>
@@ -784,14 +749,10 @@ public:
  * delta state.
  */
  	logical set_delta_state(STATE_ID cs, STATE_ID ns, DELTA_STATE* ds);
-    logical gme_set_delta_state(STATE_ID cs, STATE_ID ns, DELTA_STATE* ds);
-
 /**
  * Gets the current state.
  */
  	STATE_ID get_current_state();
-    STATE_ID gme_get_current_state();
-
 /**
  * Sets the current state to the given ID in the <tt>DELTA_STATE</tt>.
  * <br><br>
@@ -802,8 +763,6 @@ public:
  * delta state.
  */
  	logical set_current_state(STATE_ID cs, DELTA_STATE* ds);
-    logical gme_set_current_state(STATE_ID cs, DELTA_STATE* ds);
-
 /**
  * Sets the state link.
  * <br><br>
@@ -815,19 +774,14 @@ public:
  * Retrieves the root <tt>DELTA_STATE</tt>.
  */
  	DELTA_STATE* get_root_ds();
-    DELTA_STATE* gme_get_root_ds();
-
 /**
  * Retrieves the active <tt>DELTA_STATE</tt>.
  */
 	DELTA_STATE* get_active_ds();
-    DELTA_STATE* gme_get_active_ds();
-
 /**
  * Gets the current <tt>DELTA_STATE</tt>.
  */
  	DELTA_STATE* get_current_ds();
-    DELTA_STATE* gme_get_current_ds();
 
 	// Re-Initialize to an empty stream w/just the root_ds
 	// sys_error if logging_level != 0
@@ -835,7 +789,6 @@ public:
  * Re-initializes to an empty stream with just the root_dssys_error if logging_level is not equal to zero.
  */
  	void clear();
-    void gme_clear();
 
     // STI ROLL begin:
     // Clear reference to this history from entities in stream.
@@ -843,7 +796,6 @@ public:
  * Clears reference to this history from entities in delta state.
  */
      void clear_history_ptrs();
-     void gme_clear_history_ptrs();
 
     // read and set flag for owning entities
 /**
@@ -875,8 +827,6 @@ public:
  * Obtains access to the current bulletin board for update functions.
  */
  	BULLETIN_BOARD * current_bb();
-    BULLETIN_BOARD * gme_current_bb();
-
 /**
  * Returns the pointer to the current <tt>DELTA_STATE</tt>.
  */
@@ -925,8 +875,6 @@ public:
  * delta state.
  */
  	void add(DELTA_STATE* dstate);
-    void gme_add(DELTA_STATE* dstate);
-
 /**
  * Removes a delta state from this history stream.
  * <br><br>
@@ -934,8 +882,6 @@ public:
  * delta state.
  */
  	void remove(DELTA_STATE* dstate);
-    void gme_remove(DELTA_STATE* dstate);
-
 /**
  * Disconnects a particular branch of delta states from the history stream. 
  * The branch to disconnect begins at the supplied delta state and is returned in a new history stream.
@@ -944,8 +890,6 @@ public:
  * delta state
  */
  	HISTORY_STREAM* detach(DELTA_STATE* dstate);
-    HISTORY_STREAM* gme_detach(DELTA_STATE* dstate);
-
 /**
  * Attaches two delta states to one another in history stream.
  * <br><br>
@@ -961,8 +905,6 @@ public:
  * Resets the owning stream after moving states between streams.
  */
  	void set_owners();
-    void gme_set_owners();
-
 /**
  * Merges this delta state in this history stream.
  * <br><br>
@@ -970,8 +912,6 @@ public:
  * history stream.
  */
  	void merge(HISTORY_STREAM* hist);
-    void gme_merge(HISTORY_STREAM* hist);
-
 /**
  * Number of history stream levels to save to output file.
  * <br><br>
@@ -1007,10 +947,6 @@ public:
  	void find_entities(spa_is_function flag,
 					   ENTITY_LIST& elist
 					   );
-    void gme_find_entities(spa_is_function flag,
-					   ENTITY_LIST& elist
-					   );
-
 /**
  * Finds the entity from the history stream based on type.
  * <br><br>
@@ -1022,8 +958,6 @@ public:
  */
 
 	void find_entities(	enum ENTITY_TYPE type, ENTITY_LIST& elist);
-	void gme_find_entities(	enum ENTITY_TYPE type, ENTITY_LIST& elist);
-
 /**
  * Lists the delta states.
  * <br><br>
@@ -1031,7 +965,6 @@ public:
  * delta state list.
  */
  	void list_delta_states( DELTA_STATE_LIST& dslist );
-    void gme_list_delta_states( DELTA_STATE_LIST& dslist );
 
     // STI ROLL begin: adds create bulletins to root DELTA_STATE, for
     //                 use when pruning or saving/restoring empty histories
@@ -1046,9 +979,6 @@ public:
  */
     void add_create_bulletins_to_root_ds(ENTITY_LIST & survivors,
                                          logical remove_existing_from_survivors);
-    void gme_add_create_bulletins_to_root_ds(ENTITY_LIST & survivors,
-                                         logical remove_existing_from_survivors);
-
     // STI ROLL end
 
 	// Snips the graph of <tt>DELTA_STATEs</tt> just before the given state and
@@ -1067,7 +997,6 @@ public:
  * delta state.
  */
  	void prune(DELTA_STATE* ds);
-    void gme_prune(DELTA_STATE* ds);
 
 	// A few of callers of the above, for common situations.
 
@@ -1085,7 +1014,6 @@ public:
  * number to save.
  */
 	void prune_previous(int numToSave);
-    void gme_prune_previous(int numToSave);
 
 	// Prune away all states after active_ds.  There is no numToSave
 	// here because we don't know what branch to chop if there is a
@@ -1097,7 +1025,6 @@ public:
  * if there is a branch. This is not believed to be a practical limitation.
  */
  	void prune_following();
-    void gme_prune_following();
 
 	// The active path runs from the root, to the current state of
 	// the model (active_ds).  This routine prunes away states not in
@@ -1108,7 +1035,6 @@ public:
  * <b>Role:</b> This routine prunes away states not in the active path.
  */
  	void prune_inactive();
-    void gme_prune_inactive();
 
 	// Just inactive branches emminating from the give delta state.
 /**
@@ -1121,7 +1047,6 @@ public:
  * delta state.
  */
 	void prune_inactive_branch(DELTA_STATE* ds);
-    void gme_prune_inactive_branch(DELTA_STATE* ds);
 
 	// This prunes as well, if we already have more than max_states
 /**
@@ -1134,22 +1059,16 @@ public:
  * number to set.
  */
  	void set_max_states_to_keep(int numToSet);
-    void gme_set_max_states_to_keep(int numToSet);
-
-    // 获取主干上delta_states的数量(不包含hidden ds)
-    int get_delta_states_num();
 
 	// Some simple tests
 /**
  * Simple test to see whether stream can be rolled back.
  */
  	logical can_roll_back();
-    logical gme_can_roll_back();
 /**
  * Simple test to see whether stream can be rolled forward.
  */
  	logical can_roll_forward();
-    logical gme_can_roll_forward();
 
     // STI ROLL begin: some functions to verify the stream is correct
 /**
@@ -1159,14 +1078,10 @@ public:
  * alternate stream.
  */
      logical mixed_streams(HISTORY_STREAM*& alternate_hs);
-     logical gme_mixed_streams(HISTORY_STREAM*& alternate_hs);
-
 /**
  * Function to check that the tags on <tt>ENTITYs</tt> in the <tt>HISTORY_STREAM</tt> are valid.
  */
     outcome check_tags_validity();
-    outcome gme_check_tags_validity();
-
 /**
  * Function returns all tagged entities in the history stream - even
  * those that are not active.
@@ -1175,8 +1090,6 @@ public:
  * entity list.
  */
      void get_tagged_entities(ENTITY_LIST& elist);
-     void gme_get_tagged_entities(ENTITY_LIST& elist);
-
     // STI ROLL end
 
 	// Detirmine if a given state is in this stream
@@ -1187,7 +1100,6 @@ public:
  * delta state.
  */
  	logical in_stream(DELTA_STATE* ds);
-    logical gme_in_stream(DELTA_STATE* ds);
 
 	// For debugging, we expose the logging_level as a read only
 	// Thus people can assert they are at the outermost level
@@ -1223,7 +1135,6 @@ public:
  * backup entities counted if <tt>TRUE</tt>.
  */
  	int size(logical include_backups = TRUE) const;
-    int gme_size(logical include_backups = TRUE) const;
 
     // STI ROLL begin:
 
@@ -1249,7 +1160,6 @@ public:
  * result.
  */
      ENTITY* get_entity_from_tag(tag_id_type tag_no, outcome& result = *(outcome*)NULL_REF);
-     ENTITY* gme_get_entity_from_tag(tag_id_type tag_no, outcome& result = *(outcome*)NULL_REF);
 
     // Method to return the tag on an ENTITY in the HISTORY_STREAM
 /**
@@ -1267,9 +1177,6 @@ public:
     tag_id_type tag(const ENTITY *ent,
                     logical check = TRUE,
                     tag_id_type required_id = -1);
-    tag_id_type gme_tag(const ENTITY *ent,
-                    logical check = TRUE,
-                    tag_id_type required_id = -1);
 
     // Methods to add and remove ENTITY from TAG array
 /**
@@ -1279,8 +1186,6 @@ public:
  * entity id.
  */
     ENTITY* remove_tag_reference(tag_id_type tag_no);
-    ENTITY* gme_remove_tag_reference(tag_id_type tag_no);
-
 /**
  * Adds an <tt>ENTITY</tt> to the <tt>TAG</tt> array.
  * <br><br>
@@ -1288,8 +1193,6 @@ public:
  * entity.
  */
      tag_id_type restore_tag_reference(const ENTITY *ent);
-     tag_id_type gme_restore_tag_reference(const ENTITY *ent);
-
 /**
  * Assigns a tag to an entity.
  * <br><br>
@@ -1300,7 +1203,6 @@ public:
  * tag.
  */
     logical assign_tag(const ENTITY *ent, tag_id_type id);
-    logical gme_assign_tag(const ENTITY *ent, tag_id_type id);
 
     // method to get the delta_state from a given tag
 /**
@@ -1310,8 +1212,6 @@ public:
  * tag.
  */
     DELTA_STATE* get_state_from_id(STATE_ID id);
-    DELTA_STATE* gme_get_state_from_id(STATE_ID id);
-
 /**
  * Permits users to change user data in <tt>HISTORY_STREAM</tt>.
  * <br><br>
@@ -1327,8 +1227,6 @@ public:
 private:
     // routine to allocate memory for pointers to tagged entities
     void ensure_tag_storage_size(tag_id_type max_tag_value);
-    void gme_ensure_tag_storage_size(tag_id_type max_tag_value);
-    
     // allow save_history access so that it can copy tag information
     // to empty history when saving active_only
     friend logical save_history(FileInterface* file_ptr,
@@ -1449,7 +1347,6 @@ public:
  * Restores <tt>DELTA_STATE</tt> to the state provided by a previous bulletin board.
  */
  	logical restore();
-
 /**
  * The <tt>fix_pointers</tt> method for each entity in the restore array is called, with the array as argument.
  * <br><br>
@@ -1490,7 +1387,6 @@ public:
  * name.
  */
 	void set_name( const char* n);
-    void gme_set_name( const char* n);
 /**
  * Returns the name of the delta state.
  * <br><br>
@@ -1498,7 +1394,6 @@ public:
  * name of delta state.
  */
  	logical is_named(const char* n);
-    logical gme_is_named(const char* n);
 /**
  * Returns the owner of the stream.
  */
@@ -1510,6 +1405,7 @@ public:
  * hide or not.
  */
  	logical hide(logical h) { logical r = hidden; hidden = h; return r; }
+
 	// STI ROLL
 /**
  * @nodoc
@@ -1529,7 +1425,8 @@ public:
  * history.
  */
  	DELTA_STATE(HISTORY_STREAM* hist = NULL);		// constructor
-    DELTA_STATE(const char* gme, HISTORY_STREAM* hist = NULL);
+
+
 /**
  * C++ destructor, deleting a <tt>DELTA_STATE</tt> and their bulletins, that constitute the <tt>DELTA_STATE</tt>.
  */
@@ -1541,25 +1438,22 @@ public:
  * Read only access to the originating <tt>DELTA_STATE</tt>.
  */
  	STATE_ID from() const;
-    STATE_ID gme_from() const;
 /**
  * Read only access to the destination <tt>DELTA_STATE</tt>.
  */
  	STATE_ID to() const;
-    STATE_ID gme_to() const;
 /**
  * Returns the <tt>STATE_ID</tt>.
  */
  	STATE_ID id() const;
-    STATE_ID gme_id() const;
 /**
  * Returns <tt>TRUE</tt> if this <tt>DELTA_STATE</tt> rolls backward.
  */
- 	logical backward() const { return rolls_back; }
+ 	logical  backward() const { return rolls_back; }
 /**
  * Returns <tt>TRUE</tt> if this <tt>DELTA_STATE</tt> rolls forward.
  */
- 	logical forward() const { return ! backward(); }
+ 	logical  forward() const { return ! backward(); }
 /**
  * Returns the <tt>bb_ptr</tt>.
  */
@@ -1599,7 +1493,6 @@ public:
  * bulletin board.
  */
  	void add( BULLETIN_BOARD *bb );
-    void gme_add( BULLETIN_BOARD *bb );
 
 /**
  * Removes a new bulletin board from this delta state.
@@ -1608,19 +1501,16 @@ public:
  * bulletin board.
  */
  	void remove( BULLETIN_BOARD *bb );
-    void gme_remove( BULLETIN_BOARD *bb );
 
 /**
  * Rolls back over a complete delta state, inverting it so as to allow roll forward the next time.
  */
  	void roll();
-    void gme_roll();
 
 /**
  * Returns <tt>TRUE</tt> if the <tt>DELTA_STATE</tt> contains no <tt>BULLETINs</tt>.
  */
  	logical is_empty() const;
-    logical gme_is_empty() const;
 
 /**
  * Outputs debug information about <tt>DELTA_STATE</tt> to the debug file or to the specified file.
@@ -1720,7 +1610,6 @@ public:
  * bulletin list.
  */
  	void find_bulletins(int type, int level, BULLETIN_LIST& blist) const;
-    void gme_find_bulletins(int type, int level, BULLETIN_LIST& blist) const;
 
 /**
  * Function for finding annotations.
@@ -1739,7 +1628,6 @@ public:
  * bulletin list.
  */
  	void find_bulletins(spa_is_function tester, BULLETIN_LIST& blist) const;
-    void gme_find_bulletins(spa_is_function tester, BULLETIN_LIST& blist) const;
 /**
  * Searches in entity list for a type of entity recorded in the bulletin.
  * <br><br>
@@ -1749,14 +1637,12 @@ public:
  * @param elist
  * entity list.
  */
- 	void find_entities(enum ENTITY_TYPE type, ENTITY_LIST& elist);
-    void gme_find_entities(enum ENTITY_TYPE type, ENTITY_LIST& elist);
+ 	void find_entities(enum ENTITY_TYPE type , ENTITY_LIST& elist);
 
 /**
  * Performs compression on a given <tt>DELTA_STATE</tt>.
  */
  	void compress();
-    void gme_compress();
 
 	// merge with the next DELTA_STATE, keeping all the BULLETINs
 	// and BULLETIN_BOARDs from both states in the correct order.
@@ -1778,7 +1664,6 @@ public:
  * into one state.
  */
  	void merge_next();
-    void gme_merge_next();
 
 /**
  * Adds connectees to the delta state list.
@@ -1787,7 +1672,6 @@ public:
  * change state list.
  */
  	void scan( DELTA_STATE_LIST& dslist ) const;
-    void gme_scan( DELTA_STATE_LIST& dslist ) const;
 
 /**
  * @nodoc
@@ -1805,20 +1689,16 @@ public:
  * include backups as part of size.
  */
   	int size(logical include_backups = TRUE) const;
-    int gme_size(logical include_backups = TRUE) const;
 
     // STI ROLL begin
 /**
  * Clears reference to this history from entities in the delta state.
  */
      void clear_history_ptrs();
-     void gme_clear_history_ptrs();
 /**
  * Sets history pointers.
  */
      void set_history_ptrs();
-     void gme_set_history_ptrs();
-
 /**
  * Reset the history stream on deletion.
  */
@@ -1833,7 +1713,6 @@ public:
  * alternate stream.
  */
      logical mixed_streams(HISTORY_STREAM*& alternate_hs);
-     logical gme_mixed_streams(HISTORY_STREAM*& alternate_hs);
     // STI ROLL end
 };
 
@@ -1981,8 +1860,6 @@ public:
  * ingore version or not
  */
  	logical restore(BULLETIN_BOARD* previous_bb, logical ignore_string_version = FALSE);
-    logical gme_restore(BULLETIN_BOARD* previous_bb, logical ignore_string_version = FALSE);
-
 /**
  * The <tt>fix_pointers</tt> method for each entity in the restore array is called, with the array as argument.
  * <br><br>
@@ -2020,7 +1897,6 @@ public:
  * change state.
  */
  	BULLETIN_BOARD(DELTA_STATE* ds = NULL);
-    BULLETIN_BOARD(const char* gme, DELTA_STATE* ds = NULL);
 
 	// This constructor is NOT for use by application developers.
 	// It is for internal use only.
@@ -2031,7 +1907,6 @@ public:
  * delta state.
  */
  	BULLETIN_BOARD(logical in_current_ds);
-    BULLETIN_BOARD(const char* gme, logical in_current_ds);
 
 	// Remove and delete bulletin board (usually at head of list of
 	// bulletin-boards in delta state) and delete its bulletin entries.
@@ -2112,7 +1987,6 @@ public:
  * bulletin board.
  */
  	void add( BULLETIN *bb );
-    void gme_add(BULLETIN *b);
 
 	// Remove a bulletin from this bulletin_board.
 /**
@@ -2122,7 +1996,6 @@ public:
  * bulletin board.
  */
  	void remove( BULLETIN *bb );
-    void gme_remove(BULLETIN *bb);
 
 	// Roll every bulletin on the bulletin-board, changing any entities
 	// referenced, and flipping the sense of the bulletin-board from
@@ -2131,7 +2004,6 @@ public:
  * Rolls back over a complete delta state, inverting it so as to allow roll forward the next time.
  */
  	void roll();
-    void gme_roll();
 
 // Debug printout.
 /**
@@ -2191,7 +2063,6 @@ public:
  * bulletin list.
  */
  	void find_bulletins(int type, int level, BULLETIN_LIST& blist) const;
-
 /**
  * Function for finding annotations.
  * <br><br>
@@ -2208,8 +2079,6 @@ public:
  * bulletin list.
  */
  	void find_bulletins(spa_is_function tester, BULLETIN_LIST& blist) const;
-    void gme_find_bulletins(spa_is_function tester, BULLETIN_LIST& blist) const;
-
 /**
  * Merges next bulletin into roll back history.
  * <br><br>
@@ -2217,7 +2086,6 @@ public:
  * on/off indicator.
  */
      logical	merge_next(logical rollback_set);
-     logical	gme_merge_next(logical rollback_set);
 
 	// How much space taken by this bulletin_board
 	// This includes all the history stream structure
@@ -2230,7 +2098,6 @@ public:
  * include backups as part of the size.
  */
  	int size(logical include_backups = TRUE) const;
-    int gme_size(logical include_backups = TRUE) const;
 
     // STI ROLL begin:
 
@@ -2239,7 +2106,6 @@ public:
  * Clears history pointers.
  */
      void clear_history_ptrs();
-     void gme_clear_history_ptrs();
 
     // makes sure history pointers are reset when the bb is lost
 /**
@@ -2265,10 +2131,6 @@ public:
                           logical& move_fixes = *(logical *)NULL_REF,
                           logical remove_bulls = FALSE);
 
-     logical gme_mixed_streams(HISTORY_STREAM*& alternative_hs,
-                          logical& move_fixes = *(logical *)NULL_REF,
-                          logical remove_bulls = FALSE);
-
 	// STI ROLL BB merge Check and set methods
 /**
  * Returns whether or not a bulleting board merge is pending.
@@ -2285,8 +2147,6 @@ public:
  * value.
  */
  	void set_pending(logical pending_value);
-    void gme_set_pending(logical pending_value);
-
 /**
  * Merge method, Sets whether or not rollbacks are cleared on merge.
  * <br><br>
@@ -2294,7 +2154,6 @@ public:
  * cleared.
  */
  	void set_rollbacks_cleared(logical severed);
- 	void gme_set_rollbacks_cleared(logical severed);
 
     // methods to get and set the history stream that the bulletin board needs to be
 /**
@@ -2399,7 +2258,6 @@ public:
   * that entity.
   */
     void swap(ENTITY* this_ent, ENTITY* that_ent);
-    void gme_swap(ENTITY* this_ent, ENTITY* that_ent);
 
  public:
 /**
@@ -2472,7 +2330,6 @@ public:
  * new entity.
  */
 	BULLETIN( ENTITY *old_ent, ENTITY *new_ent );
-    BULLETIN(const char* gme, ENTITY *old_ent, ENTITY *new_ent);
 
 	// This constructor is NOT for use by application developers.
 	// It is for internal use only.
@@ -2480,7 +2337,6 @@ public:
  * C++ constructor.
  */
  	BULLETIN();
-    BULLETIN(const char* gme);
 
 	// Bulletin destructor - does NOT update pointers in bulletin_board
 	// so calling routine must be sure to do so.
@@ -2497,7 +2353,6 @@ public:
  * bulletin.
  */
  	void set_next_bb_b( BULLETIN *b);
-    void gme_set_next_bb_b(BULLETIN *b);
 
 	// Give read-only access to private data
 /**
@@ -2520,12 +2375,10 @@ public:
  * Nullifies the new entity pointer.
  */
      void null_old_entity_ptr();
-     void gme_null_old_entity_ptr();
 /**
  * Nullifies the old entity pointer.
  */
      void null_new_entity_ptr();
-     void gme_null_new_entity_ptr();
 /**
  * Sets the entity pointers.
  * <br><br>
@@ -2536,7 +2389,6 @@ public:
  * new entity.
  */
      void set_entity_ptrs(ENTITY *old_ent, ENTITY *new_ent);
-     void gme_set_entity_ptrs(ENTITY *old_ent, ENTITY *new_ent);
 /**
  * Returns a pointer to the current entity.
  */
@@ -2556,18 +2408,15 @@ public:
  * <tt>CHANGE_BULLETIN</tt>, and <tt>DELETE_BULLETIN</tt>.
  */
  	BULLETIN_TYPE type() const;	// find type of bulletin
-    BULLETIN_TYPE gme_type() const;
 /**
  * Concatenates a change (or create) operation and a delete bulletin on the same <tt>ENTITY</tt> on the same bulletin board.
  */
  	void make_delete();			// convert a change into a delete
-    void gme_make_delete();
 /**
  * Modifies the bulletin such that the new and old <tt>ENTITY</tt> pointers reflect the change of state.
  */
      void roll();				// apply this bulletin to roll back/
 								// forward the referenced entity
-     void gme_roll();
 /**
  * Outputs debug information about <tt>BULLETIN</tt> to standard output or to the specified file.
  * <br><br>
@@ -2575,8 +2424,6 @@ public:
  * file pointer
  */
  	void debug( FILE *fp = debug_file_ptr ) const;
-    void gme_debug( FILE *fp = debug_file_ptr ) const;
-
 /**
  * Writes information about the <tt>BULLETIN</tt> to the debug file or to the specified file.
  * <br><br>
@@ -2605,15 +2452,12 @@ public:
  * include backups as part of size.
  */
  	int size(logical include_backups = TRUE) const;
-    int gme_size(logical include_backups = TRUE) const;
 
     // STI ROLL begin: clear reference to the history from entity in bulletin
 /**
  * Clears the history stream.
  */
      void clear_history();
-     void gme_clear_history();
-
 /**
  * Sets the current history stream.
  * <br><br>
@@ -2621,8 +2465,6 @@ public:
  * history stream.
  */
      void set_history (HISTORY_STREAM* hist) const;
-     void gme_set_history (HISTORY_STREAM* hist) const;
-
     // STI ROLL end
 
     // STI ROLL begin:
@@ -2634,7 +2476,6 @@ public:
  * from entities or not.
  */
      HISTORY_STREAM* history_stream(logical from_ents = FALSE) const;
-     HISTORY_STREAM* gme_history_stream(logical from_ents = FALSE) const;
 
     // Returns TRUE when the entities history, ent_hs, does not
     // match the bulletin_board's history, bb_hs.  The entities
@@ -2662,18 +2503,11 @@ public:
                           logical& can_be_fixed,
                           logical& stream_corrupt,
                           HISTORY_STREAM* bb_hs = NULL) const;
-      logical gme_mixed_streams(HISTORY_STREAM*& ent_hs,
-                          logical& can_be_fixed,
-                          logical& stream_corrupt,
-                          HISTORY_STREAM* bb_hs = NULL) const;
-
     // STI ROLL end
 /**
  * Returns whether or not there has been a change to only the attribute.
  */
  	logical attrib_only_change() const; // STI ROLL
-    logical gme_attrib_only_change() const; // STI ROLL
-
  /**
   * Returns whether or not there has been a change.
   */
@@ -2733,7 +2567,6 @@ public:
 class DECL_KERN bb_close_callback_list : public toolkit_callback_list {
 public:
 	void Closing_Bulletin_Board(BULLETIN_BOARD* bb);
-    void gme_Closing_Bulletin_Board(BULLETIN_BOARD* bb);
 
 	// Add callbacks to the beginning of the list
 	void add(bb_close_callback* cb) { toolkit_callback_list::add(cb); }
@@ -2746,8 +2579,6 @@ public:
  * @nodoc
  */
 DECL_KERN bb_close_callback_list& get_bb_close_callback_list();
-DECL_KERN bb_close_callback_list& gme_get_bb_close_callback_list();
-
 // Function used by update functions (and possibly elsewhere) to obtain access
 // to the current bulletin-board.
 /**
@@ -2757,8 +2588,6 @@ DECL_KERN bb_close_callback_list& gme_get_bb_close_callback_list();
 **/
 
 DECL_KERN BULLETIN_BOARD *current_bb();
-
-DECL_KERN BULLETIN_BOARD *gme_current_bb();
 
 /**
 * Retrieves a default history stream, which may be necessary when initially creating a history of actions.
@@ -2774,14 +2603,10 @@ DECL_KERN BULLETIN_BOARD *gme_current_bb();
 
 DECL_KERN HISTORY_STREAM* get_default_stream(logical make_if_null = TRUE);
 
-DECL_KERN HISTORY_STREAM* gme_get_default_stream(logical make_if_null = TRUE);
-
 /**
  * @nodoc
  */
 DECL_KERN void set_default_stream(HISTORY_STREAM*);
-
-DECL_KERN void gme_set_default_stream(HISTORY_STREAM*);
 
 // Jeff 09.11.06 NESTED_HISTORY
 /**
@@ -2833,8 +2658,6 @@ DECL_KERN void gme_set_default_stream(HISTORY_STREAM*);
 **/
 DECL_KERN HISTORY_STREAM* push_default_stream(HISTORY_STREAM* to_stream);
 
-DECL_KERN HISTORY_STREAM* gme_push_default_stream(HISTORY_STREAM* to_stream);
-
 /**
  * Reactivates the previously suspended input @href HISTORY_STREAM.
  * <br><br>
@@ -2853,16 +2676,10 @@ DECL_KERN HISTORY_STREAM* gme_push_default_stream(HISTORY_STREAM* to_stream);
 **/
 DECL_KERN HISTORY_STREAM* pop_default_stream(HISTORY_STREAM* to_stream);
 
-DECL_KERN HISTORY_STREAM* gme_pop_default_stream(HISTORY_STREAM* to_stream);
-
 /**
  * @nodoc
  */
 DECL_KERN HISTORY_STREAM* get_stream_root();
-
-DECL_KERN HISTORY_STREAM* gme_get_stream_root();
-
-DECL_KERN void gme_null_stream_root();
 
 #ifdef THREAD_SAFE_ACIS
 /**
@@ -2880,8 +2697,6 @@ DECL_KERN void gme_null_stream_root();
  * The stream to merge into the master stream.
  */
 DECL_KERN outcome merge_child_state( HISTORY_STREAM* child_stream );
-
-DECL_KERN outcome gme_merge_child_state(HISTORY_STREAM* child_stream);
 #endif
 
 /** @} */

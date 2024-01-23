@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -13,17 +13,11 @@
 #endif
 
 #include "importexport.h"
-#include "acis/gme/intersector/gme_intersector.hxx"
-
 #ifdef IMPORT_EXPORT_SYMBOLS
 # ifdef BUILDING_LOCAL_FILE
 #  define DECL_INTR EXPORT_SYMBOL
 # else
-#ifndef GME_INTERSECTOR_DLL
 #  define DECL_INTR IMPORT_SYMBOL
-#else
-#  define DECL_INTR EXPORT_SYMBOL
-#endif
 # endif
 #else
 # define DECL_INTR

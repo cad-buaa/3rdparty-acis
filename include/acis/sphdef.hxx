@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -43,7 +43,6 @@ class sphere;
  * transform to use.
  */
 DECL_KERN sphere operator*(sphere const &name,SPAtransf const &trans);
-DECL_KERN sphere gme_operator_multiply(sphere const &name,SPAtransf const &trans);
 /**
  * @nodoc
  * Internal use. Restore mechanism.
@@ -127,7 +126,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	sphere();
-        sphere(const char *gme);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * <br><br>
@@ -137,7 +135,6 @@ public:
 	sphere(
 				sphere const &sph
 			);
-        sphere(const char *gme, const sphere &sph);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -150,7 +147,6 @@ public:
 				SPAposition const &pos,
 				double radius
 			);
-        sphere(const char *gme, const SPAposition &pos, double radius);
 /**
  * C++ destructor, deleting a sphere.
  */
@@ -169,7 +165,6 @@ public:
 	virtual int accurate_derivs(
 				SPApar_box const & name = *(SPApar_box *)NULL_REF
 			) const;
-        /*virtual*/ int gme_accurate_derivs(SPApar_box const & name = *(SPApar_box *)NULL_REF) const;
 /**
  * Returns a box that encloses the surface in parameter space.
  * <br><br>
@@ -182,10 +177,6 @@ public:
 				SPApar_box const &space = *(SPApar_box *)NULL_REF,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-        /*virtual*/ SPAbox gme_bound(
-                        SPApar_box const &space = *(SPApar_box *)NULL_REF,
-                        SPAtransf const &trans = *(SPAtransf *)NULL_REF
-                ) const;
 
 /**
  * Returns a box that encloses the surface in object space.
@@ -199,24 +190,18 @@ public:
 				SPAbox const &box,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-        /*virtual*/ SPAbox gme_bound(
-				SPAbox const &box,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
 /**
  * Reports whether the surface is closed, smoothly or not, in the <i>u-parameter</i> direction.
  * <br><br>
  * <b>Role:</b> A sphere is open in the <i>u</i>-direction.
  */
 	virtual logical closed_u() const;
-        /*virtual*/ logical gme_closed_u() const;
 /**
  * Reports whether the surface is closed, smoothly or not, in the <i>v-parameter</i> direction.
  * <br><br>
  * <b>Role:</b> A sphere is closed in the <i>v</i>-direction.
  */
 	virtual logical closed_v() const;
-        /*virtual*/ logical gme_closed_v() const;
 /**
  * Prints out details of sphere.
  * <br><br>
@@ -229,12 +214,6 @@ public:
 				char const *leader,
 				FILE * fp= debug_file_ptr
 			) const;
-
-	void gme_debug(
-				char const *leader,
-				FILE * fp= debug_file_ptr
-			) const;
-
 /**
  * Creates a copy of an item that does not share any data with the original.
  * <br><br>
@@ -245,7 +224,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual surface *deep_copy(pointer_map * pm = NULL) const;
-        /*virtual*/ surface *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Evaluates to point from parameters.<br><br>
  * <b>Role:</b> Finds the point on a parametric surface with given
@@ -267,8 +245,6 @@ public:
 				SPAvector *deriv1 = NULL,
 				SPAvector *deriv2 = NULL
 			) const;
-        /*virtual*/ void gme_eval(SPApar_pos const &parpos, SPAposition &pos, SPAvector *deriv1 = NULL,
-                              SPAvector *deriv2 = NULL) const;
 /**
  * Finds the curvature of a cross-section curve of the parametric surface at the point with given parameter values.
  * <br><br>
@@ -284,7 +260,6 @@ public:
 				SPApar_pos const     &parpos,
 				SPAunit_vector const &direction
 			) const;
-        /*virtual*/ double gme_eval_cross(SPApar_pos const &parpos, SPAunit_vector const &direction) const;
 
 /**
  * Finds the normal to a parametric surface at a point with given parameter values.
@@ -295,7 +270,6 @@ public:
 	virtual SPAunit_vector eval_normal(
 				SPApar_pos const &parpos
 			) const;
-        /*virtual*/ SPAunit_vector gme_eval_normal(SPApar_pos const parpos) const;
 /**
  * Finds the principal axes of curvature and the curvatures in those directions of the surface at a point with given parameter values.
  * <br><br>
@@ -320,9 +294,6 @@ public:
 				SPAunit_vector   &axis2,
 				double           &curv2
 			) const;
-        /*virtual*/ void gme_eval_prin_curv(SPApar_pos const &parameter, SPAunit_vector &aixs1,
-                                        double &curv1, SPAunit_vector &aixs2, double &curv2
-                        ) const;
 /**
  * Finds the principal axes of curvature and the curvatures in those directions of the surface at a point with given parameter values.
  * <br><br>
@@ -366,13 +337,6 @@ public:
                 int              deriv             = 0,
 				evaluate_surface_quadrant location = evaluate_surface_unknown
             ) const;
-        /*virtual*/ int gme_evaluate(
-                SPApar_pos const &parpos,
-                SPAposition &pos,
-                SPAvector** vec = NULL,
-                int deriv = 0,
-                evaluate_surface_quadrant location = evaluate_surface_unknown
-            ) const;
 /**
  * @nodoc
  */
@@ -393,17 +357,14 @@ public:
  * cross product.
  */
 	virtual logical left_handed_uv() const;
-        /*virtual*/ logical gme_left_handed_uv() const;
 /**
  * Makes a copy of this sphere on the heap, and returns a pointer to it.
  */
 	virtual surface *make_copy() const;
-        /*virtual*/ surface *gme_make_copy() const;
 /**
  * Negates this sphere.
  */
 	virtual surface &negate();
-    /*virtual*/ surface &gme_negate();
 /**
  * Returns a cone bounding the normal direction of a curve.
  * <br><br>
@@ -428,16 +389,10 @@ public:
 				logical          result = FALSE,
 				SPAtransf const  &trans = *(SPAtransf *)NULL_REF
 			) const;
-        /*virtual*/ surf_normcone gme_normal_cone(
-                        SPApar_box const &bound,
-                        logical          approx = FALSE,
-                        SPAtransf const  &trans = *(SPAtransf *)NULL_REF
-                ) const;
 /**
  * Returns a copy of this sphere negated - with normal reversed.
  */
 	sphere operator-() const;
-        sphere gme_operator_negate() const;
 /**
  * Tests two surfaces for equality.
  * <br><br>
@@ -451,7 +406,6 @@ public:
  * surface name.
  */
 	virtual logical operator==( surface const & surf) const;
-        /*virtual*/ logical gme_operator_equal(const surface& surf) const;
 /**
  * @nodoc
  * Internal use.
@@ -460,7 +414,6 @@ public:
 				sphere const &,
 				SPAtransf const &
 			);
-        friend DECL_KERN sphere gme_operator_multiply(sphere const &, SPAtransf const &);
 /**
  * Transforms this sphere by the given transform.
  * <br><br>
@@ -470,7 +423,6 @@ public:
 	virtual surface &operator*=(
 				SPAtransf const &trans
 			);
-	/*virtual*/ surface &gme_operator_multiply_assign(const SPAtransf &trans);
 /**
  * Finds the parameter values of a point on a surface, given an optional first guess.
  * <br><br>
@@ -483,7 +435,6 @@ public:
 				SPAposition const &pos,
 				SPApar_pos const &parpos = *(SPApar_pos *)NULL_REF
 			) const;
-        /*virtual*/ SPApar_pos gme_param(SPAposition const &pos, SPApar_pos const &parpos = *(SPApar_pos *)NULL_REF) const;
 
 /**
  * Returns the period of a periodic parametric surface, or 0 if the surface is not periodic in the <i>u</i>-parameter or not parametric.
@@ -491,14 +442,12 @@ public:
  * <b>Role:</b> A sphere is not periodic in the <i>u</i>-direction.
  */
 	virtual double param_period_u() const;
-        /*virtual*/ double gme_param_period_u() const;
 /**
  * Returns the period of a periodic parametric surface, or 0 if the surface is not  periodic in the <i>v</i>-parameter or not parametric.
  * <br><br>
  * <b>Role:</b> A sphere has a period of <tt>2 * pi</tt> in the <i>v</i>-direction.
  */
 	virtual double param_period_v() const;
-        /*virtual*/ double gme_param_period_v() const;
 /**
  * Returns the parameter ranges of the portion of a surface lying within the given box.
  * <br><br>
@@ -508,7 +457,6 @@ public:
 	virtual SPApar_box param_range(
 					SPAbox const &name = *(SPAbox *)NULL_REF
 				) const;
-        /*virtual*/ SPApar_box gme_param_range(SPAbox const &name = *(SPAbox *)NULL_REF) const;
 /**
  * Returns the parameter ranges of the portion of a surface that lies within the given box in a <i>u</i>-parameter direction.
  * <br><br>
@@ -518,7 +466,6 @@ public:
 	virtual SPAinterval param_range_u(
 					SPAbox const &name = *(SPAbox *)NULL_REF
 				) const;
-        /*virtual*/ SPAinterval gme_param_range_u( SPAbox const &name = *(SPAbox *)NULL_REF) const;
 /**
  * Returns the parameter ranges of the portion of a surface that lies within the given box in a <i>v</i>-parameter direction.
  * <br><br>
@@ -528,7 +475,6 @@ public:
 	virtual SPAinterval param_range_v(
 					SPAbox const &name = *(SPAbox *)NULL_REF
 				) const;
-        /*virtual*/ SPAinterval gme_param_range_v( SPAbox const &name = *(SPAbox *)NULL_REF) const;
 /**
  * Finds rate of change at a parameter.<br><br>
  * <b>Role:</b>
@@ -545,14 +491,12 @@ public:
 				SPAunit_vector const &direction,
 				SPApar_pos const &parpos
 			) const;
-        /*virtual*/ SPApar_vec gme_param_unitvec(SPAunit_vector const &direction, SPApar_pos const &parpos) const;
 /**
  * Determines if a sphere is parametric.
  * <br><br>
  * <b>Role:</b> Returns if this surface is parametric. A sphere is not considered to be parametric.
  */
 	virtual logical parametric() const;
-        /*virtual*/ logical gme_parametric() const;
 /**
  * Reports whether the surface is periodic in the <i>u-parameter</i> direction.
  * <br><br>
@@ -561,7 +505,6 @@ public:
  * run over the seam. A sphere is not periodic in the <i>u</i>-direction.
  */
 	virtual logical periodic_u() const;
-        /*virtual*/ logical gme_periodic_u() const;
 /**
  * Reports whether the surface is periodic in the <i>v</i>-parameter direction.
  * <br><br>
@@ -570,7 +513,6 @@ public:
  * run over the seam. A sphere is not periodic in the <i>v</i>-direction.
  */
 	virtual logical periodic_v() const;
-        /*virtual*/ logical gme_periodic_v() const;
 /**
  * Returns the surface normal at a given point on the surface.
  * <br><br>
@@ -583,10 +525,6 @@ public:
 				SPAposition const &pos,
 				SPApar_pos const & parpos = *(SPApar_pos *)NULL_REF
 			) const;
-        /*virtual*/ SPAunit_vector gme_point_normal(
-                        SPAposition const &pos,
-                        SPApar_pos const & parpos = *(SPApar_pos *)NULL_REF
-                ) const;
 /**
  * Returns the curvature of a curve in the surface through a given point normal to a given direction in the surface.
  * <br><br>
@@ -604,11 +542,6 @@ public:
 				SPAunit_vector const &direction,
 				SPApar_pos const &parpos = *(SPApar_pos *)NULL_REF
 			) const;
-        /*virtual*/ double gme_point_cross(
-                        SPAposition const &pos,
-                        SPAunit_vector const &direction,
-                        SPApar_pos const &parpos = *(SPApar_pos *)NULL_REF
-                ) const;
 /**
  * Finds the principal axes of curvature of the surface at a given point, and the curvatures in those directions.
  * <br><br>
@@ -633,14 +566,6 @@ public:
 				double            &cur2,
 				SPApar_pos const  &parpos = *(SPApar_pos *)NULL_REF
 			) const;
-        /*virtual*/ void gme_point_prin_curv(
-                        SPAposition const &pos,
-                        SPAunit_vector    &axis1,
-                        double            &cur1,
-                        SPAunit_vector    &axis2,
-                        double            &cur2,
-                        SPApar_pos const  &parpos = *(SPApar_pos *)NULL_REF
-                ) const;
 /**
  * Finds the principal axes of curvature of the surface at a given point, and the curvatures in those directions.
  * <br><br>
@@ -689,15 +614,6 @@ public:
 				SPApar_pos & parpos2= *(SPApar_pos *)NULL_REF,
 				logical f_weak = FALSE
 			) const;
-        /*virtual*/ void gme_point_perp(
-                        SPAposition const &pos,
-                        SPAposition &foot,
-                        SPAunit_vector &norm,
-                        surf_princurv &princurv,
-                        SPApar_pos const &parpos_guess = *(SPApar_pos *)NULL_REF,
-                        SPApar_pos & parpos_actual= *(SPApar_pos *)NULL_REF,
-                        logical f_weak = FALSE
-                ) const;
 /**
  * Finds the point on the surface nearest to the given point.
  * <br><br>
@@ -736,14 +652,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-        void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPAunit_vector &norm,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
 /**
  * Finds the point on the surface nearest to the given point.
  * <br><br>
@@ -778,13 +686,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-        void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition       &foot,
-				SPApar_pos const  &param_guess  = *(SPApar_pos *)NULL_REF,
-				SPApar_pos        &param_actual = *(SPApar_pos *)NULL_REF,
-				logical           f_weak = FALSE
-			) const;
 /**
  * @nodoc
  * Internal use. Restore mechanism.
@@ -825,7 +726,6 @@ public:
 	virtual logical singular_u(
 					double	uparam
 				) const;
-        /*virtual*/ logical gme_singular_u(double uparam) const;
 /**
  * Reports whether the surface parameterization is singular at the specified <i>v-parameter</i> value.
  * <br><br>
@@ -837,7 +737,6 @@ public:
 	virtual logical singular_v(
 					double vparam
 				) const;
-        /*virtual*/ logical gme_singular_v(double vparam) const;
 /**
  * Tests whether a point lies on the surface, to user-supplied precision.
  * <br><br>
@@ -856,28 +755,19 @@ public:
 				SPApar_pos const  &parpos    = *(SPApar_pos *)NULL_REF,
 				SPApar_pos        &parameter = *(SPApar_pos *)NULL_REF
 			) const;
-        /*virtual*/ logical gme_test_point_tol(
-                        SPAposition const &pos,
-                        double            tol      = 0,
-                        SPApar_pos const  &parpos    = *(SPApar_pos *)NULL_REF,
-                        SPApar_pos        &parameter = *(SPApar_pos *)NULL_REF
-                ) const;
 
 /**
  * Returns the type of sphere.
  */
 	virtual int type() const;
-        /*virtual*/ int gme_type() const;
 /**
  * Returns the string <tt>"sphere"</tt>.
  */
 	virtual char const *type_name() const;
-        /*virtual*/ char const *gme_type_name() const;
 /**
  * Verifies if the sphere is properly defined.
  */
 	virtual logical undef() const;
-        /*virtual*/ logical gme_undef() const;
 /**
  * Constructs a parameter line on the surface.
  * <br><br>
@@ -894,7 +784,6 @@ public:
 	virtual curve *u_param_line(
 				double vparam
 			) const;
-        /*virtual*/ curve *gme_u_param_line(double vparam) const;
 /**
  * Constructs a parameter line on the surface.
  * <br><br>
@@ -911,7 +800,6 @@ public:
 	virtual curve *v_param_line(
 				double	uparam
 			) const;
-        /*virtual*/ curve *gme_v_param_line(double uparam) const;
 
 #if defined D3_STANDALONE || defined D3_DEBUG
 /**

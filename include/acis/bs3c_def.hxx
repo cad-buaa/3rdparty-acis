@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/agspline/bs3_crv/bs3c_def.hxx */
+/* ORIGINAL: acis2.1/agspline/bs3_crv/bs3c_def.hxx */
 /* $Id: bs3c_def.hxx,v 1.1.1.1 2001/06/05 17:28:41 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -33,7 +33,6 @@
 // Now the object to which it points.
 
 struct ag_spline;
-class gme_ag_spline;
 
 class DECL_SPLINE bs3_curve_def : public ACIS_OBJECT {
 
@@ -50,29 +49,22 @@ public:
 #endif
 
 public:
-        gme_ag_spline *gme_cur = nullptr;
+
 	bs3_curve_def(ag_spline *, 
 				  bs3_curve_form = bs3_curve_unknown_ends, 
 				  int = -1,
                   int = 0
 				  );
-        bs3_curve_def(gme_ag_spline *spline, bs3_curve_form form = bs3_curve_unknown_ends,
-                int initial_seam_knot_mult = -1,
-                int start_mult = 0);
 	~bs3_curve_def();
-        void gme_terminate();
+
 	void trash();
 
 	ag_spline * get_cur();
-	ag_spline *gme_get_cur();
 	ag_spline ** get_cur_ref();
 	void set_cur( ag_spline *c);
-	void gme_set_cur(ag_spline *c);
 
 	bs3_curve_form get_form();
-	bs3_curve_form gme_get_form();
 	void set_form( bs3_curve_form f);
-        void gme_set_form(bs3_curve_form f);
 
 	void swap ( bs3_curve_def* bs3_crv );
 	
@@ -82,8 +74,6 @@ public:
 
     void set_initial_seam_multiplicity(int seam_knot_mult, int start_mult);
     int  initial_seam_multiplicity(int &start_mult = *(int*)NULL_REF);
-	bool is_gme() const;
-	bool is_acis() const;
     
 };
 

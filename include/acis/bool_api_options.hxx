@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -50,20 +50,18 @@ class DECL_BOOL bool_base_options : public ACIS_OBJECT
 {
 protected:
 	///\cond
-    bool_base_options();
-    bool_base_options(const char* gme);
-    bool_options_ibw *bo_ibw_impl;
-    friend incr_bool_handle_impl;
-    ///\endcond
+	bool_base_options();
+	bool_options_ibw *bo_ibw_impl;
+	friend incr_bool_handle_impl;
+	///\endcond
 
 public:
-    virtual ~bool_base_options() = 0;
+	virtual ~bool_base_options() = 0;
 
-    ///\cond
-    bool is_ibw_active() const;
-    bool gme_is_ibw_active() const;
-    virtual int type() const = 0;
-    ///\endcond
+	///\cond
+	bool is_ibw_active() const;
+	virtual int type() const = 0;
+	///\endcond
 };
 
 
@@ -307,7 +305,6 @@ public:
     * the overlap type <tt>bool_overlap_general</tt>.
     */
     bool_match_info();
-    bool_match_info(const char* gme);
 
     /**
     * Destructor.
@@ -328,13 +325,6 @@ public:
     * Property of the overlap between the entities.
     */
     void bool_match_info_initialise(
-        ENTITY                *tool_entity,
-        ENTITY                *blank_entity,
-        double                 tol = 0,
-        bool_interaction_type  interaction_type = bool_interaction_unknown,
-        bool_overlap_type      overlap_type = bool_overlap_general
-        );
-    void gme_bool_match_info_initialise(
         ENTITY                *tool_entity,
         ENTITY                *blank_entity,
         double                 tol = 0,
@@ -478,7 +468,6 @@ public:
     * Default constructor
     */
     BoolOptions();
-    BoolOptions(const char* gme);
     /**
     * Destructor.
     */
@@ -515,19 +504,16 @@ public:
     * Array of bool_match_info objects.
     */
     void set_match_array(int n, bool_match_info *info);
-    void gme_set_match_array(int n, bool_match_info *info);
 
     /**
     * Sets the value of the near coincidence fuzz. The default value is 0.
     */
     void set_near_coincidence_fuzz(double fuzz);
-    void gme_set_near_coincidence_fuzz(double fuzz);
 
     /**
     * Returns the value of the near coincidence fuzz.
     */
     double near_coincidence_fuzz() const;
-    double gme_near_coincidence_fuzz() const;
 
     /**
     * @nodoc
@@ -568,26 +554,22 @@ public:
     * Retrieves a list of merge candidates left over from a Boolean carried out with a delayed merge.
     */
     void list_merge_candidates(ENTITY_LIST &candidates);
-    void gme_list_merge_candidates(ENTITY_LIST &candidates);
 
     /**
     * @nodoc
     */
     void note_merge_candidates(ENTITY_LIST &candidates);
-    void gme_note_merge_candidates(ENTITY_LIST &candidates);
 
     /**
     * Removes any items from the options which were used as outputs from a previous Boolean operation.
     */
     void reset_outputs();
-    void gme_reset_outputs();
 
     /**
     * @nodoc
     * Sets the value of the clash info.
     */
     void set_clash_info(body_clash_type newclash);
-    void gme_set_clash_info(body_clash_type newclash);
 
     /**
     * Returns the value of the clash info.
@@ -598,25 +580,21 @@ public:
 	* Return the current status of the track_entities flag.
     */
     logical             get_track_entities() const;
-    logical             gme_get_track_entities() const;
-
+    
 	/**
     * Set the track_entities flag. The default value is <tt>FALSE</tt>.
     */
     void                set_track_entities(logical te);
-    void                gme_set_track_entities(logical te);
-
+    
 	/**
     * Return the list of the imprinted entities from a body specified by the enum @href bool_body_type.
     */
     void                get_imprinted_entities( bool_body_type body_type, ENTITY_LIST& edges);
-    void                gme_get_imprinted_entities( bool_body_type body_type, ENTITY_LIST& edges);
 	
     /**
     * Return the list of associated entities with a given entity for an imprinting operation.
     */
     void                get_associated_entities ( ENTITY *ent, ENTITY_LIST& assoc_ents);
-    void                gme_get_associated_entities ( ENTITY *ent, ENTITY_LIST& assoc_ents);
 
 	/**
 	 * Enumerates various performance optimization hints that can be supplied to a Boolean operation.
@@ -649,7 +627,6 @@ public:
 	 */
 
 	void set_optimization_hints( unsigned hints );
-	void gme_set_optimization_hints( unsigned hints );
 
 	/**
 	 * @nodoc
@@ -657,7 +634,6 @@ public:
 	// For internal use only. Returns the combination of performance optimization hints specified by user.
 
 	unsigned get_optimization_hints() const;
-	unsigned gme_get_optimization_hints() const;
 
 	/**
 	* Enumerates certain design constraints that may be detected and used by the Boolean operation. Knowledge of these 
@@ -686,7 +662,6 @@ public:
 	*/
 
 	void set_detect_design_constraints( unsigned constraints );
-	void gme_set_detect_design_constraints( unsigned constraints );
 
 	/**
 	* @nodoc
@@ -694,7 +669,6 @@ public:
 	// For internal use only. Returns the combination of design_constraints specified by user.
 
 	unsigned get_design_constraints() const;
-	unsigned gme_get_design_constraints() const;
 
 	/**
 	* @nodoc
@@ -717,7 +691,6 @@ public:
 	// situation such as BODY_VERTEX_CRUMBLE.
 	
 	void set_preferred_crumble_action( crumble_action ca );
-    void gme_set_preferred_crumble_action( crumble_action ca );
 
 	/**
 	* @nodoc
@@ -725,13 +698,11 @@ public:
 	// For internal use only.
 	
 	crumble_action get_preferred_crumble_action() const;
-    crumble_action gme_get_preferred_crumble_action() const;
 
 	/**
     * @nodoc
     */
     void set_imprint_association( imprint_assoc_data *&assoc_ptr );
-    void gme_set_imprint_association( imprint_assoc_data *&assoc_ptr );
 	
 	/**
     * @nodoc
@@ -761,14 +732,13 @@ public:
 	*/
 	int type() const override
 	{
-		return gme_id();
+		return id();
 	}
 
 	/**
 	* @nodoc
 	*/
 	static int id();
-    static int gme_id();
 
 private:
 
@@ -802,18 +772,15 @@ private:
 //  Functions to print equivalent strings for enums for use in debug output.
 //  tbrv
 DECL_BOOL const char* bool_interaction_type_text(bool_interaction_type);
-DECL_BOOL const char* gme_bool_interaction_type_text(bool_interaction_type);
 /**
 * @nodoc
 */
 DECL_BOOL const char* bool_overlap_type_text(bool_overlap_type);
-DECL_BOOL const char* gme_bool_overlap_type_text(bool_overlap_type);
 
 /**
 * @nodoc
 */
 DECL_BOOL const char* bool_merge_type_text(bool_merge_type bmt);
-DECL_BOOL const char* gme_bool_merge_type_text(bool_merge_type bmt);
 
 
 #endif

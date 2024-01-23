@@ -1,4 +1,4 @@
-﻿// $Id: law_util.hxx,v 1.9 2002/08/09 17:13:30 jeff Exp $
+// $Id: law_util.hxx,v 1.9 2002/08/09 17:13:30 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -42,9 +42,7 @@ DECL_LAW void make_bound_interval (SPAinterval &in_interval,
 DECL_LAW law  *str_to_law(char const *instr,
 						   law_data **laws=NULL,
 						   int law_num=0);
-DECL_LAW law  *gme_str_to_law(char const *instr,
-						   law_data **laws=NULL,
-						   int law_num=0);
+
 DECL_LAW int  Nintegrate(law *intlaw,
 			   double a,
 			   double b,
@@ -92,21 +90,10 @@ DECL_LAW double *Nroot(law *inlaw,
 			            double minx,
 			            double maxx,
 			            int *size);
-DECL_LAW double *gme_Nroot(law *inlaw,
-			            double minx,
-			            double maxx,
-			            int *size);
-DECL_LAW double *gme_Nroot_precise(law *inlaw,
-			            double minx,
-			            double maxx,
-			            int *size);
+
 // This function returns the parameter value corresponding to the maximum value of the law.
 // The maximum value of the law is not returned.
 DECL_LAW double Nmax(law    *inlaw,
-			          double minx,
-			          double maxx);
-
-DECL_LAW double gme_Nmax(law    *inlaw,
 			          double minx,
 			          double maxx);
 
@@ -115,10 +102,6 @@ DECL_LAW double gme_Nmax(law    *inlaw,
 DECL_LAW double Nmin(law    *inlaw,
 			          double minx,
 			          double maxx);
-
-DECL_LAW double gme_Nmin(law    *inlaw,
-			          double minx,
-			          double maxx); 
 
 // steepest descent to find function minimum
 DECL_LAW double Nmin_quick(law    *inlaw,        // input law to minimize
@@ -592,8 +575,6 @@ int DECL_LAW pow_int(int base,
 
 logical DECL_LAW solve_linear(double **mat,
 							int    size);
-logical DECL_LAW gme_solve_linear(double **mat,
-							int    size);
 
 void DECL_LAW sphere_cylinder_intersect( SPAposition sphere_center,
 							    SPAposition cylinder_center,
@@ -685,21 +666,6 @@ inline logical near_greater_equal_zero(double number, double tol = SPAresmch)
 // Returns 0 if they are equal.
 DECL_LAW int position_cmp(const SPAposition &A, const SPAposition &B, double tol = SPAresabs);
 
-
-struct resSinData;
-struct sinData;
-DECL_LAW resSinData get_cossin_coefficients(law* root, double* sinCoeff);
-DECL_LAW int Solve_sincos2(double a, double b, double c, double d, double e, double f, double* t,double TOLER);
-DECL_LAW sinData get_cossin_coefficients1(law* root,double* result);
-DECL_LAW int Solve_sincos4(double* abc, double* t);
-DECL_LAW double FindRoot(law* input_law,law*deriv_law, double x0, double x1, double y0, double y1, double xError);
-DECL_LAW int gme_equat2(double ta, double tb, double tc, double& s1, double& s2, double toler = SPAresabs);
-DECL_LAW double Evolut3(double ef);
-DECL_LAW void Sort_reduce(int& rn, double rt[]);
-DECL_LAW int Solve_acostbsintc(double a, double b, double c, double& t1, double& t2, double tol);
-DECL_LAW int RootSort(int r1, int r2, double& rs1, double& rs2, double& rs3, double& rs4, double toler);
-DECL_LAW int sign(double num);
-DECL_LAW bool IsDifferentSign(double a, double b);
 #endif
 
 

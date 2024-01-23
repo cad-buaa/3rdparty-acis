@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -174,10 +174,6 @@ DECL_KERN outcome api_logging(
 			logical on_off
 		);
 
-DECL_KERN outcome gme_api_logging(
-			logical on_off
-		);
-
 /**
  * Sets the @href HISTORY_STREAM specific API logging behavior.
  * <br><br>
@@ -206,8 +202,6 @@ DECL_KERN outcome gme_api_logging(
  **/
 DECL_KERN outcome api_set_stream_logging( stream_logging sl, HISTORY_STREAM* hs = NULL);
 
-DECL_KERN outcome gme_api_set_stream_logging( stream_logging sl, HISTORY_STREAM* hs = NULL);
-
 /**
  * Returns the @href HISTORY_STREAM specific API logging setting.
  * <br><br>
@@ -225,9 +219,6 @@ DECL_KERN outcome gme_api_set_stream_logging( stream_logging sl, HISTORY_STREAM*
  * @see api_set_stream_logging, api_logging, stream_logging
  **/
 DECL_KERN outcome api_get_stream_logging( stream_logging& sl, HISTORY_STREAM* hs = NULL);
-
-DECL_KERN outcome gme_api_get_stream_logging( stream_logging& sl, HISTORY_STREAM* hs = NULL);
-
 /** @} */
 
 /**
@@ -329,11 +320,6 @@ DECL_KERN outcome api_set_int_option(
 			int			value
 		);
 
-DECL_KERN outcome gme_api_set_int_option(
-			char const* name,
-			int			value
-		);
-
 /**
  * Sets the	 value of the specified option to the given double.
  * <br><br>
@@ -354,11 +340,6 @@ DECL_KERN outcome gme_api_set_int_option(
  * double value to set.
  **/
 DECL_KERN outcome api_set_dbl_option(
-			char const* name,
-			double		value
-		);
-
-DECL_KERN outcome gme_api_set_dbl_option(
 			char const* name,
 			double		value
 		);
@@ -388,12 +369,6 @@ DECL_KERN outcome api_set_str_option(
 			char const* name,
 			char const* value
 		);
-
-DECL_KERN outcome gme_api_set_str_option(
-			char const* name,
-			char const* value
-		);
-
 /** @} */
 
 /**
@@ -430,12 +405,6 @@ DECL_KERN outcome api_add_state(
 			DELTA_STATE*    ds,
 			HISTORY_STREAM* hs
 		);
-
-DECL_KERN outcome gme_api_add_state(
-			DELTA_STATE*    ds,
-			HISTORY_STREAM* hs
-		);
-
 /**
  * Modifies the modeler state by applying a delta state.
  * <br><br>
@@ -456,10 +425,6 @@ DECL_KERN outcome gme_api_add_state(
  * delta state to be applied.
  **/
 DECL_KERN outcome api_change_state(
-			DELTA_STATE *ds
-		);
-
-DECL_KERN outcome gme_api_change_state(
 			DELTA_STATE *ds
 		);
 
@@ -507,14 +472,6 @@ DECL_KERN outcome api_merge_states(
             logical        keep_both      = FALSE
 		);
 
-DECL_KERN outcome gme_api_merge_states(
-			DELTA_STATE    *ds1 = NULL,
-			DELTA_STATE    *ds2 = NULL,
-            HISTORY_STREAM *hs  = NULL,
-            logical        prune_partners = FALSE,
-            logical        keep_both      = FALSE
-		);
-
 /**
  * Deletes a delta state and dependent data.
  * <br><br>
@@ -537,10 +494,6 @@ DECL_KERN outcome gme_api_merge_states(
  * delta state to be deleted.
  **/
 DECL_KERN outcome api_delete_ds(
-			DELTA_STATE *ds
-		);
-
-DECL_KERN outcome gme_api_delete_ds(
 			DELTA_STATE *ds
 		);
 
@@ -583,13 +536,6 @@ DECL_KERN outcome api_note_state(
             HISTORY_STREAM  *hs = NULL,
             logical         delete_if_empty = FALSE
             );
-
-DECL_KERN outcome gme_api_note_state(
-			DELTA_STATE     *&ds,
-            HISTORY_STREAM  *hs = NULL,
-            logical         delete_if_empty = FALSE
-            );
-
 /** @} */
 
 /**
@@ -691,10 +637,6 @@ DECL_KERN outcome api_set_file_info(
 			unsigned long mask,
 			const FileInfo &info
 		);
-DECL_KERN outcome gme_api_set_file_info(
-			unsigned long mask,
-			const FileInfo &info
-		);
 
 /**
  * Restores entities from file.
@@ -754,12 +696,6 @@ DECL_KERN outcome api_restore_entity_list(
 			logical      text_mode,
 			ENTITY_LIST  &entities,
 		    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_restore_entity_list(
-			FILE*        file_ptr,
-			logical      text_mode,
-			ENTITY_LIST  &entities,
-			bool compatible = true,
-		    AcisOptions* ao = NULL);
 
 /**
  * Writes entities to a file in text or binary format.
@@ -809,12 +745,6 @@ DECL_KERN outcome api_save_entity_list(
 			FILE*             file_ptr,
 			logical           text_mode,
 			ENTITY_LIST const &entity_list_save,
-		    AcisOptions*      ao = NULL);
-DECL_KERN outcome gme_api_save_entity_list(
-			FILE*             file_ptr,
-			logical           text_mode,
-			ENTITY_LIST const &entity_list_save, 
-			bool              compatible = true,
 		    AcisOptions*      ao = NULL);
 
 /**
@@ -1008,11 +938,6 @@ DECL_KERN outcome api_get_save_version(
 DECL_KERN outcome api_remove_state(
         	DELTA_STATE *ds
     	);
-
-DECL_KERN outcome gme_api_remove_state(
-        	DELTA_STATE *ds
-    	);
-
 /**
  * Modifies modeler state by applying zero or more <tt>DELTA_STATE</tt>.
  * <br><br>
@@ -1047,12 +972,6 @@ DECL_KERN outcome api_roll_n_states(
 			int             &nActual
 		);
 
-DECL_KERN outcome gme_api_roll_n_states(
-			HISTORY_STREAM* hs,
-			int             nRequest,
-			int             &nActual
-		);
-
 /**
  * Modifies the modeler state by applying zero or more <tt>DELTA_STATEs</tt>.
  * <br><br>
@@ -1079,12 +998,6 @@ DECL_KERN outcome gme_api_roll_n_states(
  * @see api_note_state
  **/
 DECL_KERN outcome api_change_to_state(
-	        HISTORY_STREAM* hs,
-	        DELTA_STATE*	ds,
-	        int&            n_actual
-	);
-
-DECL_KERN outcome gme_api_change_to_state(
 	        HISTORY_STREAM* hs,
 	        DELTA_STATE*	ds,
 	        int&            n_actual
@@ -1185,13 +1098,6 @@ DECL_KERN outcome api_distribute_state_to_streams(
 			logical      hideStates
 		);
 
-DECL_KERN outcome gme_api_distribute_state_to_streams(
-			DELTA_STATE  *pState,
-			StreamFinder *pStreamFinder,
-			logical      clearDelta,
-			logical      hideStates
-		);
-
 /**
  * Finds <tt>DELTA_STATE</tt> objects with the given name in the specified history 
  * stream and adds them to the supplied <tt>DELTA_STATE_LIST</tt>.
@@ -1220,12 +1126,6 @@ DECL_KERN outcome api_find_named_state(
 			DELTA_STATE_LIST& dslist
 	);
 
-DECL_KERN outcome gme_api_find_named_state(
-			const char*       name,
-			HISTORY_STREAM*   hs,
-			DELTA_STATE_LIST& dslist
-	);
-
 /**
  * Gives a string name to a <tt>DELTA_STATE</tt>.
  * <br><br>
@@ -1247,11 +1147,6 @@ DECL_KERN outcome gme_api_find_named_state(
  * @see api_change_to_state
  **/
 DECL_KERN outcome api_name_state(
-			const char *name,
-			DELTA_STATE* ds
-	);
-
-DECL_KERN outcome gme_api_name_state(
 			const char *name,
 			DELTA_STATE* ds
 	);
@@ -1285,11 +1180,6 @@ DECL_KERN outcome api_prune_history(
 			DELTA_STATE*    ds = NULL
 		);
 
-DECL_KERN outcome gme_api_prune_history(
-	        HISTORY_STREAM* hs,
-			DELTA_STATE*    ds = NULL
-		);
-
 /**
  * If necessary, adds an empty <tt>DELTA_STATE</tt> to the beginning of the <tt>HISTORY_STREAM</tt> 
  * so that users can roll to a state with no entities.
@@ -1313,11 +1203,6 @@ DECL_KERN outcome gme_api_prune_history(
  * pointer to the (empty) root delta state.
  **/
 DECL_KERN outcome api_ensure_empty_root_state(
-			HISTORY_STREAM* history,
-			DELTA_STATE*    &root_state
-		);
-
-DECL_KERN outcome gme_api_ensure_empty_root_state(
 			HISTORY_STREAM* history,
 			DELTA_STATE*    &root_state
 		);
@@ -1346,12 +1231,6 @@ DECL_KERN outcome api_get_history_size(
 			DELTA_STATE*    start_ds = NULL
 		);
 
-DECL_KERN outcome gme_api_get_history_size(
-			HISTORY_STREAM* hs,
-			int&            size,
-			DELTA_STATE*    start_ds = NULL
-		);
-
 /**
  * Removes forward <tt>DELTA_STATE</tt> objects from a <tt>HISTORY_STREAM</tt>.
  * <br><br>
@@ -1372,10 +1251,6 @@ DECL_KERN outcome gme_api_get_history_size(
  * @see api_prune_history
  **/
 DECL_KERN outcome api_prune_following(
-	        HISTORY_STREAM* hs
-		);
-
-DECL_KERN outcome gme_api_prune_following(
 	        HISTORY_STREAM* hs
 		);
 
@@ -1435,12 +1310,6 @@ DECL_KERN outcome api_get_modified_faces(
 			ENTITY_LIST  &modified_faces,
 		    AcisOptions* ao = NULL);
 
-DECL_KERN outcome gme_api_get_modified_faces(
-			DELTA_STATE* ds,
-			ENTITY_LIST  &deleted_faces,
-			ENTITY_LIST  &created_faces,
-			ENTITY_LIST  &modified_faces,
-		    AcisOptions* ao = NULL);
 
 /**
  * Finds Entities (Faces, Edges and Vertices) that have been created, deleted or modified since a particular <tt>DELTA_STATE</tt>.
@@ -1497,13 +1366,6 @@ DECL_KERN outcome gme_api_get_modified_faces(
  * ACIS options.
  **/
 DECL_KERN outcome api_get_modified_entities(
-	DELTA_STATE* ds,
-	ENTITY_LIST& deleted_entites,
-	ENTITY_LIST& created_entites,
-	ENTITY_LIST& modified_entites,
-	AcisOptions* ao = NULL);
-
-DECL_KERN outcome gme_api_get_modified_entities(
 	DELTA_STATE* ds,
 	ENTITY_LIST& deleted_entites,
 	ENTITY_LIST& created_entites,
@@ -1641,12 +1503,6 @@ DECL_KERN outcome api_get_active_entities(
 			logical               unowned_only = FALSE,
 		    AcisOptions*          ao           = NULL);
 
-DECL_KERN outcome gme_api_get_active_entities(
-			HISTORY_STREAM const* hs,
-			ENTITY_LIST           &ents,
-			logical               unowned_only = FALSE,
-		    AcisOptions*          ao           = NULL);
-
 /**
  * Finds all attributes of a specified user type in a history stream.
  * <br><br>
@@ -1746,11 +1602,6 @@ DECL_KERN outcome api_get_all_user_attributes(
 DECL_KERN outcome api_make_root_state(
 			DELTA_STATE* ds
 		);
-
-DECL_KERN outcome gme_api_make_root_state(
-			DELTA_STATE* ds
-		);
-
 /** @} */
 
 /**
@@ -2463,10 +2314,6 @@ DECL_KERN outcome api_apply_transf(
 			ENTITY*         entity,
 			SPAtransf const &trans,
 		    AcisOptions*    ao = NULL);
-DECL_KERN outcome gme_api_apply_transf(
-			ENTITY*         entity,
-			SPAtransf const &trans,
-		    AcisOptions*    ao = NULL);
 
 /**
  * Substitutes the given transform for the existing transform of the <tt>BODY</tt>.
@@ -2520,11 +2367,7 @@ DECL_KERN outcome api_change_body_trans(
 			TRANSFORM*   new_transform,
 			logical      negate   = FALSE,
 			AcisOptions* ao       = NULL);
-DECL_KERN outcome gme_api_change_body_trans(
-			BODY*        body,
-			TRANSFORM*   new_transform,
-			logical      negate   = FALSE,
-			AcisOptions* ao       = NULL);
+
 /**
  * Removes (discards) the transformation of a body.
  * <br><br>
@@ -2584,10 +2427,6 @@ DECL_KERN outcome api_remove_transf(
  * ACIS options.
  **/
 DECL_KERN outcome api_copy_body(
-			BODY*        body,
-			BODY*        &new_body,
-		    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_copy_body(
 			BODY*        body,
 			BODY*        &new_body,
 		    AcisOptions* ao = NULL);
@@ -2769,11 +2608,6 @@ DECL_KERN outcome api_deep_copy_entity(
  * api_down_copy_entity
  **/
 DECL_KERN outcome api_deep_down_copy_entity(
-			ENTITY*      entity,
-			ENTITY*      &new_entity,
-			logical      dpcpy_skip = FALSE,
-		    AcisOptions* ao         = NULL);
-DECL_KERN outcome gme_api_deep_down_copy_entity(
 			ENTITY*      entity,
 			ENTITY*      &new_entity,
 			logical      dpcpy_skip = FALSE,
@@ -2991,9 +2825,6 @@ DECL_KERN outcome api_down_copy_entity(
 DECL_KERN outcome api_delent(
 			ENTITY*      given_entity,
 		    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_delent(
-			ENTITY*      given_entity,
-		    AcisOptions* ao = NULL);
 
 /**
  * Deletes the given <tt>ENTITY</tt> and all its associated entities.
@@ -3024,9 +2855,6 @@ DECL_KERN outcome gme_api_delent(
  * @see api_delent
  **/
 DECL_KERN outcome api_del_entity(
-			ENTITY*      given_entity,
-		    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_del_entity(
 			ENTITY*      given_entity,
 		    AcisOptions* ao = NULL);
 
@@ -3061,9 +2889,6 @@ DECL_KERN outcome gme_api_del_entity(
  * @see api_del_entity
  **/
 DECL_KERN outcome api_del_entity_list(
-			ENTITY_LIST  &given_list,
-		    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_del_entity_list(
 			ENTITY_LIST  &given_list,
 		    AcisOptions* ao = NULL);
 /** @} */
@@ -3181,10 +3006,6 @@ DECL_KERN outcome api_wcs_get_active(
  * ACIS options.
  **/
 DECL_KERN outcome api_get_owner(
-    ENTITY*      ent,
-    ENTITY*      &owner,
-    AcisOptions* ao = NULL);
-DECL_KERN outcome gme_api_get_owner(
     ENTITY*      ent,
     ENTITY*      &owner,
     AcisOptions* ao = NULL);
@@ -3306,11 +3127,6 @@ DECL_KERN outcome api_get_lumps(
     ENTITY_LIST& lump_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_lumps(
-    ENTITY* ent,
-    ENTITY_LIST& lump_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
 
 // Get all SHELLS from an ENTITY
 
@@ -3357,11 +3173,6 @@ DECL_KERN outcome api_get_shells(
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
 
-DECL_KERN outcome gme_api_get_shells(
-    ENTITY* ent,
-    ENTITY_LIST& shell_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
 // Get all FACES of an ENTITY
 
 /**
@@ -3405,11 +3216,6 @@ DECL_KERN outcome gme_api_get_shells(
  **/
 
 DECL_KERN outcome api_get_faces(
-    ENTITY* ent,
-    ENTITY_LIST& face_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_faces(
     ENTITY* ent,
     ENTITY_LIST& face_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
@@ -3459,11 +3265,6 @@ DECL_KERN outcome api_get_loops(
     ENTITY_LIST& loop_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_loops(
-    ENTITY* ent,
-    ENTITY_LIST& loop_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
 
 // Get all the WIREs from an ENTITY.
 
@@ -3505,11 +3306,6 @@ DECL_KERN outcome gme_api_get_loops(
  * ACIS options.
  **/
 DECL_KERN outcome api_get_wires(
-    ENTITY* ent,
-    ENTITY_LIST& out_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_wires(
     ENTITY* ent,
     ENTITY_LIST& out_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
@@ -3560,11 +3356,6 @@ DECL_KERN outcome api_get_edges(
     ENTITY_LIST& edge_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_edges(
-    ENTITY* ent,
-    ENTITY_LIST& edge_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
 
 // Get all the COEDGES from an ENTITY.
 
@@ -3606,11 +3397,6 @@ DECL_KERN outcome gme_api_get_edges(
  * ACIS options.
  **/
 DECL_KERN outcome api_get_coedges(
-    ENTITY* ent,
-    ENTITY_LIST& coedge_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_coedges(
     ENTITY* ent,
     ENTITY_LIST& coedge_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
@@ -3660,11 +3446,6 @@ DECL_KERN outcome api_get_vertices(
     ENTITY_LIST& vertex_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_vertices(
-    ENTITY* ent,
-    ENTITY_LIST& vertex_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
 
 // Get all the TEDGES from an ENTITY.
 
@@ -3709,11 +3490,7 @@ DECL_KERN outcome api_get_tedges(
     ENTITY_LIST& tedge_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_tedges(
-    ENTITY* ent,
-    ENTITY_LIST& tedge_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
+
 // Get all the TCOEDGES from an ENTITY.
 
 /**
@@ -3755,11 +3532,7 @@ DECL_KERN outcome api_get_tcoedges(
     ENTITY_LIST& tcoedge_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
     AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_tcoedges(
-    ENTITY* ent,
-    ENTITY_LIST& tcoedge_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
+
 // Get all TVERTICES of an ENTITY
 
 /**
@@ -3797,11 +3570,6 @@ DECL_KERN outcome gme_api_get_tcoedges(
  * ACIS options.
  **/
 DECL_KERN outcome api_get_tvertices(
-    ENTITY* ent,
-    ENTITY_LIST& tvertex_list,
-    PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
-    AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_get_tvertices(
     ENTITY* ent,
     ENTITY_LIST& tvertex_list,
     PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE,
@@ -3961,12 +3729,6 @@ DECL_KERN outcome api_str_to_law(
 	law_data       **data = NULL,
 	int            size = 0,
 	AcisOptions    *ao = NULL);
-DECL_KERN outcome gme_api_str_to_law(
-	const char     *str,
-	law            **answer,
-	law_data       **data = NULL,
-	int            size = 0,
-	AcisOptions    *ao = NULL);
 
 /**
  * Integrates a law over a given domain to a given tolerance.
@@ -4001,16 +3763,6 @@ DECL_KERN outcome api_integrate_law(
 	int    min_level   = 2,
 	int    *used_level = NULL
 	);
-DECL_KERN outcome gme_api_integrate_law(
-    law    *input_law,
-	double start,
-	double end,
-	double &answer,
-	double tolerance   = 1E-12,
-	int    min_level   = 2,
-	int    *used_level = NULL
-	);
-
 
 /**
  * Integrates a law over a given domain to a given tolerance, with respect to a given variable.
@@ -4137,14 +3889,6 @@ DECL_KERN outcome api_ndifferentiate_law(
 	int    type  = 0,	  // 0 for normal, 1 for left, 2 for right
 	int    times = 1
 	);
-DECL_KERN outcome gme_api_ndifferentiate_law(
-	law    *input_law,
-	double *where,
-	int    which_dim,
-	double *answer,
-	int    type  = 0,	  // 0 for normal, 1 for left, 2 for right
-	int    times = 1
-	);
 
 /**
  * Returns all the roots of the given law over the given domain.
@@ -4187,8 +3931,6 @@ DECL_KERN outcome api_nroots_of_law(
 	double **answer
 	);
 
-DECL_KERN outcome gme_api_nroots_of_law(law* input_law, double start, double end, int* size, double** answer);
-
 /**
  * Gets the maximum value of a given law over the given domain.
  * <br><br>
@@ -4214,12 +3956,6 @@ DECL_KERN outcome api_nmax_of_law(
 	double *answer
 	);
 
-DECL_KERN outcome gme_api_nmax_of_law(
-	law    *input_law,
-	double start,
-	double end,
-	double *answer
-	);
 /**
  * Gets the minimum value of a given law over the given domain.
  * <br><br>
@@ -4245,12 +3981,6 @@ DECL_KERN outcome api_nmin_of_law(
 	double *answer
 	);
 
-DECL_KERN outcome gme_api_nmin_of_law(
-	law    *input_law,
-	double start,
-	double end,
-	double *answer
-	);
 /**
  * Determines where two given laws are equal within a given domain.
  * <br><br>
@@ -4296,14 +4026,7 @@ DECL_KERN outcome api_nsolve_laws(
 	int    *size,
 	double **answer
 	);
-DECL_KERN outcome gme_api_nsolve_laws(
-	law    *input_law1,
-	law    *input_law2,
-	double start,
-	double end,
-	int    *size,
-	double **answer
-	);
+
 /**
  * Creates the default rail laws for sweeping along a wire.
  * <br><br>
@@ -4417,11 +4140,6 @@ DECL_KERN outcome api_law_to_entity(
 	law    *input_law,
 	ENTITY * &out_ent,
 	AcisOptions *ao = NULL);
-
-DECL_KERN outcome gme_api_law_to_entity(
-	law    *input_law,
-	ENTITY * &out_ent,
-	AcisOptions *ao = NULL);
 /** @} */
 
 /**
@@ -4463,11 +4181,6 @@ class transform_entity_options;
  * ACIS options.
  **/
 DECL_KERN outcome api_transform_entity(
-    ENTITY* ent,                // the ENTITY to transform
-    const SPAtransf& tform,     // the transform to apply
-	transform_entity_options* te_opts=NULL,
-    AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_transform_entity(
     ENTITY* ent,                // the ENTITY to transform
     const SPAtransf& tform,     // the transform to apply
 	transform_entity_options* te_opts=NULL,
@@ -4730,12 +4443,6 @@ DECL_KERN outcome api_loop_type(
 	LOOP*     in_loop,
 	loop_type &type,
 	int       info[2]=NULL
-);
-
-DECL_KERN outcome gme_api_loop_type(
-    LOOP*     in_loop,
-    loop_type &type,
-    int       info[2]=NULL
 );
 /** @} */
 
@@ -5006,11 +4713,6 @@ DECL_KERN outcome api_make_linear(double aval,
 								  double fbval,
 								  law*   &answer);
 
-DECL_KERN outcome gme_api_make_linear(double aval,
-								  double bval,
-								  double faval,
-								  double fbval,
-								  law*   &answer);
 /**
  * Creates a cubic law given {a,b,f(a),f(b),f'(a),f'(b)}.
  * <br><br>
@@ -5056,13 +4758,6 @@ DECL_KERN outcome api_make_cubic(double aval,
 								 double ffbval,
 								 law*   &answer);
 
-DECL_KERN outcome gme_api_make_cubic(double aval,
-									 double bval,
-									 double faval,
-									 double fbval,
-									 double ffaval,
-									 double ffbval,
-									 law*   &answer);
 /**
  * Creates a quintic law given {a,b,f(a),f(b),f'(a),f'(b) f''(a) f''(b)}.
  * <br><br>
@@ -5116,15 +4811,6 @@ DECL_KERN outcome api_make_quintic(	double aval,
 								   double fffaval,
 								   double fffbval,
 								   law *&answer);
-DECL_KERN outcome gme_api_make_quintic(	double aval,
-								   double bval,
-								   double faval,
-								   double fbval,
-								   double ffaval,
-								   double ffbval,
-								   double fffaval,
-								   double fffbval,
-								   law *&answer);
 /**
  * Creates a polynomial law.
  * <br><br>
@@ -5148,9 +4834,6 @@ DECL_KERN outcome api_make_polynomial_law(double* coeff,
 										  int     degree,
 										  law*&   answer);
 
-DECL_KERN outcome gme_api_make_polynomial_law(double* coeff,
-										  int     degree,
-										  law*&   answer);
 /** @} */
 
 /**
@@ -5178,7 +4861,6 @@ DECL_KERN outcome gme_api_make_polynomial_law(double* coeff,
  * ACIS options.
  **/
 DECL_KERN outcome api_reset_boxes(ENTITY *ent, AcisOptions *ao = NULL);
-DECL_KERN outcome gme_api_reset_boxes(ENTITY *ent, AcisOptions *ao = NULL);
 
 /** @} */
 
@@ -5416,8 +5098,6 @@ DECL_KERN outcome api_load_state(FILE *file_ptr, AcisOptions *ao = NULL);
  **/
 DECL_KERN outcome api_create_history(HISTORY_STREAM*& hs);
 
-DECL_KERN outcome gme_api_create_history(HISTORY_STREAM*& hs);
-
 /**
  * Sets the input <tt>HISTORY_STREAM</tt> to be the default the history stream.
  * <br><br>
@@ -5432,8 +5112,6 @@ DECL_KERN outcome gme_api_create_history(HISTORY_STREAM*& hs);
  **/
 DECL_KERN outcome api_set_default_history(HISTORY_STREAM* hs);
 
-DECL_KERN outcome gme_api_set_default_history(HISTORY_STREAM* hs);
-
 /**
  * Returns the default <tt>HISTORY_STREAM</tt>.
  * <br><br>
@@ -5447,8 +5125,6 @@ DECL_KERN outcome gme_api_set_default_history(HISTORY_STREAM* hs);
  * default history stream.
  **/
 DECL_KERN outcome api_get_default_history(HISTORY_STREAM*& default_hs);
-
-DECL_KERN outcome gme_api_get_default_history(HISTORY_STREAM*& default_hs);
 
 /**
  * Deletes the <tt>HISTORY_STREAM</tt> and all <tt>ENTITY</tt>s in the stream.
@@ -5472,8 +5148,6 @@ DECL_KERN outcome gme_api_get_default_history(HISTORY_STREAM*& default_hs);
  **/
 DECL_KERN outcome api_delete_history(HISTORY_STREAM* hs = NULL);
 
-DECL_KERN outcome gme_api_delete_history(HISTORY_STREAM* hs = NULL);
-
 /**
  * Returns the <tt>HISTORY_STREAM</tt> in which the <tt>ENTITY</tt> lives.
  * <br><br>
@@ -5491,11 +5165,6 @@ DECL_KERN outcome gme_api_delete_history(HISTORY_STREAM* hs = NULL);
  * returned history stream.
  **/
 DECL_KERN outcome api_get_history_from_entity(
-            ENTITY*         ent,
-            HISTORY_STREAM* &hs
-            );
-
-DECL_KERN outcome gme_api_get_history_from_entity(
             ENTITY*         ent,
             HISTORY_STREAM* &hs
             );
@@ -5523,11 +5192,6 @@ DECL_KERN outcome api_get_active_state(
             HISTORY_STREAM* hs = NULL
             );
 
-DECL_KERN outcome gme_api_get_active_state(
-            DELTA_STATE*    &active_ds,
-            HISTORY_STREAM* hs = NULL
-            );
-
 /**
  * Returns <tt>TRUE</tt> if the given <tt>DELTA_STATE</tt> is in the <tt>HISTORY_STREAM</tt>.
  * <br><br>
@@ -5547,12 +5211,6 @@ DECL_KERN outcome gme_api_get_active_state(
  * input history stream.
  **/
 DECL_KERN outcome api_query_state_validity(
-            DELTA_STATE*    ds,
-            logical&        change_state_possible,
-            HISTORY_STREAM* hs = NULL
-            );
-
-DECL_KERN outcome gme_api_query_state_validity(
             DELTA_STATE*    ds,
             logical&        change_state_possible,
             HISTORY_STREAM* hs = NULL
@@ -5586,12 +5244,6 @@ DECL_KERN outcome api_get_state_from_id(
             HISTORY_STREAM* hs = NULL
 		);
 
-DECL_KERN outcome gme_api_get_state_from_id(
-		 	STATE_ID        id,
-            DELTA_STATE*    &returned_ds,
-            HISTORY_STREAM* hs = NULL
-		);
-
 /**
  * Returns a unique integer identifier, in a particular <tt>HISTORY_STREAM</tt>, for a given <tt>DELTA_STATE</tt>.
  * <br><br>
@@ -5610,11 +5262,6 @@ DECL_KERN outcome gme_api_get_state_from_id(
  * returned ID.
  **/
 DECL_KERN outcome api_get_state_id(
-			DELTA_STATE*  ds,
-            STATE_ID      &id
-		);
-
-DECL_KERN outcome gme_api_get_state_id(
 			DELTA_STATE*  ds,
             STATE_ID      &id
 		);
@@ -5647,12 +5294,6 @@ DECL_KERN outcome api_get_entity_from_id(
             HISTORY_STREAM* hs = NULL
 		);
 
-DECL_KERN outcome gme_api_get_entity_from_id(
-		 	tag_id_type     id,
-            ENTITY*         &returned_ent,
-            HISTORY_STREAM* hs = NULL
-		);
-
 /**
  * Returns a unique integer identifier (ID number) for a given <tt>ENTITY</tt>.
  * <br><br>
@@ -5672,11 +5313,6 @@ DECL_KERN outcome gme_api_get_entity_from_id(
  * returned ID.
  **/
 DECL_KERN outcome api_get_entity_id(
-			ENTITY*       ent,
-            tag_id_type&  id
-		);
-
-DECL_KERN outcome gme_api_get_entity_id(
 			ENTITY*       ent,
             tag_id_type&  id
 		);
@@ -5722,8 +5358,6 @@ DECL_KERN outcome api_check_histories(
  * use default stream if NULL.
  **/
 DECL_KERN outcome api_abort_state( HISTORY_STREAM* hs = NULL);
-
-DECL_KERN outcome gme_api_abort_state( HISTORY_STREAM* hs = NULL);
 
 /** @} */
 
@@ -6301,13 +5935,6 @@ DECL_KERN outcome api_get_entity_from_spaentity_id(
 
 
 /** @} */
-// 求解一元二次方程
-//DECL_KERN int gme_equat2(double ta, double tb, double tc, double& s1, double& s2, double toler);
-// 求解一元三次方程
-DECL_KERN int gme_equat3(double ta, double tb, double tc, double td, double& h1, double& h2, double& h3, double toler = SPAresnor);
-//求解一元四次方程
-DECL_KERN int GmeEquat4(double ha, double hb, double hc, double hd, double he, double& h1, double& h2, double& h3, double& h4, double toler= SPAresnor);
-DECL_KERN outcome gme_api_nroots_of_law_newton(law* input_law, double start, double end, int* size, double** answer) ;
-DECL_KERN outcome gme_api_nroots_of_law_box(law* input_law, double start, double end, int* size, double** answer) ;
+
 #endif
 

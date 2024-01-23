@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -2180,14 +2180,6 @@ DECL_LOP outcome api_offset_faces_specific(
 									lop_options* pLopts,
 									AcisOptions* ao = NULL
 									);
- DECL_LOP outcome gme_api_offset_body(
-									BODY*        body,
-									double       offset,
-									const SPAposition&  box_low,
-									const SPAposition&  box_high,
-									lop_options* pLopts,
-									AcisOptions* ao = NULL
-									);
  /**
  * @nodoc
  * Offsets all faces of a body based on a given distance.
@@ -2250,13 +2242,6 @@ DECL_LOP outcome api_offset_faces_specific(
  * ACIS options.
  **/
  DECL_LOP outcome api_offset_body(
-									BODY *body,
-									double offset,
-									SPAposition box_low,
-									SPAposition box_high,
-									AcisOptions *ao = NULL
-									);
- DECL_LOP outcome gme_api_offset_body(
 									BODY *body,
 									double offset,
 									SPAposition box_low,

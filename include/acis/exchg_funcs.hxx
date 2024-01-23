@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -339,11 +339,6 @@ DECL_BOOL outcome api_convert_to_spline(
 	ENTITY*& return_entity, 		// spline representation of given entity
 	AcisOptions* ao = NULL
 );
-DECL_BOOL outcome gme_api_convert_to_spline(
-	ENTITY* given_entity,		// entity to convert to a spline representation
-	ENTITY*& return_entity, 		// spline representation of given entity
-	AcisOptions* ao = NULL
-);
 
 /**
 * Converts the geometry associated with an entity into a B-spline representation (precise conversion).
@@ -408,11 +403,6 @@ DECL_BOOL outcome gme_api_convert_to_spline(
 * (in) ACIS options such as versioning and journaling.
 **/
 DECL_BOOL outcome api_convert_to_spline(
-	ENTITY*						given_entity,
-	convert_to_spline_options*	ctso = NULL,
-	AcisOptions*				ao = NULL
-);
-DECL_BOOL outcome gme_api_convert_to_spline(
 	ENTITY*						given_entity,
 	convert_to_spline_options*	ctso = NULL,
 	AcisOptions*				ao = NULL

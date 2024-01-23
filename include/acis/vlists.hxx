@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -66,7 +66,6 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * C++ constructor, creating a <tt>VOID_LIST</tt>.
  */
 	VOID_LIST();		// constructor for generic lists
-	VOID_LIST(const char* gme);
 
 /**
  * C++ destructor, deleting a <tt>VOID_LIST</tt>.
@@ -85,7 +84,6 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * entity to copy.
  */
 	VOID_LIST (VOID_LIST const& vd);
-	VOID_LIST (const char* gme, VOID_LIST const& vd);
 
 /**
  * Explicit operator.
@@ -94,7 +92,6 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * pointer.
  */
 	VOID_LIST& operator= (VOID_LIST const& vd);
-	VOID_LIST& gme_operator_assign (VOID_LIST const& vd);
 	// STL pcp 05-Nov-1999 ends
 
 	// Empty a list ready for construction of a new one.
@@ -103,7 +100,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * Empties a list ready for construction of a new one.
  */
 	void clear();
-	void gme_clear();
+
 
 	// Add an item to the list if not already there, and
 	// always return the index.
@@ -115,7 +112,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * void pointer.
  */
 	int add( void * vp);
-	int gme_add( void * vp);
+
 
 	// Search for an item in the list.
 
@@ -126,7 +123,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * item to find.
  */
 	int lookup( void const * item) const;
-	int gme_lookup( void const * item) const;
+
 
 	// Delete an item from the list. This does not free space, and
 	// leaves a tombstone in the linear list which count() and
@@ -145,7 +142,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * pointer to item.
  */
 	int remove( void const * item);
-	int gme_remove( void const * item);
+
 
 	// Count how many item*'s there are in the list (including
 	// deleted entries).
@@ -154,7 +151,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * Count how many <tt>item*</tt>'s there are in the list including deleted entries.
  */
 	int count() const;
-	int gme_count() const;
+
 	// Count how many entities there are in the list
 	// not including deleted entries.  Uses the iterator
 
@@ -162,7 +159,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * Counts how many entities there are in the list not including deleted entries - uses the iterator.
  */
 	int iteration_count() const;
-	int gme_iteration_count() const;
+
 	// Return the indexed item, or NULL if the index is out of
 	// range, or LIST_ENTRY_DELETED if the indexed entry has been
 	// deleted.
@@ -174,7 +171,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * index number.
  */
 	void *operator[]( int index) const;
-	void *gme_operator_subscript( int index ) const;
+
 
 	// Return item*'s in list order, ignoring deleted items. Call
 	// init() once, then next() repeatedly until it returns NULL.
@@ -192,7 +189,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * was <tt>NULL</tt>, the value of <tt>next</tt> is undefined.
  */
 	void init() const;
-	void gme_init() const;
+
 /**
  * Returns item*'s in list order, ignoring deleted items.
  * <br><br>
@@ -202,7 +199,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * value was <tt>NULL</tt> the value of <tt>next</tt> is undefined.
  */
 	void *next() const;
-	void *gme_next() const;
+
  /**
   * Returns the next non deleted entry after the index given without affecting the member variables used by <tt>init</tt> and <tt>next</tt>.
   * <br><br>
@@ -214,7 +211,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
   * integer.
   */
 	void *next_from(int &from_index) const;
-	void *gme_next_from(int &from_index) const;
+
 /**
  * Returns the size of the list.
  * <br><br>
@@ -222,7 +219,7 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * list or header toggle.
  */
 	int byte_count(logical countSelf = TRUE) const;
-	int gme_byte_count(logical countSelf = TRUE) const;
+
 /**
   * Sorts the list based upon the user-supplied comparison function.
   * <br><br>
@@ -237,7 +234,6 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
   * comparison function
   */
 	void sort( int (*compare_func)(const void* ent1, const void* ent2 ) );
-	void gme_sort( int (*compare_func)(const void* ent1, const void* ent2 ) );
 
 };
 /**

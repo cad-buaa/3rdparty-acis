@@ -142,9 +142,7 @@ public:
 DECL_IHL ATTRIB_IHL_VW* find_attrib_vw(
         ENTITY *owner,
         int    token );
-DECL_IHL ATTRIB_IHL_VW* gme_find_attrib_vw(
-        ENTITY* owner,
-        int    token );
+
 
 /*! @} */
 #endif

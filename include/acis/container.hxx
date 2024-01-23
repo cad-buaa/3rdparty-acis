@@ -1,4 +1,4 @@
-﻿/* $Id: container.hxx,v 1.4 2002/08/09 17:15:16 jeff Exp $ */
+/* $Id: container.hxx,v 1.4 2002/08/09 17:15:16 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -53,11 +53,9 @@ private:
 
     // Data writing routines
     void set_history(const ENTITY *ent, HISTORY_STREAM *hs);
-	void gme_set_history(const ENTITY *ent, HISTORY_STREAM *hs);
     logical assign_tag(const ENTITY *ent, tag_id_type id);
     int add_bulletin_count() { bull_count++; return bull_count; }
     int remove_bulletin_count( const ENTITY *ent, logical clear_history );
-	int gme_remove_bulletin_count( const ENTITY *ent, logical clear_history );
 
 	void set_proxy( entity_proxy * proxy );
 
@@ -70,7 +68,6 @@ protected:
 	// constructor and destructor are protected so only entity_data_containers 
     // can make and delete these
     entity_data();
-	entity_data(const char* gme);
     ~entity_data();
 
 public:
@@ -102,25 +99,21 @@ private:
 
     // The constructor and destructor are private so only ENTITY can
     // make and delete these.
-    entity_data_container();
-	entity_data_container(const char* gme);   
+    entity_data_container();   
     entity_data_container( const entity_data_container& edc );
     ~entity_data_container();
 
     // share data for rollback
     void share_data( entity_data_container& edc );
-	void gme_share_data( entity_data_container& edc );
 
     // Data writing routines
     void set_history(const ENTITY *ent, HISTORY_STREAM *hs) { entity_data_ptr->set_history(ent, hs); }
-	void gme_set_history(const ENTITY *ent, HISTORY_STREAM *hs);
     logical assign_tag(const ENTITY *ent, tag_id_type id) const { return entity_data_ptr->assign_tag(ent, id); }
     int add_bulletin_count() { return entity_data_ptr->add_bulletin_count(); }
     int remove_bulletin_count( const ENTITY *ent, logical clear_history ) 
     { 
         return entity_data_ptr->remove_bulletin_count( ent, clear_history ); 
     }
-	int gme_remove_bulletin_count( const ENTITY *ent, logical clear_history );
 
 	void set_proxy(entity_proxy* proxy) { entity_data_ptr->set_proxy(proxy); }
 
@@ -128,7 +121,6 @@ protected:
 
 	void full_size(SizeAccumulator&, logical = TRUE) const;
     void init_ptr();
-	void gme_init_ptr();
 
 public:
 
@@ -136,7 +128,6 @@ public:
     BULLETIN *&rollback() const { return entity_data_ptr->rollback(); }
     HISTORY_STREAM *history() const { return entity_data_ptr->history(); }
     tag_id_type tag(const ENTITY *ent, logical assign_new = TRUE) const; 
-	tag_id_type gme_tag(const ENTITY *ent, logical assign_new = TRUE) const;
     int bulletin_count() const { return entity_data_ptr->bulletin_count(); }
     int use_count() const { return entity_data_ptr->use_count; }
 	entity_proxy* proxy() const {return entity_data_ptr->proxy();}
@@ -166,18 +157,14 @@ class use_counted_box : public ACIS_OBJECT {
 private:
 
 	use_counted_box();
-	use_counted_box(const char *gme);
 
 protected:
 
 	use_counted_box( SPAbox* in_box);
-	use_counted_box( const char *gme, SPAbox* in_box);
 	~use_counted_box();
 	
 	void add();
-	void gme_add();
 	void remove();
-	void gme_remove();
 };
 
 /**
@@ -194,18 +181,14 @@ class use_counted_ver_box : public ACIS_OBJECT {
 private:
 
 	use_counted_ver_box();
-	use_counted_ver_box(const char *gme);
 
 protected:
 
 	use_counted_ver_box( SPAbox* in_ver_box);
-	use_counted_ver_box( const char *gme, SPAbox* in_ver_box);
 	~use_counted_ver_box();
 	
 	void add();
-	void gme_add();
 	void remove();
-	void gme_remove();
 };
 
 /**
@@ -221,18 +204,14 @@ class use_counted_par_box : public ACIS_OBJECT {
 private:
 
 	use_counted_par_box();
-	use_counted_par_box(const char *gme);
 
 protected:
 
 	use_counted_par_box( SPApar_box* in_par_box);
-	use_counted_par_box( const char *gme, SPApar_box* in_par_box);
 	~use_counted_par_box();
 	
 	void add();
-	void gme_add();
 	void remove();
-	void gme_remove();
 };
 
 /**
@@ -245,16 +224,12 @@ class DECL_KERN entity_box_container {
 public:
 
 	entity_box_container();
-	entity_box_container(const char *gme);
-	entity_box_container(const entity_box_container&);
 	~entity_box_container();
 
     entity_box_container& operator=(const entity_box_container&);
-	entity_box_container& gme_assign(const entity_box_container&);
+
 	logical set_box( ENTITY*, SPAbox*);
-	logical gme_set_box( ENTITY*, SPAbox*);
 	SPAbox* get_box() const;
-	SPAbox* gme_get_box() const;
 };
 
 /**
@@ -267,17 +242,12 @@ class DECL_KERN entity_ver_box_container {
 public:
 
 	entity_ver_box_container();
-	entity_ver_box_container( const char *gme);
-    entity_ver_box_container(const entity_ver_box_container&);
 	~entity_ver_box_container();
 
     entity_ver_box_container& operator=(const entity_ver_box_container&);
-	entity_ver_box_container& gme_assign(const entity_ver_box_container&);
 
 	logical set_ver_box( ENTITY*, SPAbox*);
-	logical gme_set_ver_box( ENTITY*, SPAbox*);
 	SPAbox* get_ver_box() const;
-	SPAbox* gme_get_ver_box() const;
 };
 
 /**
@@ -290,17 +260,12 @@ class DECL_KERN entity_par_box_container {
 public:
 
 	entity_par_box_container();
-	entity_par_box_container(const char *gme);
-    entity_par_box_container(const entity_par_box_container&);
 	~entity_par_box_container();
 
     entity_par_box_container& operator=(const entity_par_box_container&);
-	entity_par_box_container& gme_assign(const entity_par_box_container&);
 
 	logical set_par_box( ENTITY*, SPApar_box*);
-	logical gme_set_par_box( ENTITY*, SPApar_box*);
 	SPApar_box* get_par_box() const;
-	SPApar_box* gme_get_par_box() const;
 };
 
 /**
@@ -320,5 +285,6 @@ public:
 	logical set_ps_polygon( ENTITY*, ps_polygon*);
 	ps_polygon* get_ps_polygon() const;
 };
+
 
 #endif

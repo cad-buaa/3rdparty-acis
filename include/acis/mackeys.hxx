@@ -10,6 +10,9 @@
 
 #ifdef mac
 
+#pragma once
+
+
 /*  Character Codes  */
 
 	/*  Navigation Keys  */

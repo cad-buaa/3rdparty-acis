@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -61,7 +61,6 @@ public:
 	 * updates the iterator correctly for the <tt>next</tt> method.
 	 */
 	const error_info* first() const;
-	const error_info* gme_first() const;
 	
 	/**
 	 * Returns a pointer to an <tt>error_info</tt> object in list order.
@@ -75,13 +74,11 @@ public:
 	 * <b>Usage</b>: Call <tt>init</tt> once, then <tt>next</tt> repeatedly until it returns <tt>NULL</tt>.
 	 */
 	const error_info* next() const;
-	const error_info* gme_next() const;
 
 	/**
 	 * Returns a count of how many <tt>error_info</tt> objects are pointed to by the list.
 	 */
 	int count() const;
-	int gme_count() const;
 
 	/**
 	 * Adds an <tt>error_info</tt> object to the list if not already there.
@@ -90,7 +87,6 @@ public:
 	 * <tt>error_info</tt> to add
 	 */
 	void add(const error_info* ei);
-	void gme_add(const error_info* ei);
 
 	/**
 	 * Adds an <tt>error_info_list</tt> by adding all the individual <tt>error_info</tt> objects that are
@@ -100,7 +96,6 @@ public:
 	 * <tt>error_info_list</tt> to add
 	 */
 	void add(const error_info_list& ei);
-	void gme_add(const error_info_list& ei);
 
 };
 

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -36,7 +36,6 @@ class IHL_CAMERA;
 class AcisOptions;
 class facet_options;
 class facet_options_expert;
-
 /**********************************************************************/
 /**
  * Initializes the interactive hidden line library.
@@ -92,11 +91,6 @@ DECL_IHL outcome api_terminate_interactive_hidden_line( void );
  * camera.
  **/
 DECL_IHL outcome api_ihl_retrieve(
-         const ENTITY_LIST& entities,                     // entity list
-         int                token,                      // view token
-         ENTITY_LIST&       segments,                   // IHL_SEGMENTs
-         IHL_CAMERA*&       camera );                   // IHL_CAMERA
-DECL_IHL outcome gme_api_ihl_retrieve(
          const ENTITY_LIST& entities,                     // entity list
          int                token,                      // view token
          ENTITY_LIST&       segments,                   // IHL_SEGMENTs

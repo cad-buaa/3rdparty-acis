@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -45,10 +45,6 @@
  *
  * @{
  */
-
-//支撑性测试
-// #define GME_KERN_SPLDEF
-//#define GME_KERN_SPLSUR
 
 #if defined D3_STANDALONE || defined D3_DEBUG
 
@@ -113,35 +109,34 @@ class spline;
  * @param trans
  * transformation.
  */
-DECL_KERN spline operator*(spline const &name,SPAtransf const &trans);
-DECL_KERN spline gme_operator_multiply(spline const &name,SPAtransf const &trans);
+DECL_KERN spline operator*(spline const& name, SPAtransf const& trans);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-DECL_KERN surface *restore_spline();
+DECL_KERN surface* restore_spline();
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-void calc_patches(spl_sur &sur, double & fit,  double* & knots1, int & nknots1,
-				  double* & knots2, int & nknots2,  logical uv_type,
-				  SPAinterval& orig_range1, SPAinterval& orig_range2,
-				  SPAinterval& range1, SPAinterval& range2);
+void calc_patches(spl_sur& sur, double& fit, double*& knots1, int& nknots1,
+	double*& knots2, int& nknots2, logical uv_type,
+	SPAinterval& orig_range1, SPAinterval& orig_range2,
+	SPAinterval& range1, SPAinterval& range2);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-logical calc_patch(spl_sur &sur, double & fit, double* & knots, int & nknots,
-				   logical uv_type, logical dir_type, logical calc_knots,
-				   SPAinterval& erange1,  SPAinterval& erange2,
-				   SPAinterval& srange);
+logical calc_patch(spl_sur& sur, double& fit, double*& knots, int& nknots,
+	logical uv_type, logical dir_type, logical calc_knots,
+	SPAinterval& erange1, SPAinterval& erange2,
+	SPAinterval& srange);
 
 # if ( defined D3_DEBUG || defined D3_STANDALONE )
 /*
@@ -150,14 +145,14 @@ logical calc_patch(spl_sur &sur, double & fit, double* & knots, int & nknots,
 /**
  * @nodoc
  */
-DECL_KERN D3_ostream &operator<<( D3_ostream &os, const spl_sur& ss );
+DECL_KERN D3_ostream& operator<<(D3_ostream& os, const spl_sur& ss);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-DECL_KERN D3_istream &operator>>( D3_istream &is, spl_sur*& ss );
+DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
 #endif
 
 /**
@@ -190,7 +185,7 @@ DECL_KERN D3_istream &operator>>( D3_istream &is, spl_sur*& ss );
  * is a <i>parametric singularity</i> of the surface. If the surface normal is not
  * continuous at this point, it is a <i>geometric singularity</i>.
  *<br><br>
- * The spline contains a pointer to another structure, a <tt>spl_sur</tt> or something derived from it, 
+ * The spline contains a pointer to another structure, a <tt>spl_sur</tt> or something derived from it,
  * which contains the bulk of the information about the surface, and a <tt>"reversed"</tt> bit,
  * which specifies whether the spline is reversed with respect to the <tt>spl_sur</tt>.
  * Providing this indirection serves two purposes. First, when a spline is duplicated,
@@ -198,41 +193,41 @@ DECL_KERN D3_istream &operator>>( D3_istream &is, spl_sur*& ss );
  * The system maintains a <i>use count</i> in each <tt>spl_sur</tt>. This allows automatic duplication
  * if a shared <tt>spl_sur</tt> is to be modified, and deletes any <tt>spl_sur</tt> no longer needed.
  * Second, the <tt>spl_sur</tt> contains virtual functions to perform all spline operations
- * that depend on the type of the surface. Therefore, new surface types can be defined by declaring 
- * and implementing derived classes and the spline class (and everything using it) require no changes 
- * to make use of the new surface type. 
+ * that depend on the type of the surface. Therefore, new surface types can be defined by declaring
+ * and implementing derived classes and the spline class (and everything using it) require no changes
+ * to make use of the new surface type.
  *<br><br>
  * @see discontinuity_info, spl_sur, SPLINE, sub_spl_sur
  */
-class DECL_KERN spline: public surface {
-// Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
+class DECL_KERN spline : public surface {
+	// Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
 #ifdef spline_FRIENDS
-spline_FRIENDS
+	spline_FRIENDS
 #endif
+		// NOTES SHEVO
+		friend spl_sur* shevo_get_spl_sur(spline* spl);
 
 private:
-	spl_sur *spl;		// Spline surface
+	spl_sur* spl;		// Spline surface
 
 	logical rev;		// True if this surface opposes the direction
 						// of the underlying one.
 
 	discontinuity_info	u_disc_info;
 	discontinuity_info	v_disc_info;
-    	// Discontinuity information. If the supporting geometry of the surface
-		// has discontinuities, or if the surface has a default (tangent)
-		// extension, then it will have discontinuities. These are stored here.
-		// Note that this is a copy of the data stored in the corresponding
-		// spl_sur, but with values outside the subset range removed.  It is
-		// necessary to keep a separate copy to provide a read-only array to the
-		// data because the surface may be periodic, and the subset may span the
-		// periodic joins, resulting in discontinuities which may be outside the
-		// periodic range.
+	// Discontinuity information. If the supporting geometry of the surface
+	// has discontinuities, or if the surface has a default (tangent)
+	// extension, then it will have discontinuities. These are stored here.
+	// Note that this is a copy of the data stored in the corresponding
+	// spl_sur, but with values outside the subset range removed.  It is
+	// necessary to keep a separate copy to provide a read-only array to the
+	// data because the surface may be periodic, and the subset may span the
+	// periodic joins, resulting in discontinuities which may be outside the
+	// periodic range.
 
-    void		update_u_disc_info();
-	void		gme_update_u_disc_info();
-    void		update_v_disc_info();
-	void		gme_update_v_disc_info();
-        // Update the discontinuity information if a change_event occurs.
+	void		update_u_disc_info();
+	void		update_v_disc_info();
+	// Update the discontinuity information if a change_event occurs.
 
 // STI dgh  make_single_ref public for use in DS husk
 public:
@@ -245,14 +240,13 @@ public:
  */
 	void make_single_ref();
 
-// STI dgh public:
-/**
- * C++ allocation constructor requests memory for this object but does not populate it.
- */
+	// STI dgh public:
+	/**
+	 * C++ allocation constructor requests memory for this object but does not populate it.
+	 */
 	spline() {
 		spl = NULL;
 	}
-	spline(const char* gme);
 
 
 	// Construct a spline from a spline.  Ups the use-count of the
@@ -265,11 +259,7 @@ public:
  * given spline
  */
 	spline(
-				spline const &spl
-			);
-	spline(
-		const char* gme,
-		spline const &spl
+		spline const& spl
 	);
 
 
@@ -288,11 +278,7 @@ public:
  * spline surface.
  */
 	spline(
-				spl_sur *surf
-			);
-	spline(
-		const char* gme,
-		spl_sur *surf
+		spl_sur* surf
 	);
 
 
@@ -315,20 +301,16 @@ public:
  * the bs3_surface.
  */
 	spline(
-				bs3_surface surf
-			);
-	spline(
-		const char* gme,
 		bs3_surface surf
 	);
+
 
 	// Make a copy of this spline on the heap, and return a
 	// pointer to it (again minimal copying employed).
 /**
  * Makes a copy of this spline on the heap, and returns a pointer to it.
  */
-	virtual surface *make_copy() const;
-	/*virtual*/ surface *gme_make_copy() const;
+	virtual surface* make_copy() const;
 
 	// Make a copy without any sharing of subdata.
 /**
@@ -340,8 +322,7 @@ public:
  * @param pm
  * List of items within the entity that are already deep copied.
  */
-	virtual surface *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ surface *gme_deep_copy(pointer_map * pm = NULL) const;
+	virtual surface* deep_copy(pointer_map* pm = NULL) const;
 
 	// Remove the use of the underlying surface (decrement use-count).
 /**
@@ -355,31 +336,32 @@ public:
  * Returns <tt>TRUE</tt> if the <tt>spline</tt> is reversed with respect to the underlying <tt>spl_sur</tt>.
  */
 	logical reversed() const
-		{ return rev; }
+	{
+		return rev;
+	}
 
 	// Returns the underlying spline surface, evaluating it if it is not present
-    // by calling make_approx.  Note - it may be impossible to calculate the
-    // approximating surface, in which case this function will return NULL.
+	// by calling make_approx.  Note - it may be impossible to calculate the
+	// approximating surface, in which case this function will return NULL.
 
-    // The default value of -1.0 for the fit tolerance instructs the make_approx
-    // function to use whatever value it thinks is appropriate.
+	// The default value of -1.0 for the fit tolerance instructs the make_approx
+	// function to use whatever value it thinks is appropriate.
 /**
  * Returns (a pointer to) the underlying surface, or <tt>NULL</tt> if none.
  *<br><br>
  * @param tol
  * tolerance.
  */
-	bs3_surface sur( double tol=-1.0 ) const;
-	bs3_surface gme_sur( double tol=-1.0 ) const;
+	bs3_surface sur(double tol = -1.0) const;
 
-    // Report whether the approximating surface is present.
+	// Report whether the approximating surface is present.
 /**
  * Returns <tt>TRUE</tt> if there is underlying surface data.
  */
-    logical	sur_present() const;
+	logical	sur_present() const;
 
 
-  	// STI dgh: replace underlying bs3_surface approximation.  If the supplied
+	// STI dgh: replace underlying bs3_surface approximation.  If the supplied
 	// fitol is negative, then it will be left unchanged (PC).
 /**
  * Sets the surface information.
@@ -389,30 +371,31 @@ public:
  * @param fitol
  * fit tolerance.
  */
-	void set_sur( bs3_surface surf, double fitol = -1.0 );
-	void gme_set_sur( bs3_surface surf, double fitol = -1.0 );
+	void set_sur(bs3_surface surf, double fitol = -1.0);
 
-/**
- * Returns the fit tolerance of the <tt>bs3_curve</tt> to the true spline surface.
- */
+	/**
+	 * Returns the fit tolerance of the <tt>bs3_curve</tt> to the true spline surface.
+	 */
 	double fitol() const;			// fit tolerance
 /**
  * Returns defining spline surface and should only be used when absolutely necessary.
  */
-	spl_sur const &get_spl_sur() const
-		{ return *spl; }			// shouldn't be used unless
-									// absolutely necessary.
+	spl_sur const& get_spl_sur() const
+	{
+		return *spl;
+	}			// shouldn't be used unless
+						 // absolutely necessary.
 
 /**
  * Replaces the defining spline surface and should only be used with extreme caution.
  */
 	void replace_spl_sur(spl_sur& new_spl);
 
-    // Function to determine if this spline depends on a pipe surface at all.
+	// Function to determine if this spline depends on a pipe surface at all.
 /**
  * Returns <tt>TRUE</tt> if this spline depends on a pipe surface.
  */
-    logical contains_pipe() const;
+	logical contains_pipe() const;
 
 
 	// Special operation for splines - perform a linear
@@ -428,49 +411,47 @@ public:
  * new end u parameter.
  */
 	void reparam_u(
-				double start,	// new start u parameter
-				double end		// new end u parameter
-			);
-	void gme_reparam_u(double start, double end);
-/**
- * Reparameterizes the surface in <i>v</i>.
- *<br><br>
- * @param start
- * new start v parameter.
- * @param end
- * new end v parameter.
- */
+		double start,	// new start u parameter
+		double end		// new end u parameter
+	);
+	/**
+	 * Reparameterizes the surface in <i>v</i>.
+	 *<br><br>
+	 * @param start
+	 * new start v parameter.
+	 * @param end
+	 * new end v parameter.
+	 */
 	void reparam_v(
-				double start,	// new start v parameter
-				double end		// new end v parameter
-			);
-	void gme_reparam_v(double start, double end);
-/**
- * Reparameterizes the surface.
- *<br><br>
- * @param startu
- * new start u parameter.
- * @param endu
- * new end u parameter.
- * @param startv
- * new start v parameter.
- * @param endv
- * new end v parameter.
- */
+		double start,	// new start v parameter
+		double end		// new end v parameter
+	);
+	/**
+	 * Reparameterizes the surface.
+	 *<br><br>
+	 * @param startu
+	 * new start u parameter.
+	 * @param endu
+	 * new end u parameter.
+	 * @param startv
+	 * new start v parameter.
+	 * @param endv
+	 * new end v parameter.
+	 */
 	void reparam(
-				double startu,		// new start u parameter
-				double endu,		// new end u parameter
-				double startv,		// new start v parameter
-				double endv			// new end v parameter
-			);
-	void gme_reparam(double startu, double endu, double startv, double endv);
+		double startu,		// new start u parameter
+		double endu,		// new end u parameter
+		double startv,		// new start v parameter
+		double endv			// new end v parameter
+	);
+
 
 	// Returns a surface with a reversed sense
 /**
  * Returns a surface with a reversed sense.
  */
 	spline operator-() const;
-	spline gme_operator_substract() const;
+
 
 	// Assignment.  Merely copy the spline record, and adjust the
 	// use counts of the underlying information to suit.
@@ -480,12 +461,10 @@ public:
  * @param name
  * spline name.
  */
-	spline &operator=(
-				spline const &name
-			);
-	spline &gme_operator_assign(
-				spline const &name
-			);
+	spline& operator=(
+		spline const& name
+		);
+
 
 	// Test two surfaces for equality. This, like testing floating-
 	// point numbers for equality, is not guaranteed to say "equal" for
@@ -504,8 +483,7 @@ public:
  * @param surf
  * surface to be compared.
  */
-	virtual logical operator==( surface const &surf ) const;
-	logical gme_operator_equal( surface const &surf) const;
+	virtual logical operator==(surface const& surf) const;
 
 	// Determine whether a surface is entirely enclosed within
 	// another.
@@ -515,7 +493,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator>>( surface const & ) const;
+	virtual logical operator>>(surface const&) const;
 
 
 	// Transform a spline surface.
@@ -526,13 +504,10 @@ public:
  * @nodoc
  */
 	friend DECL_KERN spline operator*(
-				spline const &,
-				SPAtransf const &
-			);
-	friend DECL_KERN spline gme_operator_multiply(
-				spline const &,
-				SPAtransf const &
-			);
+		spline const&,
+		SPAtransf const&
+		);
+
 
 	// Transform this spline by the given SPAtransf.
 /**
@@ -541,19 +516,17 @@ public:
  * @param trans
  * transformation.
  */
-	virtual surface &operator*=(
-				SPAtransf const &trans
-			);
-	/*virtual*/ surface &gme_operator_multiply_assign(
-				SPAtransf const &trans
-			);
+	virtual surface& operator*=(
+		SPAtransf const& trans
+		);
+
 
 	// Negate this spline.
 /**
  * Negates this spline.
  */
-	virtual surface &negate();
-	/*virtual*/ surface &gme_negate();
+	virtual surface& negate();
+
 
 	// Classification of a spline. The only thing we can say about it
 	// for now is whether it is properly defined or not.
@@ -561,7 +534,7 @@ public:
  * Indicates if the spline is improperly defined.
  */
 	virtual logical undef() const;
-	logical gme_undef() const;
+
 
 	// Returns a box around the surface. This need not be the smallest
 	// box which contains the specified portion of the surface, but
@@ -578,13 +551,9 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPApar_box const &box = *(SPApar_box *)NULL_REF,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
-	SPAbox gme_bound(
-				SPApar_box const &box = *(SPApar_box *)NULL_REF,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
+		SPApar_box const& box = *(SPApar_box*)NULL_REF,
+		SPAtransf const& trans = *(SPAtransf*)NULL_REF
+	) const;
 
 	// Surface bounded in object space.
 /**
@@ -596,9 +565,9 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPAbox const &box,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
+		SPAbox const& box,
+		SPAtransf const& trans = *(SPAtransf*)NULL_REF
+	) const;
 
 
 	// Returns a SPAbox around the spline. This is retained for historical
@@ -616,13 +585,9 @@ public:
  * parameter range.
  */
 	SPAbox bound(
-				SPAtransf const & trans,
-				SPApar_box const &parbox = *(SPApar_box *)NULL_REF
-			) const;
-	SPAbox gme_bound(
-				SPAtransf const & trans,
-				SPApar_box const &parbox = *(SPApar_box *)NULL_REF
-			) const;
+		SPAtransf const& trans,
+		SPApar_box const& parbox = *(SPApar_box*)NULL_REF
+	) const;
 
 
 	// Returns a cone bounding the normal direction of the surface. The
@@ -653,10 +618,10 @@ public:
  * transformation.
  */
 	virtual surf_normcone normal_cone(
-				SPApar_box const &parbox,	// parameter bounds
-				logical approx = FALSE,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
-			) const;
+		SPApar_box const& parbox,	// parameter bounds
+		logical approx = FALSE,
+		SPAtransf const& trans = *(SPAtransf*)NULL_REF
+	) const;
 
 
 	// Construct a new spline which is a copy of the part of the
@@ -668,9 +633,9 @@ public:
  * @param parbox
  * parameter range.
  */
-	spline *subset(
-				SPApar_box const &parbox
-			) const;
+	spline* subset(
+		SPApar_box const& parbox
+	) const;
 
 
 	// Divides a surface into two pieces at a given parameter value.
@@ -685,26 +650,24 @@ public:
  * @param parameter
  * given u parameter.
  */
-	spline *split_u( double parameter);
-	spline *gme_split_u( double parameter);
-/**
- * Divides a surface into two pieces at a <i>v</i>-parameter value.
- *<br><br>
- * <b>Role:</b> Returns a new surface for the low-parameter side, and change the
- * old one to represent the high-parameter side.
- *<br><br>
- * @param parameter
- * given v parameter.
- */
-	spline *split_v( double parameter);
-	spline *gme_split_v( double parameter);
+	spline* split_u(double parameter);
+	/**
+	 * Divides a surface into two pieces at a <i>v</i>-parameter value.
+	 *<br><br>
+	 * <b>Role:</b> Returns a new surface for the low-parameter side, and change the
+	 * old one to represent the high-parameter side.
+	 *<br><br>
+	 * @param parameter
+	 * given v parameter.
+	 */
+	spline* split_v(double parameter);
 
 
-    // Divides a surface into separate pieces which are smooth (and therefore
-    // suitable for offsetting or blending). The surface is split at its
-    // non-G1 discontinuities, and if it is closed after this, it is then
-    // split into two. The functions return the number of pieces, and the
-    // pieces themselves are a return argument.
+	// Divides a surface into separate pieces which are smooth (and therefore
+	// suitable for offsetting or blending). The surface is split at its
+	// non-G1 discontinuities, and if it is closed after this, it is then
+	// split into two. The functions return the number of pieces, and the
+	// pieces themselves are a return argument.
 /**
  * Divides a surface into separate pieces which are smooth (and therefore suitable for offsetting or blending).
  *<br><br>
@@ -717,28 +680,28 @@ public:
  * @param curvature
  * curvature.
  */
-    int split_at_kinks_u( spline**& pieces, double curvature = 0.0 ) const;
-/**
- * Divides a surface into separate pieces which are smooth (and therefore suitable for offsetting or blending).
- * <br><br>
- * <b>Role:</b> The surface is split at its non<i>-G1</i> discontinuities, and if it is
- * closed after this, it is then split into two. The split pieces are stored in
- * the the pieces argument. The function returns the count of split pieces.
- * <br><br>
- * @param pieces
- * pieces.
- * @param curvature
- * curvature.
- */
-    int split_at_kinks_v( spline**& pieces, double curvature = 0.0 ) const;
+	int split_at_kinks_u(spline**& pieces, double curvature = 0.0) const;
+	/**
+	 * Divides a surface into separate pieces which are smooth (and therefore suitable for offsetting or blending).
+	 * <br><br>
+	 * <b>Role:</b> The surface is split at its non<i>-G1</i> discontinuities, and if it is
+	 * closed after this, it is then split into two. The split pieces are stored in
+	 * the the pieces argument. The function returns the count of split pieces.
+	 * <br><br>
+	 * @param pieces
+	 * pieces.
+	 * @param curvature
+	 * curvature.
+	 */
+	int split_at_kinks_v(spline**& pieces, double curvature = 0.0) const;
 
-/**
- * Indicates if the surface is parametric.
- * <br><br>
- * <b>Role:</b> Always <tt>TRUE</tt> for splines.
- */
+	/**
+	 * Indicates if the surface is parametric.
+	 * <br><br>
+	 * <b>Role:</b> Always <tt>TRUE</tt> for splines.
+	 */
 	virtual logical parametric() const;	// returns true for spline
-	logical gme_parametric() const;
+
 
 	// Find the normal to the surface at the given point. Returns an
 	// exact zero if the point is a singularity of the surface where
@@ -752,13 +715,10 @@ public:
  * parameter guess.
  */
 	virtual SPAunit_vector point_normal(
-				SPAposition const &pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
-	SPAunit_vector gme_point_normal(
-				SPAposition const &pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const& pos,
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF
+	) const;
+
 
 	// Find an outward direction from the surface at a point on
 	// the surface nearest to the given point. Normally just the
@@ -774,13 +734,10 @@ public:
  * parameter guess.
  */
 	virtual SPAunit_vector point_outdir(
-				SPAposition const &pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
-	SPAunit_vector gme_point_outdir(
-				SPAposition const &pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const& pos,
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF
+	) const;
+
 
 	// Find the principal axes of curvature of the surface at a
 	// given point, and the curvatures in those directions.
@@ -801,39 +758,30 @@ public:
  * parameter guess.
  */
 	virtual void point_prin_curv(
-				SPAposition const &pos,
-				SPAunit_vector &axis1,		// first axis direction
-				double &cur1,			// curvature in first direction
-				SPAunit_vector &axis2,		// second axis direction
-				double &cur2,			// curvature in second direction
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
-	/*virtual*/ void gme_point_prin_curv(
-			SPAposition const &pos,
-			SPAunit_vector &axis1,		// first axis direction
-			double &cur1,			// curvature in first direction
-			SPAunit_vector &axis2,		// second axis direction
-			double &cur2,			// curvature in second direction
-			SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-		) const;
-
-/**
- * Finds the principal curvatures at a given point, returning the values in a struct.
- * <br><br>
- * <b>Role:</b> Just uses the other (virtual) principal curvature function.
- * <br><br>
- * @param pos
- * position.
- * <br><br>
- * @param param_guess
- * parameter position - possible parameter.
- */
+		SPAposition const& pos,
+		SPAunit_vector& axis1,		// first axis direction
+		double& cur1,			// curvature in first direction
+		SPAunit_vector& axis2,		// second axis direction
+		double& cur2,			// curvature in second direction
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF
+	) const;
+	/**
+	 * Finds the principal curvatures at a given point, returning the values in a struct.
+	 * <br><br>
+	 * <b>Role:</b> Just uses the other (virtual) principal curvature function.
+	 * <br><br>
+	 * @param pos
+	 * position.
+	 * <br><br>
+	 * @param param_guess
+	 * parameter position - possible parameter.
+	 */
 	surf_princurv point_prin_curv(
-				SPAposition const &pos,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF
-			) const
+		SPAposition const& pos,
+		SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF
+	) const
 	{
-		return surface::point_prin_curv( pos, param_guess );
+		return surface::point_prin_curv(pos, param_guess);
 	}
 
 
@@ -857,36 +805,36 @@ public:
  * initial param guess.
  */
 	virtual double point_cross(
-				SPAposition const &pos,
-				SPAunit_vector const &direction,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const& pos,
+		SPAunit_vector const& direction,
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF
+	) const;
 
-/**
- * Finds the curvature of a cross-section curve of the surface at the point on the surface closest to the given point, iterating from the given parameter values (if supplied).
- * <br><br>
- * <b>Role:</b> The cross-section curve is determined by the intersection of the
- * surface with a plane passing through the point on the surface and with given normal.
- * <br><br>
- * @param pos
- * position.
- * @param direction
- * direction.
- * @param guess
- * initial param guess.
- * @param use_sided_eval
- * use sided evaluation for derivatives.
- * @param right_side
- * evaluate right side of direction.
- */
+	/**
+	 * Finds the curvature of a cross-section curve of the surface at the point on the surface closest to the given point, iterating from the given parameter values (if supplied).
+	 * <br><br>
+	 * <b>Role:</b> The cross-section curve is determined by the intersection of the
+	 * surface with a plane passing through the point on the surface and with given normal.
+	 * <br><br>
+	 * @param pos
+	 * position.
+	 * @param direction
+	 * direction.
+	 * @param guess
+	 * initial param guess.
+	 * @param use_sided_eval
+	 * use sided evaluation for derivatives.
+	 * @param right_side
+	 * evaluate right side of direction.
+	 */
 
 	virtual double point_cross(
-				SPAposition const &pos,
-				SPAunit_vector const &direction,
-				SPApar_pos const &guess,
-                logical use_sided_eval,
-                logical right_side
-			) const;
+		SPAposition const& pos,
+		SPAunit_vector const& direction,
+		SPApar_pos const& guess,
+		logical use_sided_eval,
+		logical right_side
+	) const;
 
 	// Find the point on the surface nearest to the given point and
 	// optionally the normal to and principal curvatures of the
@@ -913,93 +861,84 @@ public:
  * weak flag.
  */
 	virtual void point_perp(
-				SPAposition const &pos,
-				SPAposition &surf,
-				SPAunit_vector &normal,
-				surf_princurv &curv,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
-	/*virtual*/ void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition &surf,
-				SPAunit_vector &normal,
-				surf_princurv &curv,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const;
-/**
- * Finds the point on the surface nearest to the given point.
- * <br><br>
- * <b>Role:</b> If the surface is parametric, also return the parameter values at
- * the found point.
- * <br><br>
- * @param pos
- * given position.
- * @param foot
- * point on a surface.
- * @param norm
- * surface normal.
- * @param param_guess
- * parameter position - parameter guess.
- * @param param_actual
- * actual parameter.
- * @param f_weak
- * weak flag.
- */
+		SPAposition const& pos,
+		SPAposition& surf,
+		SPAunit_vector& normal,
+		surf_princurv& curv,
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF,
+		SPApar_pos& actual = *(SPApar_pos*)NULL_REF,
+		logical f_weak = FALSE
+	) const;
+	/**
+	 * Finds the point on the surface nearest to the given point.
+	 * <br><br>
+	 * <b>Role:</b> If the surface is parametric, also return the parameter values at
+	 * the found point.
+	 * <br><br>
+	 * @param pos
+	 * given position.
+	 * @param foot
+	 * point on a surface.
+	 * @param norm
+	 * surface normal.
+	 * @param param_guess
+	 * parameter position - parameter guess.
+	 * @param param_actual
+	 * actual parameter.
+	 * @param f_weak
+	 * weak flag.
+	 */
 	void point_perp(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPAunit_vector &norm,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const
+		SPAposition const& pos,
+		SPAposition& foot,
+		SPAunit_vector& norm,
+		SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF,
+		SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
+		logical f_weak = FALSE
+	) const
 	{
 		point_perp(
-				pos,
-				foot,
-				norm,
-				*(surf_princurv *)NULL_REF,
-				param_guess,
-				param_actual, f_weak
-			);
+			pos,
+			foot,
+			norm,
+			*(surf_princurv*)NULL_REF,
+			param_guess,
+			param_actual, f_weak
+		);
 	}
-/**
- * Finds the point on the surface nearest to the given point.
- * <br><br>
- * <b>Role:</b> If the surface is parametric, also return the parameter values at
- * the found point.
- * <br><br>
- * @param pos
- * given position.
- * @param foot
- * point on a surface.
- * @param param_guess
- * parameter position - parameter guess.
- * @param param_actual
- * actual parameter.
- * @param f_weak
- * weak flag.
- */
+	/**
+	 * Finds the point on the surface nearest to the given point.
+	 * <br><br>
+	 * <b>Role:</b> If the surface is parametric, also return the parameter values at
+	 * the found point.
+	 * <br><br>
+	 * @param pos
+	 * given position.
+	 * @param foot
+	 * point on a surface.
+	 * @param param_guess
+	 * parameter position - parameter guess.
+	 * @param param_actual
+	 * actual parameter.
+	 * @param f_weak
+	 * weak flag.
+	 */
 	void point_perp(
-				SPAposition const &pos,
-				SPAposition &foot,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE
-			) const
+		SPAposition const& pos,
+		SPAposition& foot,
+		SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF,
+		SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
+		logical f_weak = FALSE
+	) const
 	{
 		point_perp(
-				pos,
-				foot,
-				*(SPAunit_vector *)NULL_REF,
-				*(surf_princurv *)NULL_REF,
-				param_guess,
-				param_actual, f_weak
-			);
+			pos,
+			foot,
+			*(SPAunit_vector*)NULL_REF,
+			*(surf_princurv*)NULL_REF,
+			param_guess,
+			param_actual, f_weak
+		);
 	}
 
 
@@ -1014,13 +953,10 @@ public:
  * initial guess.
  */
 	virtual SPApar_pos param(
-				SPAposition const & pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
-	SPApar_pos gme_param(
-				SPAposition const & pos,
-				SPApar_pos const &guess = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const& pos,
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF
+	) const;
+
 
 	// Find the change in surface parameter corresponding to a unit
 	// offset in a given direction at a given SPAposition.
@@ -1033,22 +969,22 @@ public:
  * parameter.
  */
 	virtual SPApar_vec param_unitvec(
-				SPAunit_vector const &direction,
-				SPApar_pos const &parameter
-			) const;
-/**
- * Finds the change in surface parameter corresponding to a unit offset in a given direction at a given position.
- * <br><br>
- * @param direction
- * direction.
- * @param parameter
- * parameter.
- * logical well_conditioned which would be equal to FALSE if the matrix is ill/bad conditioned.
- */
-    virtual SPApar_vec param_unitvec(
-        const SPAunit_vector& dir,
-        const SPApar_pos& pos, logical &  well_conditioned
-    ) const;
+		SPAunit_vector const& direction,
+		SPApar_pos const& parameter
+	) const;
+	/**
+	 * Finds the change in surface parameter corresponding to a unit offset in a given direction at a given position.
+	 * <br><br>
+	 * @param direction
+	 * direction.
+	 * @param parameter
+	 * parameter.
+	 * logical well_conditioned which would be equal to FALSE if the matrix is ill/bad conditioned.
+	 */
+	virtual SPApar_vec param_unitvec(
+		const SPAunit_vector& dir,
+		const SPApar_pos& pos, logical& well_conditioned
+	) const;
 	// Find the SPAposition and first and second derivatives of the
 	// surface at a given point. This will be a surface virtual
 	// function (defined only for parametric surfaces), but isn't
@@ -1066,21 +1002,14 @@ public:
  * second derivatives - array of length 3 in order xuu, xuv, xvv.
  */
 	virtual void eval(
-				SPApar_pos const &uv,
-				SPAposition &pos,
-				SPAvector *dpos = NULL,// first derivatives - array of
-									// length 2 in order xu, xv
-				SPAvector *ddpos = NULL // second derivatives - array of
-									// length 3 in order xuu, xuv, xvv
-			) const;
-	void gme_eval(
-				SPApar_pos const &uv,
-				SPAposition &pos,
-				SPAvector *dpos = NULL,// first derivatives - array of
-									// length 2 in order xu, xv
-				SPAvector *ddpos = NULL // second derivatives - array of
-									// length 3 in order xuu, xuv, xvv
-			) const;
+		SPApar_pos const& uv,
+		SPAposition& pos,
+		SPAvector* dpos = NULL,// first derivatives - array of
+							// length 2 in order xu, xv
+		SPAvector* ddpos = NULL // second derivatives - array of
+							// length 3 in order xuu, xuv, xvv
+	) const;
+
 
 	// Find the point on the spline with given parameter values.
 /**
@@ -1090,13 +1019,11 @@ public:
  * given parameter-space location.
  */
 	virtual SPAposition eval_position(
-				SPApar_pos const &parameter
-			) const;
-	SPAposition gme_eval_position(
-				SPApar_pos const &parameter
-			) const;
+		SPApar_pos const& parameter
+	) const;
 
- 	// Find the normal to the spline at the point with given
+
+	// Find the normal to the spline at the point with given
 	// parameter values.
 /**
  * Finds the normal to the spline at the point with given parameter values.
@@ -1105,11 +1032,9 @@ public:
  * given parameter-space location.
  */
 	virtual SPAunit_vector eval_normal(
-				SPApar_pos const &parameter
-			) const;
-	SPAunit_vector gme_eval_normal(
-				SPApar_pos const &parameter
-			) const;
+		SPApar_pos const& parameter
+	) const;
+
 
 	// Find an outward direction from the surface at a point with
 	// given parameter values.
@@ -1120,11 +1045,9 @@ public:
  * given parameter-space location.
  */
 	virtual SPAunit_vector eval_outdir(
-				SPApar_pos const &parameter
-			) const;
-	SPAunit_vector gme_eval_outdir(
-				SPApar_pos const &parameter
-			) const;
+		SPApar_pos const& parameter
+	) const;
+
 
 	// Find the principal axes of curvature of the surface at a
 	// point with given parameter values, and the curvatures in those
@@ -1144,30 +1067,23 @@ public:
  * second direction curvature.
  */
 	virtual void eval_prin_curv(
-				SPApar_pos const &parameter,
-				SPAunit_vector &axis1,		// first axis direction
-				double & cur1,			// curvature in first direction
-				SPAunit_vector &axis2,		// second axis direction
-				double &cur2			// curvature in second direction
-			) const;
-	void gme_eval_prin_curv(
-				SPApar_pos const &parameter,
-				SPAunit_vector &axis1,		// first axis direction
-				double & cur1,			// curvature in first direction
-				SPAunit_vector &axis2,		// second axis direction
-				double &cur2			// curvature in second direction
-			) const;
-/**
- * Finds the principal axes of curvature of the surface at a given parameter-space location.
- * <br><br>
- * @param param
- * given parameter-space location.
- */
+		SPApar_pos const& parameter,
+		SPAunit_vector& axis1,		// first axis direction
+		double& cur1,			// curvature in first direction
+		SPAunit_vector& axis2,		// second axis direction
+		double& cur2			// curvature in second direction
+	) const;
+	/**
+	 * Finds the principal axes of curvature of the surface at a given parameter-space location.
+	 * <br><br>
+	 * @param param
+	 * given parameter-space location.
+	 */
 	surf_princurv eval_prin_curv(
-				SPApar_pos const &param
-			) const
+		SPApar_pos const& param
+	) const
 	{
-		return surface::eval_prin_curv( param );
+		return surface::eval_prin_curv(param);
 	}
 
 
@@ -1188,9 +1104,9 @@ public:
  * curve normal.
  */
 	virtual double eval_cross(
-				SPApar_pos const &parameter,
-				SPAunit_vector const &normal
-			) const;
+		SPApar_pos const& parameter,
+		SPAunit_vector const& normal
+	) const;
 
 
 	// The evaluate() function calculates derivatives, of any order
@@ -1223,30 +1139,24 @@ public:
  * the evaluation loc. above, below for each parameter direction, or don't care.
  */
 	virtual int evaluate(
-				SPApar_pos const &parameter,	// Parameter
-				SPAposition &pos,			// Point on surface at given parameter
-				SPAvector **vec = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-				int deriv= 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant eval= evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each parameter direction,
-									// or don't care.
-			) const;
-	int gme_evaluate(
-				SPApar_pos const &parameter,
-				SPAposition &pos,			
-				SPAvector **vec = NULL, 	
-				int deriv= 0,       		
-				evaluate_surface_quadrant eval= evaluate_surface_unknown
-			) const;
+		SPApar_pos const& parameter,	// Parameter
+		SPAposition& pos,			// Point on surface at given parameter
+		SPAvector** vec = NULL, 	// Array of pointers to arrays of
+							// vectors, of size nd. Any of the
+							// pointers may be null, in which
+							// case the corresponding derivatives
+							// will not be returned. Otherwise
+							// they must point to arrays long
+							// enough for all the derivatives of
+							// that order - i.e. 2 for the first
+							// derivatives, 3 for the second, etc.
+		int deriv = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant eval = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below for each parameter direction,
+		// or don't care.
+	) const;
+
 
 	// The evaluate_iter() function is just like evaluate(), but is
 	// supplied with a data object which contains results from a previous
@@ -1271,26 +1181,26 @@ public:
  * the evaluation location - above, below or don't care.
  */
 	virtual int evaluate_iter(
-				SPApar_pos const &parameter,	// Parameter
-				surface_evaldata *data,	// Data supplying initial values, and
-									// set to reflect the results of this
-									// evaluation.
-				SPAposition &pos,			// Point on surface at given parameter
-				SPAvector **vec = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-				int deriv= 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant eval= evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each parameter direction,
-									// or don't care.
-            ) const;
+		SPApar_pos const& parameter,	// Parameter
+		surface_evaldata* data,	// Data supplying initial values, and
+							// set to reflect the results of this
+							// evaluation.
+		SPAposition& pos,			// Point on surface at given parameter
+		SPAvector** vec = NULL, 	// Array of pointers to arrays of
+							// vectors, of size nd. Any of the
+							// pointers may be null, in which
+							// case the corresponding derivatives
+							// will not be returned. Otherwise
+							// they must point to arrays long
+							// enough for all the derivatives of
+							// that order - i.e. 2 for the first
+							// derivatives, 3 for the second, etc.
+		int deriv = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant eval = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below for each parameter direction,
+		// or don't care.
+	) const;
 
 	// Construct a data object to retain evaluation information across
 	// calls to evaluate_iter(). This is to allow subsidiary calls
@@ -1304,9 +1214,9 @@ public:
  * start iteration much closer to the required result than is possible just using
  * the curve information itself.
  */
-	virtual surface_evaldata *make_evaldata() const;
+	virtual surface_evaldata* make_evaldata() const;
 
-    // Search the underlying spl_sur cache for an entry at the given SPAposition.
+	// Search the underlying spl_sur cache for an entry at the given SPAposition.
 	// Returns the matching eval entry if this is found, or NULL otherwise.
 /**
  * Searches the underlying cache for an entry at the given position.
@@ -1316,7 +1226,7 @@ public:
  * @param pos
  * position to evaluate.
  */
-    const eval_sscache_entry *search_eval_cache( const SPAposition& pos ) const;
+	const eval_sscache_entry* search_eval_cache(const SPAposition& pos) const;
 
 	// Returns the number of derivatives which evaluate() can find
 	// "accurately" (and fairly directly), rather than by finite
@@ -1336,53 +1246,45 @@ public:
  * default to the surface.
  */
 	virtual int accurate_derivs(
-				SPApar_box const &def = *(SPApar_box *)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
-	int gme_accurate_derivs(
-				SPApar_box const &def = *(SPApar_box *)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
+		SPApar_box const& def = *(SPApar_box*)NULL_REF
+		// Defaults to the whole surface
+	) const;
 
-// STI aed: add planar method
-	// Report whether surface is planar
-/**
- * Determines whether spline is planar.
- * <br><br>
- * @param pos
- * location.
- * @param uv
- * unit vector.
- */
+
+	// STI aed: add planar method
+		// Report whether surface is planar
+	/**
+	 * Determines whether spline is planar.
+	 * <br><br>
+	 * @param pos
+	 * location.
+	 * @param uv
+	 * unit vector.
+	 */
 	virtual logical planar(
-				SPAposition &pos,
-				SPAunit_vector &uv
-			) const;
-	logical gme_planar(
-				SPAposition &pos,
-				SPAunit_vector &uv
-			) const;
-// STI aed: end
+		SPAposition& pos,
+		SPAunit_vector& uv
+	) const;
+	// STI aed: end
 
-	// Report whether a parametric surface is periodic in either
-	// parameter direction (i.e. it is smoothly closed, so faces can
-	// run over the seam).
-/**
- * Reports whether a parametric surface is periodic in the <i>u</i>-parameter direction.
- * <br><br>
- * <b>Role:</b> a parametric surface is periodic if it is smoothly closed, so faces
- * can run over the seam.
- */
+		// Report whether a parametric surface is periodic in either
+		// parameter direction (i.e. it is smoothly closed, so faces can
+		// run over the seam).
+	/**
+	 * Reports whether a parametric surface is periodic in the <i>u</i>-parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> a parametric surface is periodic if it is smoothly closed, so faces
+	 * can run over the seam.
+	 */
 	virtual logical periodic_u() const;
-	logical gme_periodic_u() const;
-/**
- * Reports whether a parametric surface is periodic in the <i>v</i>-parameter direction.
- * <br><br>
- * <b>Role:</b> a parametric surface is periodic if it is smoothly closed, so faces
- * can run over the seam.
- */
+	/**
+	 * Reports whether a parametric surface is periodic in the <i>v</i>-parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> a parametric surface is periodic if it is smoothly closed, so faces
+	 * can run over the seam.
+	 */
 	virtual logical periodic_v() const;
-	logical gme_periodic_v() const;
+
 
 	// Report whether the surface is closed, smoothly or not, in
 	// either parameter direction.
@@ -1390,12 +1292,11 @@ public:
  * Reports whether the surface is closed, smoothly or not, in the <i>u</i>-parameter direction.
  */
 	virtual logical closed_u() const;
-	logical gme_closed_u() const;
-/**
- * Reports whether the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
- */
+	/**
+	 * Reports whether the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
+	 */
 	virtual logical closed_v() const;
-	logical gme_closed_v() const;
+
 
 	// Returns the period of a periodic parametric surface, zero if
 	// the surface is not periodic in the chosen parameter or not
@@ -1406,14 +1307,13 @@ public:
  * <b>Role:</b> <tt>0</tt> if the surface is not periodic in the <i>u</i>-parameter or not parametric.
  */
 	virtual double param_period_u() const;
-	double gme_param_period_u() const;
-/**
- * Returns the period of a periodic parametric surface.
- * <br><br>
- * <b>Role:</b> <tt>0</tt> if the surface is not periodic in the <i>v</i>-parameter or not parametric.
- */
+	/**
+	 * Returns the period of a periodic parametric surface.
+	 * <br><br>
+	 * <b>Role:</b> <tt>0</tt> if the surface is not periodic in the <i>v</i>-parameter or not parametric.
+	 */
 	virtual double param_period_v() const;
-	double gme_param_period_v() const;
+
 
 	// Returns the principal parameter range of a parametric surface in
 	// a chosen parameter direction, or in both. For a non-parametric
@@ -1449,55 +1349,47 @@ public:
  * region of interest.
  */
 	virtual SPApar_box param_range(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
-	SPApar_box gme_param_range(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
-/**
- * Returns the principal parameter range of a parametric surface in a chosen parameter direction.
- * <br><br>
- * <b>Role:</b> A periodic surface is defined for all parameter values in the
- * periodic direction, by reducing the given parameter modulo the period into this
- * principal range. For a surface open or nonperiodic in the chosen direction the
- * surface evaluation functions are defined only for parameter values in the
- * returned range. If a box is provided, the parameter range returned may be
- * restricted to a portion of the surface that is guaranteed to contain all portions
- * of the surface that lie within the region of interest. If none is provided, and
- * the parameter range in some direction is unbounded, then conventionally an empty
- * interval is returned.
- * <br><br>
- * @param region
- * region of interest.
- */
+		SPAbox const& region = *(SPAbox*)NULL_REF
+	) const;
+	/**
+	 * Returns the principal parameter range of a parametric surface in a chosen parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> A periodic surface is defined for all parameter values in the
+	 * periodic direction, by reducing the given parameter modulo the period into this
+	 * principal range. For a surface open or nonperiodic in the chosen direction the
+	 * surface evaluation functions are defined only for parameter values in the
+	 * returned range. If a box is provided, the parameter range returned may be
+	 * restricted to a portion of the surface that is guaranteed to contain all portions
+	 * of the surface that lie within the region of interest. If none is provided, and
+	 * the parameter range in some direction is unbounded, then conventionally an empty
+	 * interval is returned.
+	 * <br><br>
+	 * @param region
+	 * region of interest.
+	 */
 	virtual SPAinterval param_range_u(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
-	SPAinterval gme_param_range_u(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
-/**
- * Returns the principal parameter range of a parametric surface in a chosen parameter direction.
- * <br><br>
- * <b>Role:</b> A periodic surface is defined for all parameter values in the
- * periodic direction, by reducing the given parameter modulo the period into this
- * principal range. For a surface open or nonperiodic in the chosen direction the
- * surface evaluation functions are defined only for parameter values in the
- * returned range. If a box is provided, the parameter range returned may be
- * restricted to a portion of the surface that is guaranteed to contain all portions
- * of the surface that lie within the region of interest. If none is provided, and
- * the parameter range in some direction is unbounded, then conventionally an empty
- * interval is returned.
- * <br><br>
- * @param region
- * region of interest.
- */
+		SPAbox const& region = *(SPAbox*)NULL_REF
+	) const;
+	/**
+	 * Returns the principal parameter range of a parametric surface in a chosen parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> A periodic surface is defined for all parameter values in the
+	 * periodic direction, by reducing the given parameter modulo the period into this
+	 * principal range. For a surface open or nonperiodic in the chosen direction the
+	 * surface evaluation functions are defined only for parameter values in the
+	 * returned range. If a box is provided, the parameter range returned may be
+	 * restricted to a portion of the surface that is guaranteed to contain all portions
+	 * of the surface that lie within the region of interest. If none is provided, and
+	 * the parameter range in some direction is unbounded, then conventionally an empty
+	 * interval is returned.
+	 * <br><br>
+	 * @param region
+	 * region of interest.
+	 */
 	virtual SPAinterval param_range_v(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
-	SPAinterval gme_param_range_v(
-					SPAbox const &region = *(SPAbox *)NULL_REF
-				) const;
+		SPAbox const& region = *(SPAbox*)NULL_REF
+	) const;
+
 
 	// Report whether the surface parametrisation is singular at
 	// the specified u or v parameter value. The only singularity
@@ -1516,27 +1408,22 @@ public:
  * constant u parameter.
  */
 	virtual logical singular_u(
-					double	uparam	// constant u parameter
-				) const;
-	logical gme_singular_u(
-					double	uparam	// constant u parameter
-				) const;
-/**
- * Reports whether the surface parameterization is singular at the specified <i>v</i>-parameter value.
- * <br><br>
- * <b>Role:</b> The only singularity recognized is where every value of the nonconstant
- * parameter generates the same object-space point, and these can only occur at the
- * ends of the parameter range as returned by <tt>param_range_v</tt>. 
- * <br><br>
- * @param vparam
- * constant v parameter.
- */
+		double	uparam	// constant u parameter
+	) const;
+	/**
+	 * Reports whether the surface parameterization is singular at the specified <i>v</i>-parameter value.
+	 * <br><br>
+	 * <b>Role:</b> The only singularity recognized is where every value of the nonconstant
+	 * parameter generates the same object-space point, and these can only occur at the
+	 * ends of the parameter range as returned by <tt>param_range_v</tt>.
+	 * <br><br>
+	 * @param vparam
+	 * constant v parameter.
+	 */
 	virtual logical singular_v(
-					double	vparam	// constant v parameter
-				) const;
-	logical gme_singular_v(
-					double	vparam	// constant v parameter
-				) const;
+		double	vparam	// constant v parameter
+	) const;
+
 
 	// Indicate whether the parameter coordinate system of the surface
 	// is right- or left-handed. With a right-handed system, at any
@@ -1553,7 +1440,7 @@ public:
  * the opposite direction from this cross product.
  */
 	virtual logical left_handed_uv() const;
-	logical gme_left_handed_uv() const;
+
 
 	// Construct a parameter line on the surface. A u parameter line
 	// runs in the direction of increasing u parameter, at constant v.
@@ -1577,30 +1464,25 @@ public:
  * @param uparam
  * <i>u</i>-parameter.
  */
-	virtual curve *u_param_line(
-				double	uparam		// constant v parameter
-			) const;
-	curve *gme_u_param_line(
-				double	uparam		// constant v parameter
-			) const;
-/**
- * Constructs a <i>v</i>-parameter line on the surface.
- * <br><br>
- * <b>Role:</b> A <i>v</i>-parameter line runs in the direction of increasing <i>v</i>, at
- * constant <i>u</i>. The parameterization in the nonconstant direction matches that of
- * the surface, and has the range obtained by use of <tt>param_range_v</tt>. The new curve
- * is constructed in free store, so it is the responsibility of the caller to
- * ensure that it is correctly deleted.
- * <br><br>
- * @param vparam
- * <i>v</i>-parameter.
- */
-	virtual curve *v_param_line(
-				double	vparam		// constant u parameter
-			) const;
-	curve *gme_v_param_line(
-				double	vparam		// constant u parameter
-			) const;
+	virtual curve* u_param_line(
+		double	uparam		// constant v parameter
+	) const;
+	/**
+	 * Constructs a <i>v</i>-parameter line on the surface.
+	 * <br><br>
+	 * <b>Role:</b> A <i>v</i>-parameter line runs in the direction of increasing <i>v</i>, at
+	 * constant <i>u</i>. The parameterization in the nonconstant direction matches that of
+	 * the surface, and has the range obtained by use of <tt>param_range_v</tt>. The new curve
+	 * is constructed in free store, so it is the responsibility of the caller to
+	 * ensure that it is correctly deleted.
+	 * <br><br>
+	 * @param vparam
+	 * <i>v</i>-parameter.
+	 */
+	virtual curve* v_param_line(
+		double	vparam		// constant u parameter
+	) const;
+
 
 	// Test whether a point lies on the surface, to user-specified
 	// tolerance.
@@ -1617,17 +1499,11 @@ public:
  * actual parameter.
  */
 	virtual logical test_point_tol(
-				SPAposition const &pos,
-				double tol = 0,		// defaults to SPAresabs
-				SPApar_pos const & guess= *(SPApar_pos *)NULL_REF,
-				SPApar_pos & actual= *(SPApar_pos *)NULL_REF
-			) const;
-	/*virtual*/ logical gme_test_point_tol(
-				SPAposition const &pos,
-				double tol = 0,		// defaults to SPAresabs
-				SPApar_pos const & guess= *(SPApar_pos *)NULL_REF,
-				SPApar_pos & actual= *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const& pos,
+		double tol = 0,		// defaults to SPAresabs
+		SPApar_pos const& guess = *(SPApar_pos*)NULL_REF,
+		SPApar_pos& actual = *(SPApar_pos*)NULL_REF
+	) const;
 
 
 	// Returns (in a read-only array) the number and parameter values of
@@ -1640,18 +1516,16 @@ public:
  * @param order
  * given order.
  */
-	virtual const double* discontinuities_u( int& n_discont, int order ) const;
-	/*virtual*/ const double* gme_discontinuities_u( int& n_discont, int order ) const;
-/**
- * Returns the number and parameter values of discontinuities of the surface of the given order (maximum three) in a read-only array.
- * <br><br>
- * @param n_discont
- * number of discontinuities in the returned array.
- * @param order
- * given order.
- */
-	virtual	const double* discontinuities_v( int& n_discont, int order ) const;
-	/*virtual*/ const double* gme_discontinuities_v( int& n_discont, int order ) const;
+	virtual const double* discontinuities_u(int& n_discont, int order) const;
+	/**
+	 * Returns the number and parameter values of discontinuities of the surface of the given order (maximum three) in a read-only array.
+	 * <br><br>
+	 * @param n_discont
+	 * number of discontinuities in the returned array.
+	 * @param order
+	 * given order.
+	 */
+	virtual	const double* discontinuities_v(int& n_discont, int order) const;
 
 
 	// Returns (in a read-only array) the number and parameter values of
@@ -1664,16 +1538,16 @@ public:
  * @param order
  * given order.
  */
-	virtual const double* all_discontinuities_u( int& n_discont, int order );
-/**
- * Returns in a read-only array the number and parameter values of discontinuities of the surface, up to the given order (maximum three).
- * <br><br>
- * @param n_discont
- * number of discontinuities in the returned array.
- * @param order
- * given order.
- */
-	virtual	const double* all_discontinuities_v( int& n_discont, int order );
+	virtual const double* all_discontinuities_u(int& n_discont, int order);
+	/**
+	 * Returns in a read-only array the number and parameter values of discontinuities of the surface, up to the given order (maximum three).
+	 * <br><br>
+	 * @param n_discont
+	 * number of discontinuities in the returned array.
+	 * @param order
+	 * given order.
+	 */
+	virtual	const double* all_discontinuities_v(int& n_discont, int order);
 
 
 	// State whether a particular parameter value is a discontinuity, and if so,
@@ -1684,27 +1558,25 @@ public:
  * @param u
  * u parameter value.
  */
-	virtual		int		discontinuous_at_u( double u ) const;
-/**
- * Returns whether a particular parameter value is a discontinuity.
- * <br><br>
- * @param v
- * v parameter value.
- */
-	virtual		int		discontinuous_at_v( double v ) const;
+	virtual		int		discontinuous_at_u(double u) const;
+	/**
+	 * Returns whether a particular parameter value is a discontinuity.
+	 * <br><br>
+	 * @param v
+	 * v parameter value.
+	 */
+	virtual		int		discontinuous_at_v(double v) const;
 
 
-    // Returns read-only access to the disc_info objects.
+	// Returns read-only access to the disc_info objects.
 /**
  * Returns read-only access to the <tt>disc_info</tt> objects.
  */
-    virtual 	const	discontinuity_info&	get_disc_info_u()	 	const;
-	/*virtual*/ 	const	discontinuity_info&	gme_get_disc_info_u()	 	const;
-/**
- * Returns read-only access to the <tt>disc_info</tt> objects.
- */
-    virtual 	const	discontinuity_info&	get_disc_info_v()	 	const;
-	/*virtual*/ 	const	discontinuity_info&	gme_get_disc_info_v()	 	const;
+	virtual 	const	discontinuity_info& get_disc_info_u()	 	const;
+	/**
+	 * Returns read-only access to the <tt>disc_info</tt> objects.
+	 */
+	virtual 	const	discontinuity_info& get_disc_info_v()	 	const;
 
 
 	// Returns type of (lower-case) surface.
@@ -1712,13 +1584,12 @@ public:
  * Returns the type of spline.
  */
 	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 
 	// Returns string identifier of surface.
 /**
  * Returns string <tt>"spline_xxx"</tt> where <tt>xxx</tt> is replaced with <tt>type_names</tt> of the underlying <tt>spl_sur</tt>.
  */
-	virtual char const *type_name() const;
+	virtual char const* type_name() const;
 
 
 	// Save and restore. Save is easy, as derived class switching goes
@@ -1736,37 +1607,37 @@ public:
  * Saves the type or id, then calls <tt>save_data</tt>.
  */
 	virtual void save() const;
-/**
- * Saves the information for the spline in the save file.
- */
+	/**
+	 * Saves the information for the spline in the save file.
+	 */
 	void save_data() const;
-/**
- * @nodoc
- */
+	/**
+	 * @nodoc
+	 */
 	virtual logical need_save_as_approx(int save_to_version, logical check_progenitors) const;
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-	friend DECL_KERN surface *restore_spline();
-/**
- * Restore the data for a spline from a save file.
- * <br><br>
- * <b>Role:</b> <pre>
- * if (restore_version_number &lt; SPLINE_VERSION )		 		// Just restore as an exact spline.
- * 	(spl_sur *)dispatch_restore_subtype( "sur", "exactsur" )
- * else
- * 	read_logical	 						//Reverse flag; either "forward" or "reversed".
- * 									//Switch to the right restore routine, using the standard system mechanism.
- * 									//Note that the argument is to enable the reader to distinguish old-style
- * 									//types where "exact" was both an int_cur and a spl_sur.
- * 									//They are now "exactcur" and "exactsur".
- * 	(spl_sur *)dispatch_restore_subtype( "sur" )
- * surface::restore_data			//Fix the underlying surface
- * </pre>
- */
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend DECL_KERN surface* restore_spline();
+	/**
+	 * Restore the data for a spline from a save file.
+	 * <br><br>
+	 * <b>Role:</b> <pre>
+	 * if (restore_version_number &lt; SPLINE_VERSION )		 		// Just restore as an exact spline.
+	 * 	(spl_sur *)dispatch_restore_subtype( "sur", "exactsur" )
+	 * else
+	 * 	read_logical	 						//Reverse flag; either "forward" or "reversed".
+	 * 									//Switch to the right restore routine, using the standard system mechanism.
+	 * 									//Note that the argument is to enable the reader to distinguish old-style
+	 * 									//types where "exact" was both an int_cur and a spl_sur.
+	 * 									//They are now "exactcur" and "exactsur".
+	 * 	(spl_sur *)dispatch_restore_subtype( "sur" )
+	 * surface::restore_data			//Fix the underlying surface
+	 * </pre>
+	 */
 	void restore_data();
 
 	// Notify the derived type that the surface has been changed (e.g. the
@@ -1805,36 +1676,21 @@ public:
  * @param status_list
  * checks to be made, default is none.
  */
-	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
-						 // supplies a set of flags which say which fixes
-						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
-						 // returns a set of flags which say which fixes
-						 // were applied
-				const check_status_list* status_list = (const check_status_list*) NULL_REF
-						 // list of checks that are to be made.  If the
-						 // list is null, then every possible check will
-						 // be made; otherwise, the function will only
-						 // check for things in the list.  The return
-						 // value for the function will then be a subset
-						 // of this list.
-				);
-	/*virtual*/	check_status_list*	gme_check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
-						 // supplies a set of flags which say which fixes
-						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
-						 // returns a set of flags which say which fixes
-						 // were applied
-				const check_status_list* status_list = (const check_status_list*) NULL_REF
-						 // list of checks that are to be made.  If the
-						 // list is null, then every possible check will
-						 // be made; otherwise, the function will only
-						 // check for things in the list.  The return
-						 // value for the function will then be a subset
-						 // of this list.
-				);
+	virtual	check_status_list* check(
+		const check_fix& input = *(const check_fix*)NULL_REF,
+		// supplies a set of flags which say which fixes
+		// are allowable (the default is to fix nothing)
+		check_fix& result = *(check_fix*)NULL_REF,
+		// returns a set of flags which say which fixes
+		// were applied
+		const check_status_list* status_list = (const check_status_list*)NULL_REF
+		// list of checks that are to be made.  If the
+		// list is null, then every possible check will
+		// be made; otherwise, the function will only
+		// check for things in the list.  The return
+		// value for the function will then be a subset
+		// of this list.
+	);
 
 
 	// Stream i/o.
@@ -1847,17 +1703,17 @@ public:
  * @nodoc
  */
 	virtual void input(
-				D3_istream &
-			);
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+		D3_istream&
+	);
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	virtual void print(
-				D3_ostream &
-			) const;
+		D3_ostream&
+	) const;
 
 #endif
 
@@ -1871,48 +1727,43 @@ public:
  * file.
  */
 	virtual void debug(
-				char const *title,
-				FILE * fp= debug_file_ptr
-			) const;
+		char const* title,
+		FILE* fp = debug_file_ptr
+	) const;
 
-	void gme_debug(
-				char const *,
-				FILE * = debug_file_ptr
-			) const;
-
-// STI swa 27Jul98 -- functions for getting sweep information on a spline surface
+	// STI swa 27Jul98 -- functions for getting sweep information on a spline surface
 public:
-/**
- * Returns the sweep path type for this spline.
- */
-    virtual sweep_path_type get_path_type() const;
-/**
- * Returns the sweep path curve for this spline. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
- */
-    virtual curve * get_path() const;
-/**
- * Returns the sweep profile curve for this spline.  The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
- * <br><br>
- * @param param
- * parameter.
- */
-    virtual curve * get_profile(double param/*param*/) const;
-/**
- * Returns the sweep rail law for this spline.
- */
-    virtual law * get_rail() const;
-// STI swa END
+	/**
+	 * Returns the sweep path type for this spline.
+	 */
+	virtual sweep_path_type get_path_type() const;
+	/**
+	 * Returns the sweep path curve for this spline. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
+	 */
+	virtual curve* get_path() const;
+	/**
+	 * Returns the sweep profile curve for this spline.  The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
+	 * <br><br>
+	 * @param param
+	 * parameter.
+	 */
+	virtual curve* get_profile(double param/*param*/) const;
+	/**
+	 * Returns the sweep rail law for this spline.
+	 */
+	virtual law* get_rail() const;
+	// STI swa END
 
-	// STI ROLL
-/**
- * @nodoc
- */
+		// STI ROLL
+	/**
+	 * @nodoc
+	 */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 /**
  * @nodoc
  */
-	virtual void minimize( minimize_helper*);
+	virtual void minimize(minimize_helper*);
 
 public:
 	// set/unset the flag for the sanity check.
@@ -1923,12 +1774,12 @@ public:
  * @nodoc
  */
 	virtual void set_checked();
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	virtual void unset_checked();
 
 protected:
@@ -1943,21 +1794,16 @@ protected:
 /**
  * @nodoc
  */
-	virtual logical validate_u_guess( const SPAparameter &u_guess,
-									SPAparameter &valid_u_guess ) const;
+	virtual logical validate_u_guess(const SPAparameter& u_guess,
+		SPAparameter& valid_u_guess) const;
 	// GSSL/RA - end
 
 	// For internal use only.
 /**
  * @nodoc
  */
-	virtual logical validate_v_guess( const SPAparameter &v_guess,
-									SPAparameter &valid_v_guess ) const;
-		
-public:
-	// get and set functions for access.
-	spl_sur* get_spl();
-	void set_rev(int data);
+	virtual logical validate_v_guess(const SPAparameter& v_guess,
+		SPAparameter& valid_v_guess) const;
 };
 
 
@@ -1972,16 +1818,16 @@ public:
 class summary_bs3_surface : public ACIS_OBJECT {
 	friend class spl_sur;
 	friend class GSM_progen_spl_sur;
-	friend DECL_KERN void GSM_progen_spl_sur_make_approx( GSM_progen_spl_sur*, double, copy_knots_mode, const spline&);
+	friend DECL_KERN void GSM_progen_spl_sur_make_approx(GSM_progen_spl_sur*, double, copy_knots_mode, const spline&);
 
 	int nuknots;
 	double* uknots;
 	int nvknots;
 	double* vknots;
 
-	    summary_bs3_surface( int nu, double* uk, int nv, double* vk );
-	    summary_bs3_surface( const summary_bs3_surface& );
-	    ~summary_bs3_surface();
+	summary_bs3_surface(int nu, double* uk, int nv, double* vk);
+	summary_bs3_surface(const summary_bs3_surface&);
+	~summary_bs3_surface();
 
 	void	save();
 	void	restore();
@@ -1996,8 +1842,10 @@ class summary_bs3_surface : public ACIS_OBJECT {
  * @nodoc
  */
 enum	singularity_type
-            { NON_SINGULAR, SINGULAR_LOW, SINGULAR_HIGH, SINGULAR_BOTH,
-		      SINGULARITY_UNKNOWN };
+{
+	NON_SINGULAR, SINGULAR_LOW, SINGULAR_HIGH, SINGULAR_BOTH,
+	SINGULARITY_UNKNOWN
+};
 /*
 // tbrv
 */
@@ -2011,28 +1859,28 @@ extern 	const enum_table	singularity_type_map;
 /**
  * @nodoc
  */
-logical pt_fn(double u,	 double	v, void *data, SPAposition &pt);
+logical pt_fn(double u, double	v, void* data, SPAposition& pt);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-logical du_fn(double u, double v, void *data, SPAvector	&upar);
+logical du_fn(double u, double v, void* data, SPAvector& upar);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-logical dv_fn(double u, double v, void *data, SPAvector	&vpar);
+logical dv_fn(double u, double v, void* data, SPAvector& vpar);
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-logical duv_fn(double u, double v, void *data, SPAvector &uvpar);
+logical duv_fn(double u, double v, void* data, SPAvector& uvpar);
 
 // Class for the spline surface itself, defined so that we shall be
 // able to use use-counts to avoid too much copying, and to allow
@@ -2062,7 +1910,7 @@ logical duv_fn(double u, double v, void *data, SPAvector &uvpar);
  * the internal representation <tt>spl_sur</tt>. Also, surface classes can be derived from
  * the derived class to construct more complicated surfaces. This section covers
  * the base class <tt>spl_sur</tt> along with the methods used to create derived classes,
- * rewritten per their specifications. 
+ * rewritten per their specifications.
  * <br><br>
  * This class contains the mathematical definition for a spline surface. It uses
  * use counts to limit copying, and it allows derivation to construct surfaces that
@@ -2084,57 +1932,57 @@ logical duv_fn(double u, double v, void *data, SPAvector &uvpar);
  * <br><br>
  * @see discontinuity_info, summary_bs3_surface, spline, SPAinterval
  */
-class DECL_KERN spl_sur: public subtrans_object {
-// Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
+class DECL_KERN spl_sur : public subtrans_object {
+	// Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
 #ifdef spl_sur_FRIENDS
-spl_sur_FRIENDS
+	spl_sur_FRIENDS
 #endif
 
-friend class splsur_cache;
-friend class gcmgr;
-friend class ss_gcmgr;
-friend class surface_evaluator_splsur;
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
- friend logical pt_fn(double u,	 double	v, void *data, SPAposition &pt);
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
- friend logical du_fn(double u, double v, void *data, SPAvector	&upar);
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
- friend logical dv_fn(double u, double v, void *data, SPAvector	&vpar);
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
- friend logical duv_fn(double u, double v, void *data, SPAvector &uvpar);
+		friend class splsur_cache;
+	friend class gcmgr;
+	friend class ss_gcmgr;
+	friend class surface_evaluator_splsur;
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend logical pt_fn(double u, double	v, void* data, SPAposition& pt);
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend logical du_fn(double u, double v, void* data, SPAvector& upar);
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend logical dv_fn(double u, double v, void* data, SPAvector& vpar);
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend logical duv_fn(double u, double v, void* data, SPAvector& uvpar);
 
 protected:
 	bs3_surface sur_data;
-		// Object-space approximation to true surface.
+	// Object-space approximation to true surface.
 
 	double fitol_data;
-		// The precision with which the spline approximates the
-		// true surface.
+	// The precision with which the spline approximates the
+	// true surface.
 
-    // Return whether this spl_sur is precisely defined by its bs3_surface
-    // i.e. there is never a difference between evaluating the spl_sur and
-    // evaluating the bs3_surface. The default implementation is to return false.
-    virtual logical is_exactly_bs3() const;
+// Return whether this spl_sur is precisely defined by its bs3_surface
+// i.e. there is never a difference between evaluating the spl_sur and
+// evaluating the bs3_surface. The default implementation is to return false.
+	virtual logical is_exactly_bs3() const;
 
 	// Return whether the approximated bs3_surface of the spl_sur is rational or not.
 	logical is_rational_surface() const;
@@ -2143,91 +1991,92 @@ protected:
 	discontinuity_info 	v_disc_info;
 	const discontinuity_info& get_disc_info_u() const;
 	const discontinuity_info& get_disc_info_v() const;
-    	// Discontinuity information. If the supporting geometry of the surface
-		// has discontinuities, or if the surface has a default (tangent)
-		// extension, then it will have discontinuities. These are stored here.
+	// Discontinuity information. If the supporting geometry of the surface
+	// has discontinuities, or if the surface has a default (tangent)
+	// extension, then it will have discontinuities. These are stored here.
 
-    SPAinterval 	u_range;
-    SPAinterval 	v_range;
-        // The full ranges of the spl_sur, as returned by param_range_u/v.
-        // If an approximating surface is present (in sur_data) then these
-        // ranges should identical to those of the approximating surface.
+	SPAinterval 	u_range;
+	SPAinterval 	v_range;
+	// The full ranges of the spl_sur, as returned by param_range_u/v.
+	// If an approximating surface is present (in sur_data) then these
+	// ranges should identical to those of the approximating surface.
 
-    closed_forms	closed_in_u;
-    closed_forms	closed_in_v;
-        // Take the values OPEN, CLOSED or PERIODIC (or unset if the spl_sur is
-        // undefined). If an approximating surface is present (in sur_data)
-        // then the closure of the approximating surface will be consistent.
+	closed_forms	closed_in_u;
+	closed_forms	closed_in_v;
+	// Take the values OPEN, CLOSED or PERIODIC (or unset if the spl_sur is
+	// undefined). If an approximating surface is present (in sur_data)
+	// then the closure of the approximating surface will be consistent.
 
-    singularity_type	u_singularity;
-    singularity_type	v_singularity;
-        // Record whether the surface is singular. If an approximating surface
-        // is present (in sur_data) then the singularities of the approximating
-        // surface will be consistent.
+	singularity_type	u_singularity;
+	singularity_type	v_singularity;
+	// Record whether the surface is singular. If an approximating surface
+	// is present (in sur_data) then the singularities of the approximating
+	// surface will be consistent.
 
-    summary_bs3_surface*	summary_data;
-        // bs3_surface data in summary form.  This field may be set on
-        // restore, if the full surface is not available.  It may be used to
-        // make the actual bs3_surface.
+	summary_bs3_surface* summary_data;
+	// bs3_surface data in summary form.  This field may be set on
+	// restore, if the full surface is not available.  It may be used to
+	// make the actual bs3_surface.
 
-    int 			summary_nuknots()	const	{ return summary_data->nuknots; }
-    int			 	summary_nvknots()	const	{ return summary_data->nvknots; }
-    const double* 	summary_uknots()	const	{ return summary_data->uknots; }
-    const double* 	summary_vknots()	const	{ return summary_data->vknots; }
-        // Provide read-only access to the summary_data for derived classes
-        // (so that they don't all have to be friends).
+	int 			summary_nuknots()	const { return summary_data->nuknots; }
+	int			 	summary_nvknots()	const { return summary_data->nvknots; }
+	const double* summary_uknots()	const { return summary_data->uknots; }
+	const double* summary_vknots()	const { return summary_data->vknots; }
+	// Provide read-only access to the summary_data for derived classes
+	// (so that they don't all have to be friends).
 
-    void			delete_summary_data()
-	    { ACIS_DELETE summary_data; summary_data = 0; }
-        // Allow derived classes to delete summary_data when it goes out of
-        // date.
+	void			delete_summary_data()
+	{
+		ACIS_DELETE summary_data; summary_data = 0;
+	}
+	// Allow derived classes to delete summary_data when it goes out of
+	// date.
 
-	// Copy data members from the "other" surface
-	// Internal use only
+// Copy data members from the "other" surface
+// Internal use only
 	logical copy_data_from_other(const surface* other);
 
 	double local_geometric_resabs;
 
 #ifdef ENABLE_CACHE_SWITCHING
 private:
-		// Pointer to cache information. This is manipulated solely by
-		// base class functions, so is private rather than protected.
-	mutable splsur_cache *cache;
+	// Pointer to cache information. This is manipulated solely by
+	// base class functions, so is private rather than protected.
+	mutable splsur_cache* cache;
 #endif
 public:
-/**
- * Method to be called by any user who modifies the surface in an external process, to ensure that stale evaluation results are discarded.
- */
+	/**
+	 * Method to be called by any user who modifies the surface in an external process, to ensure that stale evaluation results are discarded.
+	 */
 	void invalidate_cache();
-		// Function to be called by anyone who modifies the surface
-		// behind our backs, to ensure that stale evaluation results
-		// are discarded.
+	// Function to be called by anyone who modifies the surface
+	// behind our backs, to ensure that stale evaluation results
+	// are discarded.
 
 protected:
 	disc_info_calc_status disc_calc_status;
-    virtual	void 	calculate_disc_info();
-        // Calculate the discontinuity information if it was never stored.  This
-		// function is intended to support restore of old versions of splines.
+	virtual	void 	calculate_disc_info();
+	// Calculate the discontinuity information if it was never stored.  This
+	// function is intended to support restore of old versions of splines.
 
-    // STL apc 11Apr03 Extra methods for (generic) checking of discontinuity
-    // data for spl_sur types (bug 69775)
-    int calc_continuity(const SPApar_pos& uv,logical in_u) const;
-    disc_info_status validate_disc_info(const discontinuity_info& supplied,
-								const discontinuity_info& calculated,
-								logical in_u,
-								unmarked_discon_type& discon_type,
-								int to_order = 3) const;
+// STL apc 11Apr03 Extra methods for (generic) checking of discontinuity
+// data for spl_sur types (bug 69775)
+	int calc_continuity(const SPApar_pos& uv, logical in_u) const;
+	disc_info_status validate_disc_info(const discontinuity_info& supplied,
+		const discontinuity_info& calculated,
+		logical in_u,
+		unmarked_discon_type& discon_type,
+		int to_order = 3) const;
 
-    void	update_data( bs3_surface );
-	void	gme_update_data();
-        // Update the range, closure and singularity information from a
-        // bs3_surface.
+	void	update_data(bs3_surface);
+	// Update the range, closure and singularity information from a
+	// bs3_surface.
 
-	// Constructors.
+// Constructors.
 
-	// Construct a generally null spl_sur. This is to allow flexibility
-	// for constructors for derived classes to set the common data
-	// members in whatever way is most convenient.
+// Construct a generally null spl_sur. This is to allow flexibility
+// for constructors for derived classes to set the common data
+// members in whatever way is most convenient.
 
 	spl_sur();
 
@@ -2242,18 +2091,13 @@ public:
  * fit tolerance.
  */
 	spl_sur(
-				bs3_surface appr,
-				double fit = 0
-			);
-	spl_sur(
-				const char* gme,
-				bs3_surface appr,
-				double fit = 0
-			);
+		bs3_surface appr,
+		double fit = 0
+	);
 
 
-    // A form of the constructor which takes ranges and closure information
-    // instead of an approximating surface.
+	// A form of the constructor which takes ranges and closure information
+	// instead of an approximating surface.
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as arguments.
  * <br><br>
@@ -2271,13 +2115,13 @@ public:
  * singularity type for v.
  */
 	spl_sur(
-	            const SPAinterval& u_range,
-	            const SPAinterval& v_range,
-	            closed_forms closure_u,
-	            closed_forms closure_v,
-	            singularity_type type_u,
-	            singularity_type type_v
-			);
+		const SPAinterval& u_range,
+		const SPAinterval& v_range,
+		closed_forms closure_u,
+		closed_forms closure_v,
+		singularity_type type_u,
+		singularity_type type_v
+	);
 
 	// Copy constructor. Derived classes should also define copy constructors,
 	// and use this one, to ensure that spl_sur data is initialised.
@@ -2287,15 +2131,14 @@ public:
  * @param spl
  * spline surface.
  */
-	spl_sur( const spl_sur& spl);
-	spl_sur( const char* gme, const spl_sur& spl);
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-	void deep_copy_elements( const spl_sur& spl);
+	spl_sur(const spl_sur& spl);
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	void deep_copy_elements(const spl_sur& spl);
 
 	// Make a copy without sharing subdata.
 /**
@@ -2316,8 +2159,7 @@ public:
  * @param pm
  * list of items within the entity that are already deep copied.
  */
-	virtual spl_sur *deep_copy(pointer_map * pm = NULL) const = 0;
-	/*virtual*/ spl_sur *gme_deep_copy(pointer_map * pm = NULL) const ;
+	virtual spl_sur* deep_copy(pointer_map* pm = NULL) const = 0;
 
 protected:
 	// The destructor eliminates all the dependent spline curve and
@@ -2335,70 +2177,72 @@ private:
 
 protected:
 
-    // Function to determine if this spl_sur is a pipe or is a wrapper
+	// Function to determine if this spl_sur is a pipe or is a wrapper
 	// around a pipe surface (eg offset or subset pipe).
 
-    virtual logical contains_pipe() const
-	    { return FALSE; }
+	virtual logical contains_pipe() const
+	{
+		return FALSE;
+	}
 
-    // Search the underlying cache for an entry at the given SPAposition.
+	// Search the underlying cache for an entry at the given SPAposition.
 	// Returns the matching eval entry if this is found, or NULL otherwise.
 
-    const eval_sscache_entry *search_eval_cache( const SPAposition& ) const;
+	const eval_sscache_entry* search_eval_cache(const SPAposition&) const;
 
-/**
- * @nodoc
- * Trim the query cache to range
- */	
-	void trim_cache_to_range( SPApar_box const& ) const;
+	/**
+	 * @nodoc
+	 * Trim the query cache to range
+	 */
+	void trim_cache_to_range(SPApar_box const&) const;
 
 
-    // Prevent recursive calls to make_approx
+	// Prevent recursive calls to make_approx
 
-    logical	calling_make_approx;
+	logical	calling_make_approx;
 
 	// Make or remake the approximating surface.  The force flag forces the
 	// approximating surface to be made even if it is illegal.  This can be
 	// used to restore old parts that were not checked properly before being
 	// saved.  The spline argument 'spl' may be null but if it is supplied the
 	// function may be a little faster.  The function stores the approximating
-    // surface and the actual fit error that was achieved in the spl_sur,
-    // overriding the declared const-ness of the function to do this.
+	// surface and the actual fit error that was achieved in the spl_sur,
+	// overriding the declared const-ness of the function to do this.
 
-    virtual void	make_approx(
-							 double fit,
-							 const spline& spl = *(spline*) NULL_REF,
-						     logical force = FALSE
-						 ) const;
+	virtual void	make_approx(
+		double fit,
+		const spline& spl = *(spline*)NULL_REF,
+		logical force = FALSE
+	) const;
 
 
-    // incremental_make_approx
-    // makes an approximating surface for an extended spl_sur incrementally
-    // given an approximating surface for the original spl_sur.
-    // The  extension is done  first for the u/v direction which
-    // is a smaller percentage of the original range.
-    // this function could be called for any spl_sur but  at the
-    // moment (July 2000) it is only being used for off_spl_sur's.
+	// incremental_make_approx
+	// makes an approximating surface for an extended spl_sur incrementally
+	// given an approximating surface for the original spl_sur.
+	// The  extension is done  first for the u/v direction which
+	// is a smaller percentage of the original range.
+	// this function could be called for any spl_sur but  at the
+	// moment (July 2000) it is only being used for off_spl_sur's.
 
 //GSSL VPL : Incremental make approx project - changed return type..
-	virtual logical incremental_make_approx( double fit);
+	virtual logical incremental_make_approx(double fit);
 
-    // calc_patches is called by incremental_make_approx
+	// calc_patches is called by incremental_make_approx
 
-    friend void calc_patches(  spl_sur &sur, double & fit,
-							   double* & knots1, int & nknots1,
-						       double* & knots2, int & nknots2,
-                               logical uv_type,
-						       SPAinterval & orig_range1, SPAinterval & orig_range2,
-						       SPAinterval & range1, SPAinterval & range2);
+	friend void calc_patches(spl_sur& sur, double& fit,
+		double*& knots1, int& nknots1,
+		double*& knots2, int& nknots2,
+		logical uv_type,
+		SPAinterval& orig_range1, SPAinterval& orig_range2,
+		SPAinterval& range1, SPAinterval& range2);
 
-    // calc_patch is called by calc_patches
+	// calc_patch is called by calc_patches
 
-    friend logical calc_patch( spl_sur &sur, double & fit,
-                               double* & knots, int & nknots,
-                               logical uv_type, logical dir_type,
-                               logical calc_knots, SPAinterval & erange1,
-                               SPAinterval & erange2, SPAinterval & srange);
+	friend logical calc_patch(spl_sur& sur, double& fit,
+		double*& knots, int& nknots,
+		logical uv_type, logical dir_type,
+		logical calc_knots, SPAinterval& erange1,
+		SPAinterval& erange2, SPAinterval& srange);
 
 	// Simple object-space bounding SPAbox, for a subset of the surface.
 	// The default version uses the object-space spline, expanding
@@ -2406,8 +2250,8 @@ protected:
 	// as it uses subset(), which is itself not const.
 
 	virtual SPAbox bound(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
-			);
+		SPApar_box const& = *(SPApar_box*)NULL_REF
+	);
 
 
 	// Returns a cone bounding the normal direction of the surface. The
@@ -2423,33 +2267,32 @@ protected:
 	// itself not const.
 
 	virtual surf_normcone normal_cone(
-				SPApar_box const & = *(SPApar_box *)NULL_REF,
-				logical = FALSE
-			);
+		SPApar_box const& = *(SPApar_box*)NULL_REF,
+		logical = FALSE
+	);
 
 
 	// Extract detailed information about the surface.
 public:
-/**
- * Returns the <tt>bs3_surface</tt> approximation.
- */
+	/**
+	 * Returns the <tt>bs3_surface</tt> approximation.
+	 */
 	bs3_surface sur() const { return sur_data; }
-/**
- * Returns the fit tolerance for the approximating <tt>bs3_surface</tt>.
- */
+	/**
+	 * Returns the fit tolerance for the approximating <tt>bs3_surface</tt>.
+	 */
 	double fitol() const { return fitol_data; }
-/**
- * Constructs a duplicate <tt>spl_sur</tt> in free storage of this object, with a zero use count.
- */
-	virtual subtrans_object *copy() const = 0;
+	/**
+	 * Constructs a duplicate <tt>spl_sur</tt> in free storage of this object, with a zero use count.
+	 */
+	virtual subtrans_object* copy() const = 0;
 
 protected:
 
-  	// STI dgh: replace underlying bs3_surface approximation.  If the supplied
+	// STI dgh: replace underlying bs3_surface approximation.  If the supplied
 	// tol is negative, then it will be left unchanged (PC).
 
-	void set_sur( bs3_surface, double tol = -1.0 );
-	void gme_set_sur( bs3_surface, double tol = -1.0 );
+	void set_sur(bs3_surface, double tol = -1.0);
 
 	// Duplication. Can't be done by constructor, as we want it
 	// to be virtual.
@@ -2461,27 +2304,25 @@ protected:
 	// determined to be equal, but does guarantee that different
 	// surfaces are correctly identified as such.
 
-	virtual logical operator==( subtype_object const & ) const;
-	logical gme_operator_equal( subtype_object const & ) const;
+	virtual logical operator==(subtype_object const&) const;
 
 	// Determine whether a spl_sur is entirely enclosed within
 	// another.
 
-	virtual logical operator>>( subtype_object const & ) const;
+	virtual logical operator>>(subtype_object const&) const;
 
 	// Transformation. The base class transforms the spline and
 	// tolerance - this may often be enough.
 
-	virtual void operator*=( SPAtransf const & );
-	/*virtual*/ void gme_operator_multiply_assign( SPAtransf const & );
+	virtual void operator*=(SPAtransf const&);
 
 	// Parameter shift: adjust the spline surface to have a parameter
 	// range increased by the argument value (which may be negative).
 	// This is only used to move portions of a periodic surface by
 	// integral multiples of the period.
 
-	virtual void shift_u( double );
-	virtual void shift_v( double );
+	virtual void shift_u(double);
+	virtual void shift_v(double);
 
 
 	// Perform a linear transformation on the parametrisation, so that
@@ -2494,24 +2335,20 @@ protected:
 	// surface here.
 
 	virtual void reparam_u(
-				double,		// new start u parameter
-				double		// new end u parameter
-			);
-	void gme_reparam_u(double, double);
-
+		double,		// new start u parameter
+		double		// new end u parameter
+	);
 	virtual void reparam_v(
-				double,		// new start v parameter
-				double		// new end v parameter
-			);
-	void gme_reparam_v(double, double);
-
+		double,		// new start v parameter
+		double		// new end v parameter
+	);
 	virtual void reparam(
-				double,		// new start u parameter
-				double,		// new end u parameter
-				double,		// new start v parameter
-				double		// new end v parameter
-			);
-	void gme_reparam(double, double, double, double);
+		double,		// new start u parameter
+		double,		// new end u parameter
+		double,		// new start v parameter
+		double		// new end v parameter
+	);
+
 
 	// Construct a new spl_sur which is a copy of the part of the
 	// given one within given parameter bounds, unless this is not
@@ -2522,9 +2359,9 @@ protected:
 	// assumed. Note that this cannot be "const" because it sometimes
 	// returns "this" as a non-const pointer.
 
-	virtual spl_sur *subset(
-				SPApar_box const &
-			);
+	virtual spl_sur* subset(
+		SPApar_box const&
+	);
 
 
 	// Divides a surface into two pieces at a given parameter value.
@@ -2534,55 +2371,48 @@ protected:
 	// is used for one part, and the old one is modified for the other.
 
 	virtual void split_u(
-				double,
-				spl_sur *[ 2 ]
-			) = 0;
-	void gme_split_u(
-				double,
-				spl_sur *[ 2 ]
-			);
+		double,
+		spl_sur* [2]
+	) = 0;
 	virtual void split_v(
-				double,
-				spl_sur *[ 2 ]
-			) = 0;
-	void gme_split_v(
-				double,
-				spl_sur *[ 2 ]
-			);
+		double,
+		spl_sur* [2]
+	) = 0;
+
 	// The same as for split_u/v, but given an empty spl_sur in case it
 	// is needed. This way a derived type can provide a spl_sur of its
 	// own type for us to work with. The functions return TRUE if this
 	// spl_sur is used, FALSE if not. These functions are not called
 	// from the outside, but are available for use by derived class
 	// implementations of splt_u/v().
-    // Typically, the derived class implementations of split_u/v call these
-    // functions with a slightly different parameter to the one that they
-    // were originaly called with (the new parameter is obtained by relaxing
-    // from the split point to the approximating surface, and so can be
-    // regarded as the parameter on the approximating surface).  This makes
-    // the housekeeping difficult, so I've changed it to take BOTH versions
-    // of the parameter.  PC Apr 00.
+	// Typically, the derived class implementations of split_u/v call these
+	// functions with a slightly different parameter to the one that they
+	// were originaly called with (the new parameter is obtained by relaxing
+	// from the split point to the approximating surface, and so can be
+	// regarded as the parameter on the approximating surface).  This makes
+	// the housekeeping difficult, so I've changed it to take BOTH versions
+	// of the parameter.  PC Apr 00.
 
 	logical split_spl_sur_u(
-				double approx_par, double real_par,
-				spl_sur *,
-				spl_sur *[ 2 ]
-			);
+		double approx_par, double real_par,
+		spl_sur*,
+		spl_sur* [2]
+	);
 	logical split_spl_sur_v(
-				double approx_par, double real_par,
-				spl_sur *,
-				spl_sur *[ 2 ]
-			);
+		double approx_par, double real_par,
+		spl_sur*,
+		spl_sur* [2]
+	);
 
 
-    // Divides a surface into separate pieces which are smooth (and therefore
-    // suitable for offsetting or blending). The surface is split at its non-G1
-    // discontinuities, and if it is closed after this, it is then split into
-    // two. The functions return the number of pieces, and the pieces themselves
-    // are a return argument.
+	// Divides a surface into separate pieces which are smooth (and therefore
+	// suitable for offsetting or blending). The surface is split at its non-G1
+	// discontinuities, and if it is closed after this, it is then split into
+	// two. The functions return the number of pieces, and the pieces themselves
+	// are a return argument.
 
-    virtual int split_at_kinks( spl_sur**& pieces, logical udir,
-						double curvature = 0.0 ) const;
+	virtual int split_at_kinks(spl_sur**& pieces, logical udir,
+		double curvature = 0.0) const;
 
 
 	// Concatenate the contents of two surfaces into one. The surfaces
@@ -2591,8 +2421,8 @@ protected:
 	// the combined surface (i.e. lower parameter values), the
 	// argument gives the end part).
 
-	virtual void append_u( spl_sur & );
-	virtual void append_v( spl_sur & );
+	virtual void append_u(spl_sur&);
+	virtual void append_v(spl_sur&);
 
 
 	// Geometric evaluation.
@@ -2602,13 +2432,9 @@ protected:
 	// there is no well-defined normal.
 
 	virtual SPAunit_vector point_normal(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
-	SPAunit_vector gme_point_normal(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF
+	) const;
 
 
 	// Returns a direction which points outward from the surface. This
@@ -2616,35 +2442,24 @@ protected:
 	// otherwise a fairly arbitrary outward direction.
 
 	virtual SPAunit_vector point_outdir(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
-	SPAunit_vector gme_point_outdir(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF
+	) const;
+
 
 	// Find the principal axes of curvature of the surface at a
 	// given point, and the curvatures in those directions.
 
 	virtual void point_prin_curv(
-				SPAposition const &,
-				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
-				SPAunit_vector &,		// second axis direction
-				double &,			// curvature in second direction
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-                evaluate_surface_quadrant = evaluate_surface_unknown
-			) const;
-	/*virtual*/ void gme_point_prin_curv(
-				SPAposition const &,
-				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
-				SPAunit_vector &,		// second axis direction
-				double &,			// curvature in second direction
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-                evaluate_surface_quadrant = evaluate_surface_unknown
-			) const;
+		SPAposition const&,
+		SPAunit_vector&,		// first axis direction
+		double&,			// curvature in first direction
+		SPAunit_vector&,		// second axis direction
+		double&,			// curvature in second direction
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF,
+		evaluate_surface_quadrant = evaluate_surface_unknown
+	) const;
+
 
 	// Find the curvature of a cross-section curve of the surface at
 	// the point on the surface closest to the given point, iterating
@@ -2654,22 +2469,22 @@ protected:
 	// surface and with given normal.
 
 	virtual double point_cross(
-				SPAposition const &,
-				SPAunit_vector const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPAunit_vector const&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF
+	) const;
 
-    // This version is for sided evaluation of curvature. The evaluation
-    // can be specified on the right or left side of the given tangent
-    // direction.
+	// This version is for sided evaluation of curvature. The evaluation
+	// can be specified on the right or left side of the given tangent
+	// direction.
 
 	virtual double point_cross(
-				SPAposition const &,
-				SPAunit_vector const &,
-				SPApar_pos const &uv_guess,
-                logical use_sided_eval,
-                logical right_side
-			) const;
+		SPAposition const&,
+		SPAunit_vector const&,
+		SPApar_pos const& uv_guess,
+		logical use_sided_eval,
+		logical right_side
+	) const;
 
 	// This non-virtual function looks in the cache for a given position
 	// and parameter guess if any.  If found it returns the foot, normal,
@@ -2680,53 +2495,43 @@ protected:
 	// the benefit of caching.
 
 	void point_perp_with_cache(
-				SPAposition const &,
-				SPAposition &,
-				SPAunit_vector &,
-				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak=FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPAposition&,
+		SPAunit_vector&,
+		surf_princurv&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF,
+		SPApar_pos & = *(SPApar_pos*)NULL_REF,
+		logical f_weak = FALSE,
+		SPApar_box const& = *(SPApar_box*)NULL_REF
+	) const;
 
 	// non-virtual method encapsulating the guts of the base class point perp algorithm
 	logical point_perp_engine(
-				SPAposition const &point,
-				SPAposition &foot,
-				SPAunit_vector &norm,
-				surf_princurv &curv,
-				SPApar_pos const &given_uv_guess,
-				SPApar_pos &uv_actual,
-				SPApar_pos &uv_fallback,
-				logical f_weak,
-				SPApar_box const &subset_range
-			) const;
+		SPAposition const& point,
+		SPAposition& foot,
+		SPAunit_vector& norm,
+		surf_princurv& curv,
+		SPApar_pos const& given_uv_guess,
+		SPApar_pos& uv_actual,
+		SPApar_pos& uv_fallback,
+		logical f_weak,
+		SPApar_box const& subset_range
+	) const;
 	// Find the point on the surface nearest to the given point,
 	// iterating from the given parameter values (if supplied).
 	// Returns the found point, the normal to the surface at that
-	// point and the parameter values at the found point.param
+	// point and the parameter values at the found point.
 
 	virtual void point_perp(
-				SPAposition const &,
-				SPAposition &,
-				SPAunit_vector &,
-				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
-			) const;
-	void gme_point_perp(
-				SPAposition const &,
-				SPAposition &,
-				SPAunit_vector &,
-				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPAposition&,
+		SPAunit_vector&,
+		surf_princurv&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF,
+		SPApar_pos & = *(SPApar_pos*)NULL_REF,
+		logical f_weak = FALSE,
+		SPApar_box const& = *(SPApar_box*)NULL_REF
+	) const;
 
 
 	// Support function for point_perp (and bs3_surface_perp). This
@@ -2738,40 +2543,40 @@ protected:
 	// and returns a success or failure indication.
 
 public:
-/**
- * Support function for <tt>point_perp</tt> (and <tt>bs3_surface_perp</tt>).
- * <br><br>
- * <b>Role:</b> This method finds a true perpendicular given an initial parameter
- * guess, and avoiding oscillations. It may be set to iterate to the nearest
- * perpendicular of any sort (minimum or maximum distance, or inflexion), or to
- * find only minima (which is sometimes more reliable when there are inflexions),
- * and it returns a success or failure indication.
- * <br><br>
- * @param pos
- * given position.
- * @param surf
- * position on surface.
- * @param normal
- * normal to surface.
- * @param curv
- * principal curvature.
- * @param guess
- * guess parameter.
- * @param actual
- * actual parameter.
- * @param pt
- * <tt>TRUE</tt> to iterate to a (local) near-point rather than any perpendicular..
- */
+	/**
+	 * Support function for <tt>point_perp</tt> (and <tt>bs3_surface_perp</tt>).
+	 * <br><br>
+	 * <b>Role:</b> This method finds a true perpendicular given an initial parameter
+	 * guess, and avoiding oscillations. It may be set to iterate to the nearest
+	 * perpendicular of any sort (minimum or maximum distance, or inflexion), or to
+	 * find only minima (which is sometimes more reliable when there are inflexions),
+	 * and it returns a success or failure indication.
+	 * <br><br>
+	 * @param pos
+	 * given position.
+	 * @param surf
+	 * position on surface.
+	 * @param normal
+	 * normal to surface.
+	 * @param curv
+	 * principal curvature.
+	 * @param guess
+	 * guess parameter.
+	 * @param actual
+	 * actual parameter.
+	 * @param pt
+	 * <tt>TRUE</tt> to iterate to a (local) near-point rather than any perpendicular..
+	 */
 	logical iterate_perp(
-				SPAposition const &pos,
-				SPAposition &surf,
-				SPAunit_vector &normal,
-				surf_princurv &curv,
-				SPApar_pos const &guess,
-				SPApar_pos &actual,
-				logical	pt		// TRUE to iterate to a (local) near-
-								// point rather than any perpendicular.
-			) const;
+		SPAposition const& pos,
+		SPAposition& surf,
+		SPAunit_vector& normal,
+		surf_princurv& curv,
+		SPApar_pos const& guess,
+		SPApar_pos& actual,
+		logical	pt		// TRUE to iterate to a (local) near-
+						// point rather than any perpendicular.
+	) const;
 	// Find the point on the surface with given parameter values.
 
 /**
@@ -2781,11 +2586,8 @@ public:
  * given parameter-space point.
  */
 	virtual SPAposition eval_position(
-				SPApar_pos const &parameter
-			) const;
-	SPAposition gme_eval_position(
-				SPApar_pos const &parameter
-			) const;
+		SPApar_pos const& parameter
+	) const;
 
 
 	// Find the position and first and second derivatives of the
@@ -2803,37 +2605,30 @@ public:
  * second derivative.
  */
 	virtual void eval(
-				SPApar_pos const &uv,
-				SPAposition &pos,
-				SPAvector *dpos,	// first derivatives - array of
-								// length 2 in order xu, xv
-				SPAvector *ddpos	// second derivatives - array of
-								// length 3 in order xuu, xuv, xvv
-			) const;
-	void gme_eval(
-				SPApar_pos const &uv,
-				SPAposition &pos,
-				SPAvector *dpos,	// first derivatives - array of
-								// length 2 in order xu, xv
-				SPAvector *ddpos	// second derivatives - array of
-								// length 3 in order xuu, xuv, xvv
-			) const;
+		SPApar_pos const& uv,
+		SPAposition& pos,
+		SPAvector* dpos,	// first derivatives - array of
+						// length 2 in order xu, xv
+		SPAvector* ddpos	// second derivatives - array of
+						// length 3 in order xuu, xuv, xvv
+	) const;
+
 
 protected:
 
 	// Similar function with an "evaldata" argument for improved efficiency.
 
 	logical iterate_perp(
-				SPAposition const &,
-				surface_evaldata *,
-				SPAposition &,
-				SPAunit_vector &,
-				surf_princurv &,
-				SPApar_pos const &,
-				SPApar_pos &,
-				logical			// TRUE to iterate to a (local) near-
-								// point rather than any perpendicular.
-			) const;
+		SPAposition const&,
+		surface_evaldata*,
+		SPAposition&,
+		SPAunit_vector&,
+		surf_princurv&,
+		SPApar_pos const&,
+		SPApar_pos&,
+		logical			// TRUE to iterate to a (local) near-
+						// point rather than any perpendicular.
+	) const;
 
 
 	// This non-virtual function looks in the cache for a given position.
@@ -2843,35 +2638,32 @@ protected:
 	// derived from int_cur, so as to get the benefit of caching.
 
 	SPApar_pos param_with_cache(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			);
+		SPAposition const&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF
+	);
 
 
 	// Find the parameter values of a point on the surface.
 
 	virtual SPApar_pos param(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const = 0;
-	SPApar_pos gme_param(
-				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const&,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF
+	) const = 0;
+
 
 	// Find the change in surface parameter corresponding to a unit
 	// offset in a given direction at a given position, the position
 	// and direction both lying in the surface.
 
 	virtual SPApar_vec param_unitvec(
-				SPAunit_vector const &,
-				SPApar_pos const &
-			) const;
+		SPAunit_vector const&,
+		SPApar_pos const&
+	) const;
 
-    virtual SPApar_vec param_unitvec(
-        const SPAunit_vector& dir,
-        const SPApar_pos& pos, logical &  well_conditioned
-    ) const;
+	virtual SPApar_vec param_unitvec(
+		const SPAunit_vector& dir,
+		const SPApar_pos& pos, logical& well_conditioned
+	) const;
 
 	// This non-virtual function looks in the cache for position and first
 	// and second derivatives at the given parameter value.  If found it
@@ -2881,23 +2673,20 @@ protected:
 	// derived from int_cur, so as to get the benefit of caching.
 
 	void eval_with_cache(
-				SPApar_pos const &,	// given parameter
-				SPAposition &,			// point found
-				SPAvector *,			// first derivative array
-				SPAvector *			// second derivative array
-            ) const;
+		SPApar_pos const&,	// given parameter
+		SPAposition&,			// point found
+		SPAvector*,			// first derivative array
+		SPAvector*			// second derivative array
+	) const;
 
 
 
- 	// Find the normal to the surface at the point with given
+	// Find the normal to the surface at the point with given
 	// parameter values.
 
 	virtual SPAunit_vector eval_normal(
-				SPApar_pos const &
-			) const;
-	SPAunit_vector gme_eval_normal(
-				SPApar_pos const &
-			) const;
+		SPApar_pos const&
+	) const;
 
 
 	// Returns a direction which points outward from the surface. This
@@ -2905,32 +2694,22 @@ protected:
 	// otherwise a fairly arbitrary outward direction.
 
 	virtual SPAunit_vector eval_outdir(
-				SPApar_pos const &
-			) const;
-	SPAunit_vector gme_eval_outdir(
-				SPApar_pos const &
-			) const;
+		SPApar_pos const&
+	) const;
+
 
 	// Find the principal axes of curvature of the surface at a
 	// point with given parameter values, and the curvatures in those
 	// directions.
 
 	virtual void eval_prin_curv(
-				SPApar_pos const &,
-				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
-				SPAunit_vector &,		// second axis direction
-				double &,			// curvature in second direction
-                evaluate_surface_quadrant = evaluate_surface_unknown
-			) const;
-	void gme_eval_prin_curv(
-				SPApar_pos const &,
-				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
-				SPAunit_vector &,		// second axis direction
-				double &,			// curvature in second direction
-                evaluate_surface_quadrant = evaluate_surface_unknown
-			) const;
+		SPApar_pos const&,
+		SPAunit_vector&,		// first axis direction
+		double&,			// curvature in first direction
+		SPAunit_vector&,		// second axis direction
+		double&,			// curvature in second direction
+		evaluate_surface_quadrant = evaluate_surface_unknown
+	) const;
 
 
 	// Find the curvature of a cross-section curve of the surface at
@@ -2941,9 +2720,9 @@ protected:
 	// the surface.
 
 	virtual double eval_cross(
-				SPApar_pos const &,
-				SPAunit_vector const &
-			) const;
+		SPApar_pos const&,
+		SPAunit_vector const&
+	) const;
 
 
 	// This non-virtual function looks in the cache for SPAposition and nd
@@ -2953,19 +2732,19 @@ protected:
 	// derived from int_cur, so as to get the benefit of caching.
 
 	int evaluate_with_cache(
-				SPApar_pos const &,	// Parameter
-				SPAposition &,			// Point on surface at given parameter
-				SPAvector ** = NULL, 	// Array of pointers to arrays of vectors,
-									// of size nd. Any of the pointers may
-									// be null, in which case the
-									// corresponding derivatives will not
-									// be returned.
-				int = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each parameter direction,
-									// or don't care.
-            ) const;
+		SPApar_pos const&,	// Parameter
+		SPAposition&,			// Point on surface at given parameter
+		SPAvector** = NULL, 	// Array of pointers to arrays of vectors,
+							// of size nd. Any of the pointers may
+							// be null, in which case the
+							// corresponding derivatives will not
+							// be returned.
+		int = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below for each parameter direction,
+		// or don't care.
+	) const;
 
 
 	// The evaluate() function calculates derivatives, of any order
@@ -2978,30 +2757,23 @@ protected:
 	// derivatives using finite differences.
 
 	virtual int evaluate(
-				SPApar_pos const &,	// Parameter
-				SPAposition &,			// Point on surface at given parameter
-				SPAvector ** = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-				int = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each parameter direction,
-									// or don't care.
-            ) const;
-	int gme_evaluate(
-				SPApar_pos const &,	
-				SPAposition &,		
-				SPAvector ** = NULL,									
-				int = 0,       		
-				evaluate_surface_quadrant = evaluate_surface_unknown
-            ) const;
+		SPApar_pos const&,	// Parameter
+		SPAposition&,			// Point on surface at given parameter
+		SPAvector** = NULL, 	// Array of pointers to arrays of
+							// vectors, of size nd. Any of the
+							// pointers may be null, in which
+							// case the corresponding derivatives
+							// will not be returned. Otherwise
+							// they must point to arrays long
+							// enough for all the derivatives of
+							// that order - i.e. 2 for the first
+							// derivatives, 3 for the second, etc.
+		int = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below for each parameter direction,
+		// or don't care.
+	) const;
 
 	// This non-virtual function looks in the cache for SPAposition and nd
 	// derivatives at the given parameter value.  If found it returns them,
@@ -3010,21 +2782,21 @@ protected:
 	// derived from int_cur, so as to get the benefit of caching.
 
 	int evaluate_iter_with_cache(
-				SPApar_pos const &,	// Parameter
-				surface_evaldata *,	// Data supplying initial values, and
-									// set to reflect the results of this
-									// evaluation.
-				SPAposition &,			// Point on curve at given parameter
-				SPAvector ** = NULL, 	// Array of pointers to arrays of vectors,
-									// of size nd. Any of the pointers may
-									// be null, in which case the
-									// corresponding derivatives will not
-									// be returned.
-				int = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below or don't care.
-            ) const;
+		SPApar_pos const&,	// Parameter
+		surface_evaldata*,	// Data supplying initial values, and
+							// set to reflect the results of this
+							// evaluation.
+		SPAposition&,			// Point on curve at given parameter
+		SPAvector** = NULL, 	// Array of pointers to arrays of vectors,
+							// of size nd. Any of the pointers may
+							// be null, in which case the
+							// corresponding derivatives will not
+							// be returned.
+		int = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below or don't care.
+	) const;
 
 	// The evaluate_iter() function is just like evaluate(), but is
 	// supplied with a data object which contains results from a previous
@@ -3032,26 +2804,26 @@ protected:
 	// involved.
 
 	virtual int evaluate_iter(
-				SPApar_pos const &,	// Parameter
-				surface_evaldata *,	// Data supplying initial values, and
-									// set to reflect the results of this
-									// evaluation.
-				SPAposition &,			// Point on surface at given parameter
-				SPAvector ** = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-				int = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each parameter direction,
-									// or don't care.
-            ) const;
+		SPApar_pos const&,	// Parameter
+		surface_evaldata*,	// Data supplying initial values, and
+							// set to reflect the results of this
+							// evaluation.
+		SPAposition&,			// Point on surface at given parameter
+		SPAvector** = NULL, 	// Array of pointers to arrays of
+							// vectors, of size nd. Any of the
+							// pointers may be null, in which
+							// case the corresponding derivatives
+							// will not be returned. Otherwise
+							// they must point to arrays long
+							// enough for all the derivatives of
+							// that order - i.e. 2 for the first
+							// derivatives, 3 for the second, etc.
+		int = 0,       		// Number of derivatives required (nd)
+		evaluate_surface_quadrant = evaluate_surface_unknown
+		// the evaluation location - above,
+		// below for each parameter direction,
+		// or don't care.
+	) const;
 
 	// Construct a data object to retain evaluation information across
 	// calls to evaluate_iter(). This is to allow subsidiary calls
@@ -3059,7 +2831,7 @@ protected:
 	// required result than is possible just using the curve information
 	// itself.
 
-	virtual surface_evaldata *make_evaldata() const;
+	virtual surface_evaldata* make_evaldata() const;
 
 	// Returns the number of derivatives which evaluate() can find
 	// "accurately" (and fairly directly), rather than by finite
@@ -3069,29 +2841,22 @@ protected:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
-	int gme_accurate_derivs(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
+		SPApar_box const& = *(SPApar_box*)NULL_REF
+		// Defaults to the whole surface
+	) const;
 
-// STI aed: add planar method
-	// Report whether surface is planar
+
+	// STI aed: add planar method
+		// Report whether surface is planar
 
 	virtual logical planar(
-				SPAposition &,
-				SPAunit_vector &
-			) const;
-	logical gme_planar(
-				SPAposition &,
-				SPAunit_vector &
-			) const;
-// STI aed: end
+		SPAposition&,
+		SPAunit_vector&
+	) const;
+	// STI aed: end
 
-    // Enquiry functions - make these public, so that code building the derived
-    // types can use them.
+		// Enquiry functions - make these public, so that code building the derived
+		// types can use them.
 
 public:
 
@@ -3104,31 +2869,33 @@ public:
  * <b>Role:</b> Determines if a parametric surface is periodic in the <i>u</i> direction.
  * (i.e. it is smoothly closed, so faces can run over the seam).
  */
-    logical periodic_u() const	{ return closed_in_u == PERIODIC; }
-	logical gme_periodic_u() const;
-/**
- * Determines if a parametric surface is periodic in the v direction.
- * <br><br>
- * <b>Role:</b> Determines if a parametric surface is periodic in the <i>v</i> direction.
- * (i.e. it is smoothly closed, so faces can run over the seam).
- */
-    logical periodic_v() const	{ return closed_in_v == PERIODIC; }
-	logical gme_periodic_v() const;
+	logical periodic_u() const { return closed_in_u == PERIODIC; }
+	/**
+	 * Determines if a parametric surface is periodic in the v direction.
+	 * <br><br>
+	 * <b>Role:</b> Determines if a parametric surface is periodic in the <i>v</i> direction.
+	 * (i.e. it is smoothly closed, so faces can run over the seam).
+	 */
+	logical periodic_v() const { return closed_in_v == PERIODIC; }
+
 
 	// Report whether the surface is closed, smoothly or not, in
 	// either parameter direction.
 /**
  * Determines if the surface is closed, smoothly or not, in the <i>u</i>-parameter direction.
  */
-    logical closed_u() const	{ return closed_in_u == CLOSED ||
-									     closed_in_u == PERIODIC; }
-	logical gme_closed_u() const;
-/**
- * Determines if the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
- */
-    logical closed_v() const	{ return closed_in_v == CLOSED ||
-									     closed_in_v == PERIODIC; }
-	logical gme_closed_v() const;
+	logical closed_u() const {
+		return closed_in_u == CLOSED ||
+			closed_in_u == PERIODIC;
+	}
+	/**
+	 * Determines if the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
+	 */
+	logical closed_v() const {
+		return closed_in_v == CLOSED ||
+			closed_in_v == PERIODIC;
+	}
+
 
 	// Returns the period of a periodic parametric surface, zero if
 	// the surface is not periodic in the chosen parameter or not
@@ -3136,15 +2903,18 @@ public:
 /**
  * Returns the <i>u</i> period of a periodic parametric surface, zero if the surface is not periodic in the <i>u</i> direction.
  */
-    double param_period_u() const
-	    { return closed_in_u == PERIODIC ? u_range.length() : 0.0; }
-	double gme_param_period_u() const;
-/**
- * Returns the <i>v</i> period of a periodic parametric surface, zero if the surface is not periodic in the <i>v</i> direction.
- */
-    double param_period_v() const
-	    { return closed_in_v == PERIODIC ? v_range.length() : 0.0; }
-	double gme_param_period_v() const;
+	double param_period_u() const
+	{
+		return closed_in_u == PERIODIC ? u_range.length() : 0.0;
+	}
+	/**
+	 * Returns the <i>v</i> period of a periodic parametric surface, zero if the surface is not periodic in the <i>v</i> direction.
+	 */
+	double param_period_v() const
+	{
+		return closed_in_v == PERIODIC ? v_range.length() : 0.0;
+	}
+
 
 	// Returns the principal parameter range of a parametric surface in
 	// a chosen parameter direction, or in both. For a non-parametric
@@ -3170,7 +2940,7 @@ public:
 /**
  * Returns the principal parameter range of a parametric surface in both <i>u</i> and <i>v</i>-parameter directions.
  * <br><br>
- * <b>Role:</b> 
+ * <b>Role:</b>
  * A periodic surface is defined for all parameter values in the periodic direction,
  * by reducing the given parameter modulo the period into this principal range.
  * For a surface open or nonperiodic in the chosen direction the surface evaluation
@@ -3184,48 +2954,45 @@ public:
  * @param box
  * object space box.
  */
-   virtual SPApar_box param_range( SPAbox const &box = *(SPAbox *)NULL_REF) const
-	    {
-			SPAUNUSED(box)
-			return SPApar_box( u_range, v_range );
-		}
-   SPApar_box gme_param_range(SPAbox const& box = *(SPAbox*)NULL_REF) const ;
-/**
- * Returns the principal parameter range of a parametric surface in the <i>u</i>-parameter direction.
- * <br><br>
- * <b>Role:</b> A periodic surface is defined for all parameter values in the
- * periodic direction, by reducing the given parameter modulo the period into this
- * principal range. For a surface open or nonperiodic in the chosen direction the
- * surface evaluation functions are defined only for parameter values in the
- * returned range.
- * <br><br>
- * @param box
- * object space box.
- */
-   virtual SPAinterval param_range_u( SPAbox const &box = *(SPAbox *)NULL_REF ) const
-	    {
-			SPAUNUSED(box)
+	virtual SPApar_box param_range(SPAbox const& box = *(SPAbox*)NULL_REF) const
+	{
+		SPAUNUSED(box)
+			return SPApar_box(u_range, v_range);
+	}
+	/**
+	 * Returns the principal parameter range of a parametric surface in the <i>u</i>-parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> A periodic surface is defined for all parameter values in the
+	 * periodic direction, by reducing the given parameter modulo the period into this
+	 * principal range. For a surface open or nonperiodic in the chosen direction the
+	 * surface evaluation functions are defined only for parameter values in the
+	 * returned range.
+	 * <br><br>
+	 * @param box
+	 * object space box.
+	 */
+	virtual SPAinterval param_range_u(SPAbox const& box = *(SPAbox*)NULL_REF) const
+	{
+		SPAUNUSED(box)
 			return u_range;
-		}
-   SPAinterval gme_param_range_u(SPAbox const& box = *(SPAbox*)NULL_REF) const ;
-/**
- * Returns the principal parameter range of a parametric surface in the <i>v</i>-parameter direction.
- * <br><br>
- * <b>Role:</b> A periodic surface is defined for all parameter values in the
- * periodic direction, by reducing the given parameter modulo the period into this
- * principal range. For a surface open or nonperiodic in the chosen direction the
- * surface evaluation functions are defined only for parameter values in the returned
- * range.
- * <br><br>
- * @param box
- * object space box.
- */
-   virtual SPAinterval param_range_v( SPAbox const &box = *(SPAbox *)NULL_REF ) const
-	    {
-			SPAUNUSED(box)
+	}
+	/**
+	 * Returns the principal parameter range of a parametric surface in the <i>v</i>-parameter direction.
+	 * <br><br>
+	 * <b>Role:</b> A periodic surface is defined for all parameter values in the
+	 * periodic direction, by reducing the given parameter modulo the period into this
+	 * principal range. For a surface open or nonperiodic in the chosen direction the
+	 * surface evaluation functions are defined only for parameter values in the returned
+	 * range.
+	 * <br><br>
+	 * @param box
+	 * object space box.
+	 */
+	virtual SPAinterval param_range_v(SPAbox const& box = *(SPAbox*)NULL_REF) const
+	{
+		SPAUNUSED(box)
 			return v_range;
-		}
-   SPAinterval gme_param_range_v(SPAbox const& box = *(SPAbox*)NULL_REF) const;
+	}
 
 	// Report whether the surface parametrisation is singular at
 	// the specified u or v parameter value. The only singularity
@@ -3244,27 +3011,21 @@ public:
  * specified u parameter value.
  */
 	logical singular_u(
-					double	uparam	// constant u parameter
-				) const;
-	logical gme_singular_u(
-					double	uparam	// constant u parameter
-				) const;
-/**
- * Reports whether the surface parameterization is singular at the specified <i>v</i>-parameter value.
- * <br><br>
- * <b>Role:</b> The only singularity recognized is where every value of the
- * <i>u</i> parameter generates the same object-space point, and these can only
- * occur at the ends of the parameter range as returned by <tt>param_range_v</tt>.
- * <br><br>
- * @param vparam
- * specified v parameter value.
- */
-    logical singular_v(
-					double	vparam	// constant v parameter
-				) const;
-	logical gme_singular_v(
-					double	vparam	// constant v parameter
-				) const;
+		double	uparam	// constant u parameter
+	) const;
+	/**
+	 * Reports whether the surface parameterization is singular at the specified <i>v</i>-parameter value.
+	 * <br><br>
+	 * <b>Role:</b> The only singularity recognized is where every value of the
+	 * <i>u</i> parameter generates the same object-space point, and these can only
+	 * occur at the ends of the parameter range as returned by <tt>param_range_v</tt>.
+	 * <br><br>
+	 * @param vparam
+	 * specified v parameter value.
+	 */
+	logical singular_v(
+		double	vparam	// constant v parameter
+	) const;
 
 protected:
 
@@ -3277,6 +3038,7 @@ protected:
 
 	virtual logical left_handed_uv() const;
 
+
 	// Construct a parameter line on the surface. A u parameter line
 	// runs in the direction of increasing u parameter, at constant v.
 	// A v parameter line runs in the direction of increasing v, at
@@ -3288,38 +3050,25 @@ protected:
 	// responsibility of the caller to ensure that it is correctly
 	// deleted.
 
-	virtual curve *u_param_line(
-				double,			// constant v parameter
-				spline const &	// owning surface
-			) const;
-	curve *gme_u_param_line(
-				double,			// constant v parameter
-				spline const &	// owning surface
-			) const;
-	virtual curve *v_param_line(
-				double,			// constant u parameter
-				spline const &	// owning surface
-			) const;
-	curve *gme_v_param_line(
-				double,			// constant u parameter
-				spline const &	// owning surface
-			) const;
+	virtual curve* u_param_line(
+		double,			// constant v parameter
+		spline const&	// owning surface
+	) const;
+	virtual curve* v_param_line(
+		double,			// constant u parameter
+		spline const&	// owning surface
+	) const;
+
 
 	// Test whether a point lies on the surface, within a user-defined
 	// tolerance.
 
 	virtual logical test_point_tol(
-				SPAposition const &,
-				double,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
-			) const;
-	/*virtual*/ logical gme_test_point_tol(
-				SPAposition const &,
-				double,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
-			) const;
+		SPAposition const&,
+		double,
+		SPApar_pos const& = *(SPApar_pos*)NULL_REF,
+		SPApar_pos & = *(SPApar_pos*)NULL_REF
+	) const;
 
 
 	// Save and restore. Save is easy, as derived class switching goes
@@ -3331,48 +3080,48 @@ protected:
 	// the right (derived) type. Then it can call the appropriate
 	// member function to do the actual work.
 
-	virtual char const *type_name() const = 0;
+	virtual char const* type_name() const = 0;
 
 	virtual void save_data() const;
 
 	virtual logical need_save_as_approx(int save_to_version, logical check_progenitors) const;
 
-    // Save data common to all spl_surs.
+	// Save data common to all spl_surs.
 
-    void	save_common_data( save_approx_level )	const;
+	void	save_common_data(save_approx_level)	const;
 
 
-    // Ask the spl_sur the default level at which the approximating
+	// Ask the spl_sur the default level at which the approximating
 	// surface should be be stored.
 
-    save_approx_level enquire_save_approx_level()	const;
+	save_approx_level enquire_save_approx_level()	const;
 
 
-    // Note that restore_data is not virtual (so no base class version is
-    // necessary).
-    // restore_common_data restores the data saved by save_common_data.
+	// Note that restore_data is not virtual (so no base class version is
+	// necessary).
+	// restore_common_data restores the data saved by save_common_data.
 
-    void restore_common_data();
+	void restore_common_data();
 
 #if defined D3_STANDALONE || defined D3_DEBUG
 
 	friend DECL_KERN D3_ostream& operator<<(
-				D3_ostream &,
-				spl_sur const &
-			);
+		D3_ostream&,
+		spl_sur const&
+		);
 
 	virtual void input(
-				D3_istream &
-			);
+		D3_istream&
+	);
 
 	friend DECL_KERN D3_istream& operator>>(
-				D3_istream &,
-				spl_sur *&
-			);
+		D3_istream&,
+		spl_sur*&
+		);
 
 	virtual void print(
-				D3_ostream &
-			) const;
+		D3_ostream&
+	) const;
 
 #endif
 
@@ -3389,20 +3138,15 @@ protected:
 	// subsidiary curve and surface definitions).
 
 	virtual void debug(
-				char const *,
-				logical,
-				FILE *
-			) const = 0;
+		char const*,
+		logical,
+		FILE*
+	) const = 0;
 	void debug_data(
-				char const *,
-				logical,
-				FILE *
-			) const;
-	void gme_debug_data(
-				char const *,
-				logical,
-				FILE * = stdout
-			) const;
+		char const*,
+		logical,
+		FILE*
+	) const;
 
 	// After all this private stuff, make spline a friend so that it
 	// can use it.
@@ -3421,83 +3165,83 @@ protected:
 	// surface on exit.
 	// See chk_stat.hxx for information on the argument types used here.
 
-	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
-						 // supplies a set of flags which say which fixes
-						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
-						 // returns a set of flags which say which fixes
-						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
-						 // list of checks that are to be made.  If the
-						 // list is null, then every possible check will
-						 // be made; otherwise, the function will only
-						 // check for things in the list.  The return
-						 // value for the function will then be a subset
-						 // of this list.
-				);
+	virtual	check_status_list* check(
+		const check_fix& input = *(const check_fix*)NULL_REF,
+		// supplies a set of flags which say which fixes
+		// are allowable (the default is to fix nothing)
+		check_fix& result = *(check_fix*)NULL_REF,
+		// returns a set of flags which say which fixes
+		// were applied
+		const check_status_list* = (const check_status_list*)NULL_REF
+		// list of checks that are to be made.  If the
+		// list is null, then every possible check will
+		// be made; otherwise, the function will only
+		// check for things in the list.  The return
+		// value for the function will then be a subset
+		// of this list.
+	);
 
 
 # if ( defined D3_DEBUG || defined D3_STANDALONE )
-    friend DECL_KERN D3_ostream &operator<<( D3_ostream &os, const spl_sur& ss );
-    friend DECL_KERN D3_istream &operator>>( D3_istream &is, spl_sur*& ss );
+	friend DECL_KERN D3_ostream& operator<<(D3_ostream& os, const spl_sur& ss);
+	friend DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
 #endif
 
-// STI swa 27Jul98 -- return sweep information
+	// STI swa 27Jul98 -- return sweep information
 public:
-/**
- * Returns the sweep path type for this <tt>spl_sur</tt>.
- */
-    virtual sweep_path_type get_path_type() const {return unknown_path_type; }
-/**
- * Returns the sweep path curve for this <tt>spl_sur</tt>. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
- */
-    virtual curve * get_path() const { return NULL; }
-/**
- * Returns the sweep profile curve for this <tt>spl_sur</tt>.  The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
- * @param param
- * parameter
- */
-    virtual curve * get_profile(double param/*param*/) const
+	/**
+	 * Returns the sweep path type for this <tt>spl_sur</tt>.
+	 */
+	virtual sweep_path_type get_path_type() const { return unknown_path_type; }
+	/**
+	 * Returns the sweep path curve for this <tt>spl_sur</tt>. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
+	 */
+	virtual curve* get_path() const { return NULL; }
+	/**
+	 * Returns the sweep profile curve for this <tt>spl_sur</tt>.  The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
+	 * @param param
+	 * parameter
+	 */
+	virtual curve* get_profile(double param/*param*/) const
 	{
 		SPAUNUSED(param)
-		return NULL;
+			return NULL;
 	}
-/**
- * Returns the sweep rail law for this <tt>spl_sur</tt>.
- */
-    virtual law * get_rail() const { return NULL; }
-// STI swa END
+	/**
+	 * Returns the sweep rail law for this <tt>spl_sur</tt>.
+	 */
+	virtual law* get_rail() const { return NULL; }
+	// STI swa END
 
-	// STI ROLL
-/**
- * @nodoc
- */
+		// STI ROLL
+	/**
+	 * @nodoc
+	 */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 
 /**
  * @nodoc
  */
-	virtual void minimize( minimize_helper*);
+	virtual void minimize(minimize_helper*);
 
-/**
-* @nodoc
-**/
-	virtual void process( geometry_definition_processor& p ) const
+	/**
+	* @nodoc
+	**/
+	virtual void process(geometry_definition_processor& p) const
 #ifdef INTERNAL_DEBUG_CHECKS
-		=0;
+		= 0;
 #else
 		;
 #endif
 
 public:
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	logical checked;
 protected:
 
@@ -3505,32 +3249,26 @@ protected:
 /**
  * @nodoc
  */
-	virtual logical validate_u_guess( const SPAparameter &u_guess,
-									SPAparameter &valid_u_guess ) const;
+	virtual logical validate_u_guess(const SPAparameter& u_guess,
+		SPAparameter& valid_u_guess) const;
 	// For internal use only.
 /**
  * @nodoc
  */
-	virtual logical validate_v_guess( const SPAparameter &v_guess,
-									SPAparameter &valid_v_guess ) const;
-/**
- * @nodoc
- */
+	virtual logical validate_v_guess(const SPAparameter& v_guess,
+		SPAparameter& valid_v_guess) const;
+	/**
+	 * @nodoc
+	 */
 	virtual logical unbounded_u() const;
 
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	virtual logical unbounded_v() const;
-
-public:
-	// get and set functions for access.
-	int get_u_singularity();
-	int get_v_singularity();
-	void set_fitol_data(double data);
 };
 
 

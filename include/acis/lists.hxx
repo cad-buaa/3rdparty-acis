@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -99,6 +99,7 @@ class LIST_HEADER;
  */
 class DECL_KERN ENTITY_LIST : public ACIS_OBJECT {
 	friend class EE_LIST;	// An ENTITY version of ENTITY_LIST
+
 	LIST_HEADER *header;
 
 public:
@@ -107,25 +108,21 @@ public:
   * C++ constructor, creating an <tt>ENTITY_LIST</tt>.
   */
 	ENTITY_LIST();		// constructor for generic lists
-	ENTITY_LIST(const char*);
 
  /**
   * C++ destructor, deleting an <tt>ENTITY_LIST</tt>.
   */
 	~ENTITY_LIST();		// destructor
-	void gme_terminate();
 
  /**
   * C++ constructor, creating an <tt>ENTITY_LIST</tt> from an array.
   */
 	ENTITY_LIST( int count, ENTITY **entity_array, logical check = TRUE );
-	ENTITY_LIST( const char* gme, int count, ENTITY** entity_array, logical check = TRUE );
 
  /**
   * C++ constructor, creating an <tt>ENTITY_LIST</tt> from a single ENTITY.
   */
 	ENTITY_LIST( ENTITY* );
-	ENTITY_LIST( const char*, ENTITY* );
 
 /**
   * C++ copy constructor, which copies the whole list (complete with deleted entries, if any), so that the indices in the copy match those in the original.
@@ -134,7 +131,6 @@ public:
   * list to copy.
   */
 	ENTITY_LIST (ENTITY_LIST const& list_copy);
-	ENTITY_LIST (const char* gme, ENTITY_LIST const& list_copy);
 
  /**
   * <tt>Assignment</tt> operator performs a full copy of the list, complete with tombstones for deleted entries so that the indices are the same.
@@ -143,23 +139,19 @@ public:
   * entity list.
   */
 	ENTITY_LIST& operator= (ENTITY_LIST const &entity_list);
-	ENTITY_LIST& gme_operator_assign (ENTITY_LIST const &entity_list);
 
 	// Move constructor
 
 	ENTITY_LIST(ENTITY_LIST &&other) /*noexcept*/;
-	ENTITY_LIST(const char* gme, ENTITY_LIST&& other);
 
 	// Move assignment operator
 
 	ENTITY_LIST& operator=(ENTITY_LIST &&other) /*noexcept*/;
-	ENTITY_LIST& gme_operator_assign(ENTITY_LIST&& other);
 
 /**
  * Clear all entries from the list and reset indexes and counters for reuse.
  */
 	void clear();
-	void gme_clear();
 
  /**
   * Adds an entity to the list and returns its index number.
@@ -172,7 +164,6 @@ public:
   * check unique.
   */
 	int add( ENTITY *entity_name, logical check = TRUE );
-	int gme_add(ENTITY* entity_name, logical check = TRUE);
 
  /**
   * Adds the entities of an <tt>ENTITY_LIST</tt> to this <tt>ENTITY_LIST</tt>.
@@ -185,7 +176,6 @@ public:
   * check unique.
   */
 	void add( ENTITY_LIST const &entity_list, logical check = TRUE );
-	void gme_add( ENTITY_LIST const& entity_list, logical check = TRUE );
 
 	// Search for an ENTITY in the list, inserting it if not
 	// already there and logical argument is TRUE. This will
@@ -196,7 +186,6 @@ public:
   * @nodoc
   */
 	int lookup( ENTITY *, logical );
-	int gme_lookup( ENTITY *, logical );
 
 
 	// Search for an ENTITY in the list.
@@ -208,7 +197,6 @@ public:
   * entry to lookup
   */
 	int lookup( ENTITY const * ) const;
-	int gme_lookup( ENTITY const * ) const;
 
 
 	// Delete an entity from the list. This does not free space, and
@@ -227,7 +215,6 @@ public:
  * entry to remove
  */
 	int remove( ENTITY const *entity_name );
-	int gme_remove( ENTITY const *entity_name );
 
  /**
   * Removes entities in the given list from the list; however, it does not free space.
@@ -239,7 +226,6 @@ public:
   * entity list.
   */
 	void remove( ENTITY_LIST const &entity_list );
-	void gme_remove( ENTITY_LIST const &entity_list );
 
 	// STI let (r3891): added another removal method that is more efficient
 	// if the ENTITY's index value is already known.
@@ -254,7 +240,6 @@ public:
  * index of entry to remove.
  */
 	int remove( int index);
-	int gme_remove( int index);
 
 
 	// Count how many entities there are in the list (including
@@ -264,13 +249,11 @@ public:
 	 * Returns the number of entries in the list including the deleted ones (tombstones).
 	 */
 	int count() const;
-	int gme_count() const;
 
  /**
   * Returns the number of live entities in the list not including deleted entries.
   */
 	int iteration_count() const;
-	int gme_iteration_count() const;
 
  /**
   * Returns the entity at the given index from the list.
@@ -282,7 +265,6 @@ public:
   * integer.
   */
 	ENTITY *operator[]( int index) const;
-	ENTITY *gme_operator_subscript( int index) const;
 
 
 	// Return entities in list order, ignoring deleted items. Call
@@ -296,20 +278,17 @@ public:
   * Initializes the iterator, which is used by the next method, to the beginning of the list.
   */
 	void init() const;
-	void gme_init() const;
 
  /**
   * Returns the first undeleted (live) entry and updates the iterator correctly for the next method.
   */
 	ENTITY *first() const;
-	ENTITY *gme_first() const;
 
 
  /**
   * Returns the next undeleted (live) entry.
   */
 	ENTITY *next() const;
-	ENTITY *gme_next() const;
 
 	// Return the next non deleted entry after the index given
 	// without affecting the member variables used by init and
@@ -329,7 +308,6 @@ public:
   * integer.
   */
 	ENTITY *next_from(int &from_index) const;
-	ENTITY *gme_next_from(int &from_index) const;
 
 	// Reverse the order of an ENTITY_LIST.
 	// If the flag is TRUE, it compresses out deleted entries.
@@ -343,7 +321,6 @@ public:
   *  remove deleted entities.
   */
 	void reverse( logical compress = TRUE );
-	void gme_reverse( logical compress = TRUE);
 
 	// STI ROLL
 	// Returns the size in bytes of this class. Does not include the
@@ -365,10 +342,7 @@ public:
 	array( ENTITY ** entity_array = NULL,
 					   int &array_count = *(int *)NULL_REF,
 					   logical tombstones = FALSE ) const;
-	ENTITY **
-	gme_array( ENTITY ** entity_array = NULL,
-                       int& array_count = *(int *)NULL_REF,
-                       logical tombstones = FALSE ) const;
+
 
 /**
   * Returns the size in bytes of this class.
@@ -379,7 +353,6 @@ public:
   * count self or not.
   */
 	int byte_count(logical countSelf = TRUE) const;
-	int gme_byte_count(logical countSelf = TRUE) const;
     // STI ROLL
 
 /**
@@ -396,10 +369,6 @@ public:
   * comparison function
   */
 	void sort( int (*compare_func)(const void* ent1, const void* ent2 ) );
-	void gme_sort( int (*compare_func)(const void* ent1, const void* ent2 ) );
-
-	// 供STDE_INFO专门调用
-	void* gme_replace(int, ENTITY*);
 
 };
 

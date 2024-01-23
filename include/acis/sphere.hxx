@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/sphere.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/sphere.hxx */
 /* $Id: sphere.hxx,v 1.13 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -83,6 +83,9 @@ extern DECL_KERN int SPHERE_TYPE;
  */
 class DECL_KERN SPHERE: public SURFACE {
 
+	// NOTES SHEVO
+	friend sphere* shevo_get_sphere(SPHERE* sph);
+
 	// Record a SPHERE as a sphere.
 
 	sphere def;
@@ -121,7 +124,6 @@ public:
  * management.
  */
 	SPHERE();
-        SPHERE(const char *gme);
 
 	// Create a SPHERE centred on a given SPAposition and with a
 	// given radius.
@@ -139,7 +141,7 @@ public:
  * radius of the constructed SPHERE.
  */
 	SPHERE( const SPAposition &center, double radius );
-        SPHERE( const char *gme, const SPAposition &center, double radius );
+
 	// Create a SPHERE from a sphere.
 /**
  * Constructs a <tt>SPHERE</tt> from the specified sphere.
@@ -153,7 +155,6 @@ public:
  * sphere to be wrapped by the constructed SPHERE.
  */
 	SPHERE( const sphere &s );
-        SPHERE( const char *gme, const sphere &s );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -233,7 +234,6 @@ public:
  * the new center.
  */
 	void set_centre( const SPAposition &center );
-        void gme_set_centre( const SPAposition &center );
 /**
  * Sets this <tt>SPHERE</tt>'s radius to the given value.
  * <br><br>
@@ -245,14 +245,12 @@ public:
  * the new radius.
  */
 	void set_radius( double radius);
-        void gme_set_radius( double radius);
 
 	// Return the surface equation for reading only.
 /**
  * Returns the <tt>surface</tt> equation of this <tt>SPHERE</tt>.
  */
 	const surface &equation() const;
-        const surface &gme_equation() const;
 
 	// Return the surface equation, checking first for backup.
 /**
@@ -263,7 +261,6 @@ public:
  * to put an entry on the bulletin board.
  */
 	surface &equation_for_update();
-        surface &gme_equation_for_update();
 
 	// Get a new (lower-case) surface being the sphere of the SPHERE,
 	// transformed if the given SPAtransf is non-null and reversed
@@ -282,8 +279,6 @@ public:
 						const SPAtransf &t = *(SPAtransf*)NULL_REF,
 						logical negate = FALSE
 					) const;
-	surface *gme_trans_surface( const SPAtransf &t = *(SPAtransf*)NULL_REF,
-                                    logical negate = FALSE ) const;
 
 	// Transform the stored sphere in place.
 /**
@@ -297,7 +292,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign(const SPAtransf &t);
 
     // Construct a SPAbox containing a face on the SPHERE bounded by the
 	// given LOOP list.
@@ -346,12 +340,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
     // STI ROLL
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	sphere get_def();
 };
 
 /** @} */

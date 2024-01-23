@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -205,7 +205,7 @@ public:
  * <b>Role:</b> This method calls <tt>make_copy</tt>.
  */
 	surface* copy_surf() const;
-	surface* gme_copy_surf() const;
+
 
 	// Make a copy of the given surface. This is a pure virtual
 	// function to ensure that each derived class defines its own.
@@ -213,7 +213,6 @@ public:
  * Makes a copy of this <tt>surface</tt> on the heap, and returns a pointer to it.
  */
 	virtual surface* make_copy() const = 0;
-	surface* gme_make_copy() const;
 
 	// The make copy method of surface sometimes shares data with
 	// use counts.  The deep_copy method makes all shared data unshared.
@@ -235,7 +234,7 @@ public:
  * list of items within the object that are already deep copied.
  */
 	virtual surface* deep_copy(pointer_map* pm = NULL) const = 0;
-	surface* gme_deep_copy(pointer_map* pm = NULL) const;
+
 
 	//
 	// DEBUG FUNCTIONS:
@@ -291,7 +290,6 @@ public:
  * surface to compare for equality.
  */
 	virtual logical operator==( const surface& surf ) const;
-	logical gme_operator_equal( const surface& surf ) const;
 /**
  * Tests this <tt>surface</tt> for inequality to another surface.
  * <br><br>
@@ -321,14 +319,12 @@ public:
  * transformation to apply.
  */
 	virtual surface& operator*=(const SPAtransf& transf) = 0;
-	surface& gme_operator_multiply_assign(const SPAtransf& transf);
 
 	// Reverse the sense of a surface.
 /**
  * Reverses the sense of this <tt>surface</tt>.
  */
 	virtual surface& negate() = 0;
-	surface& gme_negate();
 
 	// Generic function to determine whether a surface is defined or
 	// not. A NULL one or a generic surface are always "undefined",
@@ -340,7 +336,6 @@ public:
  * it depends on their contents.
  */
 	logical undefined() const;
-	logical gme_undefined() const;
 /**
  * Determines whether this <tt>surface</tt> is defined or undefined.
  * <br><br>
@@ -348,7 +343,6 @@ public:
  * it depend on their contents.
  */
 	virtual logical undef() const;
-	logical gme_undef() const;
 
 	// Play around with subset surfaces. These will probably be virtual,
 	// but not during testing.
@@ -360,7 +354,6 @@ public:
  * parameter box.
  */
 	surface* subset(const SPApar_box& box) const;
-	surface* gme_subset(const SPApar_box& box) const;
 /**
  * Constructs a subset copy, within the given <i>u</i> interval, of this surface.
  * <br><br>
@@ -368,7 +361,6 @@ public:
  * u interval.
  */
 	surface* subset_u(const SPAinterval& range) const;
-	surface* gme_subset_u(const SPAinterval& range) const;
 /**
  * Constructs a subset copy within the given <i>v</i> interval.
  * <br><br>
@@ -376,7 +368,6 @@ public:
  * v interval
  */
 	surface* subset_v(const SPAinterval& range) const;
-	surface* gme_subset_v(const SPAinterval& range) const;
 
 	// Subset a surface in place
 /**
@@ -386,7 +377,6 @@ public:
  * parameter box defining the subset.
  */
 	void limit(const SPApar_box& box);
-	void gme_limit(const SPApar_box& box);
 /**
  * Subsets this <tt>surface</tt> in place, according to the given interval in <i>u</i>.
  * <br><br>
@@ -394,7 +384,6 @@ public:
  * interval defining the subset.
  */
 	void limit_u(const SPAinterval& range);
-	void gme_limit_u(const SPAinterval& range);
 /**
  * Subsets this <tt>surface</tt> in place, according to the given interval in <i>v</i>.
  * <br><br>
@@ -402,76 +391,63 @@ public:
  * interval defining the subset.
  */
 	void limit_v(const SPAinterval& range);
-	void gme_limit_v(const SPAinterval& range);
 
 	// Construct a copy of the unbounded surface underlying this one.
 /**
  * Constructs a copy of the unbounded surface underlying this one.
  */
 	surface* unsubset() const;
-	surface* gme_unsubset() const;
 /**
  * Constructs a copy of the unbounded (in <i>u</i>) surface underlying this one.
  */
 	surface* unsubset_u() const;
-	surface* gme_unsubset_u() const;
 /**
  * Constructs a copy of the unbounded (in <i>v</i>) surface underlying this one.
  */
 	surface* unsubset_v() const;
-	surface* gme_unsubset_v() const;
 
 	// Remove the subsetting from this surface.
 /**
  * Removes the subsetting from this <tt>surface</tt>.
  */
 	void unlimit();
-	void gme_unlimit();
 /**
  * Removes the subsetting from this <tt>surface</tt>, in the <i>u</i> direction.
  */
 	void unlimit_u();
-	void gme_unlimit_u();
 /**
  * Removes the subsetting from this <tt>surface</tt>, in the <i>v</i> direction.
  */
 	void unlimit_v();
-	void gme_unlimit_v();
 
 	// Indicate whether the surface has a significant subset range.
 /**
  * Determines whether this <tt>surface</tt> has a significant subset range.
  */
 	logical subsetted() const;
-	logical gme_subsetted() const;
 /**
  * Determines whether this <tt>surface</tt> has a significant subset range in the
  * <i>u</i> direction.
  */
 	logical subsetted_u() const;
-	logical gme_subsetted_u() const;
 /**
  * Determines whether this <tt>surface</tt> has a significant subset range in the <i>v</i> direction.
  */
 	logical subsetted_v() const;
-	logical gme_subsetted_v() const;
 
 	// return subsets
 /**
  * Returns the subset box of this <tt>surface</tt>.
  */
 	SPApar_box subset_box() const;
-	SPApar_box gme_subset_box() const;
 /**
  * Returns a subset interval of this <tt>surface</tt>, in <i>u</i>.
  */
 	SPAinterval subset_u_interval() const;
-	SPAinterval gme_subset_u_interval() const;
 /**
  * Returns a subset interval of this <tt>surface</tt>, in <i>v</i>.
  */
 	SPAinterval subset_v_interval() const;
-	SPAinterval gme_subset_v_interval() const;
 
 	// Return a SPAbox around the surface. This need not be the smallest
 	// SPAbox which contains the specified portion of the surface, but
@@ -498,10 +474,6 @@ public:
 				const SPApar_box& parbox = *(SPApar_box*)NULL_REF,
 				const SPAtransf& transf = *(SPAtransf*)NULL_REF
 			) const;
-	SPAbox gme_bound(
-				const SPApar_box& parbox = *(SPApar_box*)NULL_REF,
-				const SPAtransf& transf = *(SPAtransf*)NULL_REF
-			) const;
 
 	// Surface bounded in object space.
 /**
@@ -520,6 +492,7 @@ public:
 				const SPAbox& box,
 				const SPAtransf& transf = *(SPAtransf*)NULL_REF
 			) const;
+
 
 	// Return a cone bounding the normal direction of a surface. The
 	// cone is deemed to have its apex at the origin, and has a given
@@ -557,6 +530,7 @@ public:
 				const SPAtransf& transf = *(SPAtransf*)NULL_REF
 			) const;
 
+
 	// Geometric enquiries
 
 	// Return TRUE if the surface is parametric, FALSE if not. This
@@ -590,7 +564,7 @@ public:
  * A plane is an obvious nonparametric surface; a B-spline is a parametric surface.
  */
 	virtual logical parametric() const;
-	logical gme_parametric() const;
+
 
 	// Divide a surface into separate pieces which are smooth (and therefore
     // suitable for offsetting or blending). The surface is split if the
@@ -611,7 +585,6 @@ public:
  * the minimum curvature.
  */
     virtual int split_at_kinks_u( spline**& pieces, double curvature = 0.0 ) const;
-
 /**
  * Divides this <tt>surface</tt> along <i>v</i> into separate pieces that are smooth (and therefore suitable for offsetting or blending).
  * <br><br>
@@ -626,6 +599,7 @@ public:
  * the minimum curvature.
  */
     virtual int split_at_kinks_v( spline**& pieces, double curvature = 0.0 ) const;
+
 
 	// Position-based enquiries, implemented for all surfaces, but
 	// with an extra argument to speed up processing for parametric
@@ -647,10 +621,6 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
 			) const = 0;
-	SPAunit_vector gme_point_normal(
-				const SPAposition& pos,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
-			) const;
 
 	// Find an outward direction from the surface at a point on
 	// the surface nearest to the given point. This will usually be
@@ -675,10 +645,6 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
 			) const;
-	/*virtual*/ SPAunit_vector gme_point_outdir(
-			const SPAposition& pos,
-			const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
-		) const;
 
 
 	// Find the principal axes of curvature of the surface at a
@@ -707,14 +673,6 @@ public:
 				double& cur2,			// curvature in second direction
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
 			) const = 0;
-	/*virtual*/ void gme_point_prin_curv(
-				const SPAposition& pos,
-				SPAunit_vector& axis1,		// first axis direction
-				double& cur1,			// curvature in first direction
-				SPAunit_vector& axis2,		// second axis direction
-				double& cur2,			// curvature in second direction
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
-			) const /*= 0*/;
 
 
 	// Do the same, but return the value in a struct defined for the
@@ -731,10 +689,6 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
 			) const;
-	surf_princurv gme_point_prin_curv(
-			const SPAposition& pos,
-			const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
-		) const;
 
 
 	// Find the curvature of a cross-section curve of the surface at
@@ -820,16 +774,7 @@ public:
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
 				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
 				logical f_weak = FALSE
-			) const;
-	void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				SPAunit_vector& normal,
-				surf_princurv& cur,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const;
+			) const = 0;
 /**
  * Finds the point on this <tt>surface</tt> nearest to the given point and, optionally, the normal to the surface at that point.
  * <br><br>
@@ -859,24 +804,6 @@ public:
 			) const
 	{
 		point_perp(
-				pos,
-				foot,
-				normal,
-				*(surf_princurv *)NULL_REF,
-				param_guess,
-				param_actual, f_weak
-			);
-	}
-	void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				SPAunit_vector& normal,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const
-	{
-		gme_point_perp(
 				pos,
 				foot,
 				normal,
@@ -919,23 +846,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-	void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const
-	{
-		gme_point_perp(
-				pos,
-				foot,
-				*(SPAunit_vector *)NULL_REF,
-				*(surf_princurv *)NULL_REF,
-				param_guess,
-				param_actual, f_weak
-			);
-	}
 
 
 	// Now there is a set of SPAparameter-based functions. The Acis
@@ -958,11 +868,6 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
 			) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	SPApar_pos gme_param(
-				const SPAposition& pos,
-				const SPApar_pos& guess = *(SPApar_pos*)NULL_REF
-			) const;
 
 
 	// Find the direction in SPAparameter space of a given object
@@ -979,10 +884,6 @@ public:
 				const SPAunit_vector& dir,
 				const SPApar_pos& pos
 			) const;
-	SPApar_dir gme_param_dir(
-			const SPAunit_vector& dir,
-			const SPApar_pos& pos
-		) const;
 
 
 	// Find the rate of change in surface SPAparameter corresponding to
@@ -1038,14 +939,7 @@ public:
 				SPAvector* second_derivs = NULL		// second derivatives - array of
 									// length 3, in order xuu, xuv, xvv
 			) const;
-	void gme_eval(
-				const SPApar_pos& param,
-				SPAposition& pos,
-				SPAvector* first_derivs = NULL,	// first derivatives - array of
-									// length 2, in order xu, xv
-				SPAvector* second_derivs = NULL		// second derivatives - array of
-									// length 3, in order xuu, xuv, xvv
-			) const;
+
 
 	// Find the point on a parametric surface with given SPAparameter
 	// values.
@@ -1056,8 +950,7 @@ public:
  * parameter position at which to evaluate the surface position.
  */
 	virtual SPAposition eval_position(const SPApar_pos& pos) const;
-	SPAposition gme_eval_position(const SPApar_pos& pos) const;
-	
+
 	// Find the normal to a parametric surface at a point with given
 	// SPAparameter values.
 /**
@@ -1067,8 +960,6 @@ public:
  * parameter position at which to evaluate the surface normal.
  */
 	virtual SPAunit_vector eval_normal(const SPApar_pos& pos) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	SPAunit_vector gme_eval_normal(const SPApar_pos& pos) const;
 
 	// Find an outward direction from the surface at a point with
 	// given SPAparameter values. This will usually be the normal, but
@@ -1084,7 +975,6 @@ public:
  * parameter position at which to evaluate the outward direction.
  */
 	virtual SPAunit_vector eval_outdir(const SPApar_pos& pos) const;
-	/*virtual*/ SPAunit_vector gme_eval_outdir(const SPApar_pos& pos) const;
 
 	// Find the principal axes of curvature of the surface at a
 	// point with given SPAparameter values, and the curvatures in those
@@ -1110,13 +1000,7 @@ public:
 				SPAunit_vector& axis2,		// second axis direction
 				double& cur2			// curvature in second direction
 			) const;
-	 void gme_eval_prin_curv(
-				const SPApar_pos& pos,
-				SPAunit_vector& axis1,		// first axis direction
-				double& cur1,			// curvature in first direction
-				SPAunit_vector& axis2,		// second axis direction
-				double& cur2			// curvature in second direction
-			) const;
+
 
 	// Do the same, but return the value in a struct defined for the
 	// purpose.
@@ -1127,7 +1011,6 @@ public:
  * parameter position at which to evaluate the curvature.
  */
 	surf_princurv eval_prin_curv(const SPApar_pos& pos) const;
-	surf_princurv gme_eval_prin_curv(const SPApar_pos& pos) const;
 
 	// Find the curvature of a cross-section curve of the parametric
 	// surface at the point with given SPAparameter values.  The
@@ -1183,24 +1066,6 @@ public:
  * the evaluation location - above, below, or "don't care" (for each parameter direction).
  */
 	virtual int evaluate(
-                const SPApar_pos& param,	// Parameter
-                SPAposition& pos,			// Point on surface at given SPAparameter
-                SPAvector** derivs = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-                int nd = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant quad = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each SPAparameter direction,
-									// or don't care.
-            ) const;
-	int gme_evaluate(
                 const SPApar_pos& param,	// Parameter
                 SPAposition& pos,			// Point on surface at given SPAparameter
                 SPAvector** derivs = NULL, 	// Array of pointers to arrays of
@@ -1309,10 +1174,7 @@ public:
 				const SPApar_box& box = *(SPApar_box*)NULL_REF
 								 	// Defaults to the whole surface
 			) const;
-	int gme_accurate_derivs(
-				const SPApar_box& box = *(SPApar_box*)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
+
 
 	// Evaluate higher derivatives than are available accurately in
 	// evaluate(), by finite differencing. This function is available
@@ -1387,11 +1249,6 @@ public:
 				SPAposition& pos,
 				SPAunit_vector& normal
 			) const;
-	logical gme_planar(
-				SPAposition& pos,
-				SPAunit_vector& normal
-			) const;
-
 // STI aed: end
 
 	// Report whether a parametric surface is periodic in either
@@ -1401,14 +1258,10 @@ public:
  * Determines if this <tt>surface</tt> is periodic in the <i>u</i>-parameter direction (i.e., if it is smoothly closed, so that faces can run over the seam).
  */
 	virtual logical periodic_u() const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	logical gme_periodic_u() const;
 /**
  * Determines if this <tt>surface</tt> is periodic in the <i>v</i>-parameter direction (i.e., if it is smoothly closed, so that faces can run over the seam).
  */
 	virtual logical periodic_v() const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	logical gme_periodic_v() const;
 
 
 	// Report whether a parametric surface is closed, smoothly or
@@ -1422,15 +1275,13 @@ public:
  * returns <tt>TRUE</tt>.
  */
 	virtual logical closed_u() const;
-	logical gme_closed_u() const;
-
 /**
  * Determines whether this <tt>surface</tt> is closed, smoothly or not, in the <i>v</i>-parameter direction.
  * <br><br>
  * <b>Role:</b> Always returns <tt>TRUE</tt> if the corresponding <tt>periodic</tt> method returns <tt>TRUE</tt>.
  */
 	virtual logical closed_v() const;
-	logical gme_closed_v() const;
+
 
 	// Return the period of a periodic parametric surface, zero if
 	// the surface is not periodic in the chosen SPAparameter or not
@@ -1441,8 +1292,6 @@ public:
  * <b>Role:</b> If the surface is not parametric, or is not periodic in the <i>u</i>-direction, this method returns 0.
  */
 	virtual double param_period_u() const;
-	double gme_param_period_u() const;
-
 /**
  * Returns the period, in <i>v</i>, of a periodic parametric surface.
  * <br><br>
@@ -1450,7 +1299,7 @@ public:
  * <i>v</i>-direction, this method returns 0.
  */
 	virtual double param_period_v() const;
-	double gme_param_period_v() const;
+
 
 	// Return the principal SPAparameter range of a surface in
 	// a chosen SPAparameter direction.
@@ -1488,9 +1337,6 @@ public:
 	virtual SPApar_box param_range(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
-	SPApar_box gme_param_range(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>u</i>-parameter direction.
  * <br><br>
@@ -1511,10 +1357,6 @@ public:
 	virtual SPAinterval param_range_u(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	SPAinterval gme_param_range_u(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>v</i>-parameter direction.
  * <br><br>
@@ -1533,10 +1375,6 @@ public:
  * box restricting the result.
  */
 	virtual SPAinterval param_range_v(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	SPAinterval gme_param_range_v(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
 
@@ -1560,10 +1398,6 @@ public:
 	virtual logical singular_u(
 					double uparam	// constant u SPAparameter
 				) const;
-	logical gme_singular_u(
-					double uparam	// constant u SPAparameter
-				) const;
-
 /**
  * Determines whether the parameterization of this <tt>surface</tt> is singular at the specified <i>v</i>-parameter value.
  * <br><br>
@@ -1577,9 +1411,7 @@ public:
 	virtual logical singular_v(
 					double vparam	// constant v SPAparameter
 				) const;
-	logical gme_singular_v(
-					double vparam	// constant v SPAparameter
-				) const;
+
 
 	// Indicate whether the SPAparameter coordinate system of the surface
 	// is right- or left-handed. With a right-handed system, at any
@@ -1596,7 +1428,6 @@ public:
  * in the opposite direction from this cross product.
  */
 	virtual logical left_handed_uv() const;
-	logical gme_left_handed_uv() const;
 
 	// Construct a SPAparameter line on the surface. A u SPAparameter line
 	// runs in the direction of increasing u SPAparameter, at constant v.
@@ -1628,10 +1459,6 @@ public:
 	virtual curve* u_param_line(
 				double vparam		// constant v SPAparameter
 			) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	curve* gme_u_param_line(
-				double vparam		// constant v SPAparameter
-			) const;
 /**
  * Constructs a parameter line on the surface.
  * <br><br>
@@ -1649,10 +1476,6 @@ public:
  */
 	virtual curve* v_param_line(
 				double uparam		// constant u SPAparameter
-			) const;
-	//@todo: 如果使用虚函数会导致程序崩溃。目前暂时使用非虚函数版本实现。
-	curve* gme_v_param_line(
-				double uparam		// constant v SPAparameter
 			) const;
 
 
@@ -1696,12 +1519,6 @@ public:
 				const SPApar_pos& uv_guess = *(SPApar_pos*)NULL_REF,
 				SPApar_pos& uv_actual = *(SPApar_pos*)NULL_REF
 			) const = 0;
-	logical gme_test_point_tol(
-				const SPAposition& pos,
-				double tol = 0,		// defaults to SPAresabs
-				const SPApar_pos& uv_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& uv_actual = *(SPApar_pos*)NULL_REF
-			) const;
 
 
 	// Return (in a read-only array) the number and SPAparameter values of
@@ -1718,7 +1535,6 @@ public:
 /**
  * Returns the number and parameter values of discontinuities in <i>v</i> of this <tt>surface</tt>, of the given order (maximum three), in a read-only array.
  * <br><br>
- * 
  * @param n_discont
  * number of discontinuities found.
  * @param order
@@ -1761,7 +1577,6 @@ public:
  * parameter value to test.
  */
 	virtual	int	discontinuous_at_u( double u ) const;
-
 /**
  * Determines whether a particular value of <i>v</i> represents a discontinuity of this <tt>surface</tt>.
  * <br><br>
@@ -1769,6 +1584,7 @@ public:
  * parameter value to test.
  */
 	virtual	int	discontinuous_at_v( double v ) const;
+
 
     // Return read-only access to disc_info objects, if they exist.  The
 	// default version of the functions return null.
@@ -1790,14 +1606,13 @@ public:
  * Returns the type of this <tt>surface</tt>.
  */
 	virtual int type() const = 0;
-	int gme_type() const;
 
 	// Return string identifier of surface.
 /**
  * Returns the string <tt>"surface"</tt>.
  */
 	virtual const char* type_name() const = 0;
-	const char* gme_type_name() const;
+
 
 	// Save and restore. Save is easy, as derived class switching goes
 	// through the normal virtual function mechanism. Restore is more
@@ -1876,6 +1691,7 @@ public:
  * 	     read_interval		subset <i>v</i> interval </pre>
  */
 	void restore_data();
+
 
 	// Notify the derived type that the surface has been changed (e.g. the
 	// subset_range has changed) so that it can update itself.  The default
@@ -2034,7 +1850,6 @@ public:
  */
 	virtual void unset_checked() {}
 
-	
 protected:
 
 	// Functions to validate the uv guess so that it lies within param range of the surface
@@ -2068,10 +1883,6 @@ protected:
  */
 	virtual logical validate_u_guess(	const SPAparameter &u_guess,
 									SPAparameter &valid_u_guess ) const;
-
-public:
-	// get and set functions for access.
-	SPApar_box get_subset_range();
 }; // End of surface class definition
 /** @} */
 

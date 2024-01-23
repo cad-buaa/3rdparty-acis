@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -42,10 +42,6 @@
  *
  * @{
  */
-
-// 支撑性测试
-// #define GME_KERN_TEDGE  //将ACIS接口切换为GME接口
-
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
 extern DECL_KERN int TEDGE_TYPE;
@@ -146,7 +142,6 @@ public:
      * and history management.
      */
 	TEDGE();
-	TEDGE( const char *gme );
 
 	// Public constructor which initialises the record and interfaces
 	// with the bulletin board system.  The arguments initialise
@@ -175,7 +170,6 @@ public:
      */
 
 	TEDGE( VERTEX * start_ptr, VERTEX * end_ptr, CURVE * curv, REVBIT edg , EDGE_cvty edg_cvx, double tol );
-	TEDGE( const char *gme, VERTEX * start_ptr, VERTEX * end_ptr, CURVE * curv, REVBIT edg , EDGE_cvty edg_cvx, double tol );
 
 	// Data reading routines.
 
@@ -187,7 +181,6 @@ public:
 	 * @nodoc
 	 */
 	double get_tolerance() const;
-	double gme_get_tolerance() const;
     /*
     // tbrv
     */
@@ -195,7 +188,6 @@ public:
      * @nodoc
      */
 	double get_tolerance();
-	double gme_get_tolerance();
 
 	// Extended tolerance routines which return the current value of the
 	// tolerance that should be used.  These routines will return either the
@@ -230,7 +222,6 @@ public:
 	 */
 
 	CURVE *get_3D_curve(TCOEDGE *tce) {return tce->get_3D_curve();}
-	CURVE *gme_get_3D_curve(TCOEDGE *tce) {return tce->gme_get_3D_curve();}
 
 	// Returns the 3D curve associated with a particular tcoedge
 	// as indicated by the specified face.
@@ -243,7 +234,6 @@ public:
 	 */
 
 	CURVE *get_3D_curve(FACE *);
-	CURVE *gme_get_3D_curve(FACE *);
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -259,7 +249,6 @@ public:
      */
 
 	void set_tolerance( double, logical = TRUE );
-	void gme_set_tolerance( double, logical = TRUE );
     /**
      * Indicates that the tolerance needs to be recalculated.
      * <br><br>
@@ -273,14 +262,10 @@ public:
      * update flag.
      */
 	void set_update( logical flag = TRUE );
-	void gme_set_update( logical flag = TRUE );
     /**
      * Calls the <tt>set_update</tt> routine.
      */
 	void mark_to_update() {set_update(TRUE);}
-	void gme_mark_to_update() {gme_set_update(TRUE);}
-
-	ENTITY* gme_make_copy() const;
 
 // STI jmb: Handle save/restore of use counted histories
 	/**

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -44,10 +44,6 @@
 class pattern_holder;
 class pattern;
 class VOID_LIST;
-
-// 支撑性测试
-// #define GME_KERN_VERTEX //将ACIS接口切换为GME接口
-
 /**
  * @nodoc
  */
@@ -285,7 +281,6 @@ public:
  * management.
  */
 	VERTEX();
-	VERTEX(const char *gme);
 
 	// Public constructor, which initialises the record and interfaces
 	// with the bulletin board.  Increments the point's use count to
@@ -307,7 +302,6 @@ public:
  * the APOINT describing the constructed VERTEX.
  */
 	VERTEX( APOINT *point );
-	VERTEX( const char *gme, APOINT *point );
 
 	/*
 	// Copy Constructor
@@ -365,12 +359,6 @@ public:
  */
 	virtual void lose();
 #endif
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>VERTEX</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
 
 	// Data reading routines.
 
@@ -392,7 +380,6 @@ public:
  * zero-based index of the desired EDGE.
  */
 	EDGE *edge( int i ) const;
-	EDGE *gme_edge( int i ) const;
 
 	// Get an edge at a vertex known to contain at most one pointer
 	// to an edge.  NB It will return null if the vertex contains
@@ -416,7 +403,6 @@ public:
  * to or, greater than, the number of pointers in the <tt>VERTEX</tt>.
  */
 	int count_edges() const;
-	int gme_count_edges() const;
 
 	// Test if the given edge is pointed to by the vertex.
 /**
@@ -426,7 +412,6 @@ public:
  * the EDGE to test.
  */
 	logical edge_linked( EDGE *edge ) const;
-	logical gme_edge_linked( EDGE *edge ) const;
 /**
  * Returns the <tt>APOINT</tt> that defines the position of this <tt>VERTEX</tt>.
  */
@@ -435,7 +420,6 @@ public:
  * Returns a pointer to the owning entity.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 /**
  * Returns the tolerance of the tolerant <tt>TVERTEX</tt> made from this <tt>VERTEX</tt>.
@@ -445,7 +429,6 @@ public:
  * <tt>EDGE</tt> for future use, but is required for constant <tt>EDGEs</tt>.
  */
     virtual double get_tolerance() const;
-	virtual double gme_get_tolerance() const;
 /**
  * Returns the tolerance of the tolerant <tt>TVERTEX</tt> made from this <tt>VERTEX</tt>.
  * <br><br>
@@ -453,7 +436,6 @@ public:
  * range and cannot be declared <tt>const</tt>.
  */
 	virtual double get_tolerance();
-	virtual double gme_get_tolerance();
 
 	// Extended tolerance routines which return the current value of the
 	// tolerance that should be used.  For ordinary vertices it is resabs/2 in
@@ -463,18 +445,15 @@ public:
  * @nodoc
  */
 	virtual double get_curr_tolerance() const;
-	virtual double gme_get_curr_tolerance() const;
 /**
  * @nodoc
  */
 	virtual double get_curr_tolerance();
-	virtual double gme_get_curr_tolerance();
 
 /**
  * @nodoc
  */
     virtual logical is_tolerant() const;
-	virtual logical gme_is_tolerant() const;
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -500,7 +479,6 @@ public:
  * internal use only.
  */
 	void set_edge( EDGE *edge, logical reset_pattern = TRUE );
-	void gme_set_edge( EDGE *edge, logical reset_pattern = TRUE );
 
 	// Add a pointer to the given edge to those pointers already in
 	// the vertex.
@@ -515,7 +493,6 @@ public:
  * the EDGE whose pointer is to be added.
  */
 	void add_edge( EDGE *edge );
-	void gme_add_edge( EDGE *edge );
 
 	// Remove a pointer to the given edge from the vertex.  Does
 	// nothing if no such pointer exists.
@@ -528,7 +505,6 @@ public:
  * the EDGE whose pointer is to be deleted.
  */
 	void delete_edge( EDGE *edge );
-	void gme_delete_edge( EDGE *edge );
 /**
  * Sets the geometry of this <tt>VERTEX</tt> to the specified <tt>APOINT</tt>.
  * <br><br>
@@ -542,7 +518,6 @@ public:
  * internal use only.
  */
 	void set_geometry( APOINT *point, logical reset_pattern = TRUE );
-	void gme_set_geometry( APOINT *point, logical reset_pattern = TRUE );
 
 	// Make a tolerant TVERTEX out of this vertex.
 /**
@@ -552,7 +527,6 @@ public:
  * the specified tolerance.
  */
 	TVERTEX *make_tolerant(double tol);
-	TVERTEX *gme_make_tolerant(double tol);
 
 // STI jmb: Handle save/restore of use counted histories
 	/**
@@ -564,21 +538,6 @@ public:
 #endif
 // STI jmb: end
 
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const VERTEX* in_vertex, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE type, ENTITY* ent);
-
-public:
-	// get and set functions for access.
-	void** get_edge_ptr();
-	void** get_geometry_ptr();
 };
 
 // Jeff 01.30.07 AUTO_MERGE_PERIODIC_VERTICES

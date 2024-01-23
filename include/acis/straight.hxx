@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -46,7 +46,6 @@ extern DECL_KERN int STRAIGHT_TYPE;
  * from ENTITY
 */
 #define STRAIGHT_LEVEL 2
-
 
 
 // STRAIGHT declaration proper.
@@ -112,7 +111,6 @@ public:
  * management.
  */
 	STRAIGHT();
-	STRAIGHT(const char* gme);
 
 	// Create a STRAIGHT line that passes through given SPAposition
 	// and in direction of given unit SPAvector.
@@ -130,7 +128,6 @@ public:
  * direction of the constructed STRAIGHT.
  */
 	STRAIGHT( const SPAposition &pos, const SPAunit_vector &dir );
-	STRAIGHT( const char* gme, const SPAposition &pos, const SPAunit_vector &dir );
 
 	// Create a STRAIGHT from a straight.
 /**
@@ -145,7 +142,6 @@ public:
  * straight to be wrapped by the constructed STRAIGHT.
  */
 	STRAIGHT( const straight &str );
-	STRAIGHT( const char* gme, const straight &str );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -226,7 +222,6 @@ public:
  * the new root point.
  */
 	void set_root_point( const SPAposition &pos );
-	void gme_set_root_point( const SPAposition &pos );
 /**
  * Sets this <tt>STRAIGHT</tt>'s direction to the given unit vector.
  * <br><br>
@@ -238,14 +233,12 @@ public:
  * the new direction.
  */
 	void set_direction( const SPAunit_vector &dir );
-	void gme_set_direction( const SPAunit_vector &dir );
 
 	// Return the curve equation for reading only.
 /**
  * Returns the <tt>curve</tt> equation of this <tt>STRAIGHT</tt>, for reading only.
  */
 	const curve &equation() const;
-	const curve &gme_equation() const;
 
 	// Return the curve equation, checking first for backup.
 /**
@@ -256,7 +249,6 @@ public:
  * to put an entry on the bulletin board.
  */
 	curve &equation_for_update();
-	curve &gme_equation_for_update();
 
 	// Get a new (lower-case) curve being the straight of the
 	// STRAIGHT, transformed if the given SPAtransf is non-null and
@@ -275,10 +267,6 @@ public:
 					const SPAtransf &t = *(SPAtransf*)NULL_REF,
 					logical negate = FALSE
 				) const;
-	curve *gme_trans_curve(
-					const SPAtransf &t = *(SPAtransf*)NULL_REF,
-					logical negate = FALSE
-				) const;
 
 	// Transform the stored straight in place.
 /**
@@ -292,7 +280,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// STI ROLL
 /**
@@ -319,12 +306,6 @@ public:
 
 	// lookup is done using CURVE::lookup()
 	// int lookup( logical ) const;
-
-	ENTITY* gme_make_copy() const;
-	
-public:
-	// get and set functions for access.
-	straight get_def();
 };
 
 

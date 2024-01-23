@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -77,11 +77,6 @@ DECL_BOOL outcome api_split_periodic_faces(
 			AcisOptions* ao =NULL
 		);
 
-DECL_BOOL outcome gme_api_split_periodic_faces(
-			ENTITY *ent,					// entity on which seams added for periodic surfaces
-			AcisOptions* ao =NULL
-		);
-
 // STI let (9/98): Added a new API function
 /**
  * Splits the edges of an entity at surface poles.
@@ -109,10 +104,7 @@ DECL_BOOL outcome api_split_edges_at_poles (
 			ENTITY* blank,              // entity on which edges are to be split
 			AcisOptions* ao =NULL
 		);
-DECL_BOOL outcome gme_api_split_edges_at_poles (
-			ENTITY* blank,              // entity on which edges are to be split
-			AcisOptions* ao =NULL
-		);
+
 /**
  * Splits a face along isoparametric lines at G1 or G2 discontinuities.
  * <br><br>

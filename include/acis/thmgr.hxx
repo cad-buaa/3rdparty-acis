@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -22,25 +22,21 @@
  * @nodoc
  */
 DECL_BASE int internal_testing_thread_count();
-// DECL_BASE int gme_internal_testing_thread_count();
 
 /**
  * Defines a function signiture to supply init/term functions for worker threads.
  */
 typedef int (*thread_method)(void);
-typedef int (*gme_thread_method)(void);
 
 /**
  * @nodoc
  */
 DECL_BASE int get_logical_tid();
-DECL_BASE int gme_get_logical_tid();
 
 /**
  * @nodoc
  */
 DECL_BASE int set_max_active_acis_threads(int max_active_threads);
-DECL_BASE int gme_set_max_active_acis_threads(int max_active_threads);
 
 /**
  * Defines a simple producer-consumer work queue with thread management.
@@ -57,7 +53,7 @@ class DECL_BASE thread_work_base : public ACIS_OBJECT {
 	 * Worker threads wait to be given work in thread_idle_func.
 	 */
 	friend void thread_idle_func(void*);
-	
+
 public:
 
 	/**
@@ -74,21 +70,18 @@ public:
 	 * called by worker threads after exiting work queue
 	 */
 	static int initialize( int num_threads, thread_method init_method, thread_method term_method);
-	static int gme_initialize( int num_threads, thread_method init_method, thread_method term_method);
 	/**
 	 * Called once by the parent thread to terminate the thread queue.
 	 * <br>
 	 * <b>Role:</b> Blocks until all threads have exited the queue and have called the supplied termination method.
 	 */
 	static int terminate();
-	static int gme_terminate();
 	/**
 	 * Returns the number of threads in the thread queue.
 	 * <br>
 	 * <b>Note:</b> Returns a valid answer only when called from the main thread.
 	 */
 	static int thread_count();
-	static int gme_thread_count();
 	/**
 	 * Called by the parent thread to place work into the queue.
 	 * <br>
@@ -101,7 +94,6 @@ public:
 	 * the argument to pass to the process method
 	 */
 	int run(void* arg);
-	int gme_run(void* arg);
 	/**
 	 * Called by workers threads to process work from the queue.
 	 * <br>
@@ -119,7 +111,6 @@ public:
 	 * It returns an error number if one was set during processing.
 	 */
 	int sync();
-	int gme_sync();
 };
 
 #endif // __thmgr_hxx__

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -37,12 +37,6 @@ class SPApar_box;
  * second point.
  */
 DECL_BASE double distance_to_point(
-    const SPAposition&  pt1,
-    const SPAposition&  pt2
-    );
-
-
-DECL_BASE double gme_distance_to_point(
     const SPAposition&	pt1,
     const SPAposition&	pt2
     );
@@ -63,10 +57,6 @@ DECL_BASE double distance_to_point_squared(
     const SPAposition&	pt2
     );
 
-DECL_BASE double gme_distance_to_point_squared(
-    const SPAposition&	pt1,
-    const SPAposition&	pt2
-    );
 /**
  * Determines the distance from a <tt>SPAposition</tt> to a line.
  * <br><br>
@@ -78,12 +68,6 @@ DECL_BASE double gme_distance_to_point_squared(
  * direction of line.
  */
 DECL_BASE double distance_to_line(
-    const SPAposition&		pt,
-    const SPAposition&		line_pt,
-    const SPAunit_vector&	line_dir
-    );
-
-DECL_BASE double gme_distance_to_line(
     const SPAposition&		pt,
     const SPAposition&		line_pt,
     const SPAunit_vector&	line_dir
@@ -110,12 +94,6 @@ DECL_BASE double distance_to_line_squared(
     const SPAunit_vector&	line_dir
     );
 
-DECL_BASE double gme_distance_to_line_squared(
-    const SPAposition&		pt,
-    const SPAposition&		line_pt,
-    const SPAunit_vector&	line_dir
-    );
-
 /**
  * Determines the distance from a <tt>SPAposition</tt> to a plane.
  * <br><br>
@@ -127,12 +105,6 @@ DECL_BASE double gme_distance_to_line_squared(
  * normal to plane.
  */
 DECL_BASE double distance_to_plane(
-    const SPAposition&		pt,
-    const SPAposition&		plane_pt,
-    const SPAunit_vector&	normal
-    );
-
-DECL_BASE double gme_distance_to_plane(
     const SPAposition&		pt,
     const SPAposition&		plane_pt,
     const SPAunit_vector&	normal
@@ -156,11 +128,6 @@ DECL_BASE logical is_on_line(
     const SPAunit_vector&	line_dir
     );
 
-DECL_BASE logical gme_is_on_line(
-    const SPAposition&		pt,
-    const SPAposition&		line_pt,
-    const SPAunit_vector&	line_dir
-    );
 /**
  * Determines if a <tt>SPAposition</tt> is on a plane within <tt>SPAresabs</tt>.
  * <br><br>
@@ -172,11 +139,6 @@ DECL_BASE logical gme_is_on_line(
  * plane normal.
  **/
 DECL_BASE logical is_on_plane(
-    const SPAposition&		pt,
-    const SPAposition&		plane_pt,
-    const SPAunit_vector&	normal
-    );
-DECL_BASE logical gme_is_on_plane(
     const SPAposition&		pt,
     const SPAposition&		plane_pt,
     const SPAunit_vector&	normal
@@ -200,14 +162,6 @@ DECL_BASE logical gme_is_on_plane(
  * returned plane normal.
  */
 DECL_BASE logical get_plane_from_points(
-    const SPAposition& pt1,
-    const SPAposition& pt2,
-    const SPAposition& pt3,
-    SPAposition&       plane_pt,
-    SPAunit_vector&    plane_normal
-    );
-
-DECL_BASE logical gme_get_plane_from_points(
     const SPAposition& pt1,
     const SPAposition& pt2,
     const SPAposition& pt3,
@@ -252,12 +206,6 @@ DECL_BASE logical get_plane_from_points(
     SPAposition&		plane_pt,
     SPAunit_vector&		plane_normal);
 
-DECL_BASE logical gme_get_plane_from_points(
-    int					npts,
-    const SPAposition *	pts,
-    SPAposition&		plane_pt,
-    SPAunit_vector&		plane_normal);
-
 /**
  * Given an array of positions, tries to find a line on which they all lie.
  * <br><br>
@@ -287,11 +235,6 @@ DECL_BASE logical get_line_from_points(
     SPAposition&		line_point,
     SPAunit_vector&		line_direction);
 
-DECL_BASE logical gme_get_line_from_points(
-    int					npts,
-    const SPAposition *	pts,
-    SPAposition&		line_point,
-    SPAunit_vector&		line_direction);
 /**
 * Returns minimim distance between box and point.
 **/
@@ -299,14 +242,10 @@ DECL_BASE double min_distance_to_box(
 					SPAposition const& pt,
 					SPAbox const& box );
 
-DECL_BASE double gme_min_distance_to_box( 
-					SPAposition const& pt,
-					SPAbox const& box );
 /**
 * Returns distance from point to furthest point on box.
 **/
 DECL_BASE double max_distance_to_box(const SPAposition& p,const SPAbox& b);
-DECL_BASE double gme_max_distance_to_box(const SPAposition& p,const SPAbox& b);
 
 /**
 * Returns minimim distance between par_box and par_pos.
@@ -315,14 +254,10 @@ DECL_BASE double min_distance_to_box(
 					SPApar_pos const& pt,
 					SPApar_box const& box );
 
-DECL_BASE double gme_min_distance_to_box( 
-					SPApar_pos const& pt,
-					SPApar_box const& box );
 /**
 * Returns distance from point to furthest par_pos on par_box.
 **/
 DECL_BASE double max_distance_to_box(const SPApar_pos& p,const SPApar_box& b);
-DECL_BASE double gme_max_distance_to_box(const SPApar_pos& p,const SPApar_box& b);
 
 /** @} */
 #endif

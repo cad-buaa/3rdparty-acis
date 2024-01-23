@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -23,7 +23,7 @@
  *
  * @{
  */
-//#define LAW_VIRTUAL_FUNCTION
+
 #ifdef INTERNAL_DEBUG_CHECKS
 DECL_LAW extern option_header fast_euler_false_level;
 #endif // INTERNAL_DEBUG_CHECKS
@@ -418,24 +418,17 @@ protected:
  * @param which
  * index of the variable with respect to which the derivative is taken (default X or A1).
  */
-	
 	virtual law* deriv(int which = 0) const; // Instead of derivative()
-	law* gme_deriv(int which = 0) const; // Instead of derivative()
-
 /**
  * Returns a pointer to the sublaws that are used to make up the inverse law of this class.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_inverse() const;	  // Instead of inverse()
-	#endif
 /**
  * Returns the dimension of this law's domain (input).
  * <br><br>
  * <b>Role:</b> The default is 1. All derived law classes must have this method or inherit it.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int take_size() const;		  // Instead of take_dim()
-		#endif
 /**
  * Returns the dimension of this law's range (output).
  * <br><br>
@@ -444,11 +437,10 @@ protected:
  * The default is 1. All derived law classes must have this method
  * or inherit it.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int return_size() const;		  // Instead of return_dim()
-	#endif
 
 	virtual ~law();
+
 public:
 /**
  * Specifies the number of laws in existence at any given time.
@@ -486,10 +478,7 @@ public:
  * @param which
  * index of the variable with respect to which the derivative is taken (default X or A1).
  */
-	
 	virtual law* derivative(int which = 0) const;
-	law* gme_derivative(int which = 0) const;
-
 
 	// Methods for managing cached derivatives
 	// In set_derivative the no_circular_reference should be true only if
@@ -556,7 +545,6 @@ public:
  * array of answer values resulting from the evaluation.
  */
 	virtual void evaluate(const double* x, double* answer) const;
-	void gme_evaluate(const double* x, double* answer) const;
 /**
  * Evaluates this law on a specified side of the input value.
  * <br><br>
@@ -570,9 +558,7 @@ public:
  * @param side
  * left (-1) or right (1) - default is zero.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void evaluate_with_side(const double* x, double* answer, const int* side) const;
-	#endif
 /**
  * Evaluates this law using a best guess as to the answer (to minimize processing).
  * <br><br>
@@ -583,9 +569,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void evaluate_with_guess(const double* x, double* answer, const double* guess) const;
-	#endif
 /**
  * Evaluates this law at an array of real values and returns an array of real values as the result.
  * <br><br>
@@ -601,9 +585,7 @@ public:
  * @param size
  * return dimension of output array.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void evaluateVAR(const double* x,  double*& y, int& size) const;
-	#endif
 /**
  * Indicates whether or not this law is of, or derived from, a specified law type.
  * <br><br>
@@ -619,7 +601,6 @@ public:
  * id method return.
  */
 	virtual logical isa(int t) const;
-	logical gme_isa(int t) const;
 /**
  * Returns a unique ID that may be used to identify a law's class type.
  * <br><br>
@@ -635,9 +616,7 @@ public:
  * <tt>id</tt> and <tt>type</tt> methods are used to identify a law's class type.
  * The methods should be the same for all law classes.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int type() const;
-	#endif
 /**
  * Returns a string that contains the name of this law's class.
  * <br><br>
@@ -652,9 +631,7 @@ public:
  * The default is 1. All derived law classes must have this method
  * or inherit it.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int return_dim() const;					// Default is 1
-	#endif
 /**
  * Returns the dimension of this law's domain (input).
  * <br><br>
@@ -662,7 +639,6 @@ public:
  * or inherit it.
  */
 	virtual int take_dim() const;					// Default is 1
-	// 经过测试，ACIS中默认返回值为0
 
 	// Convenience functions
 
@@ -673,7 +649,6 @@ public:
  * number of derivatives.
  */
 	law* nth_derivative(int n) const;
-	law* gme_nth_derivative(int n) const;
 /**
  * Returns a law that is a partial derivative in <tt>uv</tt> of this law.
  * <br><br>
@@ -725,13 +700,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	double eval(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-    double gme_eval(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	#else
-	double eval(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
-	double gme_eval(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
-	#endif
 /**
  * Evaluates this law at an array of real inputs and returns a real result.
  * <br><br>
@@ -771,11 +740,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	double evaluateDR_R(double x, int n, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	#else
-	double evaluateDR_R(double x, int n, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
-	#endif
 /**
  * Evaluates the <i>n</i>th derivative of this law at an array of real inputs and returns a real result.
  * <br><br>
@@ -853,8 +818,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	//SPAvector evaluateR_V(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	SPAvector evaluateR_V(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
+	SPAvector evaluateR_V(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
 /**
  * Evaluates this law at a real input and returns an <tt>SPAunit_vector</tt> result.
  * <br><br>
@@ -873,8 +837,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-    //SPAunit_vector evaluateR_UV(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	SPAunit_vector evaluateR_UV(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
+    SPAunit_vector evaluateR_UV(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
 /**
  * Evaluates the <i>n</i>th derivative of this law at a real input and returns an <tt>SPAvector</tt> result.
  * <br><br>
@@ -895,8 +858,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	//SPAvector evaluateDR_V(double x, int n, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	SPAvector evaluateDR_V(double x, int n, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
+	SPAvector evaluateDR_V(double x, int n, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
 /**
  * Evaluates this law at an array of real inputs and returns an <tt>SPAvector</tt> result.
  * <br><br>
@@ -1027,10 +989,7 @@ public:
  * @param guess
  * best guess (optional).
  */
-	//SPAposition evaluateR_P(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-	//SPAposition gme_evaluateR_P(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
-		SPAposition evaluateR_P(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
-	SPAposition gme_evaluateR_P(double x, const int& side = *(int*)nullptr, const double& guess = *(double*)nullptr) const;
+	SPAposition evaluateR_P(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
 /**
  * Evaluates this law at an SPApar_pos input and returns an <tt>SPAposition</tt> result.
  * <br><br>
@@ -1171,9 +1130,7 @@ public:
  * @param type
  * type of law symbol - standard ACIS type.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual const char* symbol(law_symbol_type type = DEFAULT) const;
-	#endif
 /**
  * Returns one of five values that indicates the precedence of this law during evaluation.
  * <br><br>
@@ -1186,9 +1143,7 @@ public:
  * This is used for simplification and parsing. For a law to be saved and
  * restored, it must have or inherit this method.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int precedence() const;
-	#endif
 /**
  * Determines whether or not this law is equivalent to the input law.
  * <br><br>
@@ -1222,9 +1177,7 @@ public:
  * @param law2
  * 2nd law to test.
  */
-	
 	virtual int same(const law* law1, const law* law2) const;
-
 
 	// Used for memory management
 
@@ -1247,7 +1200,6 @@ public:
  * their sublaw members.
  */
 	void remove();
-	void gme_remove();
 /**
  * Returns the use count of this law.
  */
@@ -1272,22 +1224,10 @@ public:
  * @param ldn
  * law data node.
  */
-	//virtual char* string(
- //           law_symbol_type type    = DEFAULT,
- //           int&            count   = *(int*) NULL_REF,
- //           law_data_node*& ldn     = *(law_data_node**) NULL_REF) const;
-	//	char* gme_string(
- //           law_symbol_type type    = DEFAULT,
- //           int&            count   = *(int*) NULL_REF,
- //           law_data_node*& ldn     = *(law_data_node**) NULL_REF) const;
-			virtual char* string(
+	virtual char* string(
             law_symbol_type type    = DEFAULT,
-            int&            count   = *(int*)nullptr,
-            law_data_node*& ldn     = *(law_data_node**) nullptr) const;
-		char* gme_string(
-            law_symbol_type type    = DEFAULT,
-            int&            count   = *(int*) nullptr,
-            law_data_node*& ldn     = *(law_data_node**) nullptr) const;
+            int&            count   = *(int*) NULL_REF,
+            law_data_node*& ldn     = *(law_data_node**) NULL_REF) const;
 /**
  * Returns a string representing this law and its data.
  * <br><br>
@@ -1314,9 +1254,7 @@ public:
  * ACIS release level, this is used to indicate whether the law can be saved
  * or not.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int date() const;
-	#endif
 /**
  * Creates a copy of an item that does not share any data with the original.
  * <br><br>
@@ -1336,7 +1274,7 @@ public:
  * list of items within the entity that are already deep copied.
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const;
-	law* gme_deep_copy(base_pointer_map* pm = NULL) const;
+
 	// Algebra type functions
 /**
  * Determines whether this law is zero.
@@ -1363,7 +1301,6 @@ public:
  * rather than a <tt>constant_law</tt>.
  */
 	logical constant() const;
-	logical gme_constant() const;
 /**
  * Determines whether or not this law is linear.
  * <br><br>
@@ -1378,27 +1315,21 @@ public:
  * @param in
  * input law.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_polynomial* polynomial(law* in) const;
-	#endif
 /**
  * Returns <tt>TRUE</tt> if this law is the identity within a specified interval.
  * <br><br>
  * @param in_bounds
  * pointer to interval within which to check.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical identity(SPAinterval* in_bounds = NULL) const;	  // Is it the identity on the given bounds?
-	#endif
 /**
  * Returns <tt>TRUE</tt> if this law is the identity within a specified box.
  * <br><br>
  * @param in_box
  * box within which to check.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical identity(SPAbox& in_box) const;					  // Is it the identity in the given box?
-	#endif
 
 	// Domain and range functions.  They are not fully implemented.
 /**
@@ -1409,18 +1340,14 @@ public:
  * @param domain
  * bounds for term.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical term_domain(int term, SPAinterval& domain) const;
-		#endif
 /**
  * Checks to see if a given input is within this law's domain.
  * <br><br>
  * @param where
  * where to test domain.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical in_domain(double* where) const;
-	#endif
 /**
  * Specifies where in this law there might be discontinuities.
  * <br><br>
@@ -1440,14 +1367,12 @@ public:
  * @param period
  * period.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int singularities(
                 double**    where,
                 int**       type,
                 double      start   = -DBL_MAX,
                 double      end     = DBL_MAX,
                 double**    period  = NULL) const;
-	#endif
 /**
  * Sets the domain of this law.
  * <br><br>
@@ -1481,9 +1406,7 @@ public:
  * @param set
  * adds domain if TRUE, substitutes if FALSE.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* set_domain(SPAinterval* new_domain, logical set = FALSE);
-	#endif
 /**
  * Sets a new range for this law.
  * <br><br>
@@ -1492,9 +1415,7 @@ public:
  * @param set
  * set or not.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* set_range(SPAinterval* new_range, logical set = FALSE);
-	#endif
 
 	// Simplify and inverse functions
 /**
@@ -1516,9 +1437,7 @@ public:
  * @param what
  * text string that describes the simplified law.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* sub_simplify(int level = 0, const char*& what = *(const char**)NULL_REF) const;
-	#endif
 /**
  * Returns a law that is a mathematical simplification of this law.
  * <br><br>
@@ -1579,9 +1498,7 @@ public:
  * <b>Role:</b> Returns <tt>NULL</tt> if the operation fails, or if the necessary functionality
  * has not been provided by a derived class.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law* enable_branching() const;
-	#endif
 /**
  * Returns a non-negative integer that tells the dimension of the branches of this law.
  * <br><br>
@@ -1594,15 +1511,11 @@ public:
  * will return 1, while that of the function <tt>arccos(x)*arcsin(x)</tt> will return 2.
  * For functions that do not have branches, like <tt>sin(x)</tt>, it will return 0.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int branches() const;
-	#endif
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	#endif
 /**
  * @nodoc
  * Find if type of law used for a law.  If a multiple law or
@@ -1610,9 +1523,7 @@ public:
  * similar to the isa function.  Does not include deriv laws
  * or inverse_sub laws if applicable.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void hasa(int type, VOID_LIST& out_laws);
-	#endif
 };
 
 // Other law functions

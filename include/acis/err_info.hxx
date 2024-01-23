@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -15,11 +15,6 @@
 #include "err_info_base.hxx"
 #include "entity.hxx"
 #include "vlists.hxx"
-#include "lists.hxx"
-
-#ifndef GME_KERNEL_ERR_INFO
-//#    define GME_KERNEL_ERR_INFO
-#endif
 
 class error_info_list;
 class entity_proxy_list;
@@ -76,7 +71,6 @@ public:
 	 * C++ default constructor to construct an <tt>error_info</tt> object with no entities in it.
 	 */
 	error_info();
-	error_info(const char * gme);
 
 	/**
 	 * C++ constructor to construct an <tt>error_info</tt> object with the 
@@ -90,9 +84,6 @@ public:
 	 * list of entities
 	 */
 	error_info(err_mess_type err_mess, 
-					spa_outcome_severity_type err_severity,
-					const ENTITY_LIST& entities);
-	error_info(const char * gme,err_mess_type err_mess, 
 					spa_outcome_severity_type err_severity,
 					const ENTITY_LIST& entities);
 	/**
@@ -113,9 +104,6 @@ public:
 	error_info(err_mess_type err_mess, 
 					spa_outcome_severity_type err_severity,
 					ENTITY *ent1 = NULL, ENTITY *ent2 = NULL, ENTITY *ent3 = NULL);
-	error_info(const char * gme,err_mess_type err_mess, 
-					spa_outcome_severity_type err_severity,
-					ENTITY *ent1 = NULL, ENTITY *ent2 = NULL, ENTITY *ent3 = NULL);
 
 	/**
 	 * @nodoc
@@ -123,7 +111,6 @@ public:
 	// This method is for internal use only.
 	// Constructor to copy from error_info_base
 	error_info(const error_info_base &ei);
-	error_info(const char * gme,const error_info_base &ei);
 
 	/**
 	 * C++ destructor, deleting an <tt>error_info</tt>.
@@ -151,7 +138,6 @@ public:
 	 * <tt>ENTITY_LIST</tt> to which the alive entities are added.
 	 */
 	void get_entities_alive(ENTITY_LIST& entities) const;
-	void gme_get_entities_alive(ENTITY_LIST& entities) const;
 
 	/**
 	 * Queries the auxiliary data provided by this <tt>error_info</tt> object. Returns <tt>NULL</tt> if no 
@@ -167,7 +153,6 @@ public:
 	 * This should not point to a <tt>NULL</tt> or a dead entity.
 	 */
 	void add_entity(ENTITY *ent);
-	void gme_add_entity(ENTITY *ent);
 
 	/**
 	 * Adds entities to this <tt>error_info</tt>, if not already there.
@@ -177,7 +162,6 @@ public:
 	 * <tt>ENTITY_LIST</tt> to add
 	 */
 	void add_entities(const ENTITY_LIST& entities);
-	void gme_add_entities(const ENTITY_LIST& entities);
 
 	/**
 	 * Adds all the reasons of this <tt>error_info</tt> to the given list, <tt>err_reasons</tt>.
@@ -192,26 +176,15 @@ public:
 	 * <tt>error_info_list</tt> to which the reasons are added
 	 */
 	void reasons(error_info_list& err_reasons) const;
-	void gme_reasons(error_info_list& err_reasons) const;
 
-	/**
-	 * @brief 添加reasons.
-	 * @param ei
-	 */
-	void gme_add_reason(error_info* ei);
-
-	// 供STDE_INFO专门调用
-	void gme_replace(ENTITY* entry_name);
 
 protected:
 
 	// To remove an entity from this error_info given an entity pointer
 	void remove_entity(ENTITY *ent);
-	void gme_remove_entity(ENTITY *ent);
 
 	// Remove all the entities from this error_info
 	void remove_all_entities();
-	void gme_remove_all_entities();
 
 	virtual error_info* error_info_cast_vf();
 
@@ -228,9 +201,6 @@ private:
 	VOID_LIST m_ent_ids; // List of tag_id_type
 	entity_proxy_list* m_epl;
 	aux_data_holder *_holder;
-	//@todo 目前认为entity_proxy_list* m_epl的效果与ENTITY_LIST类似，暂时使用ENTITY_LIST进行替代。
-	ENTITY_LIST gme_m_entity_list; // 实体列表
-	error_info_list *gme_m_reasons; // reasons列表
 
 	// This function is for internal use only.
 	// Get a list of all the types of auxiliary data provided by this error info object.
@@ -303,9 +273,8 @@ int get_error_info_entity_id_count_internal(error_info_base *eib);
 DECL_KERN int get_error_info_entity_id_count(const error_info_base *eib);
 
 DECL_KERN error_info* base_to_err_info(error_info_base*& eib);
-DECL_KERN error_info* gme_base_to_err_info(error_info_base*& eib);
 
 #define ERROR_INFO_PTR (base_to_err_info(error_info_base_ptr))
-#define GME_ERROR_INFO_PTR (gme_base_to_err_info(error_info_base_ptr))
+
 /** @} */
 #endif

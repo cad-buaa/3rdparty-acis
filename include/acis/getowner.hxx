@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -27,19 +27,16 @@ class SPAtransf;
  * Gets the top level owner of an entity.
  */
 DECL_KERN ENTITY* get_owner( ENTITY* );
-DECL_KERN ENTITY* gme_get_owner( ENTITY* );
 /**
  * @nodoc
  * Get a copy of the SPAtransf from the owner of an ENTITY.
  */
 DECL_KERN SPAtransf get_owner_transf( const ENTITY* );
-DECL_KERN SPAtransf gme_get_owner_transf( const ENTITY* );
 /**
  * @nodoc
  * Gets the pointer to the SPAtransf from the owner of an ENTITY.
  */
 DECL_KERN SPAtransf const *get_owner_transf_ptr( const ENTITY* );
-DECL_KERN SPAtransf const *gme_get_owner_transf_ptr( const ENTITY* );
 /**
 * Determines if an <tt>ENTITY</tt> is top level. This means there is no owner
 * for this <tt>ENTITY</tt>.
@@ -50,6 +47,5 @@ DECL_KERN SPAtransf const *gme_get_owner_transf_ptr( const ENTITY* );
 * entity.
 **/
 DECL_KERN logical is_toplevel(const ENTITY *ent);
-DECL_KERN logical gme_is_toplevel(const ENTITY *ent);
 /** @} */
 #endif

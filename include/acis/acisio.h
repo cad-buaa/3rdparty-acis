@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernutil/acisio/acisio.h */
+/* ORIGINAL: acis2.1/kernutil/acisio/acisio.h */
 /* $Id: acisio.h,v 1.6 2001/05/15 21:07:09 acisdev Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -24,7 +24,6 @@
 #if (_MSC_VER >= 1900)
 #include <process.h>
 #endif
-#include "base.hxx"    // 158行SWAPCHAR的定义
 #include "dcl_base.h"
 
 /* This file should automatically redirect I/O when building the ACIS product.	*/
@@ -152,9 +151,7 @@ DECL_BASE int acis_ferror(FILE*);
 DECL_BASE void acis_clearerr(FILE*);
 
 DECL_BASE FILE* acis_fopen( const char *filename, const char *mode );
-DECL_BASE FILE* gme_fopen( const char *filename, const char *mode );
 DECL_BASE int acis_fclose( FILE *stream );
-DECL_BASE int gme_fclose( FILE *stream );
 
 #ifdef _MSC_VER
 #ifdef __cplusplus

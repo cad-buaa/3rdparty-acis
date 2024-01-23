@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -40,8 +40,6 @@
 #include <setjmp.h>
 #include "err_info_base.hxx"
 #include "debugmsc.hxx"
-//#define GME_BASE_ERRORBASE
-
 /**
  * \defgroup ACISERRORMANAGEMENT Error Management
  * \ingroup ACISBASE
@@ -84,7 +82,6 @@ extern "C" {
  * @see err_mess_type, sys_warning
  */
 DECL_BASE void sys_error( err_mess_type mess_num );
-DECL_BASE void gme_sys_error( err_mess_type mess_num );
 
 
 /**
@@ -102,12 +99,7 @@ DECL_BASE void gme_sys_error( err_mess_type mess_num );
  * @see err_mess_type, sys_error
  */
 DECL_BASE void sys_warning( err_mess_type mess_num);
-DECL_BASE void gme_sys_warning( err_mess_type mess_num);
 
-/**
- * 打印warning信息
- */
-DECL_BASE void gme_print_warning( err_mess_type mess_num);
 
 #ifdef __cplusplus
 }
@@ -157,8 +149,6 @@ DECL_BASE acis_abort_callback register_abort_callback( acis_abort_callback);
  */
 DECL_BASE void sys_error(	err_mess_type mess_num,
 							error_info_base *e_info );
-DECL_BASE void gme_sys_error(	err_mess_type mess_num,
-							error_info_base *e_info );
 
 // STI swa end
 
@@ -168,7 +158,7 @@ DECL_BASE void gme_sys_error(	err_mess_type mess_num,
  * <b>Role:</b> This is done automatically by <tt>error_begin()</tt>, but may be useful in special circumstances.
  */
 DECL_BASE void init_warnings();
-DECL_BASE void gme_init_warnings();
+
 /**
  * Obtains the warnings list.
  * <br><br>
@@ -176,7 +166,7 @@ DECL_BASE void gme_init_warnings();
  * Returned list of warnings.
  */
 DECL_BASE int get_warnings( err_mess_type *& warning_list );
-DECL_BASE int gme_get_warnings( err_mess_type *& warning_list );
+
 
 // ====== Functions implemented in find_error.cxx
 /**
@@ -190,7 +180,7 @@ DECL_BASE int gme_get_warnings( err_mess_type *& warning_list );
  * error number.
  */
 DECL_BASE char const *find_err_mess( err_mess_type err_num );
-DECL_BASE char const *gme_find_err_mess( err_mess_type err_num );
+
 /**
  * Returns the identifier string for an error number.
  * <br><br>
@@ -200,7 +190,6 @@ DECL_BASE char const *gme_find_err_mess( err_mess_type err_num );
  * error number.
  */
 DECL_BASE char const *find_err_ident( err_mess_type err_num );
-DECL_BASE char const *gme_find_err_ident( err_mess_type err_num );
 
 /**
  * Translates the error number to a string containing the name of the module associated with the given error number.
@@ -209,7 +198,7 @@ DECL_BASE char const *gme_find_err_ident( err_mess_type err_num );
  * error number.
  */
 DECL_BASE char const *find_err_module( err_mess_type err_num );
-DECL_BASE char const *gme_find_err_module( err_mess_type err_num );
+
 /**
  * Prints the message associated with the current error number in a simple format for debugging purposes.
  * <br><br>
@@ -225,11 +214,7 @@ DECL_BASE void print_warnerr_mess(
 			err_mess_type err_num,
 			FILE * fptr
 		);
-DECL_BASE void gme_print_warnerr_mess(
-			char const * msg,
-			err_mess_type err_num,
-			FILE * fptr
-		);
+
 
 /**
  * @nodoc
@@ -286,7 +271,6 @@ DECL_BASE void set_default_exception_control( logical set_default = TRUE );
  * level.
  */
 DECL_BASE void error_begin();
-DECL_BASE void gme_error_begin();
 
 // Restore the caller's fault traps before returning from an API
 // routine.
@@ -300,7 +284,6 @@ DECL_BASE void gme_error_begin();
  * interrupt was seen, the application's interrupt signal handler is called.
  */
 DECL_BASE void error_end();
-DECL_BASE void gme_error_end();
 
 // Indicate the start of a critical section in which user interrupts
 // are to be deferred. These may be stacked indefinitely deeply.
@@ -314,7 +297,7 @@ DECL_BASE void gme_error_end();
  * normally.
  */
 DECL_BASE void error_harden();
-DECL_BASE void gme_error_harden();
+
 // Indicate the end of a critical section. If the number of "soften"s
 // exactly matches the number of "harden"s since the last "begin", then
 // act upon any deferred user interrupt.
@@ -326,9 +309,7 @@ DECL_BASE void gme_error_harden();
  * interrupt that was ignored is processed.
  */
 DECL_BASE void error_soften();
-DECL_BASE void gme_error_soften();
 
-DECL_BASE void gme_test_init();
 /**
  * @nodoc
  */
@@ -349,17 +330,14 @@ DECL_BASE logical error_hard();
  * @nodoc
  */
 DECL_BASE logical acis_interrupted();
-DECL_BASE logical gme_acis_interrupted();
 /**
  * @nodoc
  */
 DECL_BASE void interrupt_acis();
-DECL_BASE void gme_interrupt_acis();
 /**
  * @nodoc
  */
 DECL_BASE void uninterrupt_acis();
-DECL_BASE void gme_uninterrupt_acis();
 /**
  * @nodoc
  */
@@ -421,7 +399,6 @@ public:
  * @nodoc
  */
 DECL_BASE error_save& get_error_mark();
-DECL_BASE error_save& gme_get_error_mark();
 
 // The class exception_save is used to save and restore the error context.
 // A class is used to allow statements (such as return, break, continue, and
@@ -446,13 +423,7 @@ public:
 
 	// Destructor unwinds error handling, but only if it has been
 	// wound up.
-	
-	//@todo 开启GME_BASE_ERRORBASE会影响现有acis异常处理的使用，为避免对开发造成影响，暂不开启。
 
-	#ifdef GME_BASE_ERRORBASE
-	~exception_save();
-	void begin();
-	#else
 	~exception_save()
 	{
 		if (saved) {
@@ -464,6 +435,7 @@ public:
 	// Mark the beginning of the error-handling section. This may not
 	// be where the object is constructed, so that destructors can be
 	// called in the correct order.
+
 	void begin()
 	{
 		if (!saved) {
@@ -472,8 +444,6 @@ public:
 			saved = TRUE;
 		}
 	}
-	#endif 
-    void gme_begin();
 };
 
 
@@ -491,109 +461,47 @@ public:
 	const char * file;
 	int line;
 
-	acis_exception(const char * gme, err_mess_type m, error_info_base* i = NULL, const char * f = NULL, int l = 0)
-		: mess(m), info(i), file(f), line(l) {
-		if(NULL!=i) i->gme_add();
-	}
+    acis_exception( err_mess_type m, error_info_base* i = NULL, const char * f = NULL, int l = 0)
+	  :
+	  mess(m), info(i), file(f), line(l) {
+		if(NULL!=i) i->add();
+	  }
 
-	acis_exception(const char * gme, const acis_exception &old)
-		: mess(old.mess), info(old.info), file(old.file), line(old.line) {
-		if(info) info->gme_add();
-	}
+      acis_exception(const acis_exception &old)
+		  : mess(old.mess), info(old.info), file(old.file), line(old.line) {
+          if(info) info->add();
+      }
 
-	error_info_base* gme_set_info( error_info_base* i, const char * f = NULL, int l = 0 ) {
-		SPAUNUSED(f)
-		SPAUNUSED(l)
-		if ( i != info ) {
-			if ( info ) info->gme_remove();
-			info = i;
-			if ( info ) info->gme_add();
-		}
+      ~acis_exception() {
+          if(info) info->remove();
+      }
+
+      error_info_base* set_info( error_info_base* i, const char * f = NULL, int l = 0 ) {
+		  SPAUNUSED(f)
+		  SPAUNUSED(l)
+          if ( i != info ) {
+              if ( info ) info->remove();
+              info = i;
+              if ( info ) info->add();
+          }
 
 #ifdef SPA_DEBUG
-		if( f) {
-		file = f;
-		line = l;
-		}
+		  if( f) {
+			file = f;
+			line = l;
+		  }
 #endif
 
-		return info;
-	}
+          return info;
+      }
 
-    acis_exception& gme_operator_assign(const acis_exception& o) {
-        if(this==&o){
-            //赋值给自身
-            return *this;
-        }
-        mess = o.mess;
-        gme_set_info(o.info);
-		file = o.file;
-		line = o.line;
-        return *this;
-    }
-
-	#ifdef GME_BASE_ERRORBASE		
-    acis_exception( err_mess_type m, error_info_base* i = NULL, const char * f = NULL, int l = 0)
-		: acis_exception("gme", m, i, f, l) {
-	}
-
-	acis_exception(const acis_exception &old)
-		: acis_exception("gme", old) {
-	}
-
-	~acis_exception() {
-		if(info) info->gme_remove(); // 析构函数直接改为使用gme函数
-	}
-
-	error_info_base* set_info( error_info_base* i, const char * f = NULL, int l = 0 ) {
-		return gme_set_info(i, f, l);
-	}
-
-	acis_exception& operator=(const acis_exception& o) {
-		return gme_operator_assign(o);
-	}
-	#else
-    acis_exception( err_mess_type m, error_info_base* i = NULL, const char * f = NULL, int l = 0)
-		: mess(m), info(i), file(f), line(l) {
-		if(NULL!=i) i->gme_add();
-	}
-
-	acis_exception(const acis_exception &old)
-		: mess(old.mess), info(old.info), file(old.file), line(old.line) {
-          if(info) info->gme_add();
-	}
-
-	~acis_exception() {
-		if(info) info->gme_remove();
-	}
-
-    error_info_base* set_info( error_info_base* i, const char * f = NULL, int l = 0 ) {
-		SPAUNUSED(f)
-		SPAUNUSED(l)
-        if ( i != info ) {
-            if ( info ) info->gme_remove();
-            info = i;
-            if ( info ) info->gme_add();
-        }
-
-#ifdef SPA_DEBUG
-		if( f) {
-		file = f;
-		line = l;
-		}
-#endif
-
-        return info;
-    }
-
-    acis_exception& operator=(const acis_exception& o) {
-        mess = o.mess;
-        gme_set_info(o.info);
-		file = o.file;
-		line = o.line;
-        return *this;
-    }
-	#endif
+      acis_exception& operator=(const acis_exception& o) {
+          mess = o.mess;
+          set_info(o.info);
+		  file = o.file;
+		  line = o.line;
+          return *this;
+      }
 };
 /**
  * Exception block begin.
@@ -606,14 +514,6 @@ public:
 		{ \
 			exception_save exception_save_mark;
 
-#define GME_EXCEPTION_BEGIN \
-	{ \
-		err_mess_type resignal_no = 0; \
-		acis_exception error_info_holder("gme",0); \
-        error_info_base* error_info_base_ptr = NULL; \
-		{ \
-			exception_save exception_save_mark;
-
 #if defined( _MSC_VER )
 /**
  * Exception try
@@ -621,14 +521,6 @@ public:
 #define EXCEPTION_TRY \
 			exception_save_mark.begin(); \
 			get_error_mark().buffer_init = TRUE; \
-            gme_get_error_mark().buffer_init = TRUE; \
-			err_mess_type error_no = 0; \
-			{ \
-				{ \
-					try {
-#define GME_EXCEPTION_TRY \
-			exception_save_mark.gme_begin(); \
-			gme_get_error_mark().buffer_init = TRUE; \
 			err_mess_type error_no = 0; \
 			{ \
 				{ \
@@ -641,17 +533,6 @@ public:
 			exception_save_mark.begin(); \
 			get_error_mark().buffer_init = TRUE; \
 			err_mess_type error_no = setjmp( get_error_mark().buffer ); \
-			{ \
-				if( error_no != 0 ) { \
-					resignal_no = error_no; \
-				} \
-				else \
-				{ \
-					try {
-#define GME_EXCEPTION_TRY \
-			exception_save_mark.gme_begin(); \
-			gme_get_error_mark().buffer_init = TRUE; \
-			err_mess_type error_no = setjmp( gme_get_error_mark().buffer ); \
 			{ \
 				if( error_no != 0 ) { \
 					resignal_no = error_no; \
@@ -676,16 +557,6 @@ public:
 				{ \
 					try {
 
-#define GME_EXCEPTION_CATCH(always_clean) \
-					; \
-					} catch (acis_exception ex) { \
-						resignal_no = error_no = ex.mess; \
-						error_info_base_ptr = error_info_holder.gme_set_info(ex.info, __FILE__,__LINE__); \
-					} \
-				} \
-				if((always_clean) || error_no != 0) \
-				{ \
-					try {
 // Interrupt/error cleanup code goes here. Note that the preceding "try"
 // isn't very useful, but allows the compile-time state to be the same
 // before and after the EXCEPTION_CATCH, allowing this macro to be omitted
@@ -706,20 +577,6 @@ public:
 		if (resignal_no != 0 || acis_interrupted()) \
 			sys_error( resignal_no,error_info_base_ptr); \
 	}
-#define GME_EXCEPTION_END \
-					} catch(acis_exception ex) { \
-						if( resignal_no == 0 ) { \
-							resignal_no = error_no = ex.mess; \
-							error_info_base_ptr = error_info_holder.gme_set_info(ex.info, __FILE__,__LINE__); \
-						} \
-					} \
-				} \
-			} \
-		} \
-		gme_error_end(); \
-		if (resignal_no != 0 || gme_acis_interrupted()) \
-			gme_sys_error( resignal_no,error_info_base_ptr); \
-	}
 /**
  * Exception block end. Does not rethrow exception.
  */
@@ -736,20 +593,6 @@ public:
 		if( acis_interrupted()) \
 			sys_error( resignal_no,error_info_base_ptr); \
 	}
-#define GME_EXCEPTION_END_NO_RESIGNAL \
-					} catch(acis_exception ex) { \
-						if( resignal_no == 0 ) { \
-							resignal_no = error_no = ex.mess; \
-							error_info_base_ptr = error_info_holder.gme_set_info(ex.info, __FILE__,__LINE__); \
-						} \
-					} \
-				} \
-			} \
-		} \
-		gme_error_end(); \
-		if( gme_acis_interrupted()) \
-			gme_sys_error( resignal_no,error_info_base_ptr); \
-	}
 /**
  * Exception block end. Always catch, regardless of exception or not.
  */
@@ -758,15 +601,6 @@ public:
 					} catch (acis_exception ex) { \
 						resignal_no = error_no = ex.mess; \
 						error_info_base_ptr = error_info_holder.set_info(ex.info, __FILE__,__LINE__); \
-					} \
-				} \
-				{ \
-					try {
-#define GME_EXCEPTION_CATCH_TRUE \
-					; \
-					} catch (acis_exception ex) { \
-						resignal_no = error_no = ex.mess; \
-						error_info_base_ptr = error_info_holder.gme_set_info(ex.info, __FILE__,__LINE__); \
 					} \
 				} \
 				{ \
@@ -785,15 +619,5 @@ public:
 				{ \
 					try {
 
-#define GME_EXCEPTION_CATCH_FALSE \
-					; \
-					} catch (acis_exception ex) { \
-						resignal_no = error_no = ex.mess; \
-						error_info_base_ptr = error_info_holder.gme_set_info(ex.info, __FILE__,__LINE__); \
-					} \
-				} \
-				if(error_no) \
-				{ \
-					try {
 /** @} */
 #endif

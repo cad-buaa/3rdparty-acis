@@ -50,14 +50,6 @@ enum curve_curve_rel
 	cur_cur_coin
 };
 
-enum gme_curve_curve_rel
-{
-	gme_cur_cur_unknown,
-	gme_cur_cur_normal,
-	gme_cur_cur_tangent,
-	gme_cur_cur_coin
-};
-
 /**
  * Provides a hook for a client intersector to attach private information to an intersection.
  * <br>
@@ -120,15 +112,6 @@ public:
 				double             cur2,
 				SPApar_pos&        actual = *(class  SPApar_pos * ) NULL_REF
 			);
-
-	curve_curve_int(
-				const char* gme,
-				curve_curve_int*   next,
-				SPAposition const& pt,
-				double             cur1,
-				double             cur2,
-				SPApar_pos&        actual = *(class  SPApar_pos * ) NULL_REF
-			);
 /**
  * Copy constructor requests memory for this object and populates it 
  * with the data from the object supplied as an argument. Note, that userdata 
@@ -139,7 +122,6 @@ public:
  * curve-surf intersection.
  */
 	curve_curve_int(curve_curve_int const& other);
-	curve_curve_int(const char* gme, curve_curve_int const& other);
 /**
  * Copy assignment operator. Clears the current data and replaces it with other's data. 
  * The copying behavior is same as that of the copy constructor (consider especially userdata).
@@ -148,7 +130,6 @@ public:
  * curve-surf intersection.
  */
 	curve_curve_int& operator=(curve_curve_int const& other);
-	curve_curve_int& gme_operator_assign(curve_curve_int const& other);
 /**
  * Destructor, deleting a <tt>curve_curve_int</tt>, it explicitely calls the destructor of userdata.
  */
@@ -157,8 +138,6 @@ public:
  * Equality operator
  */
     bool operator==( curve_curve_int const& rhs ) const;
-	// 有容差的等于判断
-	bool gme_operator_equal(curve_curve_int const& rhs) const;
 /**
  * Writes debug information about <tt>curve_curve_int</tt> to standard output or to the specified file.
  * <br><br>
@@ -166,7 +145,6 @@ public:
  * file name.
  */
 	void debug( FILE *fp = debug_file_ptr );
-	void gme_debug( FILE *fp = debug_file_ptr );
 /**
  * Relation @href curve_curve_rel of curves on the higher-parameter side of <tt>curve1</tt>.
  */
@@ -222,7 +200,6 @@ public:
  * head.
  */
 DECL_KERN void delete_curve_curve_ints( curve_curve_int*& head );
-DECL_KERN void gme_delete_curve_curve_ints( curve_curve_int*& head );
 
 /** @} */
 #endif

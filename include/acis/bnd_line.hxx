@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: 3dt2.1/geomhusk/bnd_line.hxx */
+/* ORIGINAL: 3dt2.1/geomhusk/bnd_line.hxx */
 // $Id: bnd_line.hxx,v 1.5 2002/08/09 17:15:14 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -62,7 +62,6 @@ public:
  * <b>Role:</b> Requests memory for this object but does not populate it.
  */
      bounded_line();
-     bounded_line(const char* gme);
 
     // copy constructor
 /**
@@ -75,7 +74,6 @@ public:
  * bounded line that is to be copied.
  */
      bounded_line(const bounded_line& b_line);
-     bounded_line(const char* gme, const bounded_line& b_line);
 
 	// create a bounded_line from an EDGE
 /**
@@ -89,7 +87,6 @@ public:
  * transformation to be applied to the EDGE's CURVE.
  */
     bounded_line(EDGE* edge, const SPAtransf* trans);
-    bounded_line(const char* gme, EDGE* edge, const SPAtransf* trans);
 
     // line from two positions
 /**
@@ -101,7 +98,6 @@ public:
  * second position on the constructed line.
  */
      bounded_line(const SPAposition& pos1, const SPAposition& pos2);
-     bounded_line(const char *gme,const SPAposition& pos1, const SPAposition& pos2);
 
     // line from straight + 2 parameters
 /**
@@ -115,7 +111,6 @@ public:
  * parameter delimiting the constructed line.
  */
     bounded_line(straight& st, double param1, double param2);
-    bounded_line(const char *gme,straight& st, double param1, double param2);
 
     // line from SPAposition + direction + distance
 /**
@@ -129,7 +124,6 @@ public:
  * length of the constructed bounded_line.
  */
     bounded_line(const SPAposition& pos, const SPAunit_vector& dir, double dist);
-    bounded_line(const char *gme,const SPAposition& pos, const SPAunit_vector& dir, double dist);
 
 // bounded_curve virtual methods
 //	virtual SPAunit_vector get_normal() const;
@@ -140,7 +134,6 @@ public:
  * the new start position.
  */
     virtual logical change_start_pt(const SPAposition& pos);
-    /*virtual*/ logical gme_change_start_pt(const SPAposition& pos);
 /**
  * Changes the end position of this <tt>bounded_line</tt>.
  * <br><br>
@@ -148,7 +141,6 @@ public:
  * the new end position.
  */
     virtual logical change_end_pt(const SPAposition& pos);
-    /*virtual*/ logical gme_change_end_pt(const SPAposition& pos);
 /**
  * Finds the closest point on this <tt>bounded_line</tt> to a given pick location and returns the curve parameter value.
  * <br><br>
@@ -156,7 +148,6 @@ public:
  * the pick location.
  */
     virtual double eval_t( const pick_ray& loc ) const;
-    /*virtual*/ double gme_eval_t( const pick_ray& loc ) const;
 /**
  * Finds if this <tt>bounded_line</tt> is also a <tt>bounded_line</tt>.
  * <br><br>
@@ -164,7 +155,6 @@ public:
  * returns <tt>FALSE</tt>.
  */
     virtual logical is_line() const;
-    /*virtual*/ logical gme_is_line() const;
 
   public:
 
@@ -173,7 +163,6 @@ public:
  * Makes an edge based upon this <tt>bounded_line</tt>.
  */
  	EDGE* make_edge() const;
-    EDGE* gme_make_edge() const;
 
     // make a copy of the line
 /**
@@ -194,10 +183,6 @@ public:
  * @nodoc
  */
 DECL_KERN bounded_curve* new_line(
- 						const SPAposition& pt1,
- 						const SPAposition& pt2
- 						);
-DECL_KERN bounded_curve* gme_new_line(
  						const SPAposition& pt1,
  						const SPAposition& pt2
  						);

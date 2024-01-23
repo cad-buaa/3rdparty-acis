@@ -40,39 +40,6 @@ enum point_face_containment {
     point_unset_face
 };
 
-/**
- * 指明一个面是位于Body内部、外部或边界。
- * @param face_unknown 未知
- * @param face_inside 在Body内部
- * @param face_boundary_double_double 在Body边界上，且自身和重叠面都是DOUBLE_SIDED
- * @param face_boundary_double_single 在Body边界上，且自身是DOUBLE_SIDED，重叠面是SINGLE_SIDED
- * @param face_boundary_single_double 在Body边界上，且自身是SINGLE_SIDED，重叠面是DOUBLE_SIDED
- * @param face_boundary_single_single_same_normal 在Body边界上，且自身和重叠面都是SINGLE_SIDED，且两个面的法向量相同
- * @param face_boundary_single_single_oppo_normal 在Body边界上，且自身和重叠面都是SINGLE_SIDED，且两个面的法向量相反
- * @param face_outside 在Body外部
- */
-enum face_containment{
-        face_unknown,
-        face_inside,
-        face_boundary_double_double,
-        face_boundary_double_single,
-        face_boundary_single_double,
-        face_boundary_single_single_same_normal,
-        face_boundary_single_single_oppo_normal,
-        face_outside,
-
-};
-
-/**
- * 指明一个edge是位于Body内部、外部或边界。
- */
-enum edge_containment{
-        edge_unknown,
-        edge_inside,
-        edge_boundary,
-        edge_outside
-};
-
 // Result for classify_loop_box.
 
 // tbrv

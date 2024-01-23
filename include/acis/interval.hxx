@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -35,7 +35,7 @@ class SPAbox;
  * given interval.
  */
 DECL_BASE SPAinterval operator-( SPAinterval const & inter);
-DECL_BASE SPAinterval gme_operator_substract( SPAinterval const & inter);
+
 /**
  * Adds two intervals together.
  * @param inter1
@@ -44,7 +44,7 @@ DECL_BASE SPAinterval gme_operator_substract( SPAinterval const & inter);
  * second interval.
  */
 DECL_BASE SPAinterval operator+( SPAinterval const & inter1, SPAinterval const & inter2);
-DECL_BASE SPAinterval gme_operator_add( SPAinterval const & inter1, SPAinterval const & inter2);
+
 /**
  * Adds an interval and a double.
  * @param i
@@ -53,6 +53,7 @@ DECL_BASE SPAinterval gme_operator_add( SPAinterval const & inter1, SPAinterval 
  * given double.
  */
 DECL_BASE SPAinterval operator+( SPAinterval const &i, double d );
+
 /**
  * Adds a double and an interval.
  * @param d
@@ -70,7 +71,7 @@ DECL_BASE SPAinterval operator+( double d, SPAinterval const &i );
  * second interval.
  */
 DECL_BASE SPAinterval operator-( SPAinterval const &i1, SPAinterval const & i2);
-DECL_BASE SPAinterval gme_operator_substract( SPAinterval const &i1, SPAinterval const & i2);
+
 /**
  * Subtracts a double from an interval.
  * @param i
@@ -97,7 +98,7 @@ DECL_BASE SPAinterval operator-( double d, SPAinterval const &i );
  * given scalar value.
  */
 DECL_BASE SPAinterval operator*( SPAinterval const & i, double d);
-DECL_BASE SPAinterval gme_operator_multiply( SPAinterval const & i, double d);
+
 /**
  * Multiplies a scalar by an interval.
  * @param d
@@ -106,7 +107,7 @@ DECL_BASE SPAinterval gme_operator_multiply( SPAinterval const & i, double d);
  * given interval.
  */
 DECL_BASE SPAinterval operator*( double d, SPAinterval const &i );
-DECL_BASE SPAinterval gme_operator_multiply( double d, SPAinterval const &i );
+
 /**
  * Divides an interval by a scalar.
  * @param i
@@ -115,7 +116,7 @@ DECL_BASE SPAinterval gme_operator_multiply( double d, SPAinterval const &i );
  * given scalar value.
  */
 DECL_BASE SPAinterval operator/( SPAinterval const & i, double d );
-DECL_BASE SPAinterval gme_operator_divide( SPAinterval const & i, double d );
+
 /**
  * Arithmetic comparison.
  * <b>Role:</b> The meaning in each case is that every number in the first interval bears the given
@@ -269,7 +270,7 @@ DECL_BASE logical operator>=( SPAinterval const &i1, SPAinterval const &i2 );
  * second interval.
  */
 DECL_BASE logical operator==( SPAinterval const &i1, SPAinterval const & i2);
-DECL_BASE logical gme_operator_equal( SPAinterval const &i1, SPAinterval const & i2);
+
 /**
  * Inequality operator for determining whether two intervals are not identical.
  * <b>Role:</b> The criteria are strict, so this operator should not be used when arithmetic inequality is intended.
@@ -279,7 +280,6 @@ DECL_BASE logical gme_operator_equal( SPAinterval const &i1, SPAinterval const &
  * second interval.
  */
 DECL_BASE logical operator!=( SPAinterval const &i1, SPAinterval const &i2 );
-DECL_BASE logical gme_operator_unequal(SPAinterval const& i1, SPAinterval const& i2);
 
 /**
  * Constructs an interval containing two intervals.
@@ -289,7 +289,7 @@ DECL_BASE logical gme_operator_unequal(SPAinterval const& i1, SPAinterval const&
  * second interval.
  */
 DECL_BASE SPAinterval operator|( SPAinterval const &i1, SPAinterval const & i2);
-DECL_BASE SPAinterval gme_operator_include_or( SPAinterval const &i1, SPAinterval const & i2);
+
 /**
  * Finds the interval of overlap.
  * @param i1
@@ -298,7 +298,7 @@ DECL_BASE SPAinterval gme_operator_include_or( SPAinterval const &i1, SPAinterva
  * second interval.
  */
 DECL_BASE SPAinterval operator&( SPAinterval const &i1, SPAinterval const &i2 );
-DECL_BASE SPAinterval gme_operator_and( SPAinterval const &i1, SPAinterval const &i2 );
+
 /**
  * Determines whether two intervals overlap.
  * @param i1
@@ -307,7 +307,7 @@ DECL_BASE SPAinterval gme_operator_and( SPAinterval const &i1, SPAinterval const
  * second interval.
  */
 DECL_BASE logical operator&&( SPAinterval const &i1, SPAinterval const & i2);
-DECL_BASE logical gme_operator_logical_and( SPAinterval const &i1, SPAinterval const & i2);
+
 /**
  * Determines whether the given parameter value lies within the given interval.
  * @param r
@@ -316,7 +316,6 @@ DECL_BASE logical gme_operator_logical_and( SPAinterval const &i1, SPAinterval c
  * given interval.
  */
 DECL_BASE logical operator<<( double r, SPAinterval const &i );
-DECL_BASE logical gme_operator_left_shift(double r, SPAinterval const& i);
 
 // STI let (10/98): Added a new friend function
 // Maps a parameter value into the principle range of a periodic
@@ -327,7 +326,7 @@ DECL_BASE logical gme_operator_left_shift(double r, SPAinterval const& i);
  * @nodoc
  */
 DECL_BASE void map_param_into_interval( SPAinterval const& i, double& d);
-DECL_BASE void gme_map_param_into_interval( SPAinterval const& i, double& d);
+
 /**
  * Returns an interval increased by <tt>delta</tt> on both ends; the midpoint is unchanged.
  * (Does not modify the given <tt>SPAinterval</tt>.)
@@ -337,7 +336,7 @@ DECL_BASE void gme_map_param_into_interval( SPAinterval const& i, double& d);
  * delta value
  */
 DECL_BASE SPAinterval enlarge_interval(SPAinterval const& inter, double delta);
-DECL_BASE SPAinterval gme_enlarge_interval(SPAinterval const& inter, double delta);
+
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -406,21 +405,15 @@ class DECL_BASE SPAinterval : public ACIS_OBJECT {
 	}
 
 	friend DECL_BASE SPAinterval operator-( SPAinterval const & i );
-	friend DECL_BASE SPAinterval gme_operator_substract( SPAinterval const & i );
 	friend DECL_BASE SPAinterval operator+( SPAinterval const & i1, SPAinterval const & i2 );
-	friend DECL_BASE SPAinterval gme_operator_add( SPAinterval const & i1, SPAinterval const & i2 );
 	friend DECL_BASE SPAinterval operator+( SPAinterval const & i, double d );
 	friend DECL_BASE SPAinterval operator+( double d, SPAinterval const &i );
 	friend DECL_BASE SPAinterval operator-( SPAinterval const & i1, SPAinterval const & i2 );
-	friend DECL_BASE SPAinterval gme_operator_substract( SPAinterval const & i1, SPAinterval const & i2 );
 	friend DECL_BASE SPAinterval operator-( SPAinterval const & i, double d );
 	friend DECL_BASE SPAinterval operator-( double d, SPAinterval const & i );
 	friend DECL_BASE SPAinterval operator*( SPAinterval const & i, double d );
-	friend DECL_BASE SPAinterval gme_operator_multiply( SPAinterval const & i, double d );
 	friend DECL_BASE SPAinterval operator*( double d, SPAinterval const & i );
-	friend DECL_BASE SPAinterval gme_operator_multiply( double d, SPAinterval const & i );
 	friend DECL_BASE SPAinterval operator/( SPAinterval const & i, double d );
-	friend DECL_BASE SPAinterval gme_operator_divide( SPAinterval const & i, double d );
 	friend DECL_BASE logical operator<( SPAinterval const &i, double d );
 	friend DECL_BASE logical operator<( double d, SPAinterval const &i );
 	friend DECL_BASE logical operator<( SPAinterval const &i1, SPAinterval const &i2 );
@@ -434,19 +427,12 @@ class DECL_BASE SPAinterval : public ACIS_OBJECT {
 	friend DECL_BASE logical operator>=( double d, SPAinterval const &i );
 	friend DECL_BASE logical operator>=( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE logical operator==( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE logical gme_operator_equal( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE logical operator!=( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE logical gme_operator_unequal(SPAinterval const& i1, SPAinterval const& i2);
 	friend DECL_BASE SPAinterval operator|( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE SPAinterval gme_operator_include_or( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE logical operator&&( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE logical gme_operator_logical_and(SPAinterval const& i1, SPAinterval const& i2);
 	friend DECL_BASE logical operator<<( double r, SPAinterval const & i );
-	friend DECL_BASE logical gme_operator_left_shift(double r, SPAinterval const& i);
 	friend DECL_BASE SPAinterval operator&( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE SPAinterval gme_operator_and(SPAinterval const& i1, SPAinterval const& i2);
 	friend DECL_BASE void map_param_into_interval( SPAinterval const&i, double&d );
-	friend DECL_BASE void gme_map_param_into_interval(SPAinterval const& i, double& d);
 
 public:
 
@@ -484,7 +470,7 @@ public:
 	 * second parameter value.
 	 */
 	SPAinterval( double d1, double d2);
-	SPAinterval( const char* gme,double d1, double d2);
+
 	// Construct a bounded or unbounded SPAinterval from a descriptor
 	// and up to two values. If the SPAinterval type is "unknown", then the
 	// type is taken from the existence or otherwise of the double arguments:
@@ -512,11 +498,7 @@ public:
 			double const & d1 = *(double *)NULL_REF,
 			double const & d2 = *(double *)NULL_REF
 		);
-		SPAinterval(const char* gme,
-			interval_type type,
-			double const & d1 = *(double *)NULL_REF,
-			double const & d2 = *(double *)NULL_REF
-		);
+
 
 	// Simple inquiries.
 	/**
@@ -597,7 +579,7 @@ public:
 	 * If the relevant ends are not bounded, there is no error.
 	 */
 	double mid_pt() const;
-	double gme_mid_pt() const;
+
 	// Returns (1 - param) * low-end + param * high-end for given
 	// param. Meaningful only if the relevant ends are bounded, but
 	// no error if not.
@@ -613,7 +595,7 @@ public:
 	 * given parameter value.
 	 */
 	double interpolate( double d ) const;
-	double gme_interpolate( double d ) const;
+
 	// Return the difference between the high and low ends. By
 	// historical convention, both "empty" and "infinite" have
 	// returned negative values (since formerly an infinite SPAparameter
@@ -628,19 +610,19 @@ public:
 	 * (or semi-infinite) interval returns exactly -2.0.
 	 */
 	double length() const;
-	double gme_length() const;
+
 	/**
 	 * Negates this interval in place.
 	 */
 	SPAinterval &negate();
-	SPAinterval &gme_negate();
+
 	/**
 	 * Adds an interval to this interval.
 	 * @param inter
 	 * other interval.
 	 */
 	SPAinterval &operator+=( SPAinterval const & inter);
-	SPAinterval &gme_operator_add_assgin( SPAinterval const & inter);
+
 	/**
 	 * Adds a scalar value to both ends of this interval, shifting this interval by the value.
 	 * @param d
@@ -658,7 +640,7 @@ public:
 	 * other interval.
 	 */
 	SPAinterval &operator-=( SPAinterval const & inter);
-	SPAinterval &gme_operator_sub_assgin( SPAinterval const & inter);
+
 	/**
 	 * Subtracts a scalar value from both ends of this interval, shifting this interval by the value.
 	 * @param d
@@ -676,28 +658,28 @@ public:
 	 * the given scalar value.
 	 */
 	SPAinterval &operator*=( double d );
-	SPAinterval &gme_operator_multiply_assgin( double d );
+
 	/**
 	 * Divides this interval by a scalar.
 	 * @param d
 	 * the given scalar value.
 	 */
 	SPAinterval &operator/=( double d);
-	SPAinterval &gme_operator_divide_assgin( double d);
+
 	/**
 	 * Updates this interval to include the given interval.
 	 * @param i
 	 * given interval
 	 */
 	SPAinterval &operator|=( SPAinterval const & i);
-	SPAinterval &gme_operator_or_assgin( SPAinterval const & i);
+
 	/**
 	 * Updates this interval to be the overlap of itself and the given interval.
 	 * @param i
 	 * given interval
 	 */
 	SPAinterval &operator&=( SPAinterval const & i);
-	SPAinterval &gme_operator_and_assgin( SPAinterval const & i);
+
 	/**
 	 * Determines whether this interval is entirely enclosed within the given interval.
 	 * <b>Role:</b> The given method returns <tt>FALSE</tt> if this interval is <tt>NULL</tt>, <tt>TRUE</tt> 
@@ -709,7 +691,7 @@ public:
 	 */
 	logical operator<<( SPAinterval const &i ) const
 		{ return i >> *this; }
-	logical gme_operator_left_shift(SPAinterval const& i) const;
+
 
 	// Determine whether a point lies within an SPAinterval.
 	// Returns true if this interval is null or if given value
@@ -723,7 +705,7 @@ public:
 	 * given parameter value.
 	 */
 	logical operator>>( double d) const;
-	logical gme_operator_right_shift( double d) const;
+
 
 	// Determine whether an interval is entirely enclosed within
 	// another.  Returns true if this interval is null, false if
@@ -741,21 +723,20 @@ public:
 	 * given interval.
 	 */
 	logical operator>>( SPAinterval const & inter) const;
-	logical gme_operator_right_shift( SPAinterval const & inter) const;
+
 	/**
 	 * Outputs the details of an interval to the specified file.
 	 * @param fp
 	 * file pointer.
 	 */
 	void debug( FILE * fp = debug_file_ptr ) const;
-	void gme_debug( FILE * fp = debug_file_ptr ) const;
+
 	/**
 	 * Concatenates the details of this interval to the given string.
 	 * @param str1
 	 * given string.
 	 */
 	void debug_str(char * str1) const;
-	void gme_debug_str(char * str1) const;
 };
 
 /** @} */

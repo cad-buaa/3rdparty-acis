@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -62,10 +62,6 @@ class pattern_holder;
 class pattern;
 class VOID_LIST;
 class BODY_data;
-
-// 支撑性测试
-// #define GME_KERN_BODY  //将ACIS接口切换为GME接口
-
 /**
  * @nodoc
  */
@@ -311,7 +307,6 @@ protected:
  * WIRE to be contained by the constructed BODY.
  */
 	BODY( WIRE* wire );		// for a body containing a wire initially
-	BODY( const char *gme, WIRE* wire );		// for a body containing a wire initially
 
 /**
  * Sets the <tt>WIRE</tt> pointer of <tt>this</tt> <tt>BODY</tt> to the specified <tt>WIRE</tt>.
@@ -326,7 +321,6 @@ protected:
  * internal use only.
  */
 	void set_wire( WIRE* wire, logical reset_pattern = TRUE);
-	void gme_set_wire( WIRE* wire, logical reset_pattern = TRUE);
 
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
@@ -369,7 +363,6 @@ public:
  * management.
  */
 	BODY();
-	BODY( const char *gme);
 
 
 	// The body constructor initialises the record, and makes a new
@@ -388,7 +381,6 @@ public:
  * pointer to a list of LUMPSs to be contained by the constructed BODY.
  */
 	BODY( LUMP* lump );		// for a body containing a lump initially
-	BODY( const char *gme, LUMP* lump );		// for a body containing a lump initially
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -445,12 +437,6 @@ public:
  */
 	virtual void lose();
 #endif
-/**
- * Posts a delete bulletin to the bulletin board indicating <tt>this</tt> <tt>BODY</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
 
 	// Data reading routines.
 
@@ -458,12 +444,10 @@ public:
  * Returns a pointer to the beginning of the list of bounding lumps of <tt>this</tt> <tt>BODY</tt>.
  */
 	LUMP *lump() const;
-	LUMP *gme_lump() const;
 /**
  * Returns a pointer to the beginning of the list of wires comprising <tt>this</tt> <tt>BODY</tt>.
  */
 	WIRE *wire() const;
-	WIRE *gme_wire() const;
 /**
  * Returns the <tt>TRANSFORM</tt> on <tt>this</tt> <tt>BODY</tt>.
  * <br><br>
@@ -500,7 +484,6 @@ public:
  * internal use only.
  */
 	void set_lump( LUMP* lump, logical reset_pattern = TRUE);
-	void gme_set_lump( LUMP* lump, logical reset_pattern = TRUE);
 /**
  * Sets the <tt>TRANSFORM</tt> pointer of <tt>this</tt> <tt>BODY</tt> to the specified <tt>TRANSFORM</tt>.
  * <br><br>
@@ -514,7 +497,6 @@ public:
  * internal use only.
  */
 	void set_transform( TRANSFORM* transf, logical reset_owner = TRUE);
-	void gme_set_transform( TRANSFORM* transf, logical reset_owner = TRUE);
 /**
  * Sets the bounding region (box) of <tt>this</tt> <tt>BODY</tt> to the specified box.
  * <br><br>
@@ -527,22 +509,8 @@ public:
  * @param box
  * the new SPAbox.
  */
-	void set_bound( SPAbox *in_box ){box_container.set_box(this,in_box);}
+	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }
 
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const BODY* in_body, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	void** get_lump_ptr();
-	void** get_wire_ptr();
-	void** get_transform_ptr();
 };
 /** @} */
 #endif

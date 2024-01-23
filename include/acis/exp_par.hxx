@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerngeom/pcurve/exp_par.hxx */
+/* ORIGINAL: acis2.1/kerngeom/pcurve/exp_par.hxx */
 /* $Id: exp_par.hxx,v 1.19 2002/08/16 19:28:34 products Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -45,7 +45,7 @@ private:
 
 
 	// Straightforward constructors
-	friend par_cur; // GME添加友元类，方便par_cur调用exp_par_cur接口
+
 	exp_par_cur();
 	exp_par_cur(
 			bs2_curve,
@@ -55,19 +55,7 @@ private:
             logical = TRUE
 		);
 	exp_par_cur(
-		const char *gme,
-			bs2_curve,
-			double,
-			double,
-			surface const &,
-            logical = TRUE
-		);
-	exp_par_cur(
 			exp_par_cur const &
-		);
-	exp_par_cur(
-		const char *gme,
-			exp_par_cur const &exp_cur
 		);
 	~exp_par_cur();
 
@@ -76,13 +64,9 @@ private:
 	// Extract the defining data.
 
 	virtual bs2_curve cur() const;
-	/*virtual*/ bs2_curve gme_cur() const;
 	virtual double fitol() const;
-	/*virtual*/ double gme_fitol() const;
 	virtual double partol() const;
-	/*virtual*/ double gme_partol() const;
 	virtual surface const *surf() const ;
-	/*virtual*/ surface const *gme_surf() const ;
 
 	void set_surface(surface const &sur);
 
@@ -108,7 +92,7 @@ private:
 	// Transformation
 
 	virtual void operator*=( SPAtransf const & );
-	/*virtual*/ void gme_operator_multiply_assign( SPAtransf const & );
+
 
 	// Parameter shift: adjust the spline curve to have a SPAparameter
 	// range increased by the argument value (which may be negative).
@@ -163,14 +147,6 @@ private:
 			SPApar_vec & = *(SPApar_vec *)NULL_REF
 							// second derivative
 		) const;
-	/*virtual*/ void gme_eval(
-			double,
-			SPApar_pos &,		// SPAposition in SPAparameter space
-			SPApar_vec & = *(SPApar_vec *)NULL_REF,
-							// first derivative
-			SPApar_vec & = *(SPApar_vec *)NULL_REF
-							// second derivative
-		) const;
 
 
 	// Save and restore. Save is easy, as derived class switching goes
@@ -181,7 +157,6 @@ private:
 	// then calls it.
 
 public:
-	void gme_terminate();
 	static int id();
 	virtual int type() const;
 
@@ -192,7 +167,6 @@ public:
 	// The deep_copy method makes a copy without shared data
 
 	virtual par_cur *deep_copy(pointer_map * pm = NULL) const;
-	par_cur *gme_deep_copy(pointer_map * pm = NULL) const;
 
 	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
@@ -240,11 +214,6 @@ private:
 	   );
 
 #endif
-public:
-	// get and set functions for access.
-	bs2_curve get_cur_data();
-	double get_fitol_data();
-	surface* get_surf_data();
 };
 
 #endif

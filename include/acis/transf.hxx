@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -39,12 +39,10 @@ class SPAunit_vector;
  * @nodoc
  */
 DECL_BASE SPAtransf restore_transf(SPAmatrix const&, SPAvector const&, double, logical, logical, logical);
-DECL_BASE SPAtransf gme_restore_transf(SPAmatrix const&, SPAvector const&, double, logical, logical, logical);
 /**
  * @nodoc
  */
 DECL_BASE SPAtransf restore_transf(SPAmatrix const&, SPAvector const&, const double = 1.0);
-DECL_BASE SPAtransf gme_restore_transf(SPAmatrix const&, SPAvector const&, const double = 1.0);
 
 /**
 * Constructs a transformation retrieving the needed information
@@ -63,7 +61,6 @@ DECL_BASE SPAtransf gme_restore_transf(SPAmatrix const&, SPAvector const&, const
 * translation vector
 **/
 DECL_BASE SPAtransf make_transf(SPAmatrix const& affine, SPAvector const& translation);
-DECL_BASE SPAtransf gme_make_transf(SPAmatrix const& affine, SPAvector const& translation);
 /**
 * Constructs a transformation that scales uniformly in all directions.
 * <br><br>
@@ -81,7 +78,6 @@ DECL_BASE SPAtransf gme_make_transf(SPAmatrix const& affine, SPAvector const& tr
 * scale factor.
 **/
 DECL_BASE SPAtransf scale_transf( double scale );
-DECL_BASE SPAtransf gme_scale_transf( double scale );
 /**
 * Constructs a transformation that scales non-uniformly in the x, y, and z directions.
 * <br><br>
@@ -101,7 +97,6 @@ DECL_BASE SPAtransf gme_scale_transf( double scale );
 * z scale factor.
 **/
 DECL_BASE SPAtransf scale_transf( double xs, double ys, double zs );
-DECL_BASE SPAtransf gme_scale_transf( double xs, double ys, double zs );
 /**
 * Constructs a transformation that both scales non-uniformly and shears.
 * <br><br>
@@ -128,8 +123,6 @@ DECL_BASE SPAtransf gme_scale_transf( double xs, double ys, double zs );
 * yz shear factor.
 **/
 DECL_BASE SPAtransf scale_transf( double xs, double ys, double zs, double xys, double xzs, double yzs );
-DECL_BASE SPAtransf gme_scale_transf(double xs, double ys, double zs, double xys, double xzs, double yzs);
-
 
 /**
 * Constructs a shear transformation.
@@ -153,7 +146,6 @@ DECL_BASE SPAtransf gme_scale_transf(double xs, double ys, double zs, double xys
 * Shears the y coord as the z coord changes.
 **/
 DECL_BASE SPAtransf shear_transf( double shearxy, double shearxz, double shearyz);
-DECL_BASE SPAtransf gme_shear_transf( double shearxy, double shearxz, double shearyz);
 
 /**
 * Constructs a transformation corresponding to a simple rotation by an angle about 
@@ -169,8 +161,6 @@ DECL_BASE SPAtransf gme_shear_transf( double shearxy, double shearxz, double she
 * axis of rotation.
 **/
 DECL_BASE SPAtransf rotate_transf( double angle, SPAvector const &axis );
-DECL_BASE SPAtransf gme_rotate_transf(double angle, SPAvector const& axis);
-
 
 /**
 * Constructs a transformation corresponding to a reflection through a plane, 
@@ -186,7 +176,6 @@ DECL_BASE SPAtransf gme_rotate_transf(double angle, SPAvector const& axis);
 * normal to the reflection plane.
 **/
 DECL_BASE SPAtransf reflect_transf( SPAvector const &axis );
-DECL_BASE SPAtransf gme_reflect_transf(SPAvector const& axis);
 /**
 * Constructs a transformation corresponding to a translation by a given vector.
 * <br><br>
@@ -196,7 +185,6 @@ DECL_BASE SPAtransf gme_reflect_transf(SPAvector const& axis);
 * displacement vector defining the translation.
 **/
 DECL_BASE SPAtransf translate_transf( SPAvector const &disp );
-DECL_BASE SPAtransf gme_translate_transf( SPAvector const &disp );
 /**
 * Constructs a coordinate transformation.
 * <br><br>
@@ -216,8 +204,6 @@ DECL_BASE SPAtransf gme_translate_transf( SPAvector const &disp );
 **/
 DECL_BASE SPAtransf coordinate_transf( SPAposition const &new_origin, SPAunit_vector const &new_x_axis,
 	SPAunit_vector const &new_y_axis );
-DECL_BASE SPAtransf gme_coordinate_transf( SPAposition const &new_origin, SPAunit_vector const &new_x_axis,
-	SPAunit_vector const &new_y_axis );
 /**
  * Creates the composition of two transforms.
  * <br><br>
@@ -227,8 +213,6 @@ DECL_BASE SPAtransf gme_coordinate_transf( SPAposition const &new_origin, SPAuni
  * second transformation.
  */
 DECL_BASE SPAtransf operator*( SPAtransf const &t1, SPAtransf const &t2 );
-DECL_BASE SPAtransf gme_operator_multiply( SPAtransf const &t1, SPAtransf const &t2 );
-
 /**
  * Creates the composition of two transforms.
  * <br><br>
@@ -238,7 +222,6 @@ DECL_BASE SPAtransf gme_operator_multiply( SPAtransf const &t1, SPAtransf const 
  * second transformation.
  */
 DECL_BASE SPAtransf operator*( SPAtransf const &t1, SPAtransf const *t2);
-DECL_BASE SPAtransf gme_operator_multiply( SPAtransf const &t1, SPAtransf const *t2);
 
 /**
  * @nodoc
@@ -252,7 +235,6 @@ DECL_BASE SPAtransf gme_operator_multiply( SPAtransf const &t1, SPAtransf const 
  * transformation to be applied.
  */
 DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const &t );
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const &t );
 
 /**
 * @nodoc
@@ -269,7 +251,6 @@ DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const &
 * transformation to be applied.
 */
 DECL_BASE SPAunit_vector operator*( SPAunit_vector const &uv, SPAtransf const &t );
-DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv, SPAtransf const &t );
 
 /**
 * @nodoc
@@ -283,7 +264,6 @@ DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv, SPAtra
 * transformation to be applied.
 */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const &t );
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf const &t );
 
 /** @} */
 
@@ -366,7 +346,6 @@ struct DECL_BASE transf_decompose_data
 	* Default constructor.
 	*/
 	transf_decompose_data();
-	transf_decompose_data(const char*);
 };
 
 /**
@@ -410,8 +389,6 @@ public:
  */
 	SPAtransf(SPAmatrix const &, SPAvector const &, double,
 		logical, logical, logical);
-	SPAtransf(char const* gme, SPAmatrix const &, SPAvector const &, double,
-				logical, logical, logical);
 	// WARNING: Don't use the above constructor! Treat it as private.
 
 public:
@@ -419,7 +396,6 @@ public:
 	 * C++ allocation constructor requests memory for this object and initializes it to the identity transform.
 	 */
 	SPAtransf();			// creates the identity transformation
-		SPAtransf(char const* gme);
 
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
@@ -428,7 +404,7 @@ public:
  * transformation.
  */
 	SPAtransf(SPAtransf const &t);	// makes a copy
-	SPAtransf(char const* gme, SPAtransf const &t);
+
 	//void update();           // check parameters to update status
 
 	// print data
@@ -436,7 +412,7 @@ public:
  * Prints the transform data.
  */
 	void print() const;
-	void gme_print() const;
+
 	// Data reading routines. These all handle a null transformation
 	// by treating it as the identity.
 
@@ -446,38 +422,31 @@ public:
  * <b>Role:</b> Always normalized: <tt>det == + or -1</tt>.
  */
 	SPAmatrix affine() const;
-	SPAmatrix gme_affine() const;
 
 	/**
 	 * Returns the vector representing the translational portion of the transformation.
 	 */
 	SPAvector translation() const;
-	SPAvector gme_translation() const;
 	/**
 	 * Returns the scaling factor of the transformation.
 	 */
 	double scaling() const;
-	double gme_scaling() const;
 	/**
 	 * Queries whether or not the transformation has a rotational component.
 	 */
 	logical rotate() const;
-	logical gme_rotate() const;
 	/**
 	 * Queries whether or not the transformation is reflecting.
 	 */
 	logical reflect() const;
-	logical gme_reflect() const;
 	/**
 	 * Queries whether or not the transformation has a shearing component.
 	 */
 	logical shear() const;
-	logical gme_shear() const;
 	/**
 	 * Queries whether or not the transformation is the identity.
 	 */
 	logical identity() const;
-	logical gme_identity() const;
 
 	// Set all of the components of the transformation. Sets the
 	// identity flag if all components are exactly right.
@@ -493,15 +462,6 @@ public:
 		logical
 	);
 
-	friend DECL_BASE SPAtransf gme_restore_transf(
-		SPAmatrix const&,
-		SPAvector const&,
-		double,
-		logical,
-		logical,
-		logical
-	);
-
 	// Construction routines. All set the identity flag if the arguments
 	// are == the appropriate values.
 
@@ -510,7 +470,7 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAtransf scale_transf(double scale);
-	friend DECL_BASE SPAtransf gme_scale_transf(double scale);
+
 
 	// Set transformation to differential scaling. Note that such
 	// a transformation is not supported in the rest of Acis.
@@ -518,12 +478,10 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAtransf scale_transf(double xs, double ys, double zs);
-	friend DECL_BASE SPAtransf gme_scale_transf(double xs, double ys, double zs);
 	/**
 	 * @nodoc
 	 */
 	friend DECL_BASE SPAtransf scale_transf(double xs, double ys, double zs, double xys, double xzs, double yzs);
-	friend DECL_BASE SPAtransf gme_scale_transf(double xs, double ys, double zs, double xys, double xzs, double yzs);
 
 
 	// Set transformation to shearing. Note that such
@@ -532,14 +490,13 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAtransf shear_transf(double shearxy, double shearxz, double shearyz);
-        friend DECL_BASE SPAtransf gme_shear_transf(double shearxy, double shearxz, double shearyz);
+
 	// Set transformation to rotation by angle about SPAvector.
 
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAtransf rotate_transf(double angle, SPAvector const &axis);
-	friend DECL_BASE SPAtransf gme_rotate_transf(double angle, SPAvector const& axis);
 
 
 	// Set transformation to reflection about plane through
@@ -549,7 +506,6 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAtransf reflect_transf(SPAvector const &axis);
-	friend DECL_BASE SPAtransf gme_reflect_transf(SPAvector const& axis);
 
 
 	// Set transformation to translation along SPAvector.
@@ -558,7 +514,7 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAtransf translate_transf(SPAvector const &disp);
-        friend DECL_BASE SPAtransf gme_translate_transf(SPAvector const &disp);
+
 
 	// Set transformation to carry origin to given SPAposition, and
 	// x and y axes to the given unit vectors.  If the second unit
@@ -572,10 +528,7 @@ public:
 		SPAposition const &new_origin,
 		SPAunit_vector const &new_x_axis,
 		SPAunit_vector const &new_y_axis);
-	friend DECL_BASE SPAtransf gme_coordinate_transf(
-		SPAposition const &new_origin,
-		SPAunit_vector const &new_x_axis,
-		SPAunit_vector const &new_y_axis);
+
 
 	// Compare two transformations. This does not allow any tolerance,
 	// so is not a general equality operator, but may be assumed to
@@ -593,7 +546,6 @@ public:
 	logical operator==(
 		SPAtransf const &t
 		) const;
-	logical gme_operator_equal(SPAtransf const &t) const;
 
 	/**
 	 * Compares two transformations.
@@ -611,14 +563,11 @@ public:
 		return !(*this == rhs);
 	}
 
-	logical gme_operator_unequal(SPAtransf const& rhs) const;
-
 	// Multiply two transformations.
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAtransf operator*(SPAtransf const &t1, SPAtransf const &t2);
-	friend DECL_BASE SPAtransf gme_operator_multiply(SPAtransf const &t1, SPAtransf const &t2);
 	/**
 	 * @nodoc
 	 */
@@ -629,7 +578,6 @@ public:
 	{
 		return t1 * (*t2);
 	}
-	friend DECL_BASE SPAtransf operator*( SPAtransf const& t1, SPAtransf const* t2 );
 
 	/**
 	 * Composes this transformation with another.
@@ -638,7 +586,6 @@ public:
 	 * transformation with which to form a composition.
 	 */
 	SPAtransf const &operator*=(SPAtransf const &t);
-	SPAtransf gme_operator_multiply_assign(SPAtransf const &t);
 
 
 	// Return the inverse transformation (must be no shear in the
@@ -650,7 +597,6 @@ public:
  * <b>Role:</b> There must be no shear in the given transformation.
  */
 	SPAtransf inverse() const;
-	SPAtransf gme_inverse() const;
 
 	// Decompose a non-degenerate SPAtransf into data that represents a sequence
 	// of scaling, shearing, rotating, reflecting and translating.
@@ -741,8 +687,6 @@ public:
  */
 	logical decompose(
 		transf_decompose_data& data) const;
-		logical gme_decompose(
-		transf_decompose_data& data) const;
 
 	// Construct a SPAtransf from the data supplied from the method decompose().
 /**
@@ -765,10 +709,6 @@ public:
 		const transf_decompose_data& data,	// INPUT: the transformation data
 		 logical rotate_xyz_axes);	// INPUT: if TRUE, use rotatex, rotatey, and rotatez
 									// otherwise use rotate_radians and rotate_axis
-		logical gme_compose(
-		const transf_decompose_data& data,	// INPUT: the transformation data
-		 logical rotate_xyz_axes);	// INPUT: if TRUE, use rotatex, rotatey, and rotatez
-									// otherwise use rotate_radians and rotate_axis
 
 	// Transform a SPAvector, ignoring the translation part of the
 	// transformation.
@@ -776,7 +716,6 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const &t );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const &t );
 
 
 	// Transform a unit SPAvector.  Ignores the translation and
@@ -786,15 +725,12 @@ public:
  */
 	friend DECL_BASE SPAunit_vector operator*( SPAunit_vector const &uv,
 									SPAtransf const &t );
-	friend DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv,
-									SPAtransf const &t );
 
 	// Transform a SPAposition.  Uses the complete 4x3 transformation.
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const &t );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf const &t );
 
 
 	// Make read_transf a friend so that the non-checking private
@@ -816,7 +752,6 @@ public:
  * file pointer.
  */
 	void debug( char const *strlead, FILE * fp= debug_file_ptr ) const;
-	void gme_debug( char const *strlead, FILE * fp= debug_file_ptr ) const;
 };
 
 /**

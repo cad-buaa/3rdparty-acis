@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/torus.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/torus.hxx */
 /* $Id: torus.hxx,v 1.13 2002/08/09 17:15:18 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -40,7 +40,6 @@
 #include "surface.hxx"
 
 #include "tordef.hxx"
-
 
 /**
 * @file torus.hxx
@@ -155,7 +154,6 @@ public:
  * management.
  */
 	TORUS();
-	TORUS(const char* gme);
 
 	// Create a TORUS centred on a given SPAposition and with
 	// given normal and radii.
@@ -177,7 +175,6 @@ public:
  * minor radius of the constructed TORUS.
  */
 	TORUS( const SPAposition &center, const SPAunit_vector &normal, double major_radius, double minor_radius);
-	TORUS( const char* gme, const SPAposition &center, const SPAunit_vector &normal, double major_radius, double minor_radius);
 
 	// Create a TORUS from a torus.
 /**
@@ -192,7 +189,6 @@ public:
  * torus to be wrapped by the constructed TORUS.
  */
 	TORUS( const torus &tor );
-	TORUS( const char* gme, const torus &tor );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -276,7 +272,6 @@ public:
  * the new center.
  */
 	void set_centre( const SPAposition &center );
-	void gme_set_centre( const SPAposition &center );
 /**
  * Sets this <tt>TORUS's</tt> normal to the given unit vector.
  * <br><br>
@@ -288,7 +283,6 @@ public:
  * the new normal.
  */
 	void set_normal( const SPAunit_vector &normal );
-	void gme_set_normal( const SPAunit_vector &normal );
 /**
  * Sets this <tt>TORUS's</tt> major radius to the given value.
  * <br><br>
@@ -300,7 +294,6 @@ public:
  * the new major radius.
  */
 	void set_major_radius( double major_radius);
-	void gme_set_major_radius( double major_radius);
 /**
  * Sets this <tt>TORUS's</tt> minor radius to the given value.
  * <br><br>
@@ -312,14 +305,12 @@ public:
  * the new minor radius.
  */
 	void set_minor_radius( double minor_radius);
-	void gme_set_minor_radius( double minor_radius);
 
 	// Return the surface equation for reading only.
 /**
  * Returns the surface equation of this <tt>TORUS</tt>, for reading only.
  */
 	const surface &equation() const;
-	const surface &gme_equation() const;
 
 	// Return the surface equation, checking first for backup.
 /**
@@ -330,7 +321,6 @@ public:
  * to put an entry on the bulletin board.
  */
 	surface &equation_for_update();
-	surface &gme_equation_for_update();
 
 	// Get a new (lower-case) surface being the torus of the TORUS,
 	// transformed if the given SPAtransf is non-null and reversed
@@ -350,10 +340,6 @@ public:
 						logical negate = FALSE
 					) const;
 
-	surface *gme_trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
 	// Transform the stored torus in place.
 /**
  * Transforms this <tt>TORUS</tt>.
@@ -366,7 +352,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// Construct a SPAbox containing a face on the TORUS bounded by the
 	// given LOOP list.
@@ -414,12 +399,6 @@ public:
 
 	// lookup is done using SURFACE::lookup()
 	// int lookup( logical ) const;
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	torus get_def();
 };
 
 

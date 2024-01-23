@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernint/intcusf/intcusf.hxx */
+/* ORIGINAL: acis2.1/kernint/intcusf/intcusf.hxx */
 /* $Id: intcusf.hxx,v 1.16 2002/08/09 17:18:52 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -23,6 +23,7 @@
 // point, and only then checked against the SPAbox.  This way a vertex is
 // treated the same for every edge running through it.
 
+
 #if !defined( INT_CURVE_SURF )
 #define INT_CURVE_SURF
 
@@ -31,7 +32,6 @@
 
 #include "acis.hxx"
 #include "dcl_intr.h"
-#include "acis/include/bs3cutil.hxx"
 
 #include "cusfint.hxx"
 #include "param.hxx"
@@ -40,15 +40,6 @@
 class curve;
 class surface;
 class SPAbox;
-class straight;
-class plane;
-class sphere;
-class cone;
-class ellipse;
-class torus;
-class helix;
-class intcurve;
-class spline;
 
 // This is the general (lower-case) curve-surface intersection 
 // routine (in intcusf.cxx).  Depending on the curve and surface types,
@@ -71,90 +62,5 @@ DECL_INTR curve_surf_int *int_cur_sur(
 				double const,
 				SPAbox const & = *(SPAbox *)NULL_REF
 			);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(curve const& c, surface const& s, curve_bounds& cb, SPAbox const& = *(SPAbox*)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(curve const& c, surface const& s, curve_bounds& cb, double const, SPAbox const& = *(SPAbox*)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, plane const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(straight const &, sphere const &, curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, cone const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, torus const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, sphere const &, curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, cone const &, curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(ellipse const& , torus const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, plane const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , plane const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , sphere const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , torus const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , cone const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , plane const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , spline const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , spline const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(straight const& , spline const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , sphere const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , torus const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , cone const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(ellipse const& , spline const& , curve_bounds& cb, double const, SPAbox const & = *(SPAbox *)NULL_REF);
-
-//==================
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, plane const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(straight const &, sphere const &, curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, cone const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(straight const &, torus const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, sphere const &, curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, cone const &, curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(ellipse const& , torus const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int *gme_int_cur_sur(ellipse const &, plane const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , plane const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , sphere const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , torus const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , cone const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , plane const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , spline const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(helix const& , spline const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(straight const& , spline const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , sphere const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , torus const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(intcurve const& , cone const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
-
-DECL_INTR curve_surf_int* gme_int_cur_sur(ellipse const& , spline const& , curve_bounds &, SPAbox const & = *(SPAbox *)NULL_REF);
 
 #endif

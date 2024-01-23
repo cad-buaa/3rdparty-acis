@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -55,21 +55,18 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
 	position_array();
-	position_array(const char* gme);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * @param initialSize
  * initial size
  */
 	position_array(int initialSize);
-	position_array(const char* gme, int initialSize);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * @param pos_arr
  * position_array
  */
 	position_array(const position_array& pos_arr);
-	position_array(const char* gme, const position_array& pos_arr);
 /**
  * C++ destructor, deleting a position_array.
  */
@@ -93,7 +90,6 @@ public:
  * size
  */
 	void SetSize(int size);
-	void gme_SetSize(int size);
 
 	// Empty the array.  This will set the number of positions in the
 	// array to zero, but will not actually free up the storage which
@@ -104,7 +100,6 @@ public:
  * allocated storage.
  */
 	void Empty() { SetSize(0); }
-	void gme_Empty();
 
 	// Truncate the size of the internal SPAposition buffer so that it is
 	// exactly big enough to hold the specified number of positions
@@ -112,7 +107,6 @@ public:
  * Truncates the size of the internal position buffer so that it is exactly big enough to hold the specified number of positions.
  */
 	void Shrink();
-	void gme_Shrink();
 
 	// Get the element at a given index in the array.  This will expand
 	// the size of the array if needed.  The element is returned as a
@@ -126,7 +120,6 @@ public:
  * index value
  */
 	SPAposition& ElementAt(int nIndex);
-	SPAposition& gme_ElementAt(int nIndex);
 
 	// This gives you a copy of the SPAposition at a given index.  It
 	// provides access to a const position_array.  The index must be
@@ -140,14 +133,12 @@ public:
  * index value
  */
 	SPAposition PositionAt(int nIndex) const;
-	SPAposition gme_PositionAt(int nIndex) const;
 
 	// Get the last SPAposition in the array that is set.
 /**
  * Gets the last position in the array that is set.
  */
 	SPAposition GetLast() const;
-	SPAposition gme_GetLast() const;
 
 	// Add a SPAposition as the last SPAposition in the array.  The array will
 	// be expanded as needed.  The Add and RemoveLast methods are for
@@ -162,7 +153,6 @@ public:
  * position
  */
 	int Add(const SPAposition& pos);
-	int gme_Add(const SPAposition& pos);
 
 	// Remove the last SPAposition in the array.  It is expected that this
 	// will be used in conjunction withh Add.
@@ -170,7 +160,6 @@ public:
  * Removes the last position in the array. Use this with the Add method.
  */
 	int RemoveLast();
-	int gme_RemoveLast();
 
 	// Make it look like an array.  Since this returns a SPAposition&, it can
 	// be used on the left side of an assignment.  The array will be expanded
@@ -184,7 +173,6 @@ public:
  * index value
  */
 	SPAposition& operator[](int nIndex) { return ElementAt(nIndex); }
-	SPAposition& gme_operator_subscript(int nIndex);
 
 	// This method lets you cast a position_array to a SPAposition* so that it
 	// can be used as an argument in procedures which want a SPAposition*.
@@ -210,7 +198,6 @@ public:
  * <b>Role</b>: The user must delete the returned buffer when it is no longer needed.
  */
 	SPAposition* CopyBuffer() const;
-	SPAposition* gme_CopyBuffer() const;
 };
 
 //======================================================================

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -12,7 +12,6 @@
 #include "dcl_base.h"
 #include "mmgr.err"
 #include "mutex.hxx"
-#include "../src/base/gme_mmgr_block.h"
 /**
  * @file freelist.hxx
  * @CAA2Level L1
@@ -31,7 +30,6 @@
  * @see collapse_all_free_lists, clear_all_free_lists, keep_all_free_lists
  */
 DECL_BASE void collapse_all_free_lists();
-DECL_BASE void gme_collapse_all_free_lists();
 
 /**
  * Instruct the memory manager to release all empty freelist data blocks.
@@ -43,7 +41,6 @@ DECL_BASE void gme_collapse_all_free_lists();
  * @see collapse_all_free_lists, clear_all_free_lists, keep_all_free_lists
  */
 DECL_BASE void clear_all_free_lists();
-DECL_BASE void gme_clear_all_free_lists();
 
 /**
  * Set the state of the memory manager to keep all freelist data blocks until the application
@@ -57,13 +54,11 @@ DECL_BASE void gme_clear_all_free_lists();
  * @see collapse_all_free_lists, clear_all_free_lists, keep_all_free_lists
  */
 DECL_BASE void keep_all_free_lists();
-DECL_BASE void gme_keep_all_free_lists();
 
 /**
  * @nodoc
  */
 DECL_BASE int check_free_lists();
-DECL_BASE int gme_check_free_lists();
 
 /**
  * @nodoc
@@ -85,13 +80,11 @@ public:
  * @nodoc
  */
 DECL_BASE free_list_states get_state_of_all_free_lists();
-DECL_BASE free_list_states gme_get_state_of_all_free_lists();
 
 /**
  * @nodoc
  */
 DECL_BASE void set_state_of_all_free_lists(free_list_states & fls);
-DECL_BASE void gme_set_state_of_all_free_lists(free_list_states & fls);
 
 class _mmgr_block_desc;
 
@@ -99,50 +92,37 @@ class _mmgr_block_desc;
  * @nodoc
  */
 class free_list_data {
+
 	free_list_data* next;		// chain pointer for list of all freelists
 	_mmgr_block_desc** data_block;
+
 	unsigned int size;			// length of each object of this type
 	empty_status status;		// what to do when no objects in use
 
 private:
 
 	void clear( logical all_blocks = FALSE);		// release all blocks
-    void gme_clear(logical all_blocks = FALSE);
 
 public:
-	GME::gme_mmgr_block_desc** gme_data_block;
 
 	free_list_data() {}
-	~free_list_data(){};
+	~free_list_data() {};
 
 	void initialize( int ); 	// object size
-    void DECL_BASE gme_initialize( int );
 	void terminate();
-    void DECL_BASE gme_terminate();
 
-	void *allocate();
-	void DECL_BASE *gme_allocate();
+	void *allocate();			
 	void discard( void * );	
-	void DECL_BASE gme_discard( void * );
 
 	void set_status(empty_status);
-	void DECL_BASE gme_set_status(empty_status);
 
 	friend void initialize_free_lists();
-	friend void gme_initialize_free_lists();
-
 	friend DECL_BASE void clear_all_free_lists();
-	friend DECL_BASE void gme_clear_all_free_lists();
 	friend DECL_BASE void keep_all_free_lists();
-	friend DECL_BASE void gme_keep_all_free_lists();
 	friend DECL_BASE void collapse_all_free_lists();
-	friend DECL_BASE void gme_collapse_all_free_lists();
 	friend DECL_BASE int check_free_lists();
-	friend DECL_BASE int gme_check_free_lists();
 	friend DECL_BASE free_list_states get_state_of_all_free_lists();
-	friend DECL_BASE free_list_states gme_get_state_of_all_free_lists();
 	friend DECL_BASE void set_state_of_all_free_lists(free_list_states & fls);
-	friend DECL_BASE void gme_set_state_of_all_free_lists(free_list_states & fls);
 };
 
 /** @} */

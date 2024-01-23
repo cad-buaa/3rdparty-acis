@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: 3dt2.1/geomhusk/get_box.hxx */
+/* ORIGINAL: 3dt2.1/geomhusk/get_box.hxx */
 // $Id: get_box.hxx,v 1.8 2002/08/09 17:15:15 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -23,6 +23,7 @@ class law;
 class SPAtransf;
 class SPAposition;
 class SPAunit_vector;
+
 
 /////////////////////////////////////////////////////////////
 //
@@ -62,22 +63,16 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical operator==(law_data const& rhs) const;
-	#endif
 
 /**
  * Saves the <tt>law_data</tt> with its encapsulated data.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void save() = 0;
-	#endif
 /**
  * Returns <tt>NULL</tt>.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_data* restore();
-	#endif
 /**
  * Returns the string that represents this <tt>law_data's</tt> symbol.
  * <br><br>
@@ -88,9 +83,7 @@ public:
  * @param type
  * type of symbol - standard ACIS type.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual const char* symbol(law_symbol_type type = DEFAULT) = 0;
-	#endif
 /**
  * Returns a string that represents this <tt>law_data</tt>.
  * <br><br>
@@ -106,19 +99,10 @@ public:
  * @param ldn
  * law data node.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual char* string(
             law_symbol_type type    =   DEFAULT,
             int&            count   =   *(int*) NULL_REF,
             law_data_node*& ldn     =   *(law_data_node**) NULL_REF);
-				#endif
-		#ifdef LAW_VIRTUAL_FUNCTION
-		virtual char* string(
-            law_symbol_type type    =   DEFAULT,
-            int&            count   =   *(int*) nullptr,
-            law_data_node*& ldn     =   *(law_data_node**) nullptr);
-			#endif
-
 /**
  * Increments the use count of this <tt>law_data</tt>.
  * <br><br>
@@ -140,9 +124,7 @@ public:
  * ACIS release level, this is used to indicate whether the law can be saved
  * or not.
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual int date();
-	#endif
 /**
  * Creates a copy of an item that does not share any data with the original.
  * <br><br>
@@ -161,18 +143,14 @@ public:
  * @param pm
  * list of items within the entity that are already deep copied.
  */
-		#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_data* deep_copy(base_pointer_map* pm = NULL) const = 0;
-	#endif
 /**
  * Sets the domain of this <tt>law_data</tt> to the given interval.
  * <br><br>
  * @param new_domain
  * the new domain.
  */
-			#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_data* set_domain(SPAinterval* new_domain);
-	#endif
 /**
  * Returns the use count of this <tt>law_data</tt>.
  */
@@ -182,9 +160,7 @@ public:
 /**
  * @nodoc
  */
-			#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	#endif
 	// STI ROLL
 };
 
@@ -200,7 +176,6 @@ public:
  * <b>Role:</b> This allows curves and wires to behave in the same way. It places
  * a global parameterization on all of the curves in a wire.
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW path_law_data : public law_data
 {
 protected:
@@ -568,7 +543,7 @@ public:
  * @nodoc
  */
 inline base_surface_law_data::base_surface_law_data() : law_data() {}
-#endif
+
 /////////////////////////////////////////////////////////////
 //
 // The law_law_data class
@@ -587,17 +562,12 @@ public:
 /**
  * Applications are required to call this destructor for their law data types.
  */
-
 	~law_law_data();
-
 
 /**
  * @nodoc
  */
-		#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical operator==(law_data const& rhs) const;
-	#endif
-
 
 /**
  * Constructs a <tt>law_law_data</tt>.
@@ -608,7 +578,6 @@ public:
  * pointer to sublaw.
  */
 	law_law_data(law* in_data);
-	law_law_data(const char* gme, law* in_data);
 /**
  * @nodoc
  */
@@ -632,10 +601,7 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_data* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-	#endif
-
 /**
  * @nodoc
  */
@@ -644,9 +610,7 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	#endif
 	// STI ROLL
 };
 
@@ -662,7 +626,6 @@ public:
  * <b>Role:</b> This is a law data class that holds a pointer to a transform.
  * @see SPAtransf
  */
-
 class DECL_LAW base_transform_law_data : public law_data
 {
 protected:
@@ -683,9 +646,8 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual logical operator==(law_data const& rhs) const;
-	#endif
+
 /**
  * Constructs a <tt>base_transform_law_data</tt>, creating a <tt>transform_law_data</tt> that is a  wrapper for specified ACIS <tt>SPAtransf</tt> object.
  * <br><br>
@@ -728,7 +690,6 @@ public:
 /**
  * @nodoc
  */
-	#ifndef LAW_VIRTUAL_FUNCTION
 	virtual law_data* deep_copy(base_pointer_map* pm = NULL) const;// virtual method in base class
 /**
  * Returns a pointer to a law of this type.
@@ -744,7 +705,6 @@ public:
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	#endif
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -757,7 +717,6 @@ public:
 /**
  * @nodoc
  */
-#ifndef LAW_VIRTUAL_FUNCTION
 class DECL_LAW base_position_array_law_data : public law_data
 {
 protected:
@@ -810,7 +769,7 @@ public:
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 };
-#endif
+
 ///////////////////////////////////////////
 //
 //  A class for making arrays of law_data's

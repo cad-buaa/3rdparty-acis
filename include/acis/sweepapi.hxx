@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -176,13 +176,6 @@ DECL_SWP outcome api_terminate_sweeping();
  * ACIS options.
  **/
 DECL_SWP outcome api_sweep_with_options(
-			ENTITY        *profile,
-			ENTITY        *path,
-			sweep_options *opts,
-			BODY          *&new_body,
-			AcisOptions   *ao= NULL
-			);
-DECL_SWP outcome gme_api_sweep_with_options(
 			ENTITY        *profile,
 			ENTITY        *path,
 			sweep_options *opts,
@@ -474,14 +467,6 @@ DECL_SWP outcome api_sweep_with_options(
  * ACIS options.
  **/
 DECL_SWP outcome api_sweep_with_options(
-			ENTITY*        ent,
-			const SPAposition    &root,
-			const SPAvector      &axis,
-			sweep_options* opts,
-			BODY*          &new_body,
-			AcisOptions*   ao = NULL
-			);
-DECL_SWP outcome gme_api_sweep_with_options(
 			ENTITY*        ent,
 			const SPAposition    &root,
 			const SPAvector      &axis,

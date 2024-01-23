@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerngeom/surface/tordef.hxx */
+/* ORIGINAL: acis2.1/kerngeom/surface/tordef.hxx */
 /* $Id: tordef.hxx,v 1.19 2002/08/09 17:15:27 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -30,9 +30,6 @@
 
 #include "unitvec.hxx"
 #include "position.hxx"
-
-//// 支撑性测试
-// #define GME_KERN_TORDEF  //将ACIS接口切换为GME接口
 
 /**
 * @file tordef.hxx
@@ -222,7 +219,6 @@ public:
  * <b>Role:</b> Requests memory for this object but does not populate it.
  */
 	torus();
-	torus(const char *gme);
 
 
 	// Construct a torus as a copy of another one
@@ -233,7 +229,6 @@ public:
  * existing torus to copy.
  */
 	torus(const torus& tor);
-	torus(const char *gme, const torus& tor);
 
 
 	// Construct a torus with given centre, normal and radii.
@@ -258,13 +253,6 @@ public:
 				double major_radius,
 				double minor_radius
 			);
-	torus(
-				const char *gme,
-				const SPAposition& center,
-				const SPAunit_vector& normal,
-				double major_radius,
-				double minor_radius
-			);
 
 	// Destructor. This is virtual, so must be out-of-line.
 /**
@@ -278,14 +266,12 @@ public:
  * @nodoc
  */
 	virtual surface* make_copy() const; // documented in base class
-	/*virtual*/ surface* gme_make_copy() const; 
 
 	// Make a copy without any sharing of subdata.
 /**
  * @nodoc
  */
 	virtual surface* deep_copy(pointer_map* pm = NULL) const; // documented in base class
-	/*virtual*/ surface* gme_deep_copy(pointer_map* pm = NULL) const;
 
 	// Return a torus being (a copy of) this torus negated (i.e. with
 	// opposite normal).
@@ -295,7 +281,6 @@ public:
  * <b>Role:</b> By negated, we mean that the new torus has the opposite normal.
  */
 	torus operator-() const;
-	torus gme_operator_substract() const;
 
 
 	// Test two surfaces for equality. This, like testing floating-
@@ -314,7 +299,6 @@ public:
  * surface to compare for equality.
  */
 	virtual logical operator==( const surface& surf ) const;
-	/*virtual*/ logical gme_operator_equal( const surface& surf ) const;
 
 
 	// Return a torus being (a copy of) this torus transformed by
@@ -341,23 +325,19 @@ public:
 	virtual surface& operator*=(
 				const SPAtransf& transf
 			);
-	/*virtual*/ surface& gme_operator_multiply_assign(
-				const SPAtransf& transf
-			);
 
 	// Negate this torus.
 /**
  * Negates <tt>this</tt> torus; ie, reverses the direction of the surface normal.
  */
 	virtual surface& negate();
-	/*virtual*/ surface& gme_negate();
+
 
 	// Indicate whether the torus is properly defined or not.
 /**
  * Determines whether <tt>this</tt> torus is properly defined.
  */
 	virtual logical undef() const;
-	/*virtual*/ logical gme_undef() const;
 
 
 	// Return a SPAbox around the surface. This need not be the smallest
@@ -373,10 +353,7 @@ public:
 				const SPApar_box& box = *(SPApar_box*)NULL_REF,
 				const SPAtransf&  transf = *(SPAtransf*)NULL_REF
 			) const; // documented in base class
-	SPAbox gme_bound(
-				const SPApar_box& box = *(SPApar_box*)NULL_REF,
-				const SPAtransf&  transf = *(SPAtransf*)NULL_REF
-			) const;
+
 	// Surface bounded in object space.
 /**
  * @nodoc
@@ -385,6 +362,7 @@ public:
 				const SPAbox& box,
 				const SPAtransf& transf = *(SPAtransf*)NULL_REF
 			) const; // documented in base class
+
 
 	// Return a cone bounding the normal direction of the surface. The
 	// cone is deemed to have its apex at the origin, and has a given
@@ -425,7 +403,6 @@ public:
  * Returns the origin of the coordinates for <tt>this</tt> torus, constructing one if necessary.
  */
 	SPAunit_vector origin_dir() const;
-	SPAunit_vector gme_origin_dir() const;
 
 	// Geometric enquiry routines - torus-specific.
 
@@ -500,7 +477,6 @@ public:
  * apices).
  */
 	double apex_dist() const;
-	double gme_apex_dist() const;
 
 	// Geometric enquiry routines. Generic for all surfaces.
 
@@ -515,7 +491,6 @@ public:
  * their surface properties are easy to find in object space.
  */
 	virtual logical parametric() const;
-	/*virtual*/ logical gme_parametric() const;
 
 	// Position-based enquiries, implemented for all surfaces, but
 	// with an extra argument to speed up processing for parametric
@@ -539,10 +514,7 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& unused = *(SPApar_pos*)NULL_REF
 			) const;
-	SPAunit_vector gme_point_normal(
-				const SPAposition& pos,
-				const SPApar_pos& unused = *(SPApar_pos*)NULL_REF
-			) const;
+
 
 	// Find an outward direction from the surface at a point with
 	// given SPAparameter values. This will usually be the normal, but
@@ -562,10 +534,6 @@ public:
  * parameter guess (unused).
  */
 	virtual SPAunit_vector point_outdir(
-				const SPAposition& pos,
-				const SPApar_pos& unused = *(SPApar_pos*)NULL_REF
-			) const;
-	/*virtual*/ SPAunit_vector gme_point_outdir(
 				const SPAposition& pos,
 				const SPApar_pos& unused = *(SPApar_pos*)NULL_REF
 			) const;
@@ -598,14 +566,6 @@ public:
 				double& cur2,			// curvature in second direction
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
 			) const;
-	void gme_point_prin_curv(
-				const SPAposition& pos,
-				SPAunit_vector& axis1,	
-				double& cur1,			
-				SPAunit_vector& axis2,	
-				double& cur2,			
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
-			) const;
 /**
  * Finds the principal axes of curvature of <tt>this</tt> surface at a given point and
  * the curvatures in those directions, in a structure defined for the purpose.
@@ -622,6 +582,7 @@ public:
 	{
 		return surface::point_prin_curv( pos, param_guess );
 	}
+
 
 	// Find the curvature of a cross-section of the cone.
 	// The section is given by the intersection of the cone with a
@@ -674,15 +635,6 @@ public:
 				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
 				logical f_weak = FALSE
 			) const;
-	void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				SPAunit_vector& ppnormal,
-				surf_princurv& cur,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const;
 /**
  * Finds the point on <tt>this</tt> surface nearest to the given point and, optionally,
  * the normal to the surface at that point.
@@ -703,20 +655,7 @@ public:
  * @param f_weak
  * weak flag - for internal use.
  */
-	#ifdef GME_KERN_TORDEF
-	void point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				SPAunit_vector& ppnormal,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const
-	{
-		gme_point_perp(pos,foot,ppnormal,param_guess,param_actual,f_weak);
-	}
-	#else
-	void point_perp(
+	 void point_perp(
 				const SPAposition& pos,
 				SPAposition& foot,
 				SPAunit_vector& ppnormal,
@@ -734,15 +673,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-	#endif
-	 void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				SPAunit_vector& ppnormal,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const;
 /**
  * Finds the point on <tt>this</tt> surface nearest to the given point.
  * <br><br>
@@ -760,19 +690,7 @@ public:
  * @param f_weak
  * weak flag - for internal use.
  */
-	#ifdef GME_KERN_TORDEF
-	 void point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const
-	{
-		return gme_point_perp(pos,foot,param_guess,param_actual,f_weak);
-	}
-	#else
-	 void point_perp(
+	void point_perp(
 				const SPAposition& pos,
 				SPAposition& foot,
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
@@ -790,14 +708,6 @@ public:
 				f_weak
 			);
 	}
-	#endif
-	void gme_point_perp(
-				const SPAposition& pos,
-				SPAposition& foot,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF,
-				logical f_weak = FALSE
-			) const;
 
 
 	// Now there is a set of SPAparameter-based functions. The Acis
@@ -834,10 +744,6 @@ public:
 				const SPAposition& pos,
 				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF
 			) const;
-	/*virtual*/ SPApar_pos gme_param(
-				const SPAposition& pos,
-				const SPApar_pos& param_guess = *(SPApar_pos*)NULL_REF\
-			)const;
 
 	// Find the rate of change in surface SPAparameter corresponding to
 	// a unit velocity in a given object-space direction at a given
@@ -852,10 +758,6 @@ public:
  * parameter position at which the result is determined.
  */
 	virtual SPApar_vec param_unitvec(
-				const SPAunit_vector& dir,
-				const SPApar_pos& pos
-			) const;
-	/*virtual*/ SPApar_vec gme_param_unitvec(
 				const SPAunit_vector& dir,
 				const SPApar_pos& pos
 			) const;
@@ -885,14 +787,6 @@ public:
 				SPAvector* second_derivs = NULL		// second derivatives - array of
 									// length 3, in order xuu, xuv, xvv
 			) const;
-	/*virtual*/ void gme_eval(
-				const SPApar_pos& param,
-				SPAposition& pos,
-				SPAvector* first_derivs = NULL,	// first derivatives - array of
-									// length 2, in order xu, xv
-				SPAvector* second_derivs = NULL		// second derivatives - array of
-									// length 3, in order xuu, xuv, xvv
-			) const;
 
 
 	// Find the point on a parametric surface with given SPAparameter
@@ -912,7 +806,6 @@ public:
  * parameter position at which to evaluate the surface normal.
  */
 	virtual SPAunit_vector eval_normal(const SPApar_pos& par_pos) const;
-	/*virtual*/ SPAunit_vector gme_eval_normal(const SPApar_pos& par_pos) const;
 
 
 	// Find the principal axes of curvature of the surface at a
@@ -939,13 +832,6 @@ public:
 				double& cur1,			// curvature in first direction
 				SPAunit_vector& axis2,		// second axis direction
 				double&	cur2		// curvature in second direction
-			) const;
-	void gme_eval_prin_curv(
-				const SPApar_pos& pos,
-				SPAunit_vector& axis1,
-				double& cur1,
-				SPAunit_vector& axis2,
-				double& cur2
 			) const;
 /**
  * Finds the principal axes of curvature of <tt>this</tt> surface at the point with the
@@ -1027,25 +913,6 @@ public:
 										// below for each SPAparameter direction,
 										// or don't care.
             ) const;
-	/*virtual*/ int gme_evaluate(
-				const SPApar_pos& param,	// Parameter
-                SPAposition& pos,			// Point on surface at given SPAparameter
-                SPAvector** derivs = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-                int nd = 0,       		// Number of derivatives required (nd)
-				evaluate_surface_quadrant quad = evaluate_surface_unknown
-										// the evaluation location - above,
-										// below for each SPAparameter direction,
-										// or don't care.
-			) const;
-
 
 
 	// Return the number of derivatives which evaluate() can find
@@ -1070,10 +937,6 @@ public:
 				const SPApar_box& box = *(SPApar_box*)NULL_REF
 								 	// Defaults to the whole surface
 			) const;
-	/*virtual*/ int gme_accurate_derivs(
-				const SPApar_box& box = *(SPApar_box*)NULL_REF
-								 	// Defaults to the whole surface
-			) const;
 
 
 	// Report whether the surface is periodic in either SPAparameter
@@ -1084,10 +947,9 @@ public:
  * Determines if <tt>this</tt> surface is periodic in the <i>u</i>-parameter direction
  * (i.e., if it is smoothly closed, so that faces can run over the seam).
  * <br><br>
- * <b>Role:</b> A torus is periodic in the <i>u</i>-direction if it is nondegenerate. 
+ * <b>Role:</b> A torus is periodic in the <i>u</i>-direction if it is nondegenerate.
  */
 	virtual logical periodic_u() const;
-	/*virtual*/ logical gme_periodic_u() const;
 /**
  * Determines if <tt>this</tt> surface is periodic in the <i>v</i>-parameter direction
  * (i.e., if it is smoothly closed, so that faces can run over the seam).
@@ -1095,7 +957,6 @@ public:
  * <b>Role:</b> A torus is always periodic in the <i>v</i>-direction.
  */
 	virtual logical periodic_v() const;
-	/*virtual*/ logical gme_periodic_v() const;
 
 
 	// Report whether the surface is closed, smoothly or not, in
@@ -1108,7 +969,6 @@ public:
  * <b>Role:</b> A torus may or may not be closed in the <i>u</i>-direction.
  */
 	virtual logical closed_u() const;
-	/*virtual*/ logical gme_closed_u() const;
 /**
  * Determines whether <tt>this</tt> surface is closed, smoothly or not, in the
  * <i>v</i>-parameter direction.
@@ -1116,7 +976,6 @@ public:
  * <b>Role:</b> A torus is closed in the <i>v</i>-direction.
  */
 	virtual logical closed_v() const;
-	/*virtual*/ logical gme_closed_v() const;
 
 
 	// Return the period of a periodic parametric surface, zero if
@@ -1132,7 +991,6 @@ public:
  * <i>u</i>-direction, (i.e., it is a doughnut) its period is <tt>2pi</tt>.
  */
 	virtual double param_period_u() const;
-	/*virtual*/ double gme_param_period_u() const;
 /**
  * Returns the period, in <i>v</i>, of a periodic parametric surface.
  * <br><br>
@@ -1141,7 +999,6 @@ public:
  * in the <i>v</i>-direction.
  */
 	virtual double param_period_v() const;
-	/*virtual*/ double gme_param_period_v() const;
 
 
 	// Return the principal SPAparameter range of a surface in
@@ -1169,9 +1026,6 @@ public:
 	virtual SPApar_box param_range(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
-	/*virtual*/ SPApar_box gme_param_range(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>u</i>-parameter direction.
  * <br><br>
@@ -1192,9 +1046,6 @@ public:
 	 virtual SPAinterval param_range_u(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
-	 /*virtual*/ SPAinterval gme_param_range_u(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>v</i>-parameter direction.
  * <br><br>
@@ -1213,9 +1064,6 @@ public:
  * box restricting the result.
  */
 	virtual SPAinterval param_range_v(
-					const SPAbox& box = *(SPAbox*)NULL_REF
-				) const;
-	/*virtual*/ SPAinterval gme_param_range_v(
 					const SPAbox& box = *(SPAbox*)NULL_REF
 				) const;
 
@@ -1242,9 +1090,6 @@ public:
 	virtual logical singular_u(
 					double	uparam	// constant u parameter
 				) const;
-	/*virtual*/ logical gme_singular_u(
-					double	uparam	// constant u parameter
-				) const;
 /**
  * Determines whether the parameterization of <tt>this</tt> surface is singular at
  * the specified <i>v</i>-parameter value.
@@ -1255,9 +1100,6 @@ public:
  * v-parameter value to test.
  */
 	virtual logical singular_v(
-					double	vparam	// constant v parameter
-				) const;
-	/*virtual*/ logical gme_singular_v(
 					double	vparam	// constant v parameter
 				) const;
 
@@ -1278,7 +1120,7 @@ public:
  * in the opposite direction from this cross product.
  */
 	virtual logical left_handed_uv() const;
-	/*virtual*/ logical gme_left_handed_uv() const;
+
 
 	// Construct a parameter line on the surface. A u parameter line
 	// runs in the direction of increasing u parameter, at constant v.
@@ -1308,9 +1150,7 @@ public:
 	virtual curve* u_param_line(
 				double	vparam		// constant v parameter
 			) const;
-	/*virtual*/ curve* gme_u_param_line(
-				double	vparam		// constant v parameter
-			) const;
+
 /**
  * Constructs a parameter line on the surface.
  * <br><br>
@@ -1327,9 +1167,6 @@ public:
  * <i>u</i> parameter defining the parameter line.
  */
 	virtual curve* v_param_line(
-				double		uparam	// constant u parameter
-			) const;
-	/*virtual*/ curve* gme_v_param_line(
 				double		uparam	// constant u parameter
 			) const;
 
@@ -1357,26 +1194,19 @@ public:
 				const SPApar_pos& uv_guess = *(SPApar_pos*)NULL_REF,
 				SPApar_pos& uv_actual = *(SPApar_pos*)NULL_REF
 			) const;
-	/*virtual*/ logical gme_test_point_tol(
-				const SPAposition& pos,
-				double tol = 0,
-				const SPApar_pos& uv_guess = *(SPApar_pos*)NULL_REF,
-				SPApar_pos& uv_actual = *(SPApar_pos*)NULL_REF
-			) const;
+
 
 	// Return type of (lower-case) surface.
 /**
  * Returns the type of torus.
  */
 	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 
 	// Return string identifier of surface.
 /**
  * Returns the string "torus".
  */
 	virtual const char* type_name() const;
-	/*virtual*/ const char* gme_type_name() const;
 
 
 	// Save and restore. Save is easy, as derived class switching goes
@@ -1446,11 +1276,6 @@ public:
 				const char* str,
 				FILE* ptr = debug_file_ptr
 			) const; // documented in base class
-
-    void gme_debug(
-				const char*,
-				FILE* = debug_file_ptr
-			) const;
 
 // STI swa 27Jul98 -- functions to determine torus sweep information
 public:

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -36,51 +36,46 @@
 #include "acis.hxx"
 #include "box_opts.hxx"
 #include "sil_opts.hxx"
-#include "surdef.hxx"
-#include "loop.hxx"
-
-#include <unordered_map>
-#include <string>
 
 /**
  * \defgroup INTRMAIN Intersectors
  *      \brief Details of Intersector functionality, supporting classes and enums
- *          \defgroup INTRAPICONVEXITY Convexity of a Curve or Edge
- *          \brief Determine the convexity of a curve or EDGE at a point or parameter
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRAPISELFINT Self-Intersection of a CURVE or EDGE
- *          \brief Determine self-intersections of a CURVE or EDGE
- *              \ingroup INTRMAIN
- *          \defgroup INTRAPISILHOUETTE Silhouettes of a FACE
- *          \brief Determine the silhouettes of a FACE for a parallel or perspective projection
- *              \ingroup INTRMAIN
- *          \defgroup INTRAPIEXTREMA Entity Extrema
- *          \brief Determine the extremal position of one or more entities in a given direction
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRAPIBOUNDARYFIELD Create a Boundary Vector Field
- *          \brief Create a vector field on a boundary COEDGE
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRAPIISOLINES Create Isoparametric curves of a FACE
- *          \brief Create edges that lie on the isoparametric curves of a FACE
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRAPIFACETCURVE Curve Faceting
- *          \brief Determine a linear approximation to a curve
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRAPICCI Curve-curve or edge-edge Intersections
- *          \brief Determine curve-curve or edge-edge Intersections
- *              \ingroup INTRMAIN
- *          \defgroup INTRAPIPROJECT Project a Curve to a Surface
- *          \brief Project a curve to a surface
- *              \ingroup INTRMAIN
- *          \defgroup INTRAPIEDGETANG EDGE Tangency Conditions
- *          \brief Test an EDGE for tangency conditions
- *              \ingroup MODELANALYSIS
- *          \defgroup INTRDIRECTBS3CURVEINT Intersection and Projection Utility Functions for bs3_curve
- *          \brief Determine the intersection of a bs3_curve and a curve or surface, and projection of a bs3_curve onto a plane
- *              \ingroup INTRMAIN
- *          \defgroup INTRDIRECTSPLITTING Splitting Edges and Coedges
- *          \brief Split an EDGE at a convexity point or a VERTEX 
- *              \ingroup MODELANALYSIS
+ *			\defgroup INTRAPICONVEXITY Convexity of a Curve or Edge
+ *			\brief Determine the convexity of a curve or EDGE at a point or parameter
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRAPISELFINT Self-Intersection of a CURVE or EDGE
+ *			\brief Determine self-intersections of a CURVE or EDGE
+ *				\ingroup INTRMAIN
+ *			\defgroup INTRAPISILHOUETTE Silhouettes of a FACE
+ *			\brief Determine the silhouettes of a FACE for a parallel or perspective projection
+ *				\ingroup INTRMAIN
+ *			\defgroup INTRAPIEXTREMA Entity Extrema
+ *			\brief Determine the extremal position of one or more entities in a given direction
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRAPIBOUNDARYFIELD Create a Boundary Vector Field
+ *			\brief Create a vector field on a boundary COEDGE
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRAPIISOLINES Create Isoparametric curves of a FACE
+ *			\brief Create edges that lie on the isoparametric curves of a FACE
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRAPIFACETCURVE Curve Faceting
+ *			\brief Determine a linear approximation to a curve
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRAPICCI Curve-curve or edge-edge Intersections
+ *			\brief Determine curve-curve or edge-edge Intersections
+ *				\ingroup INTRMAIN
+ *			\defgroup INTRAPIPROJECT Project a Curve to a Surface
+ *			\brief Project a curve to a surface
+ *				\ingroup INTRMAIN
+ *			\defgroup INTRAPIEDGETANG EDGE Tangency Conditions
+ *			\brief Test an EDGE for tangency conditions
+ *				\ingroup MODELANALYSIS
+ *			\defgroup INTRDIRECTBS3CURVEINT Intersection and Projection Utility Functions for bs3_curve
+ *			\brief Determine the intersection of a bs3_curve and a curve or surface, and projection of a bs3_curve onto a plane
+ *				\ingroup INTRMAIN
+ *			\defgroup INTRDIRECTSPLITTING Splitting Edges and Coedges
+ *			\brief Split an EDGE at a convexity point or a VERTEX 
+ *				\ingroup MODELANALYSIS
  */
 
 /**
@@ -94,7 +89,6 @@
 #include "param.hxx"
 #include "coedfield.hxx"
 #include "pattern_enum.hxx"
-#include "sil_opts.hxx"
 
 class BODY;
 class WIRE;
@@ -227,30 +221,6 @@ DECL_INTR outcome api_point_in_face(
             int                     cache_size  = 10,   // use cached entries
             AcisOptions             *ao         = NULL  // options such as journaling and versioning
          );
-DECL_INTR outcome gme_api_point_in_face(
-            SPAposition const       &test_point,        // point in question
-            FACE                    *test_face,         // face to test point against
-            SPAtransf   const       &face_trans,        // transformation of the face
-            point_face_containment  &cont_answer,       // relationship found (point_inside_face,
-                                                        // point_outside_face, point_boundary_face,
-                                                        // and  point_unkown_face)
-            SPApar_pos  const       &test_uv_guess = 
-                *(SPApar_pos *)NULL_REF,     // spline face case, guess of uv-coordinates of the testpoint
-            logical                 use_cache   = FALSE,// use cached entries
-            int                     cache_size  = 10,   // use cached entries
-            AcisOptions             *ao         = NULL  // options such as journaling and versioning
-         );
-
-// 枚举变量
-enum gme_uv_loop_direction {
-    loop_positive,
-    loop_negative,
-    loop_both,  // 孤立点
-    loop_fail,
-};
-
-// 判断一个u_loop或者v_loop的方向是顺时针还是逆时针转
-DECL_INTR void gme_is_uv_loop_direction_pos(const surface* sur, const LOOP* loop, const loop_type& lt, gme_uv_loop_direction& u_dir, gme_uv_loop_direction& v_dir);
 
 /**
  * Determines the relationship of a position within a given face's surface.
@@ -332,6 +302,7 @@ DECL_INTR outcome api_point_in_face(
             AcisOptions             *ao        = NULL   // options such as journaling and versioning
          );
 
+
 /** @} */
 /** \addtogroup INTRAPISELFINT
  *  \brief Declared at <intrapi.hxx>, SPAintr
@@ -389,11 +360,11 @@ DECL_INTR outcome api_point_in_face(
  * ACIS options.
  **/
 DECL_INTR outcome api_crv_self_inters(
-            CURVE               *crv,               // Curve which is interrogated
-            double              start_par,          // Start_parameter
-            double              end_par,            // End SPAparameter
-            curve_curve_int     *&self_intersection,// Intersection record returned
-            AcisOptions         *ao = NULL);
+			CURVE               *crv,			    // Curve which is interrogated
+			double              start_par,		    // Start_parameter
+			double              end_par,		    // End SPAparameter
+			curve_curve_int     *&self_intersection,// Intersection record returned
+		    AcisOptions         *ao = NULL);
 
 
 /**
@@ -440,9 +411,9 @@ DECL_INTR outcome api_crv_self_inters(
  * ACIS options.
  **/
 DECL_INTR outcome api_ed_self_inters(
-            EDGE            *edge,                  // Edge which is interrogated
-            curve_curve_int *& self_intersection,   // Intersection record that is returned
-            AcisOptions     *ao = NULL);
+            EDGE            *edge,				    // Edge which is interrogated
+			curve_curve_int *& self_intersection,   // Intersection record that is returned
+		    AcisOptions     *ao = NULL);
 
 
 /** @} */
@@ -522,12 +493,12 @@ DECL_INTR outcome api_edge_convexity_param(
  * ACIS options.
  **/
 DECL_INTR outcome api_face_nu_nv_isolines(
-            int             nu,         // number of U curves
-            int             nv,         // number of V curves
-            FACE            *face,      // face on which to calculate iso-curves
-            const SPAtransf &ftrans,    // transformation positioning face
-            ENTITY_LIST     *edge_list, // edges are returned in list
-            AcisOptions     *ao = NULL);
+            int             nu,		    // number of U curves
+			int             nv,		    // number of V curves
+ 			FACE            *face,	    // face on which to calculate iso-curves
+ 			const SPAtransf &ftrans,    // transformation positioning face
+ 			ENTITY_LIST     *edge_list, // edges are returned in list
+		    AcisOptions     *ao = NULL);
 
 /**
  * Generates a list of edges that lie on a <i>u</i>-parametric curve and are trimmed to the boundary of a face.
@@ -556,12 +527,12 @@ DECL_INTR outcome api_face_nu_nv_isolines(
  * ACIS options.
  **/
 DECL_INTR outcome api_face_u_iso(
-            double          v,          // U SPAparameter
-            FACE            *face,      // face on which to calculate iso-curve
-            const SPAtransf &ftrans,    // transformation positioning face
-            ENTITY_LIST     *edge_list, // edges are returned in list
-            AcisOptions     *ao = NULL);
-DECL_INTR outcome gme_api_face_u_iso(double v, FACE* face, const SPAtransf& ftrans, ENTITY_LIST* edge_list, AcisOptions* ao = NULL);
+            double          v,		    // U SPAparameter
+ 			FACE            *face,	    // face on which to calculate iso-curve
+ 			const SPAtransf &ftrans,    // transformation positioning face
+ 			ENTITY_LIST     *edge_list,	// edges are returned in list
+ 		    AcisOptions     *ao = NULL);
+
 /**
  * Generates a list of edges that lie on a <i>v</i>-parametric curve and are trimmed to the boundary of a face.
  * <br><br>
@@ -589,13 +560,13 @@ DECL_INTR outcome gme_api_face_u_iso(double v, FACE* face, const SPAtransf& ftra
  * ACIS options.
  **/
 DECL_INTR outcome api_face_v_iso(
-            double          u,          // U SPAparameter
-            FACE            *face,      // face on which to calculate iso-curve
-            const SPAtransf &ftrans,    // transformation positioning face
-            ENTITY_LIST     *edge_list, // edges are returned in list
-            AcisOptions     *ao = NULL);
+ 			double          u,		    // U SPAparameter
+ 			FACE            *face,      // face on which to calculate iso-curve
+ 			const SPAtransf &ftrans,    // transformation positioning face
+ 			ENTITY_LIST     *edge_list, // edges are returned in list
+ 		    AcisOptions     *ao = NULL);
 
-DECL_INTR outcome gme_api_face_v_iso(double u, FACE* face, const SPAtransf& ftrans, ENTITY_LIST* edge_list, AcisOptions* ao = NULL);
+
 /** @} */
 /** \addtogroup INTRAPIFACETCURVE
  *  \brief Declared at <intrapi.hxx>, SPAintr
@@ -636,16 +607,16 @@ DECL_INTR outcome gme_api_face_v_iso(double u, FACE* face, const SPAtransf& ftra
  * ACIS options.
  **/
 DECL_INTR outcome api_facet_curve(
-            const curve & crv,      // curve to approximate with linear polygons
-            double      a,          // starting SPAparameter
-            double      b,          // ending SPAparameter
-            double      tol,        // tolerance
-            int         nmax,       // max number of points to generate
-            int         &npts,      // number of points generated
-                                    // (set to nmax+1 if nmax exceeded)
-            SPAposition pts[],      // points on curve
-            double      t[],        // SPAparameter value at point
-            AcisOptions *ao = NULL);
+			const curve & crv,      // curve to approximate with linear polygons
+			double      a,          // starting SPAparameter
+			double      b,          // ending SPAparameter
+			double      tol,        // tolerance
+			int         nmax,       // max number of points to generate
+			int         &npts,      // number of points generated
+									// (set to nmax+1 if nmax exceeded)
+			SPAposition pts[],      // points on curve
+			double      t[],        // SPAparameter value at point
+		    AcisOptions *ao = NULL);
 
 
 /** @} */
@@ -686,16 +657,10 @@ DECL_INTR outcome api_facet_curve(
  * ACIS options.
  **/
 DECL_INTR outcome api_inter_ed_ed(
-            EDGE            *e1,        // first edge
-            EDGE            *e2,        // second edge
-            curve_curve_int *&inters,   // list of intersection records
-            AcisOptions     *ao = NULL);
-
-DECL_INTR outcome gme_api_inter_ed_ed(
-            EDGE            *e1,        // first edge
-            EDGE            *e2,        // second edge
-            curve_curve_int *&inters,   // list of intersection records
-            AcisOptions     *ao = NULL);
+            EDGE            *e1,	    // first edge
+			EDGE            *e2,	    // second edge
+			curve_curve_int *&inters,   // list of intersection records
+		    AcisOptions     *ao = NULL);
 
 // Compute the intersections of two curves
 /**
@@ -742,12 +707,7 @@ DECL_INTR outcome api_intersect_curves(
             logical         bounded,    // find only intersections within edge bounds?
             curve_curve_int *& inters,  // list of intersection records
             AcisOptions     *ao = NULL);
-DECL_INTR outcome gme_api_intersect_curves(
-            EDGE            * crv1,     // first curve
-            EDGE            * crv2,     // second curve
-            logical         bounded,    // find only intersections within edge bounds?
-            curve_curve_int *& inters,  // list of intersection records
-            AcisOptions     *ao = NULL);
+
 
 /** @} */
 /** \addtogroup INTRAPISILHOUETTE
@@ -794,13 +754,13 @@ DECL_INTR outcome gme_api_intersect_curves(
  * ACIS options.
  **/
 DECL_INTR outcome api_silhouette_edges(
-            FACE                *face,          // face for which silhouette edges are calculated
-            const SPAtransf     &ftrans,        // transformation for face
-            const SPAposition   &from_point,    // from point
-            const SPAposition   &to_point,      // to point
-            int projection_type,                // projection type (0=>parallel, 1=>perspective)
-            ENTITY_LIST         *edgelist,      // list of silhouette edges
-            AcisOptions         *ao = NULL);
+            FACE                *face,		    // face for which silhouette edges are calculated
+			const SPAtransf     &ftrans,	    // transformation for face
+			const SPAposition   &from_point,    // from point
+			const SPAposition   &to_point,      // to point
+			int projection_type,			    // projection type (0=>parallel, 1=>perspective)
+			ENTITY_LIST         *edgelist,	    // list of silhouette edges
+		    AcisOptions         *ao = NULL);
 
 
 /**
@@ -845,14 +805,14 @@ DECL_INTR outcome api_silhouette_edges(
  **/
 
 DECL_INTR outcome api_silhouette_edges(
-            FACE                *face,          // face for which silhouette edges are calculated
-            const SPAtransf     &ftrans,        // transformation for face
-            const SPAposition   &from_point,    // from point
-            const SPAposition   &to_point,      // to point
-            int projection_type,                // projection type (0=>parallel, 1=>perspective)
-            ENTITY_LIST         *edgelist,      // list of silhouette edges
-            silhouette_options  *sil_opts,
-            AcisOptions         *ao = NULL);
+            FACE                *face,		    // face for which silhouette edges are calculated
+			const SPAtransf     &ftrans,	    // transformation for face
+			const SPAposition   &from_point,    // from point
+			const SPAposition   &to_point,      // to point
+			int projection_type,			    // projection type (0=>parallel, 1=>perspective)
+			ENTITY_LIST         *edgelist,	    // list of silhouette edges
+			silhouette_options  *sil_opts,
+		    AcisOptions         *ao = NULL);
 
 
 /** @} */
@@ -902,9 +862,9 @@ DECL_INTR outcome api_silhouette_edges(
  **/
 DECL_INTR outcome api_check_cur_smoothness(
             EDGE                    *given_edge,
-            curve_irregularities    *&cirr,
-            int                     &no_pts,
-            AcisOptions             *ao = NULL);
+			curve_irregularities    *&cirr,
+			int                     &no_pts,
+		    AcisOptions             *ao = NULL);
 
 /**
  * Calls the ACIS Checker and checks an entity's geometry, topology, and data structure
@@ -1006,19 +966,14 @@ DECL_INTR outcome api_check_cur_smoothness(
  **/
 DECL_INTR outcome api_check_entity(
             const ENTITY    *given_entity, // entity to check
-            insanity_list   *&list,
-            AcisOptions     *ao = NULL);
-DECL_INTR outcome gme_api_check_entity(
-            const ENTITY    *given_entity, // entity to check
-            insanity_list   *&list,
-            AcisOptions     *ao = NULL);
-
+			insanity_list   *&list,
+		    AcisOptions     *ao = NULL);
 
 
 DECL_INTR outcome api_brep_health_report(
             const ENTITY    *given_entity, // health report for this entity
-            insanity_list   *&list,
-            AcisOptions     *ao = NULL);
+			insanity_list   *&list,
+		    AcisOptions     *ao = NULL);
 
 // This api will become obsolete. Use api_check_entity(const ENTITY*, insanity_list*&, FILE*).
 /**
@@ -1289,15 +1244,10 @@ DECL_INTR outcome api_brep_health_report(
  **/
 DECL_INTR outcome api_check_entity(
             const ENTITY    *given_entity, // entity to check
-            ENTITY_LIST     *problem_ents,  // list of questionable subentities
-            FILE            *file_ptr = stdout,
-            AcisOptions     *ao = NULL);
+			ENTITY_LIST     *problem_ents,  // list of questionable subentities
+			FILE            *file_ptr = stdout,
+		    AcisOptions     *ao = NULL);
 
-DECL_INTR outcome gme_api_check_entity(
-            const ENTITY    *given_entity, // entity to check
-            ENTITY_LIST     *problem_ents,  // list of questionable subentities
-            FILE            *file_ptr = stdout,
-            AcisOptions     *ao = NULL);
 
 /** @} */
 /** \addtogroup ACISCHECKING
@@ -1331,7 +1281,7 @@ DECL_INTR outcome gme_api_check_entity(
  **/
 DECL_INTR outcome api_check_wire_self_inters(
             WIRE        *wire,  // Wire to check
-            AcisOptions *ao = NULL);
+		    AcisOptions *ao = NULL);
 
 /** @} */
 /** \addtogroup ACISCHECKING
@@ -1367,14 +1317,8 @@ DECL_INTR outcome api_check_wire_self_inters(
  **/
 DECL_INTR outcome api_check_wire_self_intersects(
             WIRE        *wire,  // Wire to check
-            insanity_list* &insanities,
-            AcisOptions *ao = NULL);
-
-
-DECL_INTR outcome gme_api_check_wire_self_intersects(
-          WIRE        *wire,  // Wire to check
-          insanity_list* &insanities,
-          AcisOptions *ao = NULL);
+			insanity_list* &insanities,
+		    AcisOptions *ao = NULL);
 /**
  * Evaluates a wire BODY for self intersections.
  * <br><br>
@@ -1405,8 +1349,8 @@ DECL_INTR outcome gme_api_check_wire_self_intersects(
  * ACIS options.
  **/
 DECL_INTR outcome api_check_wire_self_inters(
-            BODY        *body,          // Wire body to check
-            AcisOptions *ao = NULL);
+			BODY        *body,          // Wire body to check
+		    AcisOptions *ao = NULL);
 
 
 /** @} */
@@ -1533,12 +1477,6 @@ DECL_INTR outcome api_check_edge(
             EDGE            *edge, 
             insanity_list   *&ilist,
             AcisOptions     *ao = NULL);
-#include <unordered_map>
-DECL_INTR outcome gme_api_check_edge(
-            EDGE            *edge, 
-            insanity_list   *&ilist,
-            AcisOptions     *ao = NULL,
-            std::unordered_map<std::string, option_header*> const* options = nullptr);
 
 
 // Given a face , this function returns a linked list of flags which indicate
@@ -1654,11 +1592,6 @@ DECL_INTR outcome api_check_face(
             FACE            *face,
             insanity_list   *&ilist,
             AcisOptions     *ao = NULL);
-DECL_INTR outcome gme_api_check_face(
-            FACE            *face,
-            insanity_list   *&ilist,
-            AcisOptions         *ao = NULL,
-            std::unordered_map<std::string, option_header*> const* options = nullptr);
 
 
 //  For identifying type of information returned
@@ -1672,14 +1605,14 @@ DECL_INTR outcome gme_api_check_face(
  * @nodoc
  */
 
-enum    param_info_type
+enum 	param_info_type
 {
-    ent_is_unknown=-1,
+	ent_is_unknown=-1,
     ent_is_face,
     ent_is_edge,
     ent_is_vertex,
-    ent_is_body,    // returned if inside body
-    ent_is_lump     // returned if inside lump
+	ent_is_body,	// returned if inside body
+	ent_is_lump		// returned if inside lump
 };
 
 
@@ -1708,50 +1641,50 @@ class DECL_INTR param_info : public ACIS_OBJECT {
 
 private:
 
-    param_info_type     type;           // Face, Edge, or Vertex
-    ENTITY*             entity_ptr;     // Entity SPAposition is on
-    SPApar_pos          uv_param;       // Face SPAparameter values
-    SPAparameter        t_param;        // Edge SPAparameter value
+	param_info_type		type;			// Face, Edge, or Vertex
+	ENTITY*				entity_ptr;		// Entity SPAposition is on
+	SPApar_pos		    uv_param;		// Face SPAparameter values
+	SPAparameter	    t_param;		// Edge SPAparameter value
 
 public:
 
-    // Constructors
+	// Constructors
 
-    // Default constructor
+	// Default constructor
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-    param_info() {
-            type = ent_is_vertex;
-            entity_ptr = NULL;
-            uv_param = SPApar_pos(0.0,0.0);
-            t_param = 0.0;
-        }
+	param_info() {
+			type = ent_is_vertex;
+			entity_ptr = NULL;
+			uv_param = SPApar_pos(0.0,0.0);
+			t_param = 0.0;
+		}
 
-    // Inquiry functions.
+	// Inquiry functions.
 /**
  * Returns the type of the entity referred to by this instance.
  */
-    param_info_type entity_type() const { return type; }
+	param_info_type	entity_type() const { return type; }
 /**
  * Returns a pointer to the entity referred to by this instance.
  */
-    ENTITY  *entity() const { return entity_ptr; }
+	ENTITY	*entity() const { return entity_ptr; }
 /**
  * Returns the (u,v) parameters of the point represented by this instance.
  * <br><br>
  * <b>Role:</b> This will be meaningful only if the entity referred to is a face.
  */
-    SPApar_pos uv() const { return uv_param; }
+	SPApar_pos uv() const { return uv_param; }
 /**
  * Returns the curve parameter of the point represented by this instance.
  * <br><br>
  * <b>Role:</b> This will  be meaningful only if the entity referred to is an edge.
  */
-    SPAparameter t() const { return t_param; }
+	SPAparameter t() const { return t_param; }
 
 /**
  * Sets the entity type for this instance.
@@ -1759,44 +1692,44 @@ public:
  * @param ent_type
  * type of entity.
  */
-    void set_entity_type( param_info_type ent_type ) { type = ent_type ; }
+	void set_entity_type( param_info_type ent_type ) { type = ent_type ; }
 /**
  * Sets the entity referred to by this instance.
  * <br><br>
  * @param ent
  * entity.
  */
-    void set_entity( ENTITY *ent ) { entity_ptr = ent; }
+	void set_entity( ENTITY *ent ) { entity_ptr = ent; }
 /**
  * Sets the (u,v) parameter position for this instance.
  * <br><br>
  * @param uv
  * position coordinate.
  */
-    void set_uv(const SPApar_pos& uv ) { uv_param = uv; }
+	void set_uv(const SPApar_pos& uv ) { uv_param = uv; }
 /**
  * Sets the curve parameter value for this instance.
  * <br><br>
  * @param t
  * parameter value.
  */
-    void set_t(const SPAparameter& t ) { t_param = t; }
+	void set_t(const SPAparameter& t ) { t_param = t; }
 
-    // Assignment operator
+	// Assignment operator
 /**
  * Assignment operator.
  * <br><br>
  * @param rhs
  * parameter information.
  */
-    param_info const &operator=( param_info const & rhs)
-    {
-        type = rhs.type;
-        entity_ptr = rhs.entity_ptr;
-        uv_param = rhs.uv_param;
-        t_param = rhs.t_param;
-        return *this;
-    }
+	param_info const &operator=( param_info const & rhs)
+	{
+		type = rhs.type;
+		entity_ptr = rhs.entity_ptr;
+		uv_param = rhs.uv_param;
+		t_param = rhs.t_param;
+		return *this;
+	}
 
 };
 
@@ -1804,67 +1737,67 @@ class param_info_array;
 class DECL_INTR param_info_vector: public ACIS_OBJECT
 {
 public:
-    /**
-    *@nodoc
-    **/
-    param_info_vector();
+	/**
+	*@nodoc
+	**/
+	param_info_vector();
 
-    /**
-    *@nodoc
-    **/
-    ~param_info_vector();
+	/**
+	*@nodoc
+	**/
+	~param_info_vector();
 
-    /**
-    *@nodoc
-    **/
-    int size() const;
+	/**
+	*@nodoc
+	**/
+	int size() const;
 
-    /**
-    *@nodoc
-    **/
-    param_info const& operator[](int ii) const;
+	/**
+	*@nodoc
+	**/
+	param_info const& operator[](int ii) const;
 
-    /**
-    *@nodoc
-    **/
-    param_info& operator[](int ii);
+	/**
+	*@nodoc
+	**/
+	param_info& operator[](int ii);
 
-    /**
-    *@nodoc
-    **/
-    void push_back( param_info const& pos_to_add );
+	/**
+	*@nodoc
+	**/
+	void push_back( param_info const& pos_to_add );
 
-    /**
-    *@nodoc
-    **/
-    // changes allocated block size and vector size.
-    void resize( int new_size );
+	/**
+	*@nodoc
+	**/
+	// changes allocated block size and vector size.
+	void resize( int new_size );
 
-    /**
-    * erases all contents of vector.
-    **/
-    void clear();
+	/**
+	* erases all contents of vector.
+	**/
+	void clear();
 
-    /**
-    * copy contents into other vector
-    **/
-    void copy_to( param_info_vector& out_copy ) const;
+	/**
+	* copy contents into other vector
+	**/
+	void copy_to( param_info_vector& out_copy ) const;
 
-    /**
-    * @nodoc
-    **/
-    operator param_info const* const() const;
+	/**
+	* @nodoc
+	**/
+	operator param_info const* const() const;
 
-    /**
-    * @nodoc
-    **/
-    operator param_info* const();
+	/**
+	* @nodoc
+	**/
+	operator param_info* const();
 
 private:
-    param_info_array* m_array;
+	param_info_array* m_array;
 
-    param_info_vector( param_info_vector const& );
-    param_info_vector& operator=( param_info_vector const& );
+	param_info_vector( param_info_vector const& );
+	param_info_vector& operator=( param_info_vector const& );
 };
 
 
@@ -2023,13 +1956,13 @@ DECL_INTR outcome api_entity_extrema(
  * ACIS options.
  **/
 DECL_INTR outcome api_create_boundary_field(
-            FACE        *in_fas,
+            FACE	    *in_fas,
             fieldtype   ftype,
-            int         rev,
+            int		    rev,
             double      draft,
             SPAvector   &uniform_vec,
             ENTITY_LIST &cons_eds,
-            int         global,
+            int		    global,
             law         **&out_law,
             AcisOptions *ao = NULL);
 
@@ -2096,13 +2029,13 @@ DECL_INTR outcome api_create_boundary_field(
  * ACIS options.
  **/
 DECL_INTR outcome api_create_boundary_field(
-            WIRE        *in_wire,
+            WIRE	    *in_wire,
             fieldtype   ftype,
-            int         rev,
+            int		    rev,
             double      draft,
             SPAvector   &uniform_vec,
             ENTITY_LIST &cons_eds,
-            int         global,
+            int		    global,
             law         **&out_law,
             AcisOptions *ao = NULL);
 
@@ -2175,11 +2108,11 @@ DECL_INTR outcome api_create_boundary_field(
             ENTITY_LIST &coeds,
             FACE        **ref_faces,
             fieldtype   ftype,
-            int         rev,
+            int		    rev,
             double      draft,
             SPAvector   &uniform_vec,
             ENTITY_LIST &cons_eds,
-            int         global,
+            int		    global,
             law         **&out_law,
             AcisOptions *ao = NULL);
 /**
@@ -2245,7 +2178,7 @@ DECL_INTR outcome api_create_boundary_field(
             law         **field_laws,
             double      draft,
             ENTITY_LIST &cons_eds,
-            int         global,
+            int		    global,
             law         **& out_law,
             AcisOptions *ao = NULL);
 
@@ -2281,10 +2214,10 @@ DECL_INTR outcome api_create_boundary_field(
  * AcisOptions
  */
 DECL_INTR outcome api_edge_tangent(
-            EDGE         *edge,
-            logical      &is_tangent,
-            double       tolerance     = SPAresnor,
-            AcisOptions  *acis_options = NULL);
+			EDGE         *edge,
+			logical      &is_tangent,
+			double       tolerance     = SPAresnor,
+			AcisOptions  *acis_options = NULL);
 
 
 /** @} */
@@ -2409,13 +2342,6 @@ DECL_INTR outcome api_get_entity_box(
             SPAposition         &max_pt,
             SPAboxing_options   *box_options = NULL,
             AcisOptions         *ao          = NULL);
-DECL_INTR outcome gme_api_get_entity_box(
-            const ENTITY_LIST   &ent_list,
-            SPAposition         &min_pt,
-            SPAposition         &max_pt,
-            SPAboxing_options   *box_options = NULL,
-            AcisOptions         *ao          = NULL);
-
 
 /**
  * Computes a bounding box containing the entity.
@@ -2522,12 +2448,6 @@ DECL_INTR outcome api_get_entity_box(
             SPAboxing_options   *box_options = NULL,
             AcisOptions         *ao          = NULL );
 
-DECL_INTR outcome gme_api_get_entity_box(
-            ENTITY              *entity,
-            SPAposition         &min_pt,
-            SPAposition         &max_pt,
-            SPAboxing_options   *box_options = NULL,
-            AcisOptions         *ao          = NULL );
 
 /**
  * Computes a bounding box containing the entities.
@@ -2628,25 +2548,6 @@ class entity_hit_list;
 class ray_fire_options;
 class ray;
 
-//@todo acis中并没有gme_pos_geo_to_edge,gme_create_vertex，功能为通过point创建出EDGE，定义在头文件中，方便构造器和布尔模块进行复用。
-DECL_INTR EDGE* gme_pos_geo_to_edge(const SPAposition& pos1, const SPAposition& pos2, CURVE* geo, REVBIT dir = 0);
-DECL_INTR VERTEX* gme_create_vertex(const SPAposition& pos);
 
-/**
- * @brief
- * 从一个face上取一个点的uv坐标（局部坐标系），保证选取出的点一定在第一个coedge内。
- * @param face 目标face
- * @param coedge 该face对应loop中的第一条coedge,face->loop->start()
- * @param point 取样出来uv坐标
- * @param max_sample_num 最大采样次数，防止死循环
- * @param target_body 点是否需要与目标体所有面相距一个距离容差
- * @return 取样是否成功
- */
-DECL_INTR logical gme_get_point_in_face(FACE* face, SPApar_pos& point, int max_sample_num = 1000, const SPAtransf& face_transf = *(SPAtransf*)NULL_REF, BODY* target_body = nullptr);
 /** @} */
-
 #endif
-
-
-
-

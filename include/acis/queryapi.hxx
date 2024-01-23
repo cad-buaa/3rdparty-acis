@@ -52,7 +52,6 @@
 #include "ptcont.hxx"
 #include "ent_pt_dist_opts.hxx"
 #include "detect_match_opts.hxx"
-#include <map>
 
 class APOINT;
 class mass_props;
@@ -227,79 +226,6 @@ DECL_QUERY outcome api_point_in_body(
 			point_containment   &pc,                // relationship ("in", "out", "on")
             logical             use_boxes   = TRUE, // use boxes
 		    AcisOptions         *ao         = NULL);
-DECL_QUERY outcome gme_api_point_in_body(
-            SPAposition const   &test_point,	    // point to be tested
-			BODY                *target_body,	    // body for test
-			point_containment   &pc,                // relationship ("in", "out", "on")
-            logical             use_boxes   = TRUE, // use boxes
-		    AcisOptions         *ao         = NULL);
-
-/**
- * 判断一个点是否在shell内部。
- * @param test_point 测试点
- * @param target_shell 目标shell
- * @param pc 点与shell的关系
- * @param closest_param 返回最近点的参数，若未碰撞，则返回DBL_MAX
- * @param use_boxes 是否使用包围盒
- * @param ao acis选项
- * @return outcome
- */
-DECL_QUERY outcome gme_api_point_in_shell(
-            SPAposition const   &test_point,	    // point to be tested
-			SHELL                *target_body,	    // body for test
-			point_containment   &pc,                // relationship ("in", "out", "on")
-            double& closest_param,
-            logical             use_boxes   = TRUE, // use boxes
-		    AcisOptions         *ao         = NULL);
-
-/**
- * 使用射线法判断面与体的位置关系，用于无交情形，注意到有面和体可能会在一个角处相切.
- * 可以避开所有顶点（未实现）。
- * 主要思路还是取点射线法,注意可以与原始体进行射线法。重合仅在无边情况发生.
- *
- * @param test_face 测试的面
- * @param test_face_transf 面的变换
- * @param target_body 目标体
- * @param fc 位置关系
- */
-DECL_QUERY void face_in_body_deal_with_no_int(FACE* test_face, SPAtransf& test_face_transf, BODY* target_body, face_containment& fc);
-
-/**
- * 判断一个face是否在一个body内，用于布尔运算操作。
- * 该接口仅适用于判断face全在body内或全在body外的情况，允许有部分在边界上。对于face部分在body内部、部分在外部的情况，无法准确判断。
- * 该接口的原理是取面非边界的一点进行点的判断。
- * @param test_face 待测试的face
- * @param target_body 待测试的body
- * @param fc 判断结果，在内部、外部、未知。
- * @param origin_body 布尔运算输入体，作为内外关系判断的参考
- * @param use_boxes 是否使用包围盒粗略判断。
- * @param ao ACIS选项
- * @return api调用结果outcome
- */
-DECL_QUERY outcome gme_api_face_in_body(
-            FACE* const   &test_face,	    // point to be tested
-			BODY                *target_body,	    // body for test
-			face_containment   &fc,                // relationship ("in", "out", "on")
-            BODY *origin_body = NULL,
-			logical             use_boxes   = TRUE, // use boxes
-		    AcisOptions         *ao         = NULL);
-
-/**
- * 判断一个edge是否在一个body内，用于布尔运算操作。
- * 该接口仅适用于判断edge全在body内或全在body外的情况，允许有部分在边界上。对于edge部分在body内部、部分在外部的情况，无法准确判断。
- * 由于在布尔运算中，如果edge的非端点与body相切，那么会被imprint操作裁剪，所以不会有中间某点在body边缘，但整体在body内部的情况。
- * 该接口的原理是取面非边界的一点进行点的判断。
- * 异常：
- *  1、传入的target_body为NULL或不为BODY。
- *  2、传入的test_edge为NULL或不为FACE。
- * @param test_edge 待测试的face
- * @param target_body 待测试的body
- * @param fc 判断结果，在内部、外部、未知。
- * @param use_boxes 是否使用包围盒粗略判断。
- * @param ao ACIS选项
- * @return api调用结果outcome
- */
-DECL_QUERY outcome gme_api_edge_in_body(EDGE* const& test_edge, SPAtransf const& edge_transf, BODY* target_body,edge_containment& ec, logical use_boxes = TRUE, AcisOptions* ao = NULL);
 
 /** @} */
 
@@ -440,13 +366,6 @@ DECL_QUERY outcome api_ray_fire(
 							   ray const& test_ray, 
 							   entity_hit_list& hits, 
 							   rayfire_options* ro=NULL, 
-							   AcisOptions* ao=NULL
-							   );
-DECL_QUERY outcome gme_api_ray_fire(
-							   ENTITY* target_entity,
-							   ray const& test_ray,
-							   entity_hit_list& hits,
-							   rayfire_options* ro=NULL,
 							   AcisOptions* ao=NULL
 							   );
 
@@ -758,8 +677,6 @@ DECL_QUERY outcome api_entity_point_distance(
 			param_info  &ent_info = *(param_info *) NULL_REF,
 		    AcisOptions *ao = NULL);
 
-DECL_QUERY outcome gme_api_entity_point_distance(ENTITY* ent, SPAposition& in_point, SPAposition& closest_pos, double& distance, param_info& ent_info= *(param_info *) NULL_REF, AcisOptions* ao= NULL);
-
 /**
  * Gets the minimum distance between an entity and a point, and the closest position on the entity to the point.
  * @par Technical Article
@@ -1031,12 +948,6 @@ DECL_QUERY outcome api_body_mass_props(
 			mass_props_options  *mpo = NULL,			
 		    AcisOptions         *ao = NULL);
 
-DECL_QUERY outcome gme_api_body_mass_props(
-			BODY                *body,				
-			mass_props          &mp,				
-			mass_props_options  *mpo = NULL,			
-		    AcisOptions         *ao = NULL);
-
 
 /**
 * Determines the area of a face, shell, lump, or body.
@@ -1071,13 +982,7 @@ DECL_QUERY outcome api_ent_area(
 			double& est_rel_accy_achieved,	// estimate of relative precision achieved
 			AcisOptions* ao = NULL
 	);
-DECL_QUERY outcome gme_api_ent_area(
-			ENTITY* ent,					// object (face, shell, lump or body) to be measured
-			double req_rel_accy,			// relative precision desired
-			double& area,					// area returned
-			double& est_rel_accy_achieved,	// estimate of relative precision achieved
-			AcisOptions* ao = NULL
-	);
+
 
 /**
 * Locates area, center of area, second moments, and principal axes of a planar face.
@@ -1691,18 +1596,6 @@ DECL_QUERY outcome api_detect_match(
 									const detect_match_opts* dmo = NULL,
                                     const AcisOptions * ao = NULL
                                     );
-
-struct face_point_info {
-	SPAposition point;
-	logical used;
-	SURFACE* geometry;
-        tag_id_type tag_id;
-	face_point_info() : used(false), geometry(nullptr) {}
-	face_point_info(SPAposition const& p, logical u, SURFACE* g) : point(p), used(u), geometry(g) {}
-        face_point_info(SPAposition const& p, logical u, SURFACE* g, tag_id_type t) : point(p), used(u), geometry(g), tag_id(t) {}
-};
-
-extern DECL_QUERY std::map<FACE*, face_point_info> face_point_map;
 
 /** @} */
 // ------------------------------------------------------------------------------------------------

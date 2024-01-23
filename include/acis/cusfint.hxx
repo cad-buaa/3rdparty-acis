@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -65,13 +65,6 @@ enum point_surf_rel {
 	point_on_surf
 };
 
-enum gme_point_surf_rel {
-	gme_no_end_point,
-	gme_point_unknown_surf,
-	gme_point_off_surf,
-	gme_point_on_surf
-};
-
 /**
  * Specifies the curve bounds of interest.
  * <br>
@@ -109,12 +102,6 @@ public:
 				logical e_rel, SPAposition const &e_posi, double e_param,
                 double stol = 0.0, double etol = 0.0
 			);
-	curve_bounds(
-				const char* gme,
-				logical s_rel, SPAposition const &s_posi, double s_param,
-				logical e_rel, SPAposition const &e_posi, double e_param,
-                double stol = 0.0, double etol = 0.0
-			);
 
 
 /**
@@ -137,12 +124,6 @@ public:
  * end param on curve.
  */
     curve_bounds(
-				point_surf_rel s_rel, SPAposition const &s_posi, double s_param,
-				point_surf_rel e_rel, SPAposition const &e_posi, double e_param,
-                double stol = 0.0, double etol = 0.0
-			);
-	curve_bounds(
-				const char* gme,
 				point_surf_rel s_rel, SPAposition const &s_posi, double s_param,
 				point_surf_rel e_rel, SPAposition const &e_posi, double e_param,
                 double stol = 0.0, double etol = 0.0
@@ -170,12 +151,6 @@ public:
 				SPAposition const & e_posi, double e_para,
                 double stol = 0.0, double etol = 0.0
 			);
-	curve_bounds(
-				const char* gme,
-				SPAposition const & s_posi, double s_para,
-				SPAposition const & e_posi, double e_para,
-                double stol = 0.0, double etol = 0.0
-			);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -195,13 +170,6 @@ public:
 				SPAposition const &e_posi = *(const class SPAposition *)NULL_REF,
                 double stol = 0.0, double etol = 0.0
 			);
-	curve_bounds(
-				const char* gme,
-				curve const &cur,
-				SPAposition const &s_posi = *(const class SPAposition *)NULL_REF,
-				SPAposition const &e_posi = *(const class SPAposition *)NULL_REF,
-                double stol = 0.0, double etol = 0.0
-			);
 /**
  * Writes debug information about <tt>curve_bounds</tt> to the printer or to the specified file.
  * <br><br>
@@ -209,7 +177,6 @@ public:
  * file name.
  */
  	void debug( FILE *fname = debug_file_ptr ) const;
-	void gme_debug(FILE *fname = debug_file_ptr) const;
 /**
  * The end parameter on the curve.
  */
@@ -270,13 +237,11 @@ public:
  * that anything derived by the client gets destroyed properly when the intersection
  * object is destroyed.
  */
-
 class DECL_KERN curve_surf_userdata : public ACIS_OBJECT
 {
 public:
 	virtual ~curve_surf_userdata();
 };
-
 
 /**
  * Types of relationships between curves and surfaces.
@@ -348,15 +313,6 @@ public:
 		ON_SF_BNDRY = 4,
 		ON_CRV_START_AND_SF_BNDRY = 5,
 		ON_CRV_END_AND_SF_BNDRY = 6
-	};
-
-	enum gme_boundary_rel_type {
-		gme_NOT_BOUNDARY = 0,
-		gme_AT_CRV_START = 1,
-		gme_AT_CRV_END = 2,
-		gme_ON_SF_BNDRY = 4,
-		gme_ON_CRV_START_AND_SF_BNDRY = 5,
-		gme_ON_CRV_END_AND_SF_BNDRY = 6
 	};
 
 /**
@@ -436,15 +392,6 @@ public:
 				curve_surf_rel before_para = curve_unknown,
 				curve_surf_rel after_para = curve_unknown
 			);
-	curve_surf_int(
-				const char *gme,
-				SPAposition const &pt,
-				curve_surf_int *next_int,
-				double para,
-				double const tol = SPAresabs,
-				curve_surf_rel before_para = curve_unknown,
-				curve_surf_rel after_para = curve_unknown
-			);
 
 /**
   * @nodoc
@@ -459,14 +406,6 @@ public:
 				curve_surf_rel before_para = curve_unknown,
 				curve_surf_rel after_para = curve_unknown
 			);
-	curve_surf_int(
-				const char *gme,
-				curve_surf_int *next_int,
-				SPAposition const &pt,
-				double para,
-				curve_surf_rel before_para = curve_unknown,
-				curve_surf_rel after_para = curve_unknown
-			);
 
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
@@ -475,7 +414,6 @@ public:
  * curve-surf intersection.
  */
  	curve_surf_int( curve_surf_int const &intsec );
-	curve_surf_int( const char *gme, curve_surf_int const &intsec );
 /**
  * C++ destructor, deleting a <tt>curve_surf_int</tt>.
  */
@@ -498,7 +436,6 @@ public:
  */
  	void debug( FILE *fname = debug_file_ptr ) const;
 
-	void gme_debug( FILE *fname = debug_file_ptr ) const;
 /**
  * @nodoc
  * INTERNAL USE ONLY: This is <tt>TRUE</tt> if the intersection is not tightly defined (a tangency or small-angle crossing).
@@ -577,9 +514,6 @@ public:
 	{
 		low_rel = rel;
 	}
-	void gme_set_low_rel(curve_surf_rel rel = curve_unknown){
-		low_rel = rel;
-	}
 	
 /**
  * @nodoc
@@ -587,9 +521,6 @@ public:
  */	
 	void set_high_rel(curve_surf_rel rel = curve_unknown)
 	{
-		high_rel = rel;
-	}
-	void gme_set_high_rel(curve_surf_rel rel = curve_unknown){
 		high_rel = rel;
 	}
 /**
@@ -600,20 +531,12 @@ public:
 	{
 		return low_rel; 
 	}
-	curve_surf_rel gme_get_low_rel() const
-	{
-		return low_rel; 
-	}
 
 /**
  * @nodoc
  * INTERNAL USE ONLY: Method to query high_rel.
  */	
 	curve_surf_rel get_high_rel() const
-	{
-		return high_rel;
-	}
-	curve_surf_rel gme_get_high_rel() const
 	{
 		return high_rel;
 	}
@@ -688,7 +611,6 @@ private:
  * head.
  */
 DECL_KERN	void	delete_curve_surf_ints( curve_surf_int*& head );
-DECL_KERN	void	gme_delete_curve_surf_ints( curve_surf_int*& head );
 /** @} */
 
 #ifdef INTERNAL_DEBUG_CHECKS

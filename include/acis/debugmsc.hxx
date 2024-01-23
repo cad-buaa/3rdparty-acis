@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernutil/debug/debugmsc.hxx */
+/* ORIGINAL: acis2.1/kernutil/debug/debugmsc.hxx */
 /* $Id: debugmsc.hxx,v 1.5 2001/07/19 16:44:27 ywoo Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -75,13 +75,6 @@ extern DECL_BASE FILE *debug_file_ptr;
 DECL_BASE void debug_dist( double d, FILE *fp = debug_file_ptr );
 
 /**
- * 打印一个表示距离的(有符号)双精度数。如果数字小于SPAresabs则为0.
- * @param d 待打印双精度数
- * @param fp 文件指针
- */
-DECL_BASE void gme_debug_dist( double d, FILE *fp = debug_file_ptr );
-
-/**
  * Prints a real representing a normalized, dimensionless quantity.
  * <br><br>
  * <b>Role:</b> The quantity is considered to be zero if its magnitude is less than
@@ -105,13 +98,6 @@ DECL_BASE void debug_norm( double d, FILE *fp = debug_file_ptr );
 DECL_BASE void debug_real( double d, FILE *fp = debug_file_ptr );
 
 /**
- * 以合适精度打印实数到文件中
- * @param d 待打印实数
- * @param fp 文件指针
- */
-DECL_BASE void gme_debug_real( double d, FILE *fp = debug_file_ptr );
-
-/**
  * Prints a real number (double) with appropriate precision to a string.
  * <br><br>
  * @param d
@@ -120,13 +106,6 @@ DECL_BASE void gme_debug_real( double d, FILE *fp = debug_file_ptr );
  * character pointer (string).
  */
 DECL_BASE void debug_real_str( double d, char *str);
-
-/**
- * 以合适精度将实数打印至字符串中
- * @param d 待打印的实数
- * @param str 字符串指针
- */
-DECL_BASE void gme_debug_real_str( double d, char *str);
 
 /**
  * Prints a pointer.
@@ -153,7 +132,6 @@ DECL_BASE void debug_pointer( void const *pv, FILE *fp = debug_file_ptr );
  * character pointer (string).
  */
 DECL_BASE void debug_pointer_str( void const *pv, char *str, logical use_abs_opt = FALSE );
-DECL_BASE void gme_debug_pointer_str( void const *pv, char *str, logical use_abs_opt = FALSE );
 
 /**
 * Scans a pointer from a string.
@@ -176,13 +154,6 @@ DECL_BASE void debug_str_to_pointer( char const *str, void ** pv );
  * @see debug_time
  */
 DECL_BASE void debug_time_init();
-
-/**
- * @brief 重置为gme_debug_time()函数提供服务的内部计时器
- * @see gme_debug_time
- */
-DECL_BASE void gme_debug_time_init();
-
 /**
  * Displays elapsed time since the last call to <tt>debug_time_init</tt> or <tt>debug_time</tt>, also resets the internal timer.
  * <br><br>
@@ -191,14 +162,6 @@ DECL_BASE void gme_debug_time_init();
  * @see debug_time_init
  */
 DECL_BASE void debug_time( FILE *fp = debug_file_ptr );
-
-/**
- * @brief 显示自上次调用gme_debug_time()或gme_debug_time_init()以来的时间，并重置计时器
- * @param fp 文件指针
- * @see gme_debug_time_init
- */
-DECL_BASE void gme_debug_time(FILE* fp = debug_file_ptr);
-
 /**
  * Prints a newline character.
  * <br><br>
@@ -206,12 +169,6 @@ DECL_BASE void gme_debug_time(FILE* fp = debug_file_ptr);
  * file pointer.
  */
 DECL_BASE void debug_newline( FILE *fp = debug_file_ptr );
-
-/**
- * @brief 打印换行符
- * @param fp 文件指针
- */
-DECL_BASE void gme_debug_newline(FILE* fp = debug_file_ptr);
 
 /** @} */
 #endif

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -50,45 +50,27 @@ class DECL_BASE SPAvector
 	friend double operator%( SPAposition const &p, SPAunit_vector const &uv );
 	friend double operator%( SPAunit_vector const &uv, SPAposition const &p );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v1, SPAvector const &v2 );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v1, SPAvector const &v2 );
 	friend DECL_BASE SPAvector operator*( double d, SPAvector const &v );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, double d );
 	friend DECL_BASE SPAvector operator/( SPAvector const &v, double d );
-	friend DECL_BASE SPAvector gme_operator_divide( SPAvector const &v, double d );
  	friend DECL_BASE SPAvector operator*( SPAmatrix const &m, SPAvector const &v );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const &m, SPAvector const &v );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAmatrix const &m );
-	friend DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAmatrix const &m );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const &t );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const *t );
 	friend DECL_BASE SPAunit_vector normalise( SPAvector const &v );
-	friend DECL_BASE SPAunit_vector gme_normalise( SPAvector const &v );
 	friend DECL_BASE logical same_vector( SPAvector const&v1, SPAvector const&v2, const double res);
-	friend DECL_BASE logical gme_same_vector( SPAvector const&v1, SPAvector const&v2, const double res);
 	friend DECL_BASE logical parallel( SPAvector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_parallel(SPAvector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical parallel( SPAunit_vector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_parallel(SPAunit_vector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical parallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res );
-	friend DECL_BASE logical gme_parallel(SPAunit_vector const& v1, SPAunit_vector const& v2, const double res);
 	friend DECL_BASE logical antiparallel( SPAvector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_antiparallel(SPAvector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical antiparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_antiparallel(SPAunit_vector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical antiparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res );
-	friend DECL_BASE logical gme_antiparallel(SPAunit_vector const& v1, SPAunit_vector const& v2, const double res);
 	friend DECL_BASE logical biparallel( SPAvector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_biparallel(SPAvector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical biparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_biparallel(SPAunit_vector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical biparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res );
-	friend DECL_BASE logical gme_biparallel(SPAunit_vector const& v1, SPAunit_vector const& v2, const double res);
 	friend DECL_BASE logical perpendicular( SPAvector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_perpendicular(SPAvector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAvector const &v2, const double res );
-	friend DECL_BASE logical gme_perpendicular(SPAunit_vector const& v1, SPAvector const& v2, const double res);
 	friend DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res );
-	friend DECL_BASE logical gme_perpendicular(SPAunit_vector const& v1, SPAunit_vector const& v2, const double res);
 
 public:
 /**
@@ -305,7 +287,7 @@ public:
 	 * scalar value.
 	 */
 	SPAvector const &operator/=( double d);
-	SPAvector const &gme_operator_divide_assign( double d);
+
 
 	// Length of a SPAvector.
 	/**
@@ -314,7 +296,7 @@ public:
 	 */
 	inline double len_sq() const
 	{
-			double dp = NAN;
+			double dp;
 			dp = comp[0] * comp[0], dp += comp[1] * comp[1], dp += comp[2] * comp[2];
 			return dp;
 	}
@@ -324,7 +306,7 @@ public:
 	 */
 	inline double len() const
 	{
-			double dp = NAN;
+			double dp;
 			dp = comp[0] * comp[0], dp += comp[1] * comp[1], dp += comp[2] * comp[2];
 			return ( sqrt(	dp ) );
 	}
@@ -338,7 +320,7 @@ public:
 	 * give overflow).
 	 */
 	double numerically_stable_len() const;
-	double gme_numerically_stable_len() const;
+
 	// this gets the max of the fabs of each component, and tells (via
 	// "int& i") which component was the max. Note that in case of a "tie"
 	// the index "i" will default to the larger index. That is for the
@@ -355,14 +337,14 @@ public:
 	 * index of max component.
 	 */
 	double max_norm( int& i ) const;
-	double gme_max_norm( int& i ) const;
+
 	/**
 	 * Returns a unit vector that is orthogonal to the given vector.
 	 * If the given vector is less than <tt>SPAresmch</tt> in length, this method returns the unit 
 	 * vector (0,0,1).
 	 */
 	SPAunit_vector orthogonal() const;
-	SPAunit_vector gme_orthogonal() const;
+
 	/**
 	 * Transforms this vector by a 3 X 3 matrix.
 	 * @param m
@@ -383,12 +365,12 @@ public:
 	 * transform.
 	 */
 	SPAvector const &operator*=( SPAtransf const &t );
-	SPAvector const &gme_operator_multiply_assign( SPAtransf const &t );
+
 	/**
 	 * Returns a SPAvector orthogonal to this SPAvector.
 	 */
 	SPAvector make_ortho();
-	SPAvector gme_make_ortho();
+
 	/**
 	 * Returns TRUE if the <i>length</i> of the SPAvector is less than the given tolerance.
 	 * <br><br>
@@ -396,7 +378,7 @@ public:
 	 * zero tolerance.
 	 */
 	logical is_zero( const double tol = SPAresabs ) const;
-	logical gme_is_zero( const double tol = SPAresabs ) const;
+
 	/**
 	 * Outputs debug information to the screen or to the specified file.
 	 * <br><br>
@@ -404,7 +386,7 @@ public:
 	 * file pointer.
 	 */
 	void debug( FILE * fp = debug_file_ptr ) const;
-	void gme_debug( FILE * fp = debug_file_ptr ) const;
+
 	/**
 	 * Concatenates the debug information to the passed string.
 	 * <br><br>
@@ -412,7 +394,6 @@ public:
 	 * string.
 	 */
 	void debug_str(char *str ) const;
-	void gme_debug_str(char *str ) const;
 };
 
 /** @} */
@@ -431,7 +412,7 @@ public:
  */
 inline double operator%( SPAvector const &v1, SPAvector const &v2 )
 {
-	double dp = NAN;
+	double dp;
 	dp = v1.comp[0] * v2.comp[0], dp += v1.comp[1] * v2.comp[1], dp += v1.comp[2] * v2.comp[2];
 	return	dp;
 }
@@ -446,7 +427,7 @@ inline double operator%( SPAvector const &v1, SPAvector const &v2 )
  */
 inline double operator%( SPAposition const &p, SPAvector const &v )
 {
-	double dp = NAN;
+	double dp;
 	dp = p.coord[0] * v.comp[0], dp += p.coord[1] * v.comp[1], dp += p.coord[2] * v.comp[2];
 	return dp;
 }
@@ -461,7 +442,7 @@ inline double operator%( SPAposition const &p, SPAvector const &v )
  */
 inline double operator%( SPAvector const &v, SPAposition const &p )
 {
-	double dp = NAN;
+	double dp;
 	dp = p.coord[0] * v.comp[0], dp += p.coord[1] * v.comp[1], dp += p.coord[2] * v.comp[2];
 	return dp;
 }
@@ -476,9 +457,6 @@ inline double operator%( SPAvector const &v, SPAposition const &p )
  */
 inline logical operator==( SPAvector const &v1, SPAvector const &v2 )
 	{ return same_vector( v1, v2, SPAresabs ); }
-inline logical gme_operator_equal( SPAvector const& v1, SPAvector const& v2 )
-	{ return gme_same_vector( v1, v2, SPAresabs ); }
-
 
 /**
  * Determines if two vectors are NOT within SPAresabs of each other.
@@ -490,8 +468,6 @@ inline logical gme_operator_equal( SPAvector const& v1, SPAvector const& v2 )
  */
 inline logical operator!=( SPAvector const &v1, SPAvector const &v2 )
 	{ return !same_vector( v1, v2, SPAresabs ); }
-inline logical gme_operator_unequal( SPAvector const& v1, SPAvector const& v2 )
-	{ return !gme_same_vector(v1, v2, SPAresabs); }
 
 /**
  * Determines if two vectors are parallel (within some resolution).
@@ -511,9 +487,6 @@ inline logical gme_operator_unequal( SPAvector const& v1, SPAvector const& v2 )
 inline logical parallel( SPAvector const &v1, SPAunit_vector const &v2,
 		const double res = SPAresnor )
 	{ return parallel( v2, v1, res ); }
-inline logical gme_parallel( SPAvector const& v1, SPAunit_vector const& v2,
-		const double res = SPAresnor )
-	{ return gme_parallel( v2, v1, res ); }
 
 /**
  * Determines if two vectors are antiparallel (within some resolution).
@@ -533,10 +506,6 @@ inline logical gme_parallel( SPAvector const& v1, SPAunit_vector const& v2,
 inline logical antiparallel( SPAvector const &v1, SPAunit_vector const &v2,
 		const double res = SPAresnor )
 	{ return antiparallel( v2, v1, res ); }
-inline logical gme_antiparallel( SPAvector const& v1, SPAunit_vector const& v2,
-		const double res = SPAresnor )
-	{ return gme_antiparallel( v2, v1, res ); }
-
 
 /**
  * Determines if two vectors are bi-parallel (within some resolution).
@@ -557,10 +526,6 @@ inline logical gme_antiparallel( SPAvector const& v1, SPAunit_vector const& v2,
 inline logical biparallel( SPAvector const &v1, SPAunit_vector const &v2,
 		const double res = SPAresnor )
 	{ return biparallel( v2, v1, res ); }
-inline logical gme_biparallel( SPAvector const& v1, SPAunit_vector const& v2,
-		const double res = SPAresnor )
-	{ return gme_biparallel( v2, v1, res ); }
-
 
 /**
  * Determines if two vectors are perpendicular (within some resolution).
@@ -579,10 +544,6 @@ inline logical gme_biparallel( SPAvector const& v1, SPAunit_vector const& v2,
 inline logical perpendicular( SPAvector const &v1, SPAunit_vector const &v2,
 		const double res = SPAresnor )
 	{ return perpendicular( v2, v1, res ); }
-inline logical gme_perpendicular( SPAvector const& v1, SPAunit_vector const& v2,
-		const double res = SPAresnor )
-	{ return gme_perpendicular( v2, v1, res ); }
-
 
 /**
  * @nodoc
@@ -643,7 +604,7 @@ DECL_BASE inline SPAvector operator-( SPAvector const &v1, SPAvector const &v2 )
  * second vector.
  */
 DECL_BASE SPAvector operator*( SPAvector const &v1, SPAvector const &v2 );
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v1, SPAvector const &v2 );
+
 /**
  * Multiplies a vector by a scalar value.
  * <br><br>
@@ -687,7 +648,7 @@ DECL_BASE inline SPAvector operator*( SPAvector const &v, double d)
  * scalar value.
  */
 DECL_BASE SPAvector operator/( SPAvector const &v, double d);
-DECL_BASE SPAvector gme_operator_divide( SPAvector const &v, double d);
+
 /**
  * Transforms a vector by a 3 X 3 matrix.
  * <br><br>
@@ -697,7 +658,7 @@ DECL_BASE SPAvector gme_operator_divide( SPAvector const &v, double d);
  * vector.
  */
 DECL_BASE SPAvector operator*( SPAmatrix const &m, SPAvector const &v );
-DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const &m, SPAvector const &v );
+
 /**
  * Transforms a vector by a 3 X 3 matrix.
  * <br><br>
@@ -707,7 +668,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAmatrix const &m, SPAvector const &
  * matrix.
  */
 DECL_BASE SPAvector operator*( SPAvector const &v, SPAmatrix const &m );
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAmatrix const &m );
+
 /**
  * Transforms a vector by an affine transformation.
  * <br><br>
@@ -717,7 +678,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAmatrix const &
  * transformation.
  */
 DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const &t );
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const &t );
+
 /**
  * Transforms a vector by an affine transformation.
  * <br><br>
@@ -727,7 +688,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const &
  * transformation.
  */
 DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const *t );
-DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const *t );
+
 /**
  * Converts a vector into a unit vector.
  * <br><br>
@@ -737,7 +698,7 @@ DECL_BASE SPAvector gme_operator_multiply( SPAvector const &v, SPAtransf const *
  * vector.
  **/
 DECL_BASE SPAunit_vector normalise( SPAvector const &v );
-DECL_BASE SPAunit_vector gme_normalise( SPAvector const &v );
+
 /**
 * Determines whether or not two vectors are the same.
 * The default tolerance is <tt>SPAresabs</tt>.
@@ -752,7 +713,7 @@ DECL_BASE SPAunit_vector gme_normalise( SPAvector const &v );
 * resolution for comparison.
 **/
 DECL_BASE logical same_vector( SPAvector const&v1, SPAvector const&v2, const double res = SPAresabs);
-DECL_BASE logical gme_same_vector( SPAvector const&v1, SPAvector const&v2, const double res = SPAresabs);
+
 /**
 * Determines if two vectors are parallel (within some resolution).
 * The default tolerance is <tt>SPAresnor</tt>.
@@ -769,7 +730,7 @@ DECL_BASE logical gme_same_vector( SPAvector const&v1, SPAvector const&v2, const
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical parallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_parallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are parallel (within some resolution).
 * The default tolerance is <tt>SPAresnor</tt>.
@@ -786,7 +747,7 @@ DECL_BASE logical gme_parallel( SPAvector const &v1, SPAvector const &v2, const 
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical parallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_parallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 
 /**
 * Determines if two vectors are parallel (within some resolution).
@@ -804,7 +765,7 @@ DECL_BASE logical gme_parallel( SPAunit_vector const &v1, SPAvector const &v2, c
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical parallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_parallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are antiparallel (within some resolution).
 * "Antiparallel" indicates that the vectors are parallel, but in opposite directions.
@@ -822,7 +783,7 @@ DECL_BASE logical gme_parallel( SPAunit_vector const &v1, SPAunit_vector const &
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical antiparallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_antiparallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are antiparallel (within some resolution).
 * "Antiparallel" indicates that the vectors are parallel, but in opposite directions.
@@ -840,7 +801,7 @@ DECL_BASE logical gme_antiparallel( SPAvector const &v1, SPAvector const &v2, co
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical antiparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_antiparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are antiparallel (within some resolution).
 * "Antiparallel" indicates that the vectors are parallel, but in opposite directions.
@@ -858,7 +819,7 @@ DECL_BASE logical gme_antiparallel( SPAunit_vector const &v1, SPAvector const &v
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical antiparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_antiparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are bi-parallel (within some resolution).
 * "Bi-parallel" indicates that the vectors are parallel and may be in either the same or opposite directions.
@@ -876,7 +837,7 @@ DECL_BASE logical gme_antiparallel( SPAunit_vector const &v1, SPAunit_vector con
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical biparallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_biparallel( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are bi-parallel (within some resolution).
 * "Bi-parallel" indicates that the vectors are parallel and may be in either the same or opposite directions.
@@ -894,7 +855,7 @@ DECL_BASE logical gme_biparallel( SPAvector const &v1, SPAvector const &v2, cons
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical biparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_biparallel( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are bi-parallel (within some resolution).
 * "Bi-parallel" indicates that the vectors are parallel and may be in either the same or opposite directions.
@@ -912,7 +873,7 @@ DECL_BASE logical gme_biparallel( SPAunit_vector const &v1, SPAvector const &v2,
 * the tolerance (the sine of the angle).
 **/
 DECL_BASE logical biparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_biparallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are perpendicular (within some resolution).
 * The default tolerance is <tt>SPAresnor</tt>.
@@ -928,7 +889,7 @@ DECL_BASE logical gme_biparallel( SPAunit_vector const &v1, SPAunit_vector const
 * the tolerance (the cosine of the angle).
 **/
 DECL_BASE logical perpendicular( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_perpendicular( SPAvector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are perpendicular (within some resolution).
 * The default tolerance is <tt>SPAresnor</tt>.
@@ -944,7 +905,7 @@ DECL_BASE logical gme_perpendicular( SPAvector const &v1, SPAvector const &v2, c
 * the tolerance (the cosine of the angle).
 **/
 DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_perpendicular( SPAunit_vector const &v1, SPAvector const &v2, const double res = SPAresnor);
+
 /**
 * Determines if two vectors are perpendicular (within some resolution).
 * The default tolerance is <tt>SPAresnor</tt>.
@@ -960,7 +921,6 @@ DECL_BASE logical gme_perpendicular( SPAunit_vector const &v1, SPAvector const &
 * the tolerance (the cosine of the angle).
 **/
 DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
-DECL_BASE logical gme_perpendicular( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
 /** @} */
 #endif
 

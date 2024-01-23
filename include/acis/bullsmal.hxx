@@ -1,4 +1,4 @@
-﻿// $Id: bullsmal.hxx,v 1.4 2001/01/11 18:08:28 ywoo Exp $
+// $Id: bullsmal.hxx,v 1.4 2001/01/11 18:08:28 ywoo Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -89,10 +89,8 @@ enum stream_logging {
  * @nodoc
  */
 
-
 DECL_KERN void update_from_bb();
 
-DECL_KERN void gme_update_from_bb();
 
 // The flags are not used in so many places, but don't change much so ...
 
@@ -113,8 +111,6 @@ DECL_KERN void gme_update_from_bb();
 
 DECL_KERN void set_application_logging( logical, HISTORY_STREAM* = NULL );
 
-DECL_KERN void gme_set_application_logging( logical, HISTORY_STREAM* = NULL );
-
 /*
 // tbrv
 */
@@ -124,16 +120,12 @@ DECL_KERN void gme_set_application_logging( logical, HISTORY_STREAM* = NULL );
 
 DECL_KERN logical application_logging_on( HISTORY_STREAM* = NULL);
 
-DECL_KERN logical gme_application_logging_on( HISTORY_STREAM* = NULL);
-
 // Flag to set logging for rollback on or off. It should only be
 // used temporarily, and in exceptional circumstances.
 /**
  * @nodoc
  */
 #define logging (logging_opt_on())
-
-#define gme_logging (gme_logging_opt_on())
 
 /**
 * Flag to control whether rollback records are produced or not.
@@ -163,8 +155,6 @@ DECL_KERN logical gme_application_logging_on( HISTORY_STREAM* = NULL);
 
 DECL_KERN void set_logging( logical onoff );
 
-DECL_KERN void gme_set_logging( logical onoff );
-
 /*
 // tbrv
 */
@@ -173,8 +163,6 @@ DECL_KERN void gme_set_logging( logical onoff );
  */
 
 DECL_KERN logical logging_opt_on();
-
-DECL_KERN logical gme_logging_opt_on();
 
 /** @} */
 #endif //__BULLTYPE_HXX__

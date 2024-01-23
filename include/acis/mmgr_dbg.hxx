@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -46,18 +46,18 @@ LOCAL_CONST int hash_size = 4096;
 
 struct mmgr_statistics {
 
-	size_t high_bytes;     // 分配出的最多字节数
-	size_t high_alloc_call;  // 之前的最多申请数         已申请的总次数 -1
-	size_t alloc_bytes;   // 已申请过的总字节数
-	size_t alloc_calls;   // 已申请的总次数
-	size_t free_bytes;    // 已释放的总字节数
-	size_t free_calls;    // 已释放的总次数
+	size_t high_bytes;
+	size_t high_alloc_call;
+	size_t alloc_bytes;
+	size_t alloc_calls;
+	size_t free_bytes;
+	size_t free_calls;
 	size_t size_array[257];
 
-	char ** alloc_file_names;  // 申请内存的文件名列表
-	int alloc_file_count;      // 申请内存的文件数量
+	char ** alloc_file_names;
+	int alloc_file_count;
 
-	char audit_file[256];   // mmgr.log
+	char audit_file[256];
 
 	size_t double_deletes;
 	size_t mismatched_callers;
@@ -66,19 +66,16 @@ struct mmgr_statistics {
 	size_t global_new_calls;
 	size_t global_delete_calls;
 	size_t range_begin, range_end;
-	struct timeb start_time;                    // 运行时间
-	mmgr_audit_block * hash_array[hash_size];  // 对具体分配出去的对象建立索引
-	FILE * mmgrfile;                           // 转储文件名
+	struct timeb start_time;
+	mmgr_audit_block * hash_array[hash_size];
+	FILE * mmgrfile;
 
 	mutex_resource mmgr_statistics_mutex;
 };
 
 DECL_BASE mmgr_statistics * mmgr_debug_stats();
-DECL_BASE mmgr_statistics* gme_mmgr_debug_stats();
 DECL_BASE void mmgr_dump_range( size_t range_begin, size_t range_end );
-DECL_BASE void gme_mmgr_dump_range(size_t range_begin, size_t range_end);
 DECL_BASE void mmgr_dump_info( void* alloc_ptr );
-DECL_BASE void gme_mmgr_dump_info(void* alloc_ptr);
 
 #endif 
 // MMGR_DBG_HXX

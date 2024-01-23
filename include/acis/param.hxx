@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -305,7 +305,7 @@ DECL_BASE logical operator>=( double d, SPAparameter const &p) ;
  * parameter vector.
  */
 DECL_BASE SPApar_pos operator+( SPApar_pos const & parpos, SPApar_vec const & parvec);
-DECL_BASE SPApar_pos gme_operator_add( SPApar_pos const & parpos, SPApar_vec const & parvec);
+
 /**
  * Returns the sum of a parameter vector with a parameter position.
  * <br><br>
@@ -315,7 +315,7 @@ DECL_BASE SPApar_pos gme_operator_add( SPApar_pos const & parpos, SPApar_vec con
  * parameter position.
  */
 DECL_BASE SPApar_pos operator+( SPApar_vec const &v, SPApar_pos const &p );
-DECL_BASE SPApar_pos gme_operator_add( SPApar_vec const &v, SPApar_pos const &p );
+
 /**
  * Returns the subtraction of a parameter vector from a parameter position.
  * <br><br>
@@ -325,7 +325,7 @@ DECL_BASE SPApar_pos gme_operator_add( SPApar_vec const &v, SPApar_pos const &p 
  * parameter vector.
  */
 DECL_BASE SPApar_pos operator-( SPApar_pos const &p, SPApar_vec const &v );
-DECL_BASE SPApar_pos gme_operator_substract( SPApar_pos const &p, SPApar_vec const &v );
+
 /**
  * Returns the subtraction of the first parameter position from the second parameter position.
  * <br><br>
@@ -338,7 +338,7 @@ DECL_BASE SPApar_pos gme_operator_substract( SPApar_pos const &p, SPApar_vec con
  * parameter position.
  */
 DECL_BASE SPApar_vec operator-( SPApar_pos const &p1, SPApar_pos const & p2);
-DECL_BASE SPApar_vec gme_operator_substract( SPApar_pos const &p1, SPApar_pos const & p2);
+
 /**
  * Returns the scalar product of a parameter position with a parameter vector.
  * <br><br>
@@ -348,7 +348,7 @@ DECL_BASE SPApar_vec gme_operator_substract( SPApar_pos const &p1, SPApar_pos co
  * parameter vector.
  */
 DECL_BASE double operator%( SPApar_pos const &p, SPApar_vec const &v );
-DECL_BASE double gme_operator_dot( SPApar_pos const &p, SPApar_vec const &v );
+
 /**
  * Returns the scalar product of a parameter vector with a parameter position.
  * <br><br>
@@ -358,7 +358,7 @@ DECL_BASE double gme_operator_dot( SPApar_pos const &p, SPApar_vec const &v );
  * parameter position.
  */
 DECL_BASE double operator%( SPApar_vec const &v, SPApar_pos const &p );
-DECL_BASE double gme_operator_dot( SPApar_vec const &v, SPApar_pos const &p );
+
 /**
  * Performs a unary minus operation on a parameter vector.
  * <br><br>
@@ -366,7 +366,7 @@ DECL_BASE double gme_operator_dot( SPApar_vec const &v, SPApar_pos const &p );
  * parameter vector.
  */
 DECL_BASE SPApar_vec operator-( SPApar_vec const &v );
-DECL_BASE SPApar_vec gme_operator_substract( SPApar_vec const &v );
+
 /**
  * Adds the two parameter vectors.
  * <br><br>
@@ -376,7 +376,7 @@ DECL_BASE SPApar_vec gme_operator_substract( SPApar_vec const &v );
  * parameter vector.
  */
 DECL_BASE SPApar_vec operator+( SPApar_vec const &v1, SPApar_vec const &v2 );
-DECL_BASE SPApar_vec gme_operator_add( SPApar_vec const &v1, SPApar_vec const &v2 );
+
 /**
  * Performs a binary minus operation.
  * <br><br>
@@ -386,7 +386,7 @@ DECL_BASE SPApar_vec gme_operator_add( SPApar_vec const &v1, SPApar_vec const &v
  * parameter vector.
  */
 DECL_BASE SPApar_vec operator-( SPApar_vec const &v1, SPApar_vec const &v2 );
-DECL_BASE SPApar_vec gme_operator_substract( SPApar_vec const &v1, SPApar_vec const &v2 );
+
 /**
  * Multiplies a parameter vector by a scalar value.
  * <br><br>
@@ -396,7 +396,7 @@ DECL_BASE SPApar_vec gme_operator_substract( SPApar_vec const &v1, SPApar_vec co
  * double.
  */
 DECL_BASE SPApar_vec operator*( SPApar_vec const &v, double d);
-DECL_BASE SPApar_vec gme_operator_multiply( SPApar_vec const &v, double d);
+
 /**
  * Multiplies a parameter vector by a scalar value.
  * <br><br>
@@ -406,7 +406,7 @@ DECL_BASE SPApar_vec gme_operator_multiply( SPApar_vec const &v, double d);
  * parameter vector.
  */
 DECL_BASE SPApar_vec operator*( double d, SPApar_vec const &v );
-DECL_BASE SPApar_vec gme_operator_multiply( double d, SPApar_vec const &v );
+
 /**
  * Divides a parameter vector by a scalar value.
  * <br><br>
@@ -416,7 +416,7 @@ DECL_BASE SPApar_vec gme_operator_multiply( double d, SPApar_vec const &v );
  * double.
  */
 DECL_BASE SPApar_vec operator/( SPApar_vec const &v, double d);
-DECL_BASE SPApar_vec gme_operator_divide( SPApar_vec const &v, double d);
+
 /**
  * Returns the dot product of two parameter vectors.
  * <br><br>
@@ -426,7 +426,7 @@ DECL_BASE SPApar_vec gme_operator_divide( SPApar_vec const &v, double d);
  * parameter vector.
  */
 DECL_BASE double operator%( SPApar_vec const &v1, SPApar_vec const &v2 );
-DECL_BASE double gme_operator_dot( SPApar_vec const &v1, SPApar_vec const &v2 );
+
 /**
  * Returns the cross product of two parameter vectors.
  * <br><br>
@@ -436,7 +436,7 @@ DECL_BASE double gme_operator_dot( SPApar_vec const &v1, SPApar_vec const &v2 );
  * parameter vector.
  */
 DECL_BASE double operator*( SPApar_vec const &v1, SPApar_vec const &v2 );
-DECL_BASE double gme_operator_multiply( SPApar_vec const &v1, SPApar_vec const &v2 );
+
 /**
  * Performs a unary minus operation.
  * <br><br>
@@ -444,7 +444,7 @@ DECL_BASE double gme_operator_multiply( SPApar_vec const &v1, SPApar_vec const &
  * parameter direction.
  */
 DECL_BASE SPApar_dir operator-( SPApar_dir const & u);
-DECL_BASE SPApar_dir gme_operator_substract( SPApar_dir const & u);
+
 /**
  * Returns the scalar product between a parameter position and parameter direction.
  * <br><br>
@@ -454,7 +454,7 @@ DECL_BASE SPApar_dir gme_operator_substract( SPApar_dir const & u);
  * parameter direction.
  */
 DECL_BASE double operator%( SPApar_pos const &p, SPApar_dir const &u ) ;
-DECL_BASE double gme_operator_dot(SPApar_pos const& p, SPApar_dir const& u) ;
+
 /**
  * Returns the scalar product between a parameter direction and parameter position.
  * <br><br>
@@ -464,7 +464,7 @@ DECL_BASE double gme_operator_dot(SPApar_pos const& p, SPApar_dir const& u) ;
  * parameter position.
  */
 DECL_BASE double operator%( SPApar_dir const &u, SPApar_pos const &p ) ;
-DECL_BASE double gme_operator_dot(SPApar_dir const& u, SPApar_pos const& p) ;
+
 /**
  * Creates a parameter box that encloses the two given parameter boxes.
  * <br><br>
@@ -474,7 +474,7 @@ DECL_BASE double gme_operator_dot(SPApar_dir const& u, SPApar_pos const& p) ;
  * second box.
  */
 DECL_BASE SPApar_box operator|( SPApar_box const &b1, SPApar_box const &b2 );
-DECL_BASE SPApar_box gme_operator_include_or( SPApar_box const &b1, SPApar_box const &b2 );
+
 /**
  * Creates a parameter box that is the overlap of two given parameter boxes, e.g., the intersection.
  * <br><br>
@@ -484,7 +484,7 @@ DECL_BASE SPApar_box gme_operator_include_or( SPApar_box const &b1, SPApar_box c
  * second box.
  */
 DECL_BASE SPApar_box operator&( SPApar_box const &b1, SPApar_box const &b2 );
-DECL_BASE SPApar_box gme_operator_and( SPApar_box const &b1, SPApar_box const &b2 );
+
 /**
  * Determines whether two boxes overlap.
  * <br><br>
@@ -498,7 +498,7 @@ DECL_BASE SPApar_box gme_operator_and( SPApar_box const &b1, SPApar_box const &b
  * second parameter box.
  */
 DECL_BASE logical operator&&( SPApar_box const &b1, SPApar_box const &b2 );
-DECL_BASE logical gme_operator_logical_and( SPApar_box const &b1, SPApar_box const &b2 );
+
 /**
  * Determines if a given parameter box encloses a given parameter position.
  * <br><br>
@@ -508,8 +508,6 @@ DECL_BASE logical gme_operator_logical_and( SPApar_box const &b1, SPApar_box con
  * parameter box.
  */
 DECL_BASE logical operator<<( SPApar_pos const &p, SPApar_box const &b ) ;
-DECL_BASE logical gme_operator_left_shift(SPApar_pos const& p, SPApar_box const& b);
-
 
 /**
  * Translates a parameter box.
@@ -520,7 +518,7 @@ DECL_BASE logical gme_operator_left_shift(SPApar_pos const& p, SPApar_box const&
  * parameter vector.
  */
 DECL_BASE SPApar_box operator+( SPApar_box const &b, SPApar_vec const &v );
-DECL_BASE SPApar_box gme_operator_add( SPApar_box const &b, SPApar_vec const &v );
+
 /**
  * Translates a parameter box.
  * <br><br>
@@ -530,7 +528,7 @@ DECL_BASE SPApar_box gme_operator_add( SPApar_box const &b, SPApar_vec const &v 
  * parameter box.
  */
 DECL_BASE SPApar_box operator+( SPApar_vec const &v, SPApar_box const &b );
-DECL_BASE SPApar_box gme_operator_add( SPApar_vec const &v, SPApar_box const &b );
+
 /**
  * Translates a parameter box.
  * <br><br>
@@ -540,7 +538,7 @@ DECL_BASE SPApar_box gme_operator_add( SPApar_vec const &v, SPApar_box const &b 
  * parameter vector.
  */
 DECL_BASE SPApar_box operator-( SPApar_box const &b, SPApar_vec const &v );
-DECL_BASE SPApar_box gme_operator_substract( SPApar_box const &b, SPApar_vec const &v );
+
 /**
  * Finds the extent of a parameter box along a given parameter direction.
  * <br><br>
@@ -550,7 +548,7 @@ DECL_BASE SPApar_box gme_operator_substract( SPApar_box const &b, SPApar_vec con
  * parameter box.
  */
 DECL_BASE SPAinterval operator%( SPApar_dir const &d, SPApar_box const & b);
-DECL_BASE SPAinterval gme_operator_modulus( SPApar_dir const &d, SPApar_box const & b);
+
 /**
  * Finds the extent of a parameter box along a given parameter direction.
  * <br><br>
@@ -560,7 +558,7 @@ DECL_BASE SPAinterval gme_operator_modulus( SPApar_dir const &d, SPApar_box cons
  * parameter direction.
  */
 DECL_BASE SPAinterval operator%( SPApar_box const &b, SPApar_dir const &d );
-DECL_BASE SPAinterval gme_operator_modulus( SPApar_box const &b, SPApar_dir const &d );
+
 /**
  * Transforms a parameter position using a parameter transform.
  * <br><br>
@@ -570,7 +568,7 @@ DECL_BASE SPAinterval gme_operator_modulus( SPApar_box const &b, SPApar_dir cons
  * parameter transform.
  */
 DECL_BASE SPApar_pos operator*( SPApar_pos const &p, SPApar_transf const &t );
-DECL_BASE SPApar_pos gme_operator_multiply( SPApar_pos const &p, SPApar_transf const &t );
+
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -732,7 +730,7 @@ public:
 	 * file name.
 	 */
 	void debug( FILE *fp = debug_file_ptr ) const
-		{ gme_debug_dist( val, fp ); }
+		{ debug_dist( val, fp ); }
 };
 
 /** @} */
@@ -965,7 +963,7 @@ public:
 	 * parameter vector.
 	 */
 	SPApar_pos const &operator+=( SPApar_vec const & pv);
-	SPApar_pos const &gme_operator_add_assign( SPApar_vec const & pv);
+
 	/**
 	 * Subtracts a vector from a parameter position.
 	 * <br><br>
@@ -973,7 +971,7 @@ public:
 	 * parameter vector.
 	 */
 	SPApar_pos const &operator-=( SPApar_vec const & pv);
-	SPApar_pos const &gme_operator_sub_assign( SPApar_vec const & pv);
+
 	// Transform a SPApar_pos by a SPApar_transf
 	/**
 	 * Transforms a <tt>SPApar_pos</tt>.
@@ -982,7 +980,7 @@ public:
 	 * parameter transform.
 	 */
 	SPApar_pos const &operator*=( SPApar_transf const & t);
-	SPApar_pos const &gme_operator_multiply_assign( SPApar_transf const & t);
+
 	/**
 	 * Outputs details of a parameter position to the debug file or to the specified file.
 	 * <br><br>
@@ -990,7 +988,6 @@ public:
 	 * file name.
 	 */
 	void debug( FILE *fp = debug_file_ptr ) const;
-	void gme_debug( FILE *fp = debug_file_ptr ) const;
 };
 
 /** @} */
@@ -1013,9 +1010,7 @@ public:
 DECL_BASE logical same_par_pos( SPApar_pos const &p1,
 								SPApar_pos const &p2,
 								double tol = SPAresnor );
-DECL_BASE logical gme_same_par_pos( SPApar_pos const &p1,
-								SPApar_pos const &p2,
-								double tol = SPAresnor );
+
 /**
  * Compares two paramater positions for equality within a tolerance of <tt>SPAresnor</tt>.
  * <br><br>
@@ -1117,7 +1112,7 @@ public:
 	 * parameter direction.
 	 */
 	SPApar_vec( SPApar_dir const & d);
-	SPApar_vec(const char*gme, SPApar_dir const & d);
+
 	/**
 	 * @nodoc
 	 */
@@ -1133,7 +1128,7 @@ public:
 	 * parameter vector.
 	 */
 	SPApar_vec const &operator+=( SPApar_vec const &v );
-	SPApar_vec const &gme_operator_add_assign( SPApar_vec const &v );
+
 	/**
 	 * Performs a binary minus operation.
 	 * <br><br>
@@ -1141,7 +1136,7 @@ public:
 	 * parameter vector.
 	 */
 	SPApar_vec const &operator-=( SPApar_vec const &v );
-	SPApar_vec const &gme_operator_sub_assign( SPApar_vec const &v );
+
 	/**
 	 * Multiplies a parameter by a scalar.
 	 * <br><br>
@@ -1149,7 +1144,7 @@ public:
 	 * double.
 	 */
 	SPApar_vec const &operator*=( double d);
-	SPApar_vec const &gme_operator_multiply_assign( double d);
+
 	/**
 	 * Divides a parameter vector by a scalar value.
 	 * <br><br>
@@ -1157,12 +1152,12 @@ public:
 	 * scalar value.
 	 */
 	SPApar_vec const &operator/=( double d);
-	SPApar_vec const &gme_operator_divide_assign( double d);
+
 	/**
 	 * Returns the length of the <tt>SPApar_vec</tt>.
 	 */
 	double len() const;
-	double gme_len() const;
+
 	/**
 	 * Outputs details of a parameter vector to the debug file or to the specified file.
 	 * <br><br>
@@ -1170,12 +1165,12 @@ public:
 	 * file name.
 	 */
 	void debug( FILE *fp = debug_file_ptr ) const;
-	void gme_debug( FILE *fp = debug_file_ptr ) const;
+
 	/**
 	 * Returns (du * du + dv * dv).
 	 */
 	double len_sq() const;
-	double gme_len_sq() const;
+
 	/**
 	 * Returns <tt>TRUE</tt> if a radius function is zero everywhere, to within a given tolerance; otherwise, it returns <tt>FALSE</tt>.
 	 * <br><br>
@@ -1183,7 +1178,6 @@ public:
 	 * zero tolerance.
 	 */
 	logical is_zero( const double tol = SPAresabs ) const;
-	logical gme_is_zero( const double tol = SPAresabs ) const;
 };
 
 /** @} */
@@ -1201,7 +1195,7 @@ public:
  * second parameter vector.
  */
 DECL_BASE logical operator==( SPApar_vec const &v1, SPApar_vec const &v2 );
-DECL_BASE logical gme_operator_equal( SPApar_vec const &v1, SPApar_vec const &v2 );
+
 /**
  * Tests two parameter vectors for inequality within a tolerance of <tt>SPAresnor</tt>.
  * <br><br>
@@ -1252,7 +1246,7 @@ public:
 	 * v vector.
 	 */
 	SPApar_dir( double uval, double vval);
-	SPApar_dir(const char*gme, double uval, double vval);
+
 	/**
 	 * Constructs and normalizes a <tt>SPApar_dir</tt> from an array of two doubles.
 	 * <br><br>
@@ -1260,7 +1254,7 @@ public:
 	 * array of 2 vectors.
 	 */
 	SPApar_dir( double uv[ 2 ]  );
-	SPApar_dir(const char* gme, double uv[ 2 ]  );
+
 	// Construct and normalise a SPApar_dir from a SPApar_vec. Note that
 	// this permits automatic type conversion, which could be
 	// dangerous, but people using SPAparameter-space arithmetic should
@@ -1272,7 +1266,6 @@ public:
 	 * parameter vector direction.
 	 */
 	SPApar_dir( SPApar_vec const & v);
-	SPApar_dir(const char* gme, SPApar_vec const & v);
 };
 /** @} */
 /**
@@ -1323,7 +1316,7 @@ class DECL_BASE SPApar_box {
 	// Returns true if either SPAbox is null, or if all the intervals
 	// of one SPAbox overlap the corresponding intervals of the other.
 	friend DECL_BASE logical operator&&( SPApar_box const &, SPApar_box const & );
-	friend DECL_BASE logical gme_operator_logical_and( SPApar_box const &, SPApar_box const & );
+
 	friend DECL_BASE logical operator<<( SPApar_pos const &p, SPApar_box const &b );
 
 	// Translate a SPApar_box.
@@ -1334,9 +1327,7 @@ class DECL_BASE SPApar_box {
 
 	// Find the extent of a SPApar_box along a given direction.
 	friend DECL_BASE SPAinterval operator%( SPApar_dir const &, SPApar_box const & );
-	friend DECL_BASE SPAinterval gme_operator_modulus( SPApar_dir const &, SPApar_box const & );
 	friend DECL_BASE SPAinterval operator%( SPApar_box const &b, SPApar_dir const &d );
-	friend DECL_BASE SPAinterval gme_operator_modulus( SPApar_box const &b, SPApar_dir const &d );
 
 public:
 	// Construct an empty SPApar_box
@@ -1344,7 +1335,7 @@ public:
 	 * C++ allocation constructor requests memory for this object but does not populate it.
 	 */
 	SPApar_box();
-	SPApar_box(const char*);
+
 
 	// Simple memberwise constructor. Either SPAinterval may be empty,
 	// making the SPApar_box empty.
@@ -1360,7 +1351,7 @@ public:
 	 * v interval.
 	 */
 	SPApar_box( SPAinterval const &u, SPAinterval const &v );
-	SPApar_box(const char*, SPAinterval const &u, SPAinterval const &v );
+
 
 	// Construct a SPApar_box at a SPApar_pos.
 	/**
@@ -1372,7 +1363,7 @@ public:
 	 * parameter position.
 	 */
 	SPApar_box( SPApar_pos const &pos);
-	SPApar_box(const char*, SPApar_pos const &pos);
+
 
 	// Construct a parameter box to contain two parameter position's.
 	/**
@@ -1386,7 +1377,7 @@ public:
 	 * parameter position.
 	 */
 	SPApar_box( SPApar_pos const &pos1, SPApar_pos const &pos2);
-	SPApar_box(const char*, SPApar_pos const &pos1, SPApar_pos const &pos2);
+
 
 	// Construct a copy of another SPApar_box.
 	/**
@@ -1396,7 +1387,7 @@ public:
 	 * parameter box.
 	 */
 	SPApar_box( SPApar_box const &b );
-	SPApar_box(const char*, SPApar_box const &b );
+
 	/**
 	 * @nodoc
 	 */
@@ -1422,22 +1413,18 @@ public:
 	 * Tests if the box is empty.
 	 */
 	logical empty() const;
-	logical gme_empty() const;
 	/**
 	 * Returns <tt>TRUE</tt> if any of the coordinate ranges is infinite or <tt>FALSE</tt> otherwise.
 	 */
 	logical infinite() const;
-	logical gme_infinite() const;
 	/**
 	 * Returns <tt>TRUE</tt> if the coordinate ranges are finite below or <tt>FALSE</tt> otherwise.
 	 */
 	logical finite_below() const;
-	logical gme_finite_below() const;
 	/**
 	 * Returns <tt>TRUE</tt> if the coordinate ranges are finite above or <tt>FALSE</tt> otherwise.
 	 */
 	logical finite_above() const;
-	logical gme_finite_above() const;
 	/**
 	 * Returns <tt>TRUE</tt> if the coordinate ranges are finite or <tt>FALSE</tt> otherwise.
 	 */
@@ -1473,17 +1460,15 @@ public:
 	 * Extracts the low end of the leading diagonal from the parameter box.
 	 */
 	SPApar_pos low() const;
-	SPApar_pos gme_low() const;
 	/**
 	 * Extracts the high end of the leading diagonal from the parameter box.
 	 */
 	SPApar_pos high() const;
-	SPApar_pos gme_high() const;
 	/**
 	 * Extracts the middle of the leading diagonal from the parameter box.
 	 */
 	SPApar_pos mid() const;
-	SPApar_pos gme_mid() const;
+
 
 	/**
 	 * Compounds one parameter box into another.
@@ -1495,7 +1480,7 @@ public:
 	 * given box.
 	 */
 	SPApar_box &operator|=( SPApar_box const &b );
-	SPApar_box &gme_operator_or_assign( SPApar_box const &b );
+
 
 	/**
 	 * Limits one parameter box by another.
@@ -1507,7 +1492,7 @@ public:
 	 * given box.
 	 */
 	SPApar_box &operator&=( SPApar_box const &b );
-	SPApar_box &gme_operator_and_assign( SPApar_box const &b );
+
 
 	// Determine parametric point containment, i.e. returns true if
 	// point is contained within this SPAbox (or if this SPAbox is null).
@@ -1527,7 +1512,7 @@ public:
 	 * parameter position.
 	 */
 	logical operator>>( SPApar_pos const &pos ) const;
-	logical gme_operator_right_shift( SPApar_pos const &pos ) const;
+
 
 	// Determine if this SPAbox entirely encloses given SPAbox.
 	// Returns true if this SPAbox is null, false if given SPAbox is null,
@@ -1546,7 +1531,7 @@ public:
 	 * given box.
 	 */
 	logical operator>>( SPApar_box const &b ) const;
-	logical gme_operator_right_shift( SPApar_box const &b ) const;
+
 	/**
 	 * Determines if the given parameter box encloses this parameter box.
 	 * <br><br>
@@ -1563,14 +1548,14 @@ public:
 	 * parameter vector.
 	 */
 	SPApar_box &operator+=( SPApar_vec const &v );
-	SPApar_box &gme_operator_add_assign( SPApar_vec const &v );
+
 	/**
 	 * Translates a parameter box by a parameter vector.
 	 * @param v
 	 * parameter vector
 	 */
 	SPApar_box &operator-=( SPApar_vec const & v);
-	SPApar_box &gme_operator_sub_assign( SPApar_vec const & v);
+
 	/**
 	 * Prints a titles and debug information about this parameter box to the
 	 * debug file or to the specified file.
@@ -1586,16 +1571,15 @@ public:
 	 * given box
 	 */
 	logical operator==(SPApar_box const & b);
-	logical gme_same_par_box(SPApar_box const & b);
+
 	/**
 	* Inequality operator for determining whether this box isn't identical to given box.
 	* @param b
 	* given box
 	*/
 	logical operator!=(SPApar_box const & b);
-	logical gme_operator_unequal(SPApar_box const & b);
+
 	void debug( char const *title, FILE *fp = debug_file_ptr ) const;
-	void gme_debug( char const *title, FILE *fp = debug_file_ptr ) const;
 };
 
 /** @} */
@@ -1629,7 +1613,7 @@ inline DECL_BASE SPApar_vec::SPApar_vec( SPApar_dir const &pdir )
 // Compose the transform.
 
 DECL_BASE SPApar_transf operator*(SPApar_transf const &t1,SPApar_transf const &t2);
-DECL_BASE SPApar_transf gme_operator_multiply(SPApar_transf const &t1,SPApar_transf const &t2);
+
 
 /** @} */
 /**
@@ -1691,7 +1675,7 @@ class DECL_BASE SPApar_transf {
 	// Transform a SPApar_pos.
 	friend DECL_BASE SPApar_pos operator*( SPApar_pos const &, SPApar_transf const & );
 	friend SPApar_pos const &SPApar_pos::operator*=( SPApar_transf const & );
-	friend SPApar_pos const &SPApar_pos::gme_operator_multiply_assign( SPApar_transf const & );
+
 	// Compose the transform.
 	friend DECL_BASE SPApar_transf operator*(SPApar_transf const &t1,SPApar_transf const &t2);
 
@@ -1731,7 +1715,7 @@ public:
 	 * v translation.
 	 */
 	explicit SPApar_transf( double rot_angle, double u = 0., double v = 0. );
-	explicit SPApar_transf(const char*, double rot_angle, double u = 0., double v = 0. );
+
 	/**
 	 *	Performs a unary multiplication operation on a <tt>SPApar_transf</tt>.
 	 * <br><br>
@@ -1740,7 +1724,7 @@ public:
 	 */
 	
 	SPApar_transf &  operator*=( SPApar_transf const &t1 );
-	SPApar_transf &  gme_operator_multiply_assign( SPApar_transf const &t1 );
+	
 	/**
 	 * @nodoc
 	 */
@@ -1809,14 +1793,13 @@ public:
 	 * Returns the value of the <i>u</i> scaling.
 	 */
 	double u_scale() const;
-	double gme_u_scale() const;
+
 	/**
 	 * @deprecated R2017 1.0.
 	 * Returns the value of the <i>v</i> scaling.
 	 */
 
 	double v_scale() const;
-	double gme_v_scale() const;
 	/**
 	 * Returns the translation change in <i>u</i>.
 	 */
@@ -1855,7 +1838,6 @@ public:
 	 * file pointer.
 	 */
 	void debug( FILE *fp = debug_file_ptr ) const;
-	void gme_debug( FILE *fp = debug_file_ptr ) const;
 };
 
 // STI let: end

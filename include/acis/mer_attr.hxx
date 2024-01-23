@@ -63,9 +63,6 @@ public:
  * owning entity.
  */
 	NO_MERGE_ATTRIB( ENTITY *ent = NULL);
-	NO_MERGE_ATTRIB(char const *gme, ENTITY *ent = NULL);
-
-
 /**
  * @nodoc
  */
@@ -108,19 +105,15 @@ public:
  * @nodoc
  */
 DECL_BOOL NO_MERGE_ATTRIB* find_NO_MERGE_ATTRIB(const ENTITY*);
-DECL_BOOL NO_MERGE_ATTRIB* gme_find_NO_MERGE_ATTRIB(const ENTITY*);
-
 /**
  * @nodoc
  */
 DECL_BOOL outcome set_NO_MERGE_ATTRIB(ENTITY_LIST&);
-DECL_BOOL outcome gme_set_NO_MERGE_ATTRIB(ENTITY_LIST&);
 
 /**
  * @nodoc
  */
 DECL_BOOL outcome remove_NO_MERGE_ATTRIB(ENTITY_LIST&);
-DECL_BOOL outcome gme_remove_NO_MERGE_ATTRIB(ENTITY_LIST&);
 
 
 //======================================================================

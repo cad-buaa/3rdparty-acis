@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: 3dt2.1/scheme/elk/misc.h */
+/* ORIGINAL: 3dt2.1/scheme/elk/misc.h */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -57,8 +57,7 @@ C_LINKAGE_END
 #define Cons        P_Cons
 #define Begin       P_Begin
 #define Assq(x,y)   General_Assoc(x,y,0)
-// Print与google_test冲突，改为_Print
-#define _Print(x)    General_Print_Object (x, Curr_Output_Port, 0)
+#define Print(x)    General_Print_Object (x, Curr_Output_Port, 0)
 #define Numeric(t)  (t == T_Fixnum || t == T_Flonum || t == T_Bignum)
 
 #define Whitespace(c) (c == ' ' || c == '\t' || c == '\014' || c == '\n' || c == '\r')

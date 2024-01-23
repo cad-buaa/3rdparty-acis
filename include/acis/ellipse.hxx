@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -20,8 +20,6 @@
 #include "logical.h"
 #include "curve.hxx"
 #include "elldef.hxx"
-
-
 /**
  * @file ellipse.hxx
  * @CAA2Level L1
@@ -132,7 +130,7 @@ public:
  * management.
  */
 	ELLIPSE();
-	ELLIPSE(const char* gme);
+
 	// Create an ELLIPSE from given centre, normal, major axis (SPAvector
 	// gives its size and direction), and radius ratio.
 /**
@@ -158,13 +156,7 @@ public:
 			const SPAvector &major_axis,
 			double radius_ratio = 1.0
 		);
-	ELLIPSE(
-		const char* gme,
-		const SPAposition &center,
-		const SPAunit_vector &normal,
-		const SPAvector &major_axis,
-		double radius_ratio = 1.0
-	);
+
 	// Create an ELLIPSE from an ellipse.
 /**
  * Constructs an <tt>ELLIPSE</tt> from the specified ellipse.
@@ -178,7 +170,6 @@ public:
  * ellipse to be wrapped by the constructed ELLIPSE.
  */
 	ELLIPSE( const ellipse &ell );
-	ELLIPSE(const char* gme, const ellipse& ell);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -230,22 +221,18 @@ public:
  * Returns the center position of this <tt>ELLIPSE</tt>.
  */
 	const SPAposition &centre() const { return def.centre; }
-	const SPAposition &gme_centre() const;
 /**
  * Returns the normal to the plane of this <tt>ELLIPSE</tt>.
  */
 	const SPAunit_vector &normal() const { return def.normal; }
-	const SPAunit_vector &gme_normal() const;
 /**
  * Returns the major axis of this <tt>ELLIPSE</tt>.
  */
 	const SPAvector &major_axis() const { return def.major_axis; }
-	const SPAvector &gme_major_axis() const;
 /**
  * Returns the radius ratio of this <tt>ELLIPSE</tt>.
  */
 	double radius_ratio() const { return def.radius_ratio; }
-	double gme_radius_ratio() const;
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -265,7 +252,6 @@ public:
  * the new center.
  */
 	void set_centre( const SPAposition &center );
-	void gme_set_centre( const SPAposition &center );
 /**
  * Sets this <tt>ELLIPSE</tt>'s planar normal to the given unit vector.
  * <br><br>
@@ -277,7 +263,6 @@ public:
  * the new normal.
  */
 	void set_normal( const SPAunit_vector &normal );
-	void gme_set_normal( const SPAunit_vector &normal );
 /**
  * Sets this <tt>ELLIPSE</tt>'s major axis to the given vector.
  * <br><br>
@@ -289,7 +274,6 @@ public:
  * the new major axis.
  */
 	void set_major_axis( const SPAvector &major_axis );
-	void gme_set_major_axis( const SPAvector &major_axis );
 /**
  * Sets this <tt>ELLIPSE</tt>'s radius ratio to the given value.
  * <br><br>
@@ -301,20 +285,20 @@ public:
  * the new radius ratio.
  */
 	void set_radius_ratio( double ratio);
-	void gme_set_radius_ratio( double ratio);
+
 
 	// Return the curve equation for reading only.
 /**
  * Returns the curve's equation of this <tt>ELLIPSE</tt>, for reading only.
  */
 	const curve &equation() const;
-	const curve &gme_equation() const;
+
 	// Return the curve equation, checking first for backup.
 /**
  * Returns the curve equation for update operations, backing it up first.
  */
 	curve &equation_for_update();
-	curve &gme_equation_for_update();
+
 	// Get a new (lower-case) curve being the ellipse of the
 	// ELLIPSE, transformed if the given SPAtransf is non-null and
 	// reversed in sense if the logical is true.
@@ -332,10 +316,7 @@ public:
 					const SPAtransf &t = *(SPAtransf *)NULL_REF,
 					logical negate = FALSE
 				) const;
-	curve *gme_trans_curve(
-					const SPAtransf &t = *(SPAtransf *)NULL_REF,
-					logical negate = FALSE
-				) const;
+
 	// Transform the stored ellipse in place.
 /**
  * Transforms this <tt>ELLIPSE</tt>.
@@ -348,7 +329,7 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
+
 
 	// Make a SPAbox enclosing a segment of this ellipse between
 	// two positions.
@@ -383,12 +364,6 @@ public:
 
 	// lookup is done using CURVE::lookup()
 	// int lookup( logical ) const;
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	ellipse get_def();
 };
 
 /** @} */

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -12,8 +12,6 @@
 #include "base.hxx"
 #include "dcl_base.h"
 #include "err_info_base.hxx"
-
-
 /**
 * @file errmsg.hxx
  * @CAA2Level L1
@@ -83,15 +81,11 @@ public:
 	 */
 	message_module(	char const * name,
 					message_list const * message );
-	message_module(	const char* gme,char const * name,
-					message_list const * message );
 
 	/**
 	 * C++ destructor, deleting a <tt>message_module</tt>.
 	 */
 	~message_module();
-	// 用于恢复gme_head
-	void gme_terminate();
 
 
 	/**
@@ -108,13 +102,13 @@ public:
 	 * @param offset
 	 * Offset into module's message list.
 	 */
-	err_mess_type gme_message_code( int offset ) const;
 	err_mess_type message_code( int offset ) const;
+
 	/**
 	 * Returns the module's name.
 	 */
 	char const *module() const;
-	char const *gme_module() const;
+
 	/**
 	 * Returns the message module (unique) index.
 	 */
@@ -127,7 +121,6 @@ public:
 	 * Offset into module's message list.
 	 */
 	message_list const * message( int offset ) const;
-	message_list const * gme_message( int offset ) const;
 
 	// Static functions to initiate load and unload of all message_modules.
 	// Loading is handled by a message_loader which interfaces to an external database.
@@ -157,13 +150,12 @@ public:
 	 * list index.
 	 */
 	char **messageForUpdate(int idx);
-	char **gme_messageForUpdate(int idx);
 
 	/**
 	 * This function loads the message module.
 	 */
 	void load();
-	void gme_load();
+
 	/**
 	 * Remove this module from the linked list.
 	 * <br><br>
@@ -171,16 +163,13 @@ public:
 	 * then the element being removed is the head element.
 	 */
 	void unload();
-	void gme_unload();
 };
 
 /**
  * @nodoc
  */
-DECL_BASE message_list const * gme_get_message( err_mess_type err_num );
 DECL_BASE message_list const * get_message( err_mess_type err_num );
 
-DECL_BASE char const * gme_get_module( err_mess_type err_num );
 /**
  * Replace an error message with a custom message in the message_module system.
  * <br><br>
@@ -199,7 +188,7 @@ DECL_BASE char const * gme_get_module( err_mess_type err_num );
  * The new error message
  */
 DECL_BASE const char * set_message( err_mess_type err_num, const char * err_mess);
-DECL_BASE const char * gme_set_message( err_mess_type err_num, const char * err_mess);
+
 /** @} */
 #endif
 

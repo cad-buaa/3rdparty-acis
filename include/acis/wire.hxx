@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -38,10 +38,6 @@ class SPAbox;
 class pattern_holder;
 class pattern;
 class VOID_LIST;
-
-// 支撑性测试
-// #define GME_KERN_WIRE //将ACIS接口切换为GME接口
-
 /**
  * @nodoc
  */
@@ -228,7 +224,6 @@ public:
  * management.
  */
 	WIRE();
-	WIRE( const char *gme );
 /**
  * Constructs a <tt>WIRE</tt> from a list of <tt>COEDGEs</tt> and a connected <tt>WIRE</tt> already in the owning <tt>BODY</tt>.
  * <br><br>
@@ -247,7 +242,6 @@ public:
  * the next WIRE in the owning BODY.
  */
 	WIRE( COEDGE *coedge, WIRE *wire );
-	WIRE( const char *gme, COEDGE *coedge, WIRE *wire );
 #if 0
 /**
  * Restores this <tt>WIRE</tt> from a <tt>SAT</tt> file.
@@ -302,12 +296,6 @@ public:
 	virtual void lose();
 #endif
 /**
- * Posts a delete bulletin to the bulletin board indicating this <tt>WIRE</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
-/**
  * Returns a pointer to the next <tt>WIRE</tt> in the list of <tt>WIREs</tt> contained directly by a <tt>BODY</tt>, <tt>SHELL</tt>, or <tt>SUBSHELL</tt>.
  * <br><br>
  * <b>Role:</b> The <tt>next_type</tt> argument controls how the next method treats
@@ -338,14 +326,12 @@ public:
  * <b>Role:</b> Each <tt>WIRE</tt> may belong to only one <tt>BODY</tt>.
  */
 	BODY *body() const;
-	BODY *gme_body() const;
 /**
  * Return a pointer to the owning <tt>SHELL</tt>.
  * <br><br>
  * <b>Role:</b> Returns <tt>NULL</tt> if the owning <tt>ENTITY</tt> is not a <tt>SHELL</tt>.
  */
 	SHELL *shell() const;
-	SHELL *gme_shell() const;
 /**
  * Returns a pointer to the <tt>SUBSHELL</tt> directly containing this <tt>WIRE</tt>.
  * <br><br>
@@ -370,12 +356,10 @@ public:
  * modified.
  */
 	SPAbox *bound() const { return box_container.get_box(); }
-
 /**
  * Returns a pointer to the owning entity.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 /**
  * Sets the next <tt>WIRE</tt> in the <tt>BODY's</tt> list of <tt>WIREs</tt> to the given <tt>WIRE</tt>.
  * <br><br>
@@ -389,7 +373,6 @@ public:
  * internal use only.
  */
 	void set_next(WIRE *wire, logical reset_pattern = TRUE);
-	void gme_set_next(WIRE *wire, logical reset_pattern = TRUE);
 /**
  * Sets the first <tt>COEDGE</tt> in the list of <tt>COEDGEs</tt> belonging to this <tt>WIRE</tt>.
  * <br><br>
@@ -401,7 +384,6 @@ public:
  * the new COEDGE.
  */
 	void set_coedge( COEDGE *coedge );
-	void gme_set_coedge( COEDGE *coedge );
 /**
  * Set this <tt>WIRE's</tt> owner to be the specified <tt>BODY</tt> or <tt>SHELL</tt>.
  * <br><br>
@@ -413,7 +395,6 @@ public:
  * the new owning ENTITY.
  */
 	void set_owner( ENTITY *owner );
-	void gme_set_owner( ENTITY *owner );
 /**
  * Sets the <tt>WIRE</tt>'s owning <tt>BODY</tt> to the specified <tt>BODY</tt>.
  * <br><br>
@@ -425,7 +406,6 @@ public:
  * the new parent BODY.
  */
 	void set_body( BODY *body );
-	void gme_set_body( BODY *body );
 /**
  * Sets the <tt>WIRE</tt>'s owning <tt>SHELL</tt> to the specified <tt>SHELL</tt>.
  * <br><br>
@@ -439,7 +419,6 @@ public:
  * internal use only.
  */
 	void set_shell( SHELL *shell, logical reset_pattern = TRUE);
-	void gme_set_shell( SHELL *shell, logical reset_pattern = TRUE);
 /**
  * Sets the <tt>SUBSHELL</tt> directly containing this <tt>WIRE</tt> to be the given <tt>SUBSHELL</tt>.
  * <br><br>
@@ -451,7 +430,6 @@ public:
  * the new parent SUBSHELL.
  */
 	void set_subshell( SUBSHELL *subshell );
-	void gme_set_subshell( SUBSHELL *subshell );
 /**
  * Sets the containment for this <tt>WIRE</tt>.
  * <br><br>
@@ -467,7 +445,6 @@ public:
  * the new containment.
  */
 	void set_cont( WIRECONTBIT cont);
-	void gme_set_cont( WIRECONTBIT cont);
 /**
  * Sets the bounding region (box) of this <tt>WIRE</tt> to the specified box.
  * <br><br>
@@ -480,7 +457,6 @@ public:
  * the new SPAbox.
  */
 	void set_bound( SPAbox *in_box ) { box_container.set_box( this, in_box); }
-
 /**
  * Returns a pointer to the next <tt>WIRE</tt> in a complete enumeration of all the <tt>WIREs</tt> in a <tt>BODY</tt> or <tt>SHELL</tt>.
  * <br><br>
@@ -500,23 +476,6 @@ public:
  * (see Role).
  */
 	WIRE* next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	WIRE* gme_next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const WIRE* in_wire, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_coedge_ptr();
-	void** get_owner_ptr();
-	void** get_subshell_ptr();
 };
 /** @} */
 #endif

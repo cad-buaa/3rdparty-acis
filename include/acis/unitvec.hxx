@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -10,8 +10,6 @@
 // Unit vectors work just like vectors, and so are a derived type.
 #if !defined( UNITVEC_CLASS )
 #define UNITVEC_CLASS
-#include <math.h>
-
 #include "base.hxx"
 #include "dcl_base.h"
 #include "vector.hxx"
@@ -32,7 +30,7 @@ class SPAinterval;
  * unit vector.
  */
 DECL_BASE SPAunit_vector operator-( SPAunit_vector const &uv);
-DECL_BASE SPAunit_vector gme_operator_substract( SPAunit_vector const &uv);
+
 /**
  * @nodoc
  * This is already documented in position.hxx
@@ -45,7 +43,7 @@ DECL_BASE SPAunit_vector gme_operator_substract( SPAunit_vector const &uv);
  * unit vector.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAunit_vector const &uv);
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAunit_vector const &uv);
+
 /**
  * @nodoc
  * This is already documented in position.hxx
@@ -58,12 +56,12 @@ DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAunit_vecto
  * position.
  */
 DECL_BASE SPAposition operator*( SPAunit_vector const &uv, SPAposition const &p);
-DECL_BASE SPAposition gme_operator_multiply( SPAunit_vector const &uv, SPAposition const &p);
+
 /**
  * @nodoc
  */
 DECL_BASE SPAunit_vector normalise( SPAvector const &v );
-DECL_BASE SPAunit_vector gme_normalise( SPAvector const &v );
+
 /**
  * Transforms a unit vector by the rotation matrix in a transformation.
  * <br><br>
@@ -75,7 +73,7 @@ DECL_BASE SPAunit_vector gme_normalise( SPAvector const &v );
  * transformation.
  */
 DECL_BASE SPAunit_vector operator*( SPAunit_vector const &uv, SPAtransf const &t);
-DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv, SPAtransf const &t);
+
 /**
  * Transforms a unit vector by the rotation matrix in a transformation.
  * <br><br>
@@ -87,7 +85,6 @@ DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv, SPAtra
  * transformation.
  */
 DECL_BASE SPAunit_vector operator*( SPAunit_vector const &uv, SPAtransf const *t);
-DECL_BASE SPAunit_vector gme_operator_multiply( SPAunit_vector const &uv, SPAtransf const *t);
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -154,7 +151,7 @@ public:
 	 * z-coordinate.
 	 */
 	SPAunit_vector( double x, double y, double z);
-	SPAunit_vector( const char *gme, double x, double y, double z);
+
 
 	// Construct a unit SPAvector from an array of three doubles.
 	// Always normalises result.
@@ -165,7 +162,7 @@ public:
 	 * array of 3 doubles.
 	 */
 	SPAunit_vector( double u[ 3 ] );
-	SPAunit_vector( const char *gme, double u[ 3 ] );
+
 	/**
 	 * Transforms a unit vector by the rotation matrix in a transformation.
 	 * <br><br>
@@ -175,7 +172,7 @@ public:
 	 * transform.
 	 */
 	SPAunit_vector const &operator*=( SPAtransf const &t );
-	SPAunit_vector const &gme_operator_multiply_assign( SPAtransf const &t );
+
 };
 
 /** @} */
@@ -194,7 +191,7 @@ public:
  */
 inline double operator%( SPAposition const &p, SPAunit_vector const &uv )
 {
-	double dp = NAN;
+	double dp;
 	dp = p.coord[0] * uv.comp[0], dp += p.coord[1] * uv.comp[1], dp += p.coord[2] * uv.comp[2];
 	return dp;
 }
@@ -209,7 +206,7 @@ inline double operator%( SPAposition const &p, SPAunit_vector const &uv )
  */
 inline double operator%( SPAunit_vector const &uv, SPAposition const &p )
 {
-	double dp = NAN;
+	double dp;
 	dp = p.coord[0] * uv.comp[0], dp += p.coord[1] * uv.comp[1], dp += p.coord[2] * uv.comp[2];
 	return dp;
 }

@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernutil/d3_mth/math.hxx */
+/* ORIGINAL: acis2.1/kernutil/d3_mth/math.hxx */
 /* $Id: math.hxx,v 1.11 2002/08/09 17:15:30 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -117,13 +117,11 @@ inline DECL_KERN int D3_max( int a, int b, int c, int d, int e )
 // Solve  x*x*x + a*x*x + b*x + c = 0. 
 
 extern DECL_KERN 	int	D3_solve_cubic( double* x, double a, double b, double c );
-extern DECL_KERN int gme_D3_solve_cubic( double* x, double a, double b, double c );
+
 // Solve  x*x*x*x + a*x*x*x + b*x*x + c*x + d = 0. 
 
 extern DECL_KERN 	int	D3_solve_quartic( double* x, 
 				  double a, double b, double c, double d, 
 				  double res=SPAresabs );
-extern DECL_KERN 	int	gme_D3_solve_quartic( double* x, 
-				  double a, double b, double c, double d, 
-				  double res=SPAresabs );
+
 #endif

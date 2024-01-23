@@ -9,6 +9,8 @@
 #ifndef __process_mt_hxx__
 #define __process_mt_hxx__
 
+#pragma once
+
 #include <vector>
 
 #include "api.err"

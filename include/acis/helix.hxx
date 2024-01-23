@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -129,7 +129,6 @@ public:
  * management.
  */
 	HELIX();
-	HELIX(const char *gme);
 
 	// Create a helix from given axis root, direction, start displacement, pitch,
     // handedness, parameter scaling and taper.
@@ -170,17 +169,6 @@ public:
           double                 par_scaling = 1.0,
           double                 taper = 0.0
 		);
-	HELIX(
-          const char *gme,
-          SPAposition const &    axis_root,
-          SPAunit_vector const & axis_dir,
-          SPAvector const &      start_disp,
-          double                 pitch,
-          logical                handedness,
-          SPAinterval const &    helix_range,
-          double                 par_scaling = 1.0,
-          double                 taper = 0.0
-                );
 
 	// Create a HELIX from a helix.
 /**
@@ -195,7 +183,6 @@ public:
  * helix to be wrapped by the constructed HELIX.
  */
 	HELIX( const helix &hel );
-	HELIX(const char *gme, const helix& hel);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -282,7 +269,6 @@ public:
  * the new root position.
  */
 	void set_axis_root( const SPAposition &axis_root );
-	void gme_set_axis_root(const SPAposition &axis_root);
 /**
  * Sets this <tt>HELIX</tt>'s axis direction to the given unit vector.
  * <br><br>
@@ -294,7 +280,6 @@ public:
  * the new axis direction.
  */
 	void set_axis_dir( const SPAunit_vector &axis_dir );
-	void gme_set_axis_dir(const SPAunit_vector &axis_dir);
 /**
  * Sets this <tt>HELIX</tt>'s start displacement to the given vector.
  * <br><br>
@@ -306,7 +291,6 @@ public:
  * the new start displacement.
  */
 	void set_start_disp( const SPAvector &start_disp );
-	void gme_set_start_disp(const SPAvector &start_disp);
 /**
  * Sets this <tt>HELIX</tt>'s pitch to the given value.
  * <br><br>
@@ -318,7 +302,6 @@ public:
  * the new pitch.
  */
 	void set_pitch( double pitch);
-	void gme_set_pitch(double pitch);
 /**
  * Sets this <tt>HELIX</tt>'s handedness to the given value.
  * <br><br>
@@ -330,25 +313,22 @@ public:
  * the new handedness.
  */
 	void set_handedness( logical handedness);
-	void gme_set_handedness(logical handedness);
 
 	// Return the curve equation for reading only.
 /**
  * Returns the curve's equation of this <tt>HELIX</tt>, for reading only.
  */
 	const curve &equation() const;
-	const curve &gme_equation() const;
 
     // Sets the maximum range.
 
     void set_helix_range(SPAinterval const & helix_range);
-    void gme_set_helix_range(SPAinterval const &helix_range);
+
 	// Return the curve equation, checking first for backup.
 /**
  * Returns the curve equation for update operations, backing it up first.
  */
 	curve &equation_for_update();
-        curve &gme_equation_for_update();
 
 	// Get a new (lower-case) curve being the helix of the
 	// HELIX, transformed if the given SPAtransf is non-null and
@@ -367,7 +347,6 @@ public:
 					const SPAtransf &t = *(SPAtransf *)NULL_REF,
 					logical negate = FALSE
 				) const;
-	curve *gme_trans_curve(const SPAtransf &t = *(SPAtransf *)NULL_REF, logical negate = FALSE) const;
 
 	// Transform the stored helix in place.
 /**
@@ -381,7 +360,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign(const SPAtransf &t);
 
 
 	// Make a SPAbox enclosing a segment of this helix between
@@ -417,12 +395,6 @@ public:
 
 	// lookup is done using CURVE::lookup()
 	// int lookup( logical ) const;
-
-	ENTITY* gme_make_copy() const;
-	
-public:
-	// get and set functions for access.
-	helix get_def();
 };
 
 /** @} */

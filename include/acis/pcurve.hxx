@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -135,7 +135,6 @@ public:
  * flag to increment use count or not.
  */
     void add_owner(ENTITY* owner,logical increment_use_count = TRUE);
-	void gme_add_owner(ENTITY* owner,logical increment_use_count = TRUE);
 /**
  * Removes the owner argument from the list of owners.
  * <br><br>
@@ -147,7 +146,6 @@ public:
  * flag to lose if use count is zero.
  */
     void remove_owner(ENTITY* owner,logical decrement_use_count = TRUE, logical zero_flag = TRUE);
-	void gme_remove_owner(ENTITY* owner,logical decrement_use_count = TRUE, logical zero_flag = TRUE);
 /**
  * Copies the list of owners of <tt>this</tt> <tt>CURVE</tt> to the <tt>list</tt> argument.
  * <br><br>
@@ -157,7 +155,6 @@ public:
  * list of owners.
  */
     int get_owners(ENTITY_LIST& list) const;
-	int gme_get_owners(ENTITY_LIST& list) const;
 	
 /**
  * Returns the first owner of this <tt>PCURVE</tt>.
@@ -165,7 +162,6 @@ public:
  * <b>Role:</b> If there are no owners, NULL is returned.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 // STI ROLL begin - added virtual compare function for api_get_modified_faces
@@ -210,7 +206,6 @@ public:
  * course override this behavior
  */
 	virtual logical deletable() const;
-	/*virtual*/ logical gme_deletable() const;
 
 
 	// Now the functions specific to PCURVE.
@@ -226,7 +221,6 @@ public:
  * management.
  */
 	PCURVE();
-	PCURVE( const char *gme );
 
 	// Make a PCURVE from a pcurve.
 /**
@@ -241,7 +235,6 @@ public:
  * pcurve to be wrapped by the constructed PCURVE.
  */
 	PCURVE( const pcurve &pcur );
-	PCURVE( const char *gme, const pcurve &pcur );
 
 	// Make a PCURVE to point to an existing pcurve (via a CURVE).
 	// The given integer is positive; a logical value of true means
@@ -275,13 +268,6 @@ public:
 			logical negate = FALSE,
 			const SPApar_vec &pv = *(const class SPApar_vec*)NULL_REF
 		);
-	PCURVE(
-			const char *gme,
-			CURVE *crv,
-			int def,
-			logical negate = FALSE,
-			const SPApar_vec &pv = *(const class SPApar_vec*)NULL_REF
-		);
 
 	// Duplicate a PCURVE, usually used to unshare a shared PCURVE
 	// before transforming in some way.
@@ -297,12 +283,6 @@ public:
  * PCURVE whose data is to be copied.
  */
 	PCURVE( PCURVE *pcrv );
-	PCURVE( const char *gme, PCURVE *pcrv );
-
-/**
- * @brief destructor
- */
-	/*virtual*/ void gme_terminate();
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -476,7 +456,6 @@ public:
  * pcurve to which <tt>def</tt> is to be set.
  */
 	void set_def( const pcurve &pcrv );
-	void gme_set_def( const pcurve &pcrv );
 
 	// Checks this PCURVE has been backed up,
 	// Set set_def to n-th pcurve of an existing CURVE.  n is given
@@ -510,12 +489,6 @@ public:
 				logical negate = FALSE,
 				const SPApar_vec &offset = *(SPApar_vec*)NULL_REF
 			);
-	void gme_set_def(
-				CURVE *crv,
-				int index,
-				logical negate = FALSE,
-				const SPApar_vec &offset = *(SPApar_vec*)NULL_REF
-			);
 
 
 	// Return the curve equation, for reading only
@@ -527,7 +500,6 @@ public:
  * internal use only.
  */
 	pcurve equation(logical temporary = FALSE) const;
-	pcurve gme_equation(logical temporary = FALSE) const;
 
 	// Shift the PCURVE in SPAparameter space, required to move it
 	// by integral multiples of the period on a periodic surface.
@@ -556,7 +528,6 @@ public:
  * an entry on the bulletin board.
  */
 	void negate();
-	void gme_negate();
 
 	// Construct a transformed pcurve.
 /**
@@ -576,10 +547,6 @@ public:
 					const SPAtransf &t = *(SPAtransf*)NULL_REF,
 					logical negate = FALSE
 				) const;
-	pcurve *gme_trans_pcurve(
-					const SPAtransf &t = *(SPAtransf*)NULL_REF,
-					logical negate = FALSE
-				) const;
 
 
 	// Transform the PCURVE. If the definition is a CURVE reference,
@@ -596,7 +563,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// Routine used for system debugging
 /**
@@ -610,24 +576,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
 	// STI ROLL
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const PCURVE* in_pcurve, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-    
-	void gme_roll_notify(BULLETIN_TYPE type, ENTITY* ent);
-
-public:
-	// get and set functions for access.
-	int get_def_type();
-	pcurve get_def();
-	pcurve* get_def_ptr();
-	void** get_cur_ptr();
 };
 
 /** @} */

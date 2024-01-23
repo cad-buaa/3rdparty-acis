@@ -11,7 +11,7 @@
 */
 #if !defined(POSITION_ARRAY_HXX)
 #define POSITION_ARRAY_HXX
-
+#pragma once
 #include "dcl_compound.h"
 #include "acis.hxx"
 #include "position.hxx"

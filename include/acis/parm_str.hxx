@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -35,8 +35,6 @@
 #ifndef parm_str_hxx
 #define parm_str_hxx
 
-#include <string>
-
 #include "scheme.hxx" // for ScmObject // for ScmObject
 
 /*
@@ -46,7 +44,6 @@
  * @nodoc
  */
 const char* get_Scm_String(ScmObject s );
-const char* gme_get_Scm_String(ScmObject s);
 
 /**
  * References parameters.
@@ -63,7 +60,7 @@ const char* gme_get_Scm_String(ScmObject s);
  * one works with strings of unknown size. Small strings are handled efficiently
  * in a local buffer. Larger strings take advantage of automatic storage management.
  */
-class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调用
+class param_string: public ACIS_OBJECT
 {
         char  buffer[128];
         char* bufp;
@@ -81,7 +78,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * @nodoc
  */
         param_string( const param_string& );
-		param_string( const std::string &gme, const param_string& );    // 因为构造函数有const char*版本，此处gme标识符参数统一为string类型
 
 		// get_Scm_String needs to set the length independent of the
 		// null string terminator.  Thus, we make an exception to the normal
@@ -94,8 +90,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  */
 		friend
 			const char* get_Scm_String(ScmObject s );
-		friend
-			const char* gme_get_Scm_String(ScmObject s );
 
 /*
 // tbrv
@@ -104,7 +98,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * @nodoc
  */
         void set( const char*, unsigned len); // len is as in strlen.
-		void gme_set( const char*, unsigned len); // len is as in strlen.
 /*
 // tbrv
 */
@@ -112,7 +105,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * @nodoc
  */
         void set( const char* );
-		void gme_set( const char* );
 
 		// Append data
 /*
@@ -122,7 +114,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * @nodoc
  */
 		void append( const char*, size_t);
-		void gme_append( const char*, size_t);
 
  public:
 
@@ -131,7 +122,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
         param_string();
-		param_string(const std::string &gme);    // 不写成const char*，否则与下一构造函数冲突
 
 		// Create a new param_string from a point to char
 /**
@@ -141,7 +131,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * character string.
  */
         param_string( const char* cstr);
-		param_string( const std::string &gme, const char* cstr);
 
 		// Destroy a param_string and return any allocated storage
 /**
@@ -157,7 +146,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * pointer to character string.
  */
         param_string& operator= ( const char* pstr);
-		param_string& gme_operator_assign (const char* pstr);
 
 		// Set the string value from another param_string
 /**
@@ -167,14 +155,12 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * pointer to parameter string.
  */
         param_string& operator= ( const param_string& pstr);
-		param_string& gme_operator_assign (const param_string& pstr);
 
 		// Convert a param_string to a pointer to immutable characters.
 /**
  * Converts a <tt>param_string</tt> to a pointer to immutable characters.
  */
         operator const char*() const;
-		const char* gme_convert_const_char_str() const;
 
 		// Compare to strings
 /**
@@ -184,21 +170,18 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * pointer to parameter string.
  */
 		int operator==(const param_string& pstr) const;
-		int gme_operator_equal(const param_string& pstr) const;
 
 		// Get the length of the string
 /**
  * Returns the length of the <tt>param_string</tt>.
  */
 		size_t length() const { return data_size; }
-		size_t gme_length() const;
 
 		// See if the string is empty
 /**
  * Returns <tt>FALSE</tt> if the <tt>param_string</tt> is empty - else, it returns <tt>TRUE</tt>.
  */
 		int is_empty() const {return data_size == 0;}
-		int gme_is_empty() const;
 
 		// Get the character at a SPAposition
 /**
@@ -208,7 +191,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * given position.
  */
 		char operator[] (int pos) const;
-		char gme_operator_subscript (int pos) const;
 
 		// Append data to the string
 /**
@@ -218,7 +200,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * character string.
  */
 		param_string& operator+=(char cstr);
-		param_string& gme_operator_add_assign(char cstr);
 /**
  * Appends the characters to which char points to the <tt>param_string</tt>.
  * <br><br>
@@ -226,7 +207,6 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * pointer to the character string.
  */
 		param_string& operator+=(const char* pstr);
-		param_string& gme_operator_add_assign(const char* pstr);
 /**
  * Appends the characters to which <tt>param_string</tt> points to the <tt>param_string</tt>.
  * <br><br>
@@ -234,14 +214,12 @@ class DECL_BASE param_string: public ACIS_OBJECT    // 添加DECL_BASE供test调
  * pointer to the parameter string.
  */
 		param_string& operator+=(const param_string& pstr);
-		param_string& gme_operator_add_assign(const param_string& pstr);
 
 		// Clear the string (does not free up buffer);
 /**
  * Clears the <tt>param_string</tt>, but it does not free up the buffer.
  */
 		void clear();
-		void gme_clear();
 };
 /** @} */
 #endif

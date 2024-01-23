@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/spline.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/spline.hxx */
 /* $Id: spline.hxx,v 1.12 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -83,7 +83,9 @@ extern DECL_KERN int SPLINE_TYPE;
  * @see spline
  */
 class DECL_KERN SPLINE: public SURFACE {
-
+	// SHEVO
+	friend spline* shevo_get_spline(SPLINE* sp);
+	 
 	// Record a SPLINE as a spline.
 
 	spline def;
@@ -122,7 +124,6 @@ public:
  * management.
  */
 	SPLINE();
-	SPLINE( const char *gme );
 
 	// Create a SPLINE from a spline.
 /**
@@ -137,7 +138,6 @@ public:
  * spline to be wrapped by the constructed SPLINE.
  */
 	SPLINE( const spline &spl );
-	SPLINE( const char *gme, const spline &spl );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -206,14 +206,12 @@ public:
  * the new spline.
  */
 	void set_def( const spline &spl );
-	void gme_set_def( const spline &spl );
 
 	// Return the surface equation for reading only.
 /**
  * Returns the <tt>surface</tt> equation of this <tt>SPLINE</tt>, for reading only.
  */
 	const surface &equation() const;
-	const surface &gme_equation() const;
 
 	// Return the surface equation for reading only.
 /**
@@ -224,7 +222,6 @@ public:
  * to put an entry on the bulletin board.
  */
 	surface &equation_for_update();
-	surface &gme_equation_for_update();
 
 	// Get a new (lower-case) surface being the spline of the
 	// SPLINE, transformed if the given SPAtransf is non-null and
@@ -244,10 +241,6 @@ public:
 						const SPAtransf &t = *(SPAtransf*)NULL_REF,
 						logical negate = FALSE
 					) const;
-	surface *gme_trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
 
 	// Transform the stored spline in place.
 /**
@@ -261,7 +254,6 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
 
 	// Make a bounding SPAbox for this surface, surrounded by a set of loops
 	// of edges. For the present we merely find the SPAbox containing the
@@ -301,12 +293,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
 	// STI ROLL
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	spline get_def();
 };
 /** @} */
 #endif

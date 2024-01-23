@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/cone.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/cone.hxx */
 /* $Id: cone.hxx,v 1.13 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -153,7 +153,7 @@ public:
  * management.
  */
 	CONE();
-	CONE(const char* gme);
+
 	// Make a cone with axis through given SPAposition and along given
 	// unit SPAvector.  The SPAvector specifies the radius of the cone in
 	// the plane normal to its axis and through the axis SPAposition.
@@ -189,14 +189,6 @@ public:
 			double sine_angle = 0,		// default to cylinder
 			double cos_angle = 1
 		);
-	CONE(   const char* gme,
-			const SPAposition &center,
-			const SPAunit_vector &normal,
-			const SPAvector &major_axis,
-			double radius_ratio = 1,		// default to circular cone
-			double sine_angle = 0,		// default to cylinder
-			double cos_angle = 1
-		);
 
 	// Make a CONE from a cone.
 /**
@@ -211,7 +203,7 @@ public:
  * cone to be wrapped by the constructed CONE.
  */
 	CONE( const cone &c );
-	CONE( const char* gme,const cone &c );
+
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
 #if 0
@@ -288,6 +280,7 @@ public:
  */
 	double cosine_angle() const { return def.cosine_angle; }
 
+
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
 	// performing the change.  If not, the routine provokes an error,
@@ -306,7 +299,6 @@ public:
  * the new root point.
  */
 	void set_root_point( const SPAposition &center );
-	void gme_set_root_point( const SPAposition &center );
 /**
  * Sets this <tt>CONE</tt>'s direction to the given unit vector.
  * <br><br>
@@ -318,7 +310,6 @@ public:
  * the new direction.
  */
 	void set_direction( const SPAunit_vector &normal );
-	void gme_set_direction( const SPAunit_vector &normal );
 /**
  * Sets this <tt>CONE</tt>'s major axis to the given vector.
  * <br><br>
@@ -330,7 +321,6 @@ public:
  * the new major axis.
  */
 	void set_major_axis( const SPAvector &major_axis );
-	void gme_set_major_axis( const SPAvector &major_axis );
 /**
  * Sets this <tt>CONE</tt>'s major-to-minor radius ratio to the given value.
  * <br><br>
@@ -342,7 +332,6 @@ public:
  * the new radius ratio.
  */
 	void set_radius_ratio( double radius_ratio);
-	void gme_set_radius_ratio( double radius_ratio);
 /**
  * Sets the sine of this <tt>CONE</tt>'s half-angle to the given value.
  * <br><br>
@@ -354,7 +343,6 @@ public:
  * the new sine angle.
  */
 	void set_sine_angle( double sine_angle);
-	void gme_set_sine_angle( double sine_angle);
 /**
  * Sets the cosine of this <tt>CONE</tt>'s half-angle to the given value.
  * <br><br>
@@ -366,14 +354,14 @@ public:
  * the new cosine angle.
  */
 	void set_cosine_angle( double cosine_angle);
-	void gme_set_cosine_angle( double cosine_angle);
+
 
 	// Return the cone equation, for read only.
 /**
  * Returns the <tt>surface</tt> equation of this <tt>CONE</tt>, for reading only.
  */
 	const surface &equation() const;
-	const surface &gme_equation() const;
+
 	// Return the cone equation, checking for backup first.
 /**
  * Returns the <tt>surface</tt> equation for update operations.
@@ -383,7 +371,7 @@ public:
  * to put an entry on the bulletin board.
  */
 	surface &equation_for_update();
-	surface &gme_equation_for_update();
+
 
 	// Get a new (lower-case) surface being the cone of the CONE,
 	// transformed if the given SPAtransf is non-null and reversed
@@ -402,10 +390,7 @@ public:
 						const SPAtransf &t = *(SPAtransf*)NULL_REF,
 						logical negate = FALSE
 					) const;
-	surface *gme_trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
+
 	// Transform the stored cone in place.
 /**
  * Transforms this <tt>CONE</tt>.
@@ -418,7 +403,7 @@ public:
  * transform to apply.
  */
 	void operator*=( const SPAtransf &t );
-	void gme_operator_multiply_assign( const SPAtransf &t );
+
 	//	The generic SURFACE version of make_box() is enough
 	//	for any ruled surface.
 	//	SPAbox make_box( LOOP * ) const;
@@ -443,12 +428,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
 	// STI ROLL
-
-	ENTITY* gme_make_copy() const;
-
-public:
-	// get and set functions for access.
-	cone get_def();
 };
 /** @} */
 #endif

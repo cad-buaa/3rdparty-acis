@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -40,10 +40,6 @@ class TCOEDGE;
 DECL_KERN SPAbox get_body_box(BODY *this_body,
 						   SPAtransf const *t = NULL,
 						   logical tight_box = 0 );
-DECL_KERN SPAbox gme_get_body_box(BODY *this_body,
-						   SPAtransf const *t = NULL,
-						   logical tight_box = 0 );
-
 /**
  * @nodoc
  */
@@ -51,19 +47,10 @@ DECL_KERN SPAbox get_wire_box( WIRE *,
 						   SPAtransf const * = NULL,
 						   logical tight_box = 0,
 						   SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_wire_box( WIRE *,
-						   SPAtransf const * = NULL,
-						   logical tight_box = 0,
-						   SPAbox *untransformed_box = NULL);
-
 /**
  * @nodoc
  */
 DECL_KERN SPAbox get_lump_box(LUMP *,
-						   SPAtransf const * = NULL,
-						   logical tight_box = 0,
-						   SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_lump_box(LUMP *,
 						   SPAtransf const * = NULL,
 						   logical tight_box = 0,
 						   SPAbox *untransformed_box = NULL);
@@ -74,18 +61,10 @@ DECL_KERN SPAbox get_shell_box( SHELL *,
 							SPAtransf const * = NULL,
 							logical tight_box = 0,
 						    SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_shell_box( SHELL *,
-							SPAtransf const * = NULL,
-							logical tight_box = 0,
-						    SPAbox *untransformed_box = NULL);
 /**
  * @nodoc
  */
 DECL_KERN SPAbox get_subshell_box( SUBSHELL *,
-							   SPAtransf const * = NULL,
-							   logical tight_box = 0,
-							   SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_subshell_box( SUBSHELL *,
 							   SPAtransf const * = NULL,
 							   logical tight_box = 0,
 							   SPAbox *untransformed_box = NULL);
@@ -153,19 +132,11 @@ DECL_KERN SPAbox get_face_box( FACE *this_face,
 						   SPAtransf const *t = NULL,
 						   logical tight_box = FALSE,
 						   SPAbox *untransformed_box = NULL );
-DECL_KERN SPAbox gme_get_face_box( FACE *this_face,
-						   SPAtransf const *t = NULL,
-						   logical tight_box = FALSE,
-						   SPAbox *untransformed_box = NULL );
 
 /**
  * @nodoc
  */
 DECL_KERN SPAbox get_loop_box( LOOP *,
-						   SPAtransf const * = NULL,
-						   logical tight_box = 0,
-						   SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_loop_box( LOOP *,
 						   SPAtransf const * = NULL,
 						   logical tight_box = 0,
 						   SPAbox *untransformed_box = NULL);
@@ -201,10 +172,6 @@ DECL_KERN SPAbox get_sensible_loop_box( LOOP *,
 * accumulating box
 **/
 DECL_KERN SPAbox get_edge_box( EDGE *this_edge,
-						   SPAtransf const *t = NULL,
-						   logical tight_box = 0,
-						   SPAbox *untransformed_box = NULL);
-DECL_KERN SPAbox gme_get_edge_box( EDGE *this_edge,
 						   SPAtransf const *t = NULL,
 						   logical tight_box = 0,
 						   SPAbox *untransformed_box = NULL);

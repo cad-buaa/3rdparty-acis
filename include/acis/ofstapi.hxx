@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -178,14 +178,6 @@ DECL_OFST outcome api_offset_face_edge(
 									   offset_face_edge_opts	*opts=NULL,
 							           AcisOptions				*ao=NULL
 									   );
-DECL_OFST outcome gme_api_offset_face_edge(
-									   COEDGE	const			*given_coedge,
-									   double					offset_distance,
-									   EDGE						*&resulting_offset_edge,
-									   offset_face_edge_opts	*opts=NULL,
-							           AcisOptions				*ao=NULL
-									   );
-
 
 /**
  * Creates a wire body that is an offset of the wires in the given body.
@@ -402,11 +394,6 @@ DECL_OFST outcome api_offset_planar_wire(
                                             wire_offset_options  *iOptons,
 			                                BODY                 *&oOffsetWire,
 			                                AcisOptions          *ao = NULL);
-DECL_OFST outcome gme_api_offset_planar_wire(
-			                                BODY                 *iGivenWire,
-                                            wire_offset_options  *iOptons,
-			                                BODY                 *&oOffsetWire,
-			                                AcisOptions          *ao = NULL);
 
 
 /**
@@ -495,14 +482,6 @@ DECL_OFST outcome api_offset_face_loops
       BODY         *&outbody,
       AcisOptions  *ao = NULL
    );
-DECL_OFST outcome gme_api_offset_face_loops
-   (
-      FACE*        iFace,
-      double       offset_dist,
-      BODY         *&outbody,
-      AcisOptions  *ao = NULL
-   );
-
 
 /**
  * Offsets a face's loops to form a new body. The face geometry need not be planar.
@@ -530,14 +509,6 @@ DECL_OFST outcome gme_api_offset_face_loops
  * ACIS options such as versioning and journaling.
  **/
 DECL_OFST outcome api_offset_face_loops
-   (
-      FACE*          iFace,
-      ENTITY_LIST    &iEdges,
-      double         iOffsetDist,
-      BODY           *&oResultBody,
-      AcisOptions    *ao = NULL
-   );
-DECL_OFST outcome gme_api_offset_face_loops
    (
       FACE*          iFace,
       ENTITY_LIST    &iEdges,

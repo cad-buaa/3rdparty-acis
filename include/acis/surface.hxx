@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -112,7 +112,6 @@ public:
  * flag to increment use count or not.
  */
     void add_owner(ENTITY* owner, logical count = TRUE);
-	void gme_add_owner(ENTITY* owner, logical count = TRUE);
 /**
  * Removes the <tt>owner</tt> argument from the list of owners.
  * <br><br>
@@ -124,7 +123,6 @@ public:
  * flag to lose if use count is zero.
  */
     void remove_owner(ENTITY* owner, logical count = TRUE, logical lose = TRUE);
-	void gme_remove_owner(ENTITY* owner, logical count = TRUE, logical lose = TRUE);
 /**
  * Copies the list of owners of this <tt>SURFACE</tt> to the <tt>list</tt> argument.
  * <br><br>
@@ -134,7 +132,6 @@ public:
  * list of owners.
  */
     int get_owners(ENTITY_LIST& list) const;
-	int gme_get_owners(ENTITY_LIST& list) const;
 
 /**
  * Returns the first owner of this <tt>SURFACE</tt>.
@@ -142,7 +139,6 @@ public:
  * <b>Role:</b> If there are no owners, NULL is returned.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 // STI ROLL begin - added virtual compare function for api_get_modified_faces
@@ -198,6 +194,7 @@ public:
  */
 	virtual logical deletable() const;
 
+
 	// Now the functions specific to SURFACE.
 
 	// Make a generic surface. Usually created in one of its derived
@@ -214,12 +211,6 @@ public:
  * management.
  */
 	SURFACE();
-	SURFACE(const char *gme);
-
-/**
- * @brief destructor
- */
-	/*virtual*/ void gme_terminate();
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -349,6 +340,7 @@ public:
  */
 	virtual surface& equation_for_update();
 
+
 	// Transform a surface (action taken only by derived classes).
 /**
  * Returns the transformed surface.
@@ -360,7 +352,8 @@ public:
  * @param reverse
  * flag to reverse the surface.
  */
-	virtual surface* trans_surface( const SPAtransf &t = *(SPAtransf*)NULL_REF, logical reverse = FALSE) const;
+	virtual surface* trans_surface(
+	    const SPAtransf &t = *(SPAtransf*)NULL_REF, logical reverse = FALSE) const;
 /**
  * Transforms the equation of this <tt>SURFACE</tt>.
  * <br><br>
@@ -403,10 +396,6 @@ public:
 						  const SPAtransf *t = NULL,
 						  logical tight_box = FALSE,
 						  SPAbox *untransformed_box = NULL  ) const;
-  // /*virtual*/ SPAbox gme_make_box( LOOP *loop = NULL,
-		//				  const SPAtransf *t = NULL,
-		//				  logical tight_box = FALSE,
-		//				  SPAbox *untransformed_box = NULL  ) const;
 
     // STI swa 19Jul02 - New method for detection of clash with SPAbox.
     //                   Note, the default methods will assume the
@@ -421,9 +410,6 @@ public:
     virtual logical box_clash(const SPAbox &test_box,
                               const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
                               double tol = SPAresabs) const;
-    // /*virtual*/ logical gme_box_clash(const SPAbox &test_box,
-    //                          const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
-    //                          double tol = SPAresabs) const;
 
 
 	// Routine used for system debugging
@@ -438,22 +424,6 @@ public:
  */
 	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;// internal use only
     // STI ROLL
-
-	// 将在末尾添加虚函数可避免指针无法访问虚函数表
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ logical gme_deletable() const;
-	/*virtual*/	const surface& gme_equation() const;
-	/*virtual*/ surface& gme_equation_for_update();
-	/*virtual*/ surface* gme_trans_surface(const SPAtransf &t = *(SPAtransf*)NULL_REF, logical reverse = FALSE) const;
-	/*virtual*/ void gme_operator_multiply_assign( const SPAtransf &t );
-
-	// 拷贝相关接口
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm = NULL, logical dpcpy_skip = FALSE, SCAN_TYPE reason = SCAN_COPY) const;
-	void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason = SCAN_COPY);
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE, ENTITY*);
 };
 /** @} */
 #endif

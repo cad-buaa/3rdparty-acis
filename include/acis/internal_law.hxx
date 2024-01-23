@@ -1,4 +1,4 @@
-﻿// $Id: internal_law.hxx,v 1.6 2001/03/18 18:42:31 goetting Exp $
+// $Id: internal_law.hxx,v 1.6 2001/03/18 18:42:31 goetting Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -33,7 +33,7 @@
 //  sub_law' is undefined.
 //
 /////////////////////////////////////////////////////////////
-#ifndef LAW_VIRTUAL_FUNCTION
+
 class DECL_LAW integrate_law: public law
 {
 	law           *sub_law;
@@ -90,6 +90,6 @@ public:
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
 	// STI ROLL
 };
-#endif
+
 
 #endif

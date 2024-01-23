@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -73,12 +73,9 @@ public:
 
 	opt_value_t opt_value;
 
-	option_value( int, option_value * = NULL, logical default_init = FALSE );
-	option_value( char const * gme, int, option_value * = NULL, logical default_init = FALSE );
+ 	option_value( int, option_value * = NULL, logical default_init = FALSE );
 	option_value( double, option_value * = NULL, logical default_init = FALSE );
-	option_value( char const * gme, double, option_value * = NULL, logical default_init = FALSE );
 	option_value( char const *, option_value * = NULL, logical default_init = FALSE );
-	option_value( char const * gme, char const *, option_value * = NULL, logical default_init = FALSE );
 
 	~option_value();
 
@@ -91,9 +88,8 @@ public:
 	char const *string() const { return opt_type == string_option ?
 							opt_value.string_value : NULL; }
 
-	// Data printing routine
+		// Data printing routine
 	void display( FILE * ) const;
-	void gme_display( FILE * ) const;
 
 	MMGR_SUPPORT_THIS
 #if 0
@@ -111,17 +107,17 @@ public:
  */
 class option_header 
 {
-	/**
-	 * pointer for linking option chain
-	 */
+    /**
+     * pointer for linking option chain
+     */
 	option_header *next_ptr;	
-	/**
-	 * The name
-	 */
+    /**
+     * The name
+     */
 	const char *option_name;
-	/**
-	 * The value
-	 */
+    /**
+     * The value
+     */
 	option_value def_value;
 
 #ifdef THREAD_SAFE_ACIS
@@ -131,7 +127,6 @@ class option_header
 #endif
 
 	void enter_in_list( char const * );
-	void gme_enter_in_list(char const *);
 public:
 
 	/**
@@ -139,7 +134,7 @@ public:
 	 * <br><br>
 	 * <b>Role:</b> Creates an <tt>option_header</tt> with the specified name and
 	 * initial integer value and links it into the option list.
-	 * For tidiness, we link options in alphabetic order.
+     * For tidiness, we link options in alphabetic order.
 	 * <br><br>
 	 * @param name
 	 * name.
@@ -147,14 +142,13 @@ public:
 	 * initial value.
 	 */
 	DECL_BASE option_header( char const * name, int init);
-	DECL_BASE option_header(char const *gme, char const *name, int init);
 
 	/**
 	 * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
 	 * <br><br>
 	 * <b>Role:</b> Creates an <tt>option_header</tt> with the specified name and
 	 * initial double value and links it into the option list.
-	 * For tidiness, we link options in alphabetic order.
+     * For tidiness, we link options in alphabetic order.
 	 * <br><br>
 	 * @param name
 	 * name.
@@ -162,14 +156,13 @@ public:
 	 * initial value.
 	 */
 	DECL_BASE option_header( char const * name, double init);
-	DECL_BASE option_header(char const *gme, char const *name, double init);
 
 	/**
 	 * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
 	 * <br><br>
 	 * <b>Role:</b> Creates an <tt>option_header</tt> with the specified name and
 	 * initial string value and links it into the option list.
-	 * For tidiness, we link options in alphabetic order.
+     * For tidiness, we link options in alphabetic order.
 	 * <br><br>
 	 * @param name
 	 * name.
@@ -177,7 +170,6 @@ public:
 	 * initial string.
 	 */
 	DECL_BASE option_header( char const * name, char const * init);
-	DECL_BASE option_header(char const *gme, char const *name, char const *init);
 
 	/**
 	 * C++ destructor, deleting an <tt>option_header</tt>.
@@ -186,7 +178,6 @@ public:
 	 * cleans up stacked values, and removes the header from the list.
 	 */
 	DECL_BASE  ~option_header();
-	DECL_BASE void gme_terminate();
 
 	/**
 	 * @nodoc
@@ -246,7 +237,6 @@ public:
 	 * count.
 	 */
 	DECL_BASE void set( int count);
-	DECL_BASE void gme_set(int count);
 
 	/**
 	 * Sets the value of the <tt>option_header</tt> if the option type is a <tt>double_option</tt> type.
@@ -255,7 +245,6 @@ public:
 	 * double value.
 	 */
 	DECL_BASE void set( double value);
-	DECL_BASE void gme_set(double value);
 
 	/**
 	 * Sets the value of the <tt>option_header</tt> if the type is <tt>string_option</tt>.
@@ -264,19 +253,16 @@ public:
 	 * option name.
 	 */
 	DECL_BASE void set( char const * opt);
-	DECL_BASE void gme_set(char const *opt);
 
 	/**
 	 * @nodoc
 	 */
 	DECL_BASE void set( option_value const & optval);
-	DECL_BASE void gme_set( option_value const & optval);
 
 	/**
 	 * Resets the option to its default value, leaving the stack intact.
 	 */
 	DECL_BASE void set_to_default();
-	DECL_BASE void gme_set_to_default();
 
 	// Data stacking routines
 	/**
@@ -286,7 +272,6 @@ public:
 	 * integer value.
 	 */
 	DECL_BASE void push( int val);
-	DECL_BASE void gme_push(int val);
 
 	/**
 	 * Pushes a new double value onto the value stack.
@@ -295,7 +280,6 @@ public:
 	 * double value.
 	 */
 	DECL_BASE void push( double val);
-	DECL_BASE void gme_push(double val);
 
 	/**
 	 * Pushes a new string value onto the value stack.
@@ -304,25 +288,21 @@ public:
 	 * new value.
 	 */
 	DECL_BASE void push( char const * newval);
-	DECL_BASE void gme_push(char const *newval);
 
 	/**
 	 * @nodoc
 	 */
 	DECL_BASE void push( option_value const & optval);
-	DECL_BASE void gme_push( option_value const & optval);
 
 	/**
 	 * Pops the stack to the previous value.
 	 */
 	DECL_BASE void pop();
-	DECL_BASE void gme_pop();
 
 	/**
 	 * Resets the <tt>option_header</tt> to the default value.
 	 */
 	DECL_BASE void reset();
-	DECL_BASE void gme_reset();
 
 	/**
 	 * Prints the data contained in the <tt>option_header</tt> to the specified file.
@@ -338,7 +318,6 @@ public:
 	 * <b>Role:</b> Returns <tt>TRUE</tt> if they are same or <tt>FALSE</tt> otherwise.
 	 */
 	DECL_BASE logical is_default();
-	DECL_BASE logical gme_is_default();
 };
 /**
  * Returns pointer to the head of the option list.
@@ -346,7 +325,6 @@ public:
  * <b>Effect:</b> Read-only
  */
 DECL_BASE option_header *get_option_list();
-DECL_BASE option_header *gme_get_option_list();
 /**
  * Gets the given option in the list.
  * <br><br>
@@ -356,7 +334,6 @@ DECL_BASE option_header *gme_get_option_list();
  * option name.
  **/
 DECL_BASE option_header *find_option( char const * name );
-DECL_BASE option_header *gme_find_option( char const * name );
 /**
  * @nodoc
  */
@@ -365,11 +342,6 @@ DECL_BASE void disable_option_callback();
  * @nodoc
  */
 DECL_BASE void enable_option_callback();
-
-/**
- * 该变量用于控制在支撑性测试中find_option接口是否使用ACIS链表
- */
-DECL_BASE extern logical decouple_use_acis_options;
 
 /** @} */
 #endif

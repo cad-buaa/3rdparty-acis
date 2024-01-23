@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernutil/subtype/subtype.hxx */
+/* ORIGINAL: acis2.1/kernutil/subtype/subtype.hxx */
 /* $Id: subtype.hxx,v 1.13 2002/08/16 19:28:36 products Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -87,12 +87,10 @@ public:
  * Uses count manipulation.
  */
 	void add_ref();
-	void gme_add_ref();
 /**
  * Removes a reference.
  */
 	void remove_ref();
-	void gme_remove_ref();
 /**
  * Returns the use count.
  */
@@ -118,7 +116,6 @@ public:
  * C++ destructor, deleting a <tt>subtype_object</tt> and all those objects that need it.
  */
 	virtual ~subtype_object();
-	void gme_terminate();
 
 /**
  * Returns <tt>TRUE</tt> if this object type is unknown to the system - else, it returns <tt>FALSE</tt>.

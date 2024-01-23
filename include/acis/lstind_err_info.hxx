@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -56,18 +56,17 @@ public:
 	 * error severity
 	 */
     list_index_error_info(int num_error_indices, int* error_indices, err_mess_type err_mess, spa_outcome_severity_type err_severity);
-    list_index_error_info(const char* gme, int num_error_indices, int* error_indices, err_mess_type err_mess, spa_outcome_severity_type err_severity);
+
     /**
 	 * Returns the list of error indices. 
 	 */
     int const* get_error_indices() const;
-    int const* gme_get_error_indices() const;
 
     /**
 	 * Returns the number of error indices. 
 	 */
     int get_num_error_indices() const;
-    int gme_get_num_error_indices() const;
+
     /**
 	 * Returns the id number for the class <tt>list_index_error_info</tt>.
 	 */
@@ -78,7 +77,6 @@ public:
 	 * object is of the class <tt>list_index_error_info</tt>, then the id number returned by this function
 	 * would be equal to the one returned by <tt>list_index_error_info::id()</tt>.
 	 */
-    virtual int gme_type() const;
     virtual int type() const;
 };
 

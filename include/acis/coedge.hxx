@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -78,8 +78,6 @@ class pattern_holder;
 class pattern;
 class VOID_LIST;
 
-// 支撑性测试
-// #define GME_KERN_COEDGE //将ACIS接口切换为GME接口
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
 /*
@@ -354,7 +352,7 @@ public:
  * management.
  */
 	COEDGE();
-	COEDGE(const char *gme);
+
 	// Public constructor, which initialises the record, and interfaces
 	// with the bulletin board system.  The arguments initialise
 	// edge_ptr (and indirectly partner_ptr), sense_data, next_ptr and
@@ -386,7 +384,6 @@ public:
  * next COEDGE in the owning LOOP.
  */
 	COEDGE( EDGE *edge, REVBIT sense, COEDGE *prev, COEDGE *next );
-	COEDGE( const char *gme, EDGE *edge, REVBIT sense, COEDGE *prev, COEDGE *next );
 
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
@@ -446,13 +443,6 @@ public:
 	virtual void lose();
 #endif
 
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>COEDGE</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
-
     // Data reading routines.
 
 /**
@@ -490,24 +480,20 @@ public:
  * in a <tt>FACE</tt>, or a <tt>WIRE</tt> if it is part of an unembedded graph.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const; 
 /**
  * Returns the owner of this <tt>COEDGE</tt> if the former is a <tt>LOOP</tt>, otherwise <tt>NULL</tt>.
  */
 	LOOP *loop() const;
-	LOOP *gme_loop() const;
 /**
  * Returns the owner of this <tt>COEDGE</tt> if the former is a <tt>WIRE</tt>, otherwise <tt>NULL</tt>.
  */
 	WIRE *wire() const;
-	WIRE *gme_wire() const;
 /**
  * Returns the owner of this <tt>COEDGE</tt> if the former is a <tt>SHELL</tt>, otherwise <tt>NULL</tt>.
  * <br><br>
  * <b>Role:</b> This method is not for general use. It supports an antiquated wire data struture.
  */
 	SHELL *shell() const;
-	SHELL *gme_shell() const;
 /**
  * Returns the pointer to the description of the <tt>COEDGE</tt> geometry in reference to the parametric space of the <tt>FACE</tt> in which it is embedded.
  * <br><br>
@@ -529,8 +515,6 @@ public:
  * the calling function. 
  */
 	virtual SPAposition start_pos() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAposition gme_start_pos() const;
 /**
  * Returns either the start or end position of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
  * depending upon the coedge's sense.
@@ -541,8 +525,6 @@ public:
  * the calling function. 
  */
 	virtual SPAposition end_pos() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAposition gme_end_pos() const;
 /**
  * Returns either the start or end parameter of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
  * depending upon the coedge's sense.
@@ -551,8 +533,6 @@ public:
  * otherwise, returns the edge's end parameter.
  */
 	virtual SPAparameter start_param() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAparameter gme_start_param() const;
 /**
  * Returns either the start or end parameter of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
  * depending upon the coedge's sense.
@@ -561,8 +541,6 @@ public:
  * otherwise, returns the edge's start parameter.
  */
 	virtual SPAparameter end_param() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAparameter gme_end_param() const;
 /**
  * Returns the parameter range of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
  * as an interval, adjusted for sense.
@@ -571,8 +549,6 @@ public:
  * the negated edge parameter range.
  */
 	virtual SPAinterval param_range() const;
-	/*@todo:虚函数导致某些情况未能正确访问GME接口，ACIS与GME共存期间先采用非虚函数方式实现*/
-	/*virtual*/ SPAinterval gme_param_range() const;
 
 	// Data changing routines.  Each of these routines checks
 	// that the record has been posted on the bulletin-board before
@@ -594,7 +570,6 @@ public:
  * internal use only.
  */
 	void set_next_no_rev( COEDGE *next, logical reset_pattern = TRUE );
-	void gme_set_next_no_rev( COEDGE *next, logical reset_pattern = TRUE );
 /**
  * Sets this <tt>COEDGE</tt>'s previous <tt>COEDGE</tt> pointer.
  * <br><br>
@@ -608,7 +583,6 @@ public:
  * internal use only.
  */
 	void set_previous_no_rev( COEDGE *previous, logical reset_pattern = TRUE );
-	void gme_set_previous_no_rev( COEDGE *previous, logical reset_pattern = TRUE );
 /**
  * Sets this <tt>COEDGE</tt>'s partner to be the given <tt>COEDGE</tt>.
  * <br><br>
@@ -622,7 +596,6 @@ public:
  * internal use only.
  */
 	void set_partner( COEDGE *partner, logical reset_pattern = TRUE );
-	void gme_set_partner( COEDGE *partner, logical reset_pattern = TRUE );
 /**
  * Sets the underlying <tt>EDGE</tt> of this <tt>COEDGE</tt>.
  * <br><br>
@@ -636,7 +609,6 @@ public:
  * internal use only.
  */
 	void set_edge( EDGE *edge, logical reset_pattern = TRUE );
-	void gme_set_edge( EDGE *edge, logical reset_pattern = TRUE );
 /**
  * Sets the sense of this <tt>COEDGE</tt> with respect to the underlying <tt>EDGE</tt>.
  * <br><br>
@@ -650,7 +622,6 @@ public:
  * internal use only.
  */
 	void set_sense( REVBIT sense, logical reset_pattern = TRUE );
-	void gme_set_sense( REVBIT sense, logical reset_pattern = TRUE );
 /**
  * Sets the owning <tt>ENTITY</tt> of this <tt>COEDGE</tt> to the specified <tt>ENTITY</tt>.
  * <br><br>
@@ -664,7 +635,6 @@ public:
  * internal use only.
  */
 	void set_owner( ENTITY *owner, logical reset_pattern = TRUE );
-	void gme_set_owner( ENTITY *owner, logical reset_pattern = TRUE );
 /**
  * Sets the owning <tt>ENTITY</tt> of this <tt>COEDGE</tt> to the specified <tt>LOOP</tt>.
  * <br><br>
@@ -678,7 +648,6 @@ public:
  * internal use only.
  */
 	void set_loop( LOOP *loop, logical reset_pattern = TRUE );	// sets owner to a loop
-	void gme_set_loop( LOOP *loop, logical reset_pattern = TRUE );
 /**
  * Sets the owning <tt>ENTITY</tt> of this <tt>COEDGE</tt> to the specified <tt>WIRE</tt>.
  * <br><br>
@@ -692,7 +661,7 @@ public:
  * internal use only.
  */
 	void set_wire( WIRE *wire, logical reset_pattern = TRUE );	// sets owner to a wire
-	void gme_set_wire( WIRE *wire, logical reset_pattern = TRUE );
+
 /**
  * Sets the owning <tt>ENTITY</tt> of this <tt>COEDGE</tt> to the specified <tt>SHELL</tt>.
  * <br><br>
@@ -708,7 +677,7 @@ public:
  * internal use only.
  */
 	void set_shell( SHELL *shell, logical reset_pattern = TRUE );	// sets owner to a shell
-	void gme_set_shell( SHELL *shell, logical reset_pattern = TRUE );
+
 /**
  * Sets this <tt>COEDGE</tt>'s parameter-space geometry to the given <tt>PCURVE</tt>.
  * <br><br>
@@ -722,7 +691,7 @@ public:
  * internal use only.
  */
 	virtual void set_geometry( PCURVE *pcrv, logical reset_pattern = TRUE );
-	/*virtual*/ void gme_set_geometry( PCURVE *pcrv, logical reset_pattern = TRUE );
+
 
 	// "Pseudo-member" functions, returning vertex pointers from the
 	// associated edge, if any.  These take into account the sense of
@@ -736,7 +705,6 @@ public:
  * otherwise, returns the edge's end <tt>VERTEX</tt>.
  */
 	VERTEX *start() const;
-	VERTEX *gme_start() const;
 /**
  * Returns either the start or end <tt>VERTEX</tt> of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
  * depending upon the coedge's sense.
@@ -745,7 +713,7 @@ public:
  * otherwise, returns the edge's start <tt>VERTEX</tt>.
  */
 	VERTEX *end() const;
-	VERTEX *gme_end() const;
+
 
 	// Data access sensitive to an additional sense bit. Note that
 	// REVBIT is in fact a logical value, so we can simplify these
@@ -793,7 +761,6 @@ public:
  * internal use only.
  */
 	void set_next( COEDGE *next, REVBIT rev = FALSE, logical reset_pattern = TRUE );
-	void gme_set_next( COEDGE *next, REVBIT rev = FALSE, logical reset_pattern = TRUE );
 /**
  * Sets this <tt>COEDGE</tt>'s previous <tt>COEDGE</tt> pointer, taking into account the specified sense.
  * <br><br>
@@ -809,7 +776,6 @@ public:
  * internal use only.
  */
 	void set_previous( COEDGE *previous, REVBIT rev = FALSE, logical reset_pattern = TRUE );
-	void gme_set_previous( COEDGE *previous, REVBIT rev = FALSE, logical reset_pattern = TRUE );
 
 /**
  * Returns either the start or end <tt>VERTEX</tt> of the <tt>EDGE</tt> underlying this <tt>COEDGE</tt>,
@@ -824,7 +790,7 @@ public:
  */
 	VERTEX *start( REVBIT rev )
 	{
-		return rev ? gme_end() : gme_start();
+		return rev ? end() : start();
 	}
 		
 /**
@@ -840,7 +806,7 @@ public:
  */
 	VERTEX *end( REVBIT rev)
 	{
-		return rev ? gme_start() : gme_end();
+		return rev ? start() : end();
 	}
 
     //Added two methods for internal use and it is specific to boolean merge operation.
@@ -855,14 +821,12 @@ public:
  * Determines if this coedge ends at a surface singularity.
  */
 	logical ends_at_singularity() const;
-	logical gme_ends_at_singularity() const;
 
 	// Determine if the coedge starts at a surface singularity
 /**
  * Determines if this coedge starts at a surface singularity.
  */
 	logical starts_at_singularity() const;
-	logical gme_starts_at_singularity() const;
 
 	// STI let: end
 
@@ -871,7 +835,7 @@ public:
  * Makes a tolerant <tt>TCOEDGE</tt> out of this <tt>COEDGE</tt>.
  */
 	TCOEDGE *make_tolerant();
-	TCOEDGE *gme_make_tolerant();
+
 // STI jmb: Handle save/restore of use counted histories
 	/**
 	 * @nodoc
@@ -881,26 +845,6 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 // STI jmb: end
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const COEDGE* in_coedge, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE type, ENTITY* ent);
-
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_previous_ptr();
-	void** get_partner_ptr();
-	void** get_edge_ptr();
-	void** get_owner_ptr();
-	void** get_geometry_ptr();
 };
 
 /** @} */

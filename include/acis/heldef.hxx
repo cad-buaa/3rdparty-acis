@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -56,7 +56,6 @@ class intcurve;
  * transformation.
  */
 DECL_KERN helix operator*(helix const &name,SPAtransf const &transf);
-DECL_KERN helix gme_operator_multiply(const helix &name, const SPAtransf &trans);
 /**
  * @nodoc
  * Internal use. Restore mechanism.
@@ -103,7 +102,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
  	helix();
-    helix(const char *gme);
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -136,9 +134,7 @@ public:
           double                 par_scaling = 1.0,
           double                 taper = 0.0
           );
-    helix(const char *gme, const SPAposition& axis_root, const SPAunit_vector& axis_dir,
-          const SPAvector& start_disp, double pitch, logical handedness, const SPAinterval& helix_range,
-          double par_scaling = 1.0, double taper = 0.0);
+
 /**
  * C++ destructor, deleting a <tt>helix</tt>.
  */
@@ -150,7 +146,6 @@ public:
  * helix name.
  */
  	helix( helix const &name );
-    helix(const char *gme, const helix& name);
 
 /**
  * Returns the number of derivatives that the evaluate function can find accurately.
@@ -164,9 +159,6 @@ public:
  	virtual int accurate_derivs(
 				SPAinterval const &cur = *(SPAinterval*)NULL_REF
 			) const;
-    /*virtual*/ int gme_accurate_derivs(
-                SPAinterval const &cur = *(SPAinterval*)NULL_REF
-            ) const;
 /**
  * Finds box around a helix or portion thereof bounded by points on the curve.
  * <br><br>
@@ -185,10 +177,6 @@ public:
 				SPAposition const &p2,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-    /*virtual*/ SPAbox gme_bound(
-                    const SPAposition &p1, const SPAposition &p2,
-                    const SPAtransf &trans = *(SPAtransf *)NULL_REF
-                    ) const;
 /**
  * Finds box around a helix or portion thereof bounded by parameter values (in increasing order).
  * <br><br>
@@ -203,7 +191,6 @@ public:
 				SPAinterval const &range,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-    /*virtual*/ SPAbox gme_bound(const SPAinterval &range, const SPAtransf &trans = *(SPAtransf *) NULL_REF) const;
 /**
  * Returns a bounding box around the portion of the helix inside a given box.
  * <br><br>
@@ -218,15 +205,12 @@ public:
 				SPAbox const &region,
 				SPAtransf const &trans = *(SPAtransf *)NULL_REF
 			) const;
-    /*virtual*/ SPAbox gme_bound(SPAbox const &region, SPAtransf const &trans = *(SPAtransf *)NULL_REF) const;
-
 /**
  * Indicates whether a curve is closed, that is joins itself (smoothly or not) at the ends of its principal parameter range.
  * <br><br>
  * <b>Role:</b> This function should always return <tt>TRUE</tt> if periodic does.
  */
  	virtual logical closed() const;
-    /*virtual*/ logical gme_closed() const;
 
 /**
  * Check for any data errors in the helix, and correct the errors if 
@@ -254,10 +238,6 @@ public:
 				char const *leader,
 				FILE *fp = debug_file_ptr
 			) const;
-    void gme_debug(
-				char const *leader,
-				FILE *fp = debug_file_ptr
-			) const;
 /**
  * Creates a copy of an item that does not share any data with the original.
  * <br><br>
@@ -268,7 +248,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
  	virtual curve *deep_copy(pointer_map * pm = NULL) const;
-    /*virtual*/ curve *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Returns a cylinder that encloses the portion of the curve bounded by the interval.
  * <br><br>
@@ -277,7 +256,6 @@ public:
  */
  	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval &interval=
 												    *(SPAinterval*)NULL_REF ) const;
-    /*virtual*/ BOUNDING_CYLINDER gme_enclosing_cylinder(const SPAinterval &ainterval=*(SPAinterval*)NULL_REF) const;
 /**
  * Evaluates a curve at a given parameter value, giving position, and first and second derivatives (all optionally).
  * <br><br>
@@ -312,14 +290,6 @@ public:
 				logical repeat= FALSE,
 				logical logi = FALSE
 			) const;
-    /*virtual*/ void gme_eval(
-                    double val,
-                    SPAposition &pos,
-                    SPAvector &first = *(SPAvector *)NULL_REF,
-                    SPAvector &second = *(SPAvector *)NULL_REF,
-                    logical repeat= FALSE,
-                    logical logi = FALSE
-            ) const;
 /**
  * Calculates derivatives, of any order up to the number requested, and stores them in vectors provided by the user.
  * <br><br>
@@ -347,13 +317,6 @@ public:
                 int          num = 0,
 				evaluate_curve_side loc = evaluate_curve_unknown
             ) const;
-    /*virtual*/ int gme_evaluate(
-            double       val,
-            SPAposition& pt,
-            SPAvector**  derivs = NULL,
-            int          num = 0,
-                            evaluate_curve_side loc = evaluate_curve_unknown
-        ) const;
 /**
  * Finds the extrema of a helix in a given direction.
  * <br><br>
@@ -361,7 +324,6 @@ public:
  * direction.
  */
  	virtual curve_extremum *find_extrema(SPAunit_vector const &dirc ) const;
-        /*virtual*/ curve_extremum *gme_find_extrema(const SPAunit_vector &dirc) const;
 /**
  * @nodoc
  * Internal use. Roll mechanism
@@ -379,12 +341,10 @@ public:
  * interval list.
  */
     int	 high_curvature( double k, SPAinterval*& spans ) const;
-    int gme_high_curvature(double k, SPAinterval*& spans) const;
 /**
  * Returns a pointer to the law form that is part of the helix definition.
  */
  	law *law_form();
-        law *gme_law_form();
 /**
  * Arc length.
  * <br><br>
@@ -407,7 +367,6 @@ public:
  * not used for helices.
  */
  	virtual double length( double first, double second, logical approx_ok=TRUE ) const;
-    /*virtual*/ double gme_length( double first, double second, logical approx_ok=TRUE ) const;
 /**
  * The inverse of the length function returns the parameter value of the point on the curve at the given algebraic arc length from that defined by the datum parameter.
  * <br><br>
@@ -427,26 +386,18 @@ public:
 				double	len,
 				logical approx_ok=TRUE
 			) const;
-    /*virtual*/ double gme_length_param(
-                double para,
-                double  len,
-                logical approx_ok=TRUE
-            ) const;
 /**
  * Makes a copy of this helix on the heap, and return a pointer to it.
  */
  	virtual curve *make_copy() const;
-    /*virtual*/ curve *gme_make_copy() const;
 /**
  * Negates this helix, i.e. make it the same curve but described in the opposite sense.
  */
  	virtual curve &negate();
-    /*virtual*/ curve &gme_negate();
 /**
  * Returns a helix with the opposite sense from this one.
  */
  	helix operator-() const;
-    helix gme_operator_substract() const;
 /**
  * Tests two curves for equality.
  * <br><br>
@@ -457,7 +408,6 @@ public:
  * curve name.
  */
  	virtual logical operator==( curve const &name ) const;
-    /*virtual*/ logical gme_operator_equal(const curve &name) const;
 /**
  * @nodoc
  * Returns this <tt>helix</tt> transformed by the given <tt>SPAtransf</tt>.
@@ -466,8 +416,6 @@ public:
 				helix const &,
 				SPAtransf const &
 			);
-    friend DECL_KERN helix gme_operator_multiply(const helix &name, const SPAtransf &trans);
-
 /**
  * Transforms this <tt>helix</tt> by the given <tt>SPAtransf</tt>, in place.
  * <br><br>
@@ -475,7 +423,6 @@ public:
  * transformation.
  */
  	virtual curve &operator*=( SPAtransf const &trans);
-    /*virtual*/ curve &gme_operator_multiply_assign(const SPAtransf& trans);
 /**
  * Finds the parameter value at the given point on the helix.
  * <br><br>
@@ -491,15 +438,10 @@ public:
 				SPAposition const &name,
 				SPAparameter const &cur= *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ double gme_param(
-                    SPAposition const &name,
-                    SPAparameter const &param_guess= *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Returns the period of the curve parameter.
  */
  	virtual double param_period() const;
-    /*virtual*/ double gme_param_period() const;
     
 /**
  * Returns the parameter range of the helix.
@@ -510,7 +452,6 @@ public:
  	virtual SPAinterval param_range(
 				SPAbox const &box = *(SPAbox *)NULL_REF
 			) const;
-    /*virtual*/ SPAinterval gme_param_range(const SPAbox &box = *(SPAbox *)NULL_REF) const;
 
 /**
  * Finds the curvature on a helix at the given point on the curve.
@@ -527,10 +468,6 @@ public:
 				SPAposition const &posi,
 				SPAparameter const &para = *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ SPAvector gme_point_curvature(
-                SPAposition const &pos,
-                SPAparameter const &param_guess = *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Finds the tangent to a helix at the given point on the curve.
  * <br><br>
@@ -549,10 +486,6 @@ public:
 				SPAposition const &posi,
 				SPAparameter const &para = *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ SPAunit_vector gme_point_direction(
-                SPAposition const &pos,
-                SPAparameter const &param_guess = *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -587,15 +520,6 @@ public:
 				SPAparameter&       act_guess   = *(SPAparameter *)NULL_REF,
 				logical             f_weak      = FALSE
 			) const;
-    /*virtual*/ void gme_point_perp(
-                SPAposition const&  pt,
-                SPAposition&        ft,
-                SPAunit_vector&     vec,
-                SPAvector&          cur,
-                SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
-                SPAparameter&       act_guess   = *(SPAparameter *)NULL_REF,
-                logical             f_weak      = FALSE
-            ) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -637,14 +561,6 @@ public:
 					actual, f_weak
 				);
 	}
-    void gme_point_perp(
-                            SPAposition const&  pos,
-                            SPAposition&        foot,
-                            SPAunit_vector&     foot_dt,
-                            SPAparameter const& guess = *(SPAparameter *)NULL_REF,
-                            SPAparameter&       actual = *(SPAparameter *)NULL_REF,
-                            logical             f_weak = FALSE
-                            ) const;
 /**
  * Finds the foot of the perpendicular from the given point to the curve.
  * <br><br>
@@ -681,13 +597,6 @@ public:
 					actual, f_weak
 				);
 	}
-    void gme_point_perp(
-			SPAposition const&  pos,
-			SPAposition&        foot,
-			SPAparameter const& guess = *(SPAparameter *)NULL_REF,
-			SPAparameter&       actual = *(SPAparameter *)NULL_REF,
-			logical             f_weak = FALSE
-		) const;
 /**
  * Indicates whether a curve is periodic.
  * <br><br>
@@ -695,7 +604,6 @@ public:
  * so that edges may span the seam.
  */
  	virtual logical periodic() const;
-    /*virtual*/ logical gme_periodic() const;
 /**
  * Restores the data for a helix from a save file.
  * <br><br>
@@ -757,11 +665,6 @@ public:
 				logical           approx = FALSE,
 				SPAtransf const   &trans = *(SPAtransf *)NULL_REF
 			) const;
-    /*virtual*/ curve_tancone gme_tangent_cone(
-                    SPAinterval const &range,
-                    logical           approx = FALSE,
-                    SPAtransf const   &trans = *(SPAtransf *)NULL_REF
-            ) const;
 /**
  * Tests point-on-curve to given precision, returning its parameter value as well if requested.
  * <br><br>
@@ -780,27 +683,18 @@ public:
 				SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
 				SPAparameter&       act_param   = *(SPAparameter *)NULL_REF
 			) const;
-    /*virtual*/ logical gme_test_point_tol(
-                SPAposition const&  pt,
-                double              tol         = 0,
-                SPAparameter const& param_guess = *(SPAparameter *)NULL_REF,
-                SPAparameter&       act_param   = *(SPAparameter *)NULL_REF
-            ) const;
 /**
  * Returns an identifier uniquely specifying the curve type.
  */
  	virtual int type() const;
-    /*virtual*/ int gme_type() const;
 /**
  * Returns a string <tt>"helix"</tt>.
  */
  	virtual char const *type_name() const;
-    /*virtual*/ char const *gme_type_name() const;
 /**
  * Indicates whether the helix is properly defined.
  */
  	virtual logical undef() const;
-    /*virtual*/ logical gme_undef() const;
 /**
  * Reparameterizes the helix to start and end at the given values, which are in increasing order.
  * <br><br>
@@ -813,7 +707,6 @@ public:
 				double start,
 				double end
 			);
-    void gme_reparam(double start, double end);
 /**
   * For back saves
   */
@@ -868,13 +761,12 @@ public:
  * Returns the radius of this <tt>helix</tt>.
  */
     double radius() const;
-    double gme_radius() const;
 
 /**
  * Returns the major direction of this <tt>helix</tt>.
  */
     SPAunit_vector maj_dir() const;
-    SPAunit_vector gme_maj_dir() const;
+    
 protected:
 /**
  * Axis root position of helix.
@@ -936,7 +828,6 @@ protected:
 			) const;
 
 #endif
-
 };
 
 /** @} */

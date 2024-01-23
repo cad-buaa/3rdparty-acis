@@ -1,4 +1,4 @@
-﻿/* $Id: esplit.hxx,v 1.11 2002/08/09 17:19:05 jeff Exp $ */
+/* $Id: esplit.hxx,v 1.11 2002/08/09 17:19:05 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -78,27 +78,6 @@ sg_split_edge_at_vertex(
     VERTEX*      new_vertex,                            // vertex known to lie in interior of edge
     ENTITY_LIST& coedge_list = *(ENTITY_LIST*)NULL_REF, // returned list of coedges
     logical      split_geometry = FALSE                 // hard split on geometry
-    );
-/*
-* @brief 给定一个在edge定义域内的vertex，在这个顶点的位置把edge分割为两段，旧的edge将从已有的start指向该vertex，新的edge将从该vertex指向end
-* @return 
-* @param old_edge
-* 待分割的edge
-* @param new_vertex
-* 用于分割的顶点
-* @param coedge_list
-* 新加入的edge的几何属性
-* @param split_geometry
-* 新的edge是否与旧的edge共享几何属性
-*/
-DECL_INTR void
-gme_sg_split_edge_at_vertex(
-    EDGE*        old_edge,                              // edge to split
-    VERTEX*      new_vertex,                            // vertex known to lie in interior of edge
-    ENTITY_LIST& edge_list = *(ENTITY_LIST*)NULL_REF,   // returned list of new edge
-    ENTITY_LIST& coedge_list = *(ENTITY_LIST*)NULL_REF, // returned list of coedges
-    logical      split_geometry = FALSE,                 // hard split on geometry
-    double adapted_resabs = 1e-6
     );
 //STI let: end
 /**

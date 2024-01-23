@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -160,25 +160,6 @@ bs3_curve_from_ctrlpts(
 										// Note: dimension does NOT depend on rational or non-rational
 	);
 
-DECL_SPLINE bs3_curve
-gme_bs3_curve_from_ctrlpts(
-	int degree,				// degree
-	logical rational,			// rational
-	logical closed,				// closed
-	logical periodic,			// periodic
-	int num_ctrlpts,			// number of control points
-	const SPAposition ctrlpts[],	        // control points
-	const double weights[],			// weights
-	double ctrlpt_tol,			// control point tolerance
-	int num_knots,				// number of knots
-	const double knots[],			// knots
-	double knot_tol,			// knot tolerance
-	const int &dimension = *(int *)NULL_REF	// Control point dimension specified in ctrlpts array.
-						// Allowed values are 1, 2, or 3.
-						// Default corresponds to 3 ==> x, y, and z.
-						// Note: dimension does NOT depend on rational or non-rational
-	);
-
 /**  THIS FUNCTION (bs3_curve_from_periodic_ctrlpts) NEEDS TO BE
  *  REMOVED FROM THE PUBLIC INTERFACE AS IT IS NOT QUITE CONSISTENT
  *  WITH THE SURVIVING PERIODIC IMPLEMENTATION AND IT DOES NOT HAVE
@@ -265,19 +246,6 @@ bs3_curve_to_array(
 			double*& knots		,// knots
 			const int use_initial_seam_multiplicity = FALSE // in: used for periodic geometry when initial knot multiplicty != order
 		);
-DECL_SPLINE void
-gme_bs3_curve_to_array(
-			bs3_curve origin_bs ,// curve
-			int& dim			,// dimension
-			int& deg			,// degree
-			logical& rat		,// rational
-			int& num_ctrlpts			,// number of control points
-			SPAposition*& ctrlpts		,// control points
-			double*& weights		,// weights
-			int& num_knots			,// number of knots
-			double*& knots		,// knots
-			const int use_initial_seam_multiplicity = FALSE // in: used for periodic geometry when initial knot multiplicty != order
-		);
 
 // Return the number of knots, and the knot SPAvector
 // for a 3D B-spline curve.
@@ -305,13 +273,6 @@ bs3_curve_knots(
 			double*& knots		,// knots
 			const int use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 		);
-DECL_SPLINE void
-gme_bs3_curve_knots(
-			bs3_curve bs		,// curve
-			int& num_knots			,// number of knots
-			double*& knots		,// knots
-			const int use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-		);
 
 // Return the number of control points and an array of control points
 // for a 3D B-spline curve.
@@ -334,13 +295,6 @@ gme_bs3_curve_knots(
 
 DECL_SPLINE void
 bs3_curve_control_points(
-			bs3_curve bs		,// curve
-			int& num_pts			,// number of control points
-			SPAposition*& ctrlpts 		,// control point array
-			const int   use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-		);
-DECL_SPLINE void
-gme_bs3_curve_control_points(
 			bs3_curve bs		,// curve
 			int& num_pts			,// number of control points
 			SPAposition*& ctrlpts 		,// control point array
@@ -398,13 +352,6 @@ bs3_curve_weight(
 
 DECL_SPLINE void
 bs3_curve_weights(
-			bs3_curve bs		,// curve
-			int &num_pts			,// number of weights
-			double *&weights		,// weight array
-			const int   use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-		);
-DECL_SPLINE void
-gme_bs3_curve_weights(
 			bs3_curve bs		,// curve
 			int &num_pts			,// number of weights
 			double *&weights		,// weight array
@@ -470,10 +417,6 @@ DECL_SPLINE void
 bs3_curve_set_closed(
 		bs3_curve crv
 	);
-DECL_SPLINE void
-gme_bs3_curve_set_closed(
-		bs3_curve crv
-	);
 
 // Mark a bs3_curve as being open
 
@@ -488,11 +431,6 @@ gme_bs3_curve_set_closed(
 
 DECL_SPLINE void
 bs3_curve_set_open(
-		bs3_curve crv
-	);
-
-DECL_SPLINE void
-gme_bs3_curve_set_open(
 		bs3_curve crv
 	);
 // STI INGR mnl: end
@@ -511,10 +449,6 @@ gme_bs3_curve_set_open(
 
 DECL_SPLINE void
 bs3_curve_set_periodic(
-		bs3_curve crv
-	);
-DECL_SPLINE void
-gme_bs3_curve_set_periodic(
 		bs3_curve crv
 	);
 
@@ -695,7 +629,6 @@ DECL_SPLINE SPAposition
 bs3_curve_start(
 	bs3_curve bs 			// Bs3_curve, which start is to be found
 );
-DECL_SPLINE SPAposition gme_bs3_curve_start(bs3_curve bs);
 
 // Find the start tangent of a bs3_curve
 
@@ -712,7 +645,6 @@ DECL_SPLINE SPAunit_vector
 bs3_curve_start_tangent(
 	bs3_curve bs			// bs3_curve, which start_tangent is to be found
 );
-DECL_SPLINE SPAunit_vector gme_bs3_curve_start_tangent(bs3_curve bs);
 
 // STI jmb begin: Add end and mid for completness
 // Find the end SPAposition of a bs3_curve
@@ -730,7 +662,6 @@ DECL_SPLINE SPAposition
 bs3_curve_end(
 	bs3_curve bs 			// Bs3_curve, which end is to be found
 );
-DECL_SPLINE SPAposition gme_bs3_curve_end(bs3_curve bs);
 
 // Find the end tangent of a bs3_curve
 
@@ -747,7 +678,6 @@ DECL_SPLINE SPAunit_vector
 bs3_curve_end_tangent(
 	bs3_curve bs			// bs3_curve, which end_tangent is to be found
 );
-DECL_SPLINE SPAunit_vector gme_bs3_curve_end_tangent(bs3_curve bs);
 
 // Find the mid SPAposition of a bs3_curve
 
@@ -764,7 +694,6 @@ DECL_SPLINE SPAposition
 bs3_curve_mid(
 	bs3_curve bs 			// Bs3_curve, which mid is to be found
 );
-DECL_SPLINE SPAposition gme_bs3_curve_mid(bs3_curve bs);
 
 // Find the mid tangent of a bs3_curve
 
@@ -781,8 +710,6 @@ DECL_SPLINE SPAunit_vector
 bs3_curve_mid_tangent(
 	bs3_curve bs			// bs3_curve, which mid_tangent is to be found
 );
-DECL_SPLINE SPAunit_vector gme_bs3_curve_mid_tangent(bs3_curve bs);
-
 // STI jmb end:
 
 // Find the self intersections in a curve
@@ -1003,10 +930,6 @@ DECL_SPLINE int
 bs3_curve_degree(
 		bs3_curve bs
 	);
-DECL_SPLINE int
-gme_bs3_curve_degree(
-		bs3_curve bs
-	);
 
 // Return the number of control points in a bs3_curve.
 
@@ -1021,11 +944,6 @@ gme_bs3_curve_degree(
 
 DECL_SPLINE int
 bs3_curve_num_ctlpts(
-					 bs3_curve bs,
-					 const int   use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-					 );
-DECL_SPLINE int
-gme_bs3_curve_num_ctlpts(
 					 bs3_curve bs,
 					 const int   use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 					 );
@@ -1048,10 +966,6 @@ DECL_SPLINE logical
 bs3_curve_rational(
 		bs3_curve input		// Input curve
 	);
-DECL_SPLINE logical
-gme_bs3_curve_rational(
-		bs3_curve input		// Input curve
-	);
 
 // Determine whether a bs3_curve is a conic section, and what type.
 
@@ -1070,10 +984,6 @@ gme_bs3_curve_rational(
 
 DECL_SPLINE bs_conic_type
 bs3_curve_conic_type(
-		bs3_curve bs3c		// Input curve
-	);
-DECL_SPLINE bs_conic_type
-gme_bs3_curve_conic_type(
 		bs3_curve bs3c		// Input curve
 	);
 
@@ -1153,13 +1063,7 @@ bs3_curve_add_knot(
 		int mult_req,		// multiplicity of the new knot added
 		double knot_tol		// knot tolerance
 	);
-DECL_SPLINE int
-gme_bs3_curve_add_knot(
-		bs3_curve input,	// Input spline, modified inplace
-		double new_par,		// new knot value returned
-		int mult_req,		// multiplicity of the new knot added
-		double knot_tol		// knot tolerance
-	);
+
 // Determine the multiplicity of a knot of a bspline curve.
 
 /**
@@ -1177,13 +1081,6 @@ gme_bs3_curve_add_knot(
 
 DECL_SPLINE int
 bs3_curve_knot_mult(
-		bs3_curve input,	// Input B-spline
-		double knot_value,		// knot at which the multiplicity is to be determined
-		double knot_tol,		// knot tolerance
-		const int   use_initial_seam_multiplicity = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-	);
-DECL_SPLINE int
-gme_bs3_curve_knot_mult(
 		bs3_curve input,	// Input B-spline
 		double knot_value,		// knot at which the multiplicity is to be determined
 		double knot_tol,		// knot tolerance
@@ -1228,10 +1125,6 @@ bs3_curve_rem_extra_knots(
 
 DECL_SPLINE void
 bs3_curve_degree_elevate(
-		bs3_curve &input	// Input B-spline modified inplace
-	);
-DECL_SPLINE void
-gme_bs3_curve_degree_elevate(
 		bs3_curve &input	// Input B-spline modified inplace
 	);
 

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -19,7 +19,6 @@
 #include "face.hxx"
 #include "en_macro.hxx"
 #include "ptfcenum.hxx"
-
 /**
  * @file loop.hxx
  * @CAA2Level L1
@@ -34,10 +33,6 @@ class ps_polygon;
 class pattern_holder;
 class pattern;
 class VOID_LIST;
-
-// 支撑性测试
-// #define GME_KERN_LOOP  //将ACIS接口切换为GME接口
-
 /**
  * @nodoc
  */
@@ -237,9 +232,7 @@ protected:
 
 	// access methods for loop type
 	loop_type get_loop_type( const LOOP *in_loop) const;
-	loop_type gme_get_loop_type( const LOOP *in_loop) const;
 	void set_loop_type( loop_type lt_in, LOOP *in_loop = NULL);
-	void gme_set_loop_type( loop_type lt_in, LOOP *in_loop = NULL);
 
 // STI ROLL begin - added virtual compare function for api_get_modified_faces
 protected:
@@ -314,7 +307,6 @@ public:
  * management.
  */
 	LOOP();
-	LOOP( const char *gme );
 
 
 	// Public constructor which initialises the record and interfaces
@@ -346,7 +338,6 @@ public:
  * next LOOP in the owning FACE.
  */
 	LOOP( COEDGE *coedge, LOOP *loop );
-	LOOP( const char *gme,COEDGE *coedge, LOOP *loop );
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -400,13 +391,6 @@ public:
 	virtual void lose();
 #endif
 
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>LOOP</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
-
 	// Data reading routines.
 
 /**
@@ -427,7 +411,6 @@ public:
  * (see Role).
  */
 	LOOP *next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	LOOP *gme_next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
 /**
  * Returns a pointer to one <tt>COEDGE</tt> in this <tt>LOOP</tt>.
  * <br><br>
@@ -461,13 +444,11 @@ public:
  * @nodoc
  */
     loop_type get_classification() const;
-	loop_type gme_get_classification() const;
 
 /**
  * Returns a pointer to the owning entity.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 	// Data changing routines.  Each of these routines checks
@@ -490,7 +471,6 @@ public:
  * internal use only.
  */
 	void set_next( LOOP *loop , logical reset_pattern = TRUE);
-	void gme_set_next( LOOP *loop , logical reset_pattern = TRUE);
 /**
  * Sets the first <tt>COEDGE</tt> in the list of <tt>COEDGEs</tt> belonging to this <tt>LOOP</tt>.
  * <br><br>
@@ -504,7 +484,6 @@ public:
  * internal use only.
  */
 	void set_start( COEDGE *coedge , logical reset_pattern = TRUE);
-	void gme_set_start( COEDGE *coedge , logical reset_pattern = TRUE);
 /**
  * Sets the face pointer of this <tt>LOOP</tt> to the specified <tt>FACE</tt>.
  * <br><br>
@@ -518,7 +497,6 @@ public:
  * internal use only.
  */
 	void set_face( FACE *face , logical reset_pattern = TRUE );
-	void gme_set_face( FACE *face , logical reset_pattern = TRUE );
 /**
  * Sets the bounding region (box) of this <tt>LOOP</tt> to the specified box.
  * <br><br>
@@ -531,17 +509,14 @@ public:
  * the new SPAbox.
  */
 	void set_bound( SPAbox *in_box );
-	void gme_set_bound( SPAbox *in_box );
 
 	void set_ps_polygon( ps_polygon* in_ps_poly );
-	void gme_set_ps_polygon( ps_polygon* in_ps_poly );
 
 /**
 	
  * @nodoc
  */
     void set_classification( loop_type);
-	void gme_set_classification( loop_type);
 
 
     // STI let (04/00): Added a new method
@@ -551,24 +526,6 @@ public:
  * Reverses the sense of a loop of coedges and their pcurves.
  */
 	void reverse();
-	void gme_reverse();
-
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const LOOP* in_loop, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-    void gme_roll_notify(BULLETIN_TYPE, ENTITY*);
-
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_start_ptr();
-	void** get_face_ptr();
 };
 
 /**

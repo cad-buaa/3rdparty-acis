@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -56,7 +56,6 @@ public:
  * <b>Role:</b>	Constructs an <tt>error_list_info</tt> object and sets the <tt>next_ptr</tt> to <tt>NULL</tt>.
  */
 	error_list_info();
-	error_list_info(char const * gme);
 
 /**
  * Default destructor.
@@ -77,8 +76,6 @@ public:
  * given list pointer.
  */
 	void set_next( error_list_info * list);
-	void gme_set_next( error_list_info * list);
-
 };
 
 /**
@@ -91,11 +88,6 @@ public:
  * @see error_info_base
  */
 DECL_BASE error_list_info *find_error_list_info(
-										error_list_info *list,
-										int typeno
-										);
-
-DECL_BASE error_list_info *gme_find_error_list_info(
 										error_list_info *list,
 										int typeno
 										);
@@ -114,11 +106,6 @@ DECL_BASE error_list_info *gme_find_error_list_info(
  * @see error_info_base
  */
 DECL_BASE error_list_info *append_error_list_info(
-										  error_list_info *list1,
-										  error_list_info *list2
-										  );
-
-DECL_BASE error_list_info *gme_append_error_list_info(
 										  error_list_info *list1,
 										  error_list_info *list2
 										  );

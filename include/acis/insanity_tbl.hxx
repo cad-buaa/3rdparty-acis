@@ -1,4 +1,4 @@
-﻿// $Id: insanity_tbl.hxx,v 1.18 2002/08/23 20:49:56 bloyd Exp $
+// $Id: insanity_tbl.hxx,v 1.18 2002/08/23 20:49:56 bloyd Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
@@ -343,7 +343,6 @@
 */ // - end comment
 
 #include "dcl_intr.h"
-#include "logical.h"
 
 /**
 * @file insanity_tbl.hxx
@@ -426,15 +425,9 @@ public:
 
 };
 
-#ifndef SUPPORT_TEST_NO
 extern DECL_INTR insanity_sub_category NO_SUB_CATEGORY;
 extern DECL_INTR insanity_sub_category HIGH_CURVATURE;
 extern DECL_INTR insanity_sub_category BAD_APPROXIMATING_SURFACE;
-#else
-DECL_INTR insanity_sub_category NO_SUB_CATEGORY("No sub category\0");
-DECL_INTR insanity_sub_category HIGH_CURVATURE("High Curvature\0");
-DECL_INTR insanity_sub_category BAD_APPROXIMATING_SURFACE("Bad Approximating Surface\0");
-#endif
 
 /** @} */
 

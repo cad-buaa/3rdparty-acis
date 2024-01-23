@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: 3dt2.1/geomhusk/bnd_crv.hxx */
+/* ORIGINAL: 3dt2.1/geomhusk/bnd_crv.hxx */
 // $Id: bnd_crv.hxx,v 1.10 2002/08/09 17:15:14 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -88,7 +88,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
     // Map a SPAparameter value into the principal range of the underlying
     // ACIS curve.
     double map_parameter_into_range(double) const;
-    double gme_map_parameter_into_range(double) const;
 
   protected:
 
@@ -191,7 +190,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * <b>Role:</b> Requests memory for this object but does not populate it.
  */
      bounded_curve();
-     bounded_curve(const char *gme );
 
 // copy constructor
 /**
@@ -204,7 +202,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * bounded curve that is to be copied.
  */
      bounded_curve(const bounded_curve& b_cur);
-     bounded_curve(const char *gme, const bounded_curve& b_cur);
 
 // create a bounded_curve from an EDGE
 /**
@@ -216,7 +213,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * transformation to be applied to the EDGE's CURVE.
  */
     bounded_curve(EDGE* edge, const SPAtransf* transf);
-    bounded_curve(const char *gme, EDGE* edge, const SPAtransf* transf);
 
 // Create a bounded_curve given an ACIS curve and start and end parameters.
 /**
@@ -230,7 +226,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * end parameter of the constructed bounded curve.
  */
     bounded_curve(const curve* cur, double start_param, double end_param);
-    bounded_curve(const char *gme, const curve* cur, double start_param, double end_param);
 
 // Create a bounded_curve given an ACIS curve and start and end positions.
 /**
@@ -247,7 +242,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * end position of the constructed bounded curve.
  */
      bounded_curve(const curve* cur, const SPAposition& start_pos, const SPAposition& end_pos);
-     bounded_curve(const char *gme, const curve* cur, const SPAposition& start_pos, const SPAposition& end_pos);
 
 //----------------------------------------------------------------------
 // destructor
@@ -889,7 +883,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * the new start parameter.
  */
     double set_start_param(double param);
-    double gme_set_start_param(double param);
 
 /**
  * Sets the end parameter of this <tt>bounded_curve</tt>.
@@ -898,7 +891,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * the new end parameter.
  */
     double set_end_param(double param);
-    double gme_set_end_param(double param);
 
 /**
  * Sets the parameter range of this <tt>bounded_curve</tt>.
@@ -909,7 +901,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * the new end parameter.
  */
      void set_parameter_range(double start_param, double end_param);
-     void gme_set_parameter_range(double start_param, double end_param);
 
     // get SPAparameter range
 /**
@@ -955,7 +946,6 @@ class DECL_KERN bounded_curve : public ACIS_OBJECT
  * Creates an <tt>EDGE</tt> from this <tt>bounded_curve</tt>.
  */
      virtual EDGE* make_edge() const;
-     /*virtual*/ EDGE* gme_make_edge() const;// 暂时以非虚实现
 
     // create a bs3_curve from this bounded_curve
 /**
@@ -1080,7 +1070,7 @@ DECL_KERN bounded_curve* new_ellipse(
 DECL_KERN bounded_curve* get_bounded_curve(	EDGE* edge,
 											logical apply_transf = TRUE);
 
-/**
+/*
 // tbrv
 */
 /**

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -39,9 +39,6 @@ class VOID_LIST;
  *
  * @{
  */
-
-// 支撑性测试
-// #define GME_KERN_FACE  //将ACIS接口切换为GME接口
 
 /**
  * @nodoc
@@ -323,7 +320,7 @@ protected:
  * @nodoc
  */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-	
+
 // STI ROLL end
 
 	// Include the standard member functions for all entities.
@@ -338,8 +335,6 @@ protected:
 // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
 // explicitly here:
 public:
-
-	/*virtual*/ logical gme_bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
 
 	/**
 	 * @nodoc
@@ -381,7 +376,6 @@ public:
  * management.
  */
 	FACE();
-	FACE(const char *gme);
 
 
 	// Public constructor which initialises the record and interfaces
@@ -423,7 +417,6 @@ public:
  * the sense (FORWARD or REVERSED) of the constructed face relative to surf.
  */
 	FACE( LOOP *loop, FACE *face, SURFACE *surf, REVBIT sense);
-	FACE( const char *gme, LOOP *loop, FACE *face, SURFACE *surf, REVBIT sense);
 
 
 	// Constructor to be used when splitting a face into two pieces.
@@ -452,7 +445,6 @@ public:
  * flag to update the SHELL or SUBSHELL FACE list with the constructed FACE.
  */
 	FACE( FACE *face, LOOP *loop, logical update = TRUE );
-	FACE( const char *gme, FACE *face, LOOP *loop, logical update = TRUE );
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -514,12 +506,7 @@ public:
  */
 	virtual void lose();
 #endif
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>FACE</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
+
 	// Data reading routines.
 
 /**
@@ -549,12 +536,10 @@ public:
  * how the next method treats patterns.
  */
 	FACE *next_in_list(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	FACE *gme_next_in_list(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
 /**
  * Returns a pointer to the first <tt>LOOP</tt> of <tt>COEDGEs</tt> bounding this <tt>FACE</tt>.
  */
 	LOOP *loop() const;
-	LOOP *gme_loop() const;
 /**
  * Returns a pointer to the <tt>SHELL</tt> containing this <tt>FACE</tt>.
  * <br><br>
@@ -571,7 +556,6 @@ public:
  * Returns a pointer to the underlying <tt>SURFACE</tt> defining this <tt>FACE</tt>.
  */
 	SURFACE *geometry() const;
-	SURFACE *gme_geometry() const;
 /**
  * Returns the sense of this <tt>FACE</tt> relative to its <tt>SURFACE</tt>.
  * <br><br>
@@ -603,24 +587,17 @@ public:
  * was not calculated since the <tt>FACE</tt> was last modified.
  */
 	SPAbox *bound() const { return ver_box_container.get_ver_box(); }
-	
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-	#ifdef GME_KERN_FACE
-	SPApar_box *uv_bound() const { return gme_uv_bound(); }
-	#else
     SPApar_box *uv_bound() const { return par_box_container.get_par_box(); }
-	#endif
-	SPApar_box *gme_uv_bound() const { return par_box_container.gme_get_par_box(); }
 /**
  * Returns a pointer to the owning entity.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 	// Data changing routines.  Each of these routines checks
@@ -643,7 +620,6 @@ public:
  * internal use only.
  */
 	void set_next( FACE *face , logical reset_pattern = TRUE);
-	void gme_set_next( FACE *face , logical reset_pattern = TRUE);
 /**
  * Sets the loop pointer of this <tt>FACE</tt> to the specified <tt>LOOP</tt>.
  * <br><br>
@@ -657,7 +633,6 @@ public:
  * internal use only.
  */
 	void set_loop( LOOP *loop , logical reset_pattern = TRUE);
-	void gme_set_loop( LOOP *loop , logical reset_pattern = TRUE);
 /**
  * Sets the shell pointer of this <tt>FACE</tt> to the specified <tt>SHELL</tt>.
  * <br><br>
@@ -671,7 +646,6 @@ public:
  * internal use only.
  */
 	void set_shell( SHELL *shell , logical reset_pattern = TRUE);
-	void gme_set_shell( SHELL *shell , logical reset_pattern = TRUE);
 /**
  * Sets the subshell pointer of this <tt>FACE</tt> to the specified <tt>SUBSHELL</tt>.
  * <br><br>
@@ -685,7 +659,6 @@ public:
  * internal use only.
  */
 	void set_subshell( SUBSHELL *subshell , logical reset_pattern=TRUE);
-	void gme_set_subshell( SUBSHELL *subshell , logical reset_pattern=TRUE);
 /**
  * Sets the geometry pointer of this <tt>FACE</tt> to the specified <tt>SURFACE</tt>.
  * <br><br>
@@ -701,7 +674,6 @@ public:
  * internal use only.
  */
 	void set_geometry( SURFACE *surf , logical reset_pattern=TRUE);
-	void gme_set_geometry( SURFACE *surf , logical reset_pattern=TRUE);
 /**
  * Sets the sense of this <tt>FACE</tt> with respect to its <tt>SURFACE</tt>.
  * <br><br>
@@ -716,7 +688,6 @@ public:
  * internal use only.
  */
 	void set_sense( REVBIT rev, logical reset_pattern=TRUE);
-	void gme_set_sense( REVBIT rev, logical reset_pattern=TRUE);
 /**
  * Sets the sides bit of this <tt>FACE</tt> to single-sided or double-sided.
  * <br><br>
@@ -732,7 +703,6 @@ public:
  * internal use only.
  */
 	void set_sides( SIDESBIT sides, logical reset_pattern=TRUE);
-	void gme_set_sides( SIDESBIT sides, logical reset_pattern=TRUE);
 /**
  * Sets the containment bit of this <tt>FACE</tt>.
  * <br><br>
@@ -749,7 +719,6 @@ public:
  * internal use only.
  */
 	void set_cont( CONTBIT cont, logical reset_pattern=TRUE);
-	void gme_set_cont( CONTBIT cont, logical reset_pattern=TRUE);
 /**
  * Sets the bounding region (box) of this <tt>FACE</tt> to the specified box.
  * <br><br>
@@ -762,19 +731,13 @@ public:
  * the new SPAbox.
  */
 	void set_bound( SPAbox *in_box );
-	void gme_set_bound( SPAbox *in_box );
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-	#ifdef GME_KERN_FACE
-	void set_uv_bound( SPApar_box* in_par_box) { return gme_set_uv_bound(in_par_box); }
-	#else
-	void set_uv_bound( SPApar_box* in_par_box) { par_box_container.set_par_box( this, in_par_box); }		  
-	#endif 
-	void gme_set_uv_bound( SPApar_box* in_par_box) { par_box_container.gme_set_par_box( this, in_par_box); }
+    void set_uv_bound( SPApar_box* in_par_box) { par_box_container.set_par_box( this, in_par_box); }
 
     // Data reading sensitive to an extra reversal. Note that REVBIT
 	// is in fact a logical, which simplifies this no end.
@@ -832,7 +795,6 @@ public:
  * how the next method treats patterns.
  */
 	FACE *next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	FACE *gme_next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
 
 	// STI let (12/98): FACE::next_face() is officially OBSOLETE in ACIS 5.0
 	/**
@@ -841,24 +803,6 @@ public:
 	[[deprecated("Deprecated method : Please use next() instead")]]
 	FACE *next_face() const;
 
-	// 拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const FACE* in_face, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-
-	void gme_roll_notify(BULLETIN_TYPE type, ENTITY* ent);
-
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_loop_ptr();
-	void** get_shell_ptr();
-	void** get_subshell_ptr();
-	void** get_geometry_ptr();
 };
 /** @} */
 

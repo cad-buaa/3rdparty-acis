@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -126,21 +126,10 @@ public:
 				surf_surf_term * term2 = NULL
 			);
 	surf_surf_int(
-				const char *gme,
-				curve * curv,
-				surf_surf_int * inter = NULL,
-				surf_surf_term * term1 = NULL,
-				surf_surf_term * term2 = NULL
-			);
-	surf_surf_int(
 				surf_surf_int * inter,
 				curve * cur
 			);
 	void init(
-				surf_surf_term *start,
-				surf_surf_term *end
-			);
-	void gme_init(
 				surf_surf_term *start,
 				surf_surf_term *end
 			);
@@ -159,11 +148,6 @@ public:
 				SPAposition const &pos,
 				surf_surf_int *nextint = NULL
 			);
-	surf_surf_int(
-				const char *gme,
-				SPAposition const &pos,
-				surf_surf_int *nextint = NULL
-			);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * <br><br>
@@ -171,7 +155,6 @@ public:
  * surf-surf intersection
  */
  	surf_surf_int( surf_surf_int const &intsec );
-	surf_surf_int(const char *gme, surf_surf_int const &intsec );
 /**
  * Copies a surf_surf_int object. The behavior is same as that of the copy constructor.
  * <br><br>
@@ -179,7 +162,6 @@ public:
  * surf-surf intersection
  */
 	surf_surf_int& operator= ( surf_surf_int const &intsec );
-	void gme_operator_assign(surf_surf_int const& intsec);
 /**
  * Compares 2 surf_surf_int objects and returns a boolean.
  * <br><br>
@@ -187,7 +169,6 @@ public:
  * surf-surf intersection
  */
 	bool operator==( const surf_surf_int *ssi );
-	bool gme_operator_equal(const surf_surf_int* ssi);
 /**
  * C++ destructor, deleting a surf_surf_int.
  */
@@ -221,7 +202,6 @@ public:
  * file name
  */
 	void debug( FILE *fp = debug_file_ptr ) const;
-	void gme_debug( FILE *fp = debug_file_ptr ) const;
 /**
  * The parameter value of end_point, which is meaningless if the end_point is <tt>NULL</tt>.
  */
@@ -286,10 +266,8 @@ private:
 
 public:
 	pcurve * get_pcur(int index, bool valid_cur_pcur = false) const;
-	pcurve * gme_get_pcur(int index, bool valid_cur_pcur = false) const;
 
 	void set_pcur( pcurve * , int );
-	void gme_set_pcur( pcurve * , int );
 
 #ifndef NO_MESH_CLASSES
 /**
@@ -339,7 +317,6 @@ public:
  * @nodoc
  */
 	void set_tolerance(double new_t);
-	void gme_set_tolerance(double new_t);
 
 /**
  * Ignore pcurves stored in curve
@@ -441,7 +418,6 @@ public:
 	 * @param pos
 	 */
 	surf_surf_term( SPAposition const &pos );
-	surf_surf_term(const char *gme, SPAposition const &pos);
 	/**
 	 * C++ Constructor
 	 * @param pos
@@ -454,15 +430,10 @@ public:
 	surf_surf_term( SPAposition const & pos, 
 		            SPApar_pos const & parp1, 
 					SPApar_pos const & parp2);
-	surf_surf_term( const char *gme,
-		            SPAposition const & pos, 
-		            SPApar_pos const & parp1, 
-					SPApar_pos const & parp2);
 	/**
 	 * C++ Copy constructor
 	 */
     surf_surf_term( const surf_surf_term & sst );
-	surf_surf_term(const char *gme, const surf_surf_term & sst);
 	/**
 	 * Default destructor.
 	 */
@@ -486,7 +457,6 @@ public:
 	 * Debug this object to a file
 	 */
 	void debug( FILE * = debug_file_ptr ) const;
-	void gme_debug( FILE * = debug_file_ptr ) const;
 
 /**
  * @nodoc
@@ -497,7 +467,6 @@ public:
  * @nodoc
  */
 	void raise_tolerance(double new_tol);
-	void gme_raise_tolerance(double new_tol);
 };
 
 /**
@@ -508,7 +477,6 @@ public:
  * The initial surf_surf_int.
  */
 DECL_KERN	void	delete_surf_surf_ints( surf_surf_int*& head );
-DECL_KERN	void	gme_delete_surf_surf_ints( surf_surf_int*& head );
 
 /**
  * @nodoc
@@ -517,6 +485,7 @@ DECL_KERN	void	gme_delete_surf_surf_ints( surf_surf_int*& head );
 */
 
 DECL_KERN	void	copy_surf_surf_int_list( surf_surf_int* const orig_list, surf_surf_int*& copy_list);
-DECL_KERN	void	gme_copy_surf_surf_int_list( surf_surf_int* const orig_list, surf_surf_int*& copy_list);
+
 /** @} */
 #endif
+

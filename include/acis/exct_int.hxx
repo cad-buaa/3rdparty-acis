@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerngeom/intcur/exct_int.hxx */
+/* ORIGINAL: acis2.1/kerngeom/intcur/exct_int.hxx */
 /* $Id: exct_int.hxx,v 1.20 2002/08/09 17:15:24 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -93,8 +93,8 @@ private:
 
 	SPAinterval	_unextended_range;
 
+
 	exact_int_cur() {}
-	exact_int_cur( const char *gme) {}
 
 
 protected:
@@ -135,18 +135,6 @@ public:
 			bs2_curve s_surf = NULL	// curve in SPAparameter space of the
 								// second surface
 		);
-	exact_int_cur(
-			const char *gme,        //gme identification
-			bs3_curve surf,			// spline curve
-			surface const &f_cur = *(surface *)NULL_REF,
-								// first surface on which curve lies
-			surface const &s_cur = *(surface *)NULL_REF,
-								// second surface on which curve lies
-			bs2_curve f_surf  = NULL,	// curve in SPAparameter space of the
-								// first surface
-			bs2_curve s_surf = NULL	// curve in SPAparameter space of the
-								// second surface
-		);
 
 	// Copy constructor
 /**
@@ -156,7 +144,6 @@ public:
  * spline surface.
  */
  	exact_int_cur( const exact_int_cur& old );
-	exact_int_cur( const char*gme, const exact_int_cur& old );
 
 	// STI ROLL
 /*
@@ -179,13 +166,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
  	virtual int_cur *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ int_cur *gme_deep_copy(pointer_map * pm = NULL) const;
-
-	void gme_split(
-				double,
-				SPAposition const &,
-				int_cur *[ 2 ]
-			);
 
 private:
 	// We do not need a specific destructor, as we do not add any
@@ -240,6 +220,7 @@ private:
 				SPAposition const &,
 				int_cur *[ 2 ]
 			);
+
 
 	// Has the curve been extended?
 
@@ -388,12 +369,10 @@ public:
  * Returns the type of <tt>exact_int_cur</tt>.
  */
  	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 /**
  * Returns the string <tt>"exactcur"</tt>.
  */
  	virtual char const *type_name() const;
-	char const *gme_type_name() const;
 /**
  * Saves the data for the <tt>exact_int_cur</tt> to the save file.
  */
@@ -503,20 +482,6 @@ private:
 				logical,
 				FILE *
 			) const;
-public:
-        // 无法使用虚函数, 所以需要在int_cur里手动调用
-        // 为了能在父类里调用, 需要把函数设成public的
-        void gme_eval(
-                        double param,
-                        SPAposition &pos,
-                        SPAvector &d1,
-                        SPAvector &d2,
-                        logical approx_ok
-                ) const;
-
-public:
-	// get and set functions for access.
-	SPAinterval get_unextended_range();
 };
 
 /** @} */

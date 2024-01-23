@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -65,7 +65,6 @@ enum bndy_type {
  * Internal Use Only
  **/
 DECL_KERN void sg_add_pcurves_to_entity(ENTITY *ent, logical reset_pattern = TRUE);
-DECL_KERN void gme_sg_add_pcurves_to_entity(ENTITY *ent, logical reset_pattern = TRUE);
 /**
  * This routine puts a pcurve on the coedge and also on edge geometry,
  * if necessary.  If the exact flag is TRUE, then this routine
@@ -84,13 +83,6 @@ DECL_KERN void gme_sg_add_pcurves_to_entity(ENTITY *ent, logical reset_pattern =
  * Internal Use Only.
  */
 DECL_KERN void sg_add_pcurve_to_coedge(
-	                                    COEDGE*,					// Coedge on which to add pcurve
-	                                    logical	exact = FALSE,		// Is this an exact fit to a surface boundary?
-	                                    bndy_type = bndy_unknown,	// If an exact boundary pcurve, which one?
-	                                    logical approx_ok = FALSE,	// Use the approx curve and surface to make the pcurve
-										logical reset_pattern = TRUE										
-);
-DECL_KERN void gme_sg_add_pcurve_to_coedge(
 	                                    COEDGE*,					// Coedge on which to add pcurve
 	                                    logical	exact = FALSE,		// Is this an exact fit to a surface boundary?
 	                                    bndy_type = bndy_unknown,	// If an exact boundary pcurve, which one?

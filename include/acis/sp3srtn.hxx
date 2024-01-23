@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -101,16 +101,6 @@ bs3_surface_make_sur(
 			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
 									// returns SPAparameter space mapping
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_make_sur(
-			surface const &sur,		// given surface
-			SPAbox const &region_of_interest,			// region of interest
-			double requested_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
-		);
 
 
 // Convert a plane into a B-spline surface. Tolerance values are
@@ -154,16 +144,7 @@ bs3_surface_make_pla(
 			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
 									// returns SPAparameter space mapping
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_make_pla(
-			plane const &pl,			// given plane
-			SPAbox const &region_of_interest,			// region of interest
-			double positional_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
-		);
+
 
 // Convert a cone into a B-spline surface. This will match the given
 // (possibly elliptical) cone everywhere within the given region of
@@ -202,16 +183,6 @@ gme_bs3_surface_make_pla(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_con(
-			cone const &c,			// given cone
-			SPAbox const &region_of_interest,			// region of interest
-			double positional_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
-		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_make_con(
 			cone const &c,			// given cone
 			SPAbox const &region_of_interest,			// region of interest
 			double positional_fit = 0,				// required fit tolerance
@@ -267,16 +238,7 @@ bs3_surface_make_sph(
 			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
 									// returns SPAparameter space mapping
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_make_sph(
-			sphere const &sph,			// given sphere
-			SPAbox const &region_of_interest,			// region of interest
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
-		);
+
 
 // Convert a torus into a B-spline surface. This will match the given
 // torus everywhere within the given region of interest, within the
@@ -314,16 +276,6 @@ gme_bs3_surface_make_sph(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_tor(
-			torus const &tor,			// given torus
-			SPAbox const &region_of_interest,			// region of interest
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
-		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_make_tor(
 			torus const &tor,			// given torus
 			SPAbox const &region_of_interest,			// region of interest
 			double fit_tol = 0,				// required fit tolerance
@@ -457,16 +409,6 @@ bs3_surface_sum_curves(
 DECL_SPLINE bs3_surface
 bs3_surface_revolve_curve(
 			bs3_curve gen,				// generator curve
-			straight const&axis,		// axis
-			double start_ang = 0.0,			// start angle
-			double  end_ang = 0.0,			// stop angle
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
-									// returns actual fit tolerance
-		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_revolve_curve(
-			bs3_curve origin_gen,		// generator curve
 			straight const&axis,		// axis
 			double start_ang = 0.0,			// start angle
 			double  end_ang = 0.0,			// stop angle
@@ -610,14 +552,6 @@ bs3_surface_subset(
 			double &actual_fit = *(double *)NULL_REF
 									// returns actual fit tolerance
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_subset(
-			bs3_surface old_bs,			// given surface
-			SPApar_box const &new_range,		// required bounds
-			double position_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
-									// returns actual fit tolerance
-		);
 
 
 // **** Modification ***
@@ -647,12 +581,6 @@ bs3_surface_reparam_u(
 			double end,				// end u SPAparameter desired
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE void
-gme_bs3_surface_reparam_u(
-			double start,				// start u SPAparameter desired
-			double end,				// end u SPAparameter desired
-			bs3_surface bs			// given surface
-		);
 
 
 // Reparametrise a B-spline surface by a linear transformation in the
@@ -675,12 +603,6 @@ gme_bs3_surface_reparam_u(
 **/
 DECL_SPLINE void
 bs3_surface_reparam_v(
-			double start,				// start v SPAparameter desired
-			double end,				// end v SPAparameter desired
-			bs3_surface bs			// given surface
-		);
-DECL_SPLINE void
-gme_bs3_surface_reparam_v(
 			double start,				// start v SPAparameter desired
 			double end,				// end v SPAparameter desired
 			bs3_surface bs			// given surface
@@ -766,11 +688,6 @@ bs3_surface_split_u(
 			bs3_surface &sur,			// given surface
 			double uparam					// given u SPAparameter value
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_split_u(
-			bs3_surface &sur,			// given surface
-			double uparam					// given u SPAparameter value
-		);
 /**
 * Splits a B-spline %surface into two sections at a given <i>v</i> parameter value.
 * <br><br>
@@ -798,11 +715,6 @@ gme_bs3_surface_split_u(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_split_v(
-			bs3_surface &sur,			// given surface
-			double vparam				// given v SPAparameter value
-		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_split_v(
 			bs3_surface &sur,			// given surface
 			double vparam				// given v SPAparameter value
 		);
@@ -881,11 +793,6 @@ bs3_surface_join_v(
 **/
 DECL_SPLINE void
 bs3_surface_trans(
-			bs3_surface sur,			// given surface
-			SPAtransf const &t
-		);
-DECL_SPLINE void
-gme_bs3_surface_trans(
 			bs3_surface sur,			// given surface
 			SPAtransf const &t
 		);
@@ -982,10 +889,7 @@ DECL_SPLINE logical
 bs3_surface_closed_u(
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE logical
-gme_bs3_surface_closed_u(
-			bs3_surface bs			// given surface
-		);
+
 
 // Return a logical indicating whether the surface is closed in the
 // v SPAparameter or not.
@@ -1003,10 +907,6 @@ gme_bs3_surface_closed_u(
 **/
 DECL_SPLINE logical
 bs3_surface_closed_v(
-			bs3_surface bs			// given surface
-		);
-DECL_SPLINE logical
-gme_bs3_surface_closed_v(
 			bs3_surface bs			// given surface
 		);
 
@@ -1037,10 +937,6 @@ DECL_SPLINE logical
 bs3_surface_periodic_u(
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE logical
-gme_bs3_surface_periodic_u(
-			bs3_surface bs			// given surface
-		);
 
 
 // Return a logical indicating whether the surface is periodic in the
@@ -1067,10 +963,6 @@ gme_bs3_surface_periodic_u(
 **/
 DECL_SPLINE logical
 bs3_surface_periodic_v(
-			bs3_surface bs
-		);
-DECL_SPLINE logical
-gme_bs3_surface_periodic_v(
 			bs3_surface bs
 		);
 
@@ -1112,10 +1004,6 @@ DECL_SPLINE SPAinterval
 bs3_surface_range_u(
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE SPAinterval
-gme_bs3_surface_range_u(
-			bs3_surface bs			// given surface
-		);
 
 
 // Return the v SPAparameter range of a 3D B-spline %surface
@@ -1134,10 +1022,6 @@ gme_bs3_surface_range_u(
 **/
 DECL_SPLINE SPAinterval
 bs3_surface_range_v(
-			bs3_surface bs
-		);
-DECL_SPLINE SPAinterval
-gme_bs3_surface_range_v(
 			bs3_surface bs
 		);
 
@@ -1205,12 +1089,6 @@ bs3_surface_singular_u(
 								// for a singularity
 			bs3_surface bs
 		);
-DECL_SPLINE logical
-gme_bs3_surface_singular_u(
-			double u,				// u SPAparameter at which to test
-								// for a singularity
-			bs3_surface bs
-		);
 
 /**
 * Determines if the mapping from parameter space to object space is singular along the given constant <i>v</i>-parameter line.
@@ -1232,12 +1110,6 @@ gme_bs3_surface_singular_u(
 DECL_SPLINE logical
 bs3_surface_singular_v(
 			double v,				// v SPAparameter at which to test
-								// for a singularity
-			bs3_surface bs
-		);
-DECL_SPLINE logical
-gme_bs3_surface_singular_v(
-			double u,				// u SPAparameter at which to test
 								// for a singularity
 			bs3_surface bs
 		);
@@ -1521,30 +1393,6 @@ bs3_surface_evaluate(
 									// evaluate above (v > param),
 									// and 0 means "don't care"
 		);
-DECL_SPLINE int
-gme_bs3_surface_evaluate(
-			SPApar_pos const &uv ,
-			bs3_surface sur,
-			SPAposition &pos,
-			SPAvector **deriv = NULL,		// Array of pointers to arrays,
-									// containing at least nd values,
-									// though any or all may be NULL.
-									// If not NULL, entry n (representing
-									// the (n+1)th derivative) must point
-									// to an array of at least n+1 vectors.
-			int nderiv = 0,				// number of derivatives (nd) to
-									// be evaluated.
-			int uindex = 0,				// sense of evaluation at a u
-									// discontinuity: -ve means evaluate
-									// to the left (u < param), +ve means
-									// evaluate to the right (u > param),
-									// and 0 means "don't care"
-			int vindex = 0					// sense of evaluation at a v
-									// discontinuity: -ve means evaluate
-									// below (v < param), +ve means
-									// evaluate above (v > param),
-									// and 0 means "don't care"
-		);
 
 
 // For internal use only
@@ -1618,16 +1466,7 @@ bs3_surface_eval(
 			SPAvector *d2 = NULL			// duu, duv and dvv returned in
 									// SPAvector array (d2) of length 3
 		);
-DECL_SPLINE
-void gme_bs3_surface_eval(
-			SPApar_pos const &uv,		// given SPAparameter point (u,v)
-			bs3_surface bs,			// given surface
-			SPAposition &pos,				// SPAposition returned
-			SPAvector *d1 = nullptr,		// du and dv returned in SPAvector
-									// array (d1) of length 2
-			SPAvector *d2 = nullptr			// duu, duv and dvv returned in
-									// SPAvector array (d2) of length 3
-		);
+
 
 // Evaluate a SPAposition on a 3D B-spline surface at a given (u,v).
 /**
@@ -1642,11 +1481,6 @@ void gme_bs3_surface_eval(
 **/
 DECL_SPLINE SPAposition
 bs3_surface_position(
-			SPApar_pos const &uv,	// given SPAparameter point (u,v)
-			bs3_surface bs			// given surface
-		);
-DECL_SPLINE SPAposition
-gme_bs3_surface_position(
 			SPApar_pos const &uv,	// given SPAparameter point (u,v)
 			bs3_surface bs			// given surface
 		);
@@ -1674,11 +1508,7 @@ bs3_surface_normal(
 			SPApar_pos const &uv,	// given SPAparameter point (u,v)
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE SPAunit_vector
-gme_bs3_surface_normal(
-			SPApar_pos const &uv,	// given SPAparameter point (u,v)
-			bs3_surface bs			// given surface
-		);
+
 
 // Evaluate the principal axes of curvature and corresponding
 // curvatures of a 3D B-spline surface at a given (u,v).
@@ -1711,15 +1541,6 @@ gme_bs3_surface_normal(
 **/
 DECL_SPLINE void
 bs3_surface_prin_curv(
-			SPApar_pos const &uv,	// given SPAparameter point (u,v)
-			bs3_surface bs,		// given surface
-			SPAunit_vector &u1,		// first principal axis
-			double &c1,			// first curvature
-			SPAunit_vector &u2,		// second principal axis
-			double &c2			// second curvature
-		);
-DECL_SPLINE void
-gme_bs3_surface_prin_curv(
 			SPApar_pos const &uv,	// given SPAparameter point (u,v)
 			bs3_surface bs,		// given surface
 			SPAunit_vector &u1,		// first principal axis
@@ -1794,12 +1615,7 @@ bs3_surface_invert(
 			bs3_surface bs,			// given surface
 			SPApar_pos const &uv = *(SPApar_pos *)NULL_REF
 		);
-DECL_SPLINE SPApar_pos
-gme_bs3_surface_invert(
-			SPAposition const &pos,		// given point
-			bs3_surface bs,			// given surface
-			SPApar_pos const &uv = *(SPApar_pos *)NULL_REF
-		);
+
 
 // Find the direction in SPAparameter space SPAparameter of a direction
 // on a 3D B-spline surface at a given SPAposition.
@@ -1877,16 +1693,6 @@ bs3_surface_unitvec(
 **/
 DECL_SPLINE logical
 bs3_surface_testpt(
-			SPAposition const &pos,		// given point
-			double tol,					// permitted tolerance
-			bs3_surface bs,			// given surface
-			SPApar_pos const &uv_guess = *(SPApar_pos *)NULL_REF,
-									// (u, v) guess
-			SPApar_pos &uv_actual = *(SPApar_pos *)NULL_REF
-									// (u, v) actual
-		);
-DECL_SPLINE logical
-gme_bs3_surface_testpt(
 			SPAposition const &pos,		// given point
 			double tol,					// permitted tolerance
 			bs3_surface bs,			// given surface
@@ -2003,13 +1809,6 @@ bs3_surface_estimate_param(
 **/
 DECL_SPLINE SPAbox
 bs3_surface_box(
-			bs3_surface bs,		// given surface
-			SPApar_box const &test = *(SPApar_box *)NULL_REF
-								// SPAparameter range of interest (full
-								// surface if not given).
-		);
-DECL_SPLINE SPAbox
-gme_bs3_surface_box(
 			bs3_surface bs,		// given surface
 			SPApar_box const &test = *(SPApar_box *)NULL_REF
 								// SPAparameter range of interest (full
@@ -2153,12 +1952,6 @@ bs3_surface_same(
 			bs3_surface bs2,		// second surface
 			double tol = 0.0		// tolerance on control point positions
 		);
-DECL_SPLINE logical
-gme_bs3_surface_same(
-			bs3_surface bs1,		// first surface for comparison
-			bs3_surface bs2,		// second surface
-			double tol = 0.0		// tolerance on control point positions
-		);
 
 
 // Construct the silhouette lines of a surface viewed in a given
@@ -2258,10 +2051,6 @@ DECL_SPLINE bs3_surface
 bs3_surface_copy(
 			bs3_surface bs			// given surface
 		);
-DECL_SPLINE bs3_surface
-gme_bs3_surface_copy(
-			bs3_surface bs			// given surface
-		);
 
 
 // Remove a 3D B-spline surface from free store.
@@ -2280,10 +2069,6 @@ gme_bs3_surface_copy(
 
 DECL_SPLINE void
 bs3_surface_delete(
-			bs3_surface &bs			// given surface
-		);
-DECL_SPLINE void
-gme_bs3_surface_delete(
 			bs3_surface &bs			// given surface
 		);
 

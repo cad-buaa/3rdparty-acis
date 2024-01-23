@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -130,9 +130,6 @@ DECL_SPLINE void bs2_curve_set_open(
 DECL_SPLINE bs2_curve bs3_curve_to_bs2_curve(
 		bs3_curve in_cur		// Input curve
 	);
-DECL_SPLINE bs2_curve gme_bs3_curve_to_bs2_curve(
-		bs3_curve in_cur		// Input curve
-	);
 
 // New routine added for jyoti's skin code.
 // Strictly a hack around, recommended that this routine may not be used
@@ -150,9 +147,6 @@ DECL_SPLINE bs2_curve gme_bs3_curve_to_bs2_curve(
  * given %curve.
  **/
 DECL_SPLINE bs3_curve bs2_curve_to_bs3_curve(
-		bs2_curve in_cur		// Input curve
-	);
-DECL_SPLINE bs3_curve gme_bs2_curve_to_bs3_curve(
 		bs2_curve in_cur		// Input curve
 	);
 
@@ -222,21 +216,6 @@ DECL_SPLINE bs2_curve bs2_curve_from_ctrlpts(
 	const double knots[],			// knots
 	double knot_tol			 		// knot tolerance
 );
-DECL_SPLINE bs2_curve gme_bs2_curve_from_ctrlpts(
-	int degree,					// degree
-	logical rational,				// rational
-	logical closed,				// closed
-	logical periodic,				// periodic
-	int num_ctrlpts,					// number of control points
-// STIPORT TAC macintosh changed from const SPAposition []
-	const SPAposition *ctrlpts,		// control points (only x and y components used)
-	const double weights[],			// weights
-	double cpt_tol,					// control point tolerance
-	int num_knots,					// number of knots
-	const double knots[],			// knots
-	double knot_tol			 		// knot tolerance
-);
-
 
 // Return the dimension, degree, control points, weights, and knots
 // for a 2D B-spline curve. Also indicate if the curve is rational or
@@ -272,18 +251,6 @@ DECL_SPLINE bs2_curve gme_bs2_curve_from_ctrlpts(
  * returned knots.
  **/
 DECL_SPLINE void bs2_curve_to_array(
-	bs2_curve bs,				// curve						Input
-	int &dim,					// dimension					Returned
-	int &deg,					// degree						Returned
-	logical &rat,				// rational						returned
-	int &num_ctrlpts,					// number of control points		Returned
-	SPAposition *&ctrlpts,				// control points,use x and y	Returned
-	double *&weights,				// weights						Returned
-	int &num_knots,					// number of knots				Returned
-	double *&knots,				// knots						Returned
-    const int use_initial_seam_multiplicity = FALSE // in: used for periodic geometry when initial knot multiplicty != order
-);
-DECL_SPLINE void gme_bs2_curve_to_array(
 	bs2_curve bs,				// curve						Input
 	int &dim,					// dimension					Returned
 	int &deg,					// degree						Returned
@@ -467,22 +434,6 @@ DECL_SPLINE int bs2_curve_add_knot(
 						                          *( SPApar_vec * ) NULL_REF
 						                          // Derivative above new knot
 						   );
-DECL_SPLINE int gme_bs2_curve_add_knot(
-						   bs2_curve bs2,		  // Input bs2_curve
-						   double new_knot_param, // New knot SPAparameter value
-						   int mult_req,		  // Multiplicity of new knot
-						   double knot_tol,		  // Knot tolerance
-						   const SPApar_pos &new_knot_uv =
-						                          *( SPApar_pos * ) NULL_REF,
-						                          // New knot surface SPApar_pos
-						   const SPApar_vec &new_knot_deriv_below =
-						                          *( SPApar_vec * ) NULL_REF,
-						                          // Derivative below new knot
-						   const SPApar_vec &new_knot_deriv_above =
-						                          *( SPApar_vec * ) NULL_REF
-						                          // Derivative above new knot
-						   );
-
 
 
 // Function to determine if a bs2_curve is in Bezier form or not.

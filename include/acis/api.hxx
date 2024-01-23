@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -27,10 +27,6 @@ class BULLETIN_BOARD;
 #include "err_info_list.hxx"
 #include "problems_list.hxx"
 
-//#define GME_KERNEL_API
-
-//#define GME_KERN_API_BEGIN
-
 /**
  * @file api.hxx
  * @CAA2Level L1
@@ -50,7 +46,6 @@ class BULLETIN_BOARD;
  * @nodoc
  */
 DECL_KERN void set_api_checking( logical );
-DECL_KERN void gme_set_api_checking(logical);
 
 /**
  * Determines the status of checking and returns <tt>TRUE</tt> if it is on, otherwise <tt>FALSE</tt>.
@@ -58,7 +53,6 @@ DECL_KERN void gme_set_api_checking(logical);
  * <b>Effect:</b> System routine
 **/
 DECL_KERN logical api_check_on();
-DECL_KERN logical gme_api_check_on();
 
 // Define a class for the result of API calls. This will be adaptable
 // in the future to allow extra information, but for now contains an
@@ -114,9 +108,7 @@ public:
  * @param e
  * pointer to error information.
  */
-	outcome( err_mess_type i = API_SUCCESS, error_info *e = NULL );
-	outcome(const char* gme, err_mess_type i = API_SUCCESS, error_info *e = NULL );
-
+    outcome( err_mess_type i = API_SUCCESS, error_info *e = NULL );
 /**
  * Constructs one <tt>outcome</tt> object from another (copy constructor).
  * <br><br>
@@ -124,7 +116,6 @@ public:
  * reference to another outcome.
  */
 	outcome( const outcome& o );
-	outcome(const char* gme, const outcome& o );
 
     // destructor needs to remove any error objects
 /**
@@ -147,8 +138,7 @@ public:
 /**
  * Returns a pointer to the fatal error information of this <tt>outcome</tt>.
  */
-	error_info *get_error_info() const;
-	error_info *gme_get_error_info() const;
+    error_info *get_error_info() const;
 
 /**
  * @nodoc
@@ -156,7 +146,6 @@ public:
 	// This method is for internal use only.
 	// Sets the error information of this outcome to the contents of the input item.
 	void set_error_info( error_info *e );
-	void gme_set_error_info( error_info *e );
 
     // new assignment operator to handle error_info use count
 /**
@@ -166,7 +155,6 @@ public:
  * outcome whose data is to be assigned.
  */
     outcome& operator=(const outcome& o);
-	outcome& gme_operator_assign(const outcome& o);
 
 	// Set the bb pointer
 /**
@@ -201,13 +189,12 @@ public:
  * FILE to which the information is to be written (optional).
  */
 	void debug( FILE *fp = debug_file_ptr ) const;
-	void gme_debug( FILE *fp = debug_file_ptr ) const;
 
 /**
  * Returns <tt>TRUE</tt> if the <tt>outcome</tt> does not represent a successful result or if a fail-safe routine encountered error(s) and continued; otherwise returns <tt>FALSE</tt>.
  */
 	logical encountered_errors() const;
-	logical gme_encountered_errors() const;
+
 
 	/**
 	 * Adds into the incoming list <tt>error_info_list& errors</tt>, all the <tt>error_info</tt>
@@ -218,14 +205,13 @@ public:
 	 * error_info_list to which the error_info objects are added into.
 	 */
 	void get_error_info_list(error_info_list& errors) const;
-	void gme_get_error_info_list(error_info_list& errors) const;
+
 	/**
 	 * @nodoc
 	 */
 	// This method is for internal use only
 	// Sets the error_info_list stored in this outcome
 	void set_error_info_list(error_info_list const& errors);
-	void gme_set_error_info_list(error_info_list const& errors);
 
 	/**
 	 * @nodoc
@@ -257,12 +243,6 @@ public:
 	object; \
 	EXCEPTION_TRY
 
-#define __GME_ERROR_BEGIN_INTERNAL__(object) \
-	outcome result("gme",0); /* Was in API_SYS_BEGIN */ \
-	err_mess_type error_no = 0; \
-	GME_EXCEPTION_BEGIN \
-	object; \
-	GME_EXCEPTION_TRY
 /**
  * @nodoc
  */
@@ -276,15 +256,6 @@ public:
 	EXCEPTION_END_NO_RESIGNAL \
 	error_no = result.error_number(); error_no = error_no;
 
-#define __GME_ERROR_END_INTERNAL__ \
-	GME_EXCEPTION_CATCH_FALSE \
-		/* note, this error_no is the one declared in the EXCEPTION_BEGIN macro. \
-		 * Not the one from __ERROR_BEGIN_INTERNAL__.  For compatibility, we will capture it \
-		 * from the result below \
-		 */ \
-		result = outcome("gme",error_no, GME_ERROR_INFO_PTR); \
-	GME_EXCEPTION_END_NO_RESIGNAL \
-	error_no = result.error_number(); error_no = error_no;
 // Start and close off bulletin boards, not used directly, but in the following
 // system macros. (The delete function doesn't seem to be used anywhere.)
 
@@ -312,7 +283,6 @@ public:
  * flag to select linear or distributed history stream.
 **/
 DECL_KERN void api_bb_begin(logical linear = TRUE);
-DECL_KERN void gme_api_bb_begin(logical linear = TRUE);
 
 /**
  * Terminates the API bulletin board.
@@ -353,11 +323,6 @@ DECL_KERN void api_bb_end(
 			logical linear = TRUE,
             logical delete_stacked_bb  = FALSE
 		);
-DECL_KERN void gme_api_bb_end(
-			outcome &result,
-			logical linear = TRUE,
-            logical delete_stacked_bb  = FALSE
-		);
 
 /**
  * Deletes bulletin boards.
@@ -371,7 +336,7 @@ DECL_KERN void gme_api_bb_end(
  * <b>Effect:</b> System routine.
 **/
 DECL_KERN void api_bb_delete();
-DECL_KERN void gme_api_bb_delete();
+
 
 // STI swa (17Mar98) -- made a new API_SYS_BEGIN that initializes
 // a global error_info object pointer, and uses this pointer
@@ -438,9 +403,6 @@ DECL_KERN void gme_api_bb_delete();
 	set_global_error_info(); \
 	__ERROR_BEGIN_INTERNAL__(object)
 
-#define GME_API_SYS_BEGIN_INTERNAL(object) \
-	gme_set_global_error_info(); \
-	__GME_ERROR_BEGIN_INTERNAL__(object)
 /**
  * @nodoc
  */
@@ -452,8 +414,6 @@ DECL_KERN void nested_state_check();
 #define API_SYS_END_INTERNAL \
 	__ERROR_END_INTERNAL__
 
-#define GME_API_SYS_END_INTERNAL \
-	__GME_ERROR_END_INTERNAL__
 /**
  * Protects the contained logic block with ACIS exception handling without rollback behavior.
  * <br><br>
@@ -515,16 +475,10 @@ public:
 	  set_logging(TRUE);
 	api_bb_begin(bb_type == normal);
   }
-
   ~api_bb_save() {
 	api_bb_end(result, bb_type != nop, !was_logging);
 	set_logging(was_logging);
   }
-
-  #if 0
-  api_bb_save(const char* gme, outcome& r, e_bb_type bt);
-  ~api_bb_save();
-  #endif
 
 // Assignment operator could not be generated warning
 // is taken care of by adding a private one.  PRS
@@ -532,7 +486,6 @@ private:
 	api_bb_save& operator=(const api_bb_save&) {return *(api_bb_save *)NULL_REF;}
 };
 
-#if 1
 /**
  * Protects the contained logic block with ACIS exception handling and provides rollback behavior in the event a modeling operation fails.
  * <br>
@@ -544,8 +497,6 @@ private:
 	ACIS_EXCEPTION_CHECK("API"); \
 		logical call_update_from_bb = TRUE;
 
-#define GME_API_BEGIN \
-	GME_API_SYS_BEGIN_INTERNAL() \
 // Call the application callback if appropriate, then restore the error
 // system, and then sort out the bulletin board
 /**
@@ -560,25 +511,8 @@ private:
 	API_SYS_END_INTERNAL \
 	problems_prop.process_result( result, PROBLEMS_LIST_PROP_ONLY, FALSE );
 
-#define GME_API_END \
-	GME_API_SYS_END_INTERNAL \
-
 // STI aed: end
 
-#else
-// @todo: 使用GME_API_SYS_BEGIN_INTERN/GME_API_SYS_END_INTERNAL时会报链接错误
-#define API_BEGIN \
-	API_SYS_BEGIN_INTERNAL(api_bb_save make_bulletin_board("gme", result, api_bb_save::normal)) \
-	ACIS_EXCEPTION_CHECK("API"); \
-		logical call_update_from_bb = TRUE;
-
-#define API_END \
-		if (result.ok() && call_update_from_bb) \
-			update_from_bb(); \
-	API_SYS_END_INTERNAL
-#endif
-
-#if 1
 // Macros for bracketing an api function which is to be treated as
 // a no operation as far as the data structure is concerned.
 // API_NOP_END restores the state as of the corresponding API_NOP_BEGIN
@@ -612,13 +546,6 @@ private:
 
 // STI aed: end
 
-#else
-#define API_NOP_BEGIN \
-	API_SYS_BEGIN_INTERNAL(api_bb_save make_bulletin_board("gme",result,api_bb_save::nop));
-
-#define API_NOP_END \
-	API_SYS_END_INTERNAL
-#endif
 
 // Macros for defining a block of code which should be executed as
 // a particular version of Acis.
@@ -653,7 +580,6 @@ private:
 	API_TRIAL_BEGIN \
 	ALGORITHMIC_VERSION_BLOCK(opts ? &opts->get_version() : NULL);
 
-#if 1
 // STI jmb: begin
 // Macros for bracketing an api function which is to be tested for success
 // and treated as a no operation as far as the data structure is concerned
@@ -693,18 +619,6 @@ private:
 	problems_prop.process_result( result, PROBLEMS_LIST_PROP_OR_IGNORE, FALSE );
 
 // STI jmb: end
-
-#else
-#define API_TRIAL_BEGIN \
-	API_SYS_BEGIN_INTERNAL(api_bb_save make_bulletin_board("gme",result,api_bb_save::trial)) \
-	ACIS_EXCEPTION_CHECK("API"); \
-		logical call_update_from_bb = TRUE;
-
-#define API_TRIAL_END \
-		if (result.ok() && call_update_from_bb) \
-			update_from_bb(); \
-	API_SYS_END_INTERNAL
-#endif
 
 // STI jmb:  Macros for the replacement of journalling.
 /**

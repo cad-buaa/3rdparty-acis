@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -32,6 +32,6 @@
  * the outcome to check
 **/
 DECL_KERN void check_outcome( const outcome &result);
-DECL_KERN void gme_check_outcome( const outcome &result);
+
 /** @} */
 #endif

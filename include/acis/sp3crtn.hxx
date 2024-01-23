@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -143,15 +143,6 @@ bs3_curve_make_cur(
 			double &actual_tol = *(double *)NULL_REF
 									// set to actual fit tolerance
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_make_cur(
-			curve const &cur,			// given curve
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
-									// set to actual fit tolerance
-		);
 
 
 // Construct a spline curve from a straight line segment.
@@ -184,8 +175,6 @@ bs3_curve_make_str(
 			double &actual_tol = *(double *)NULL_REF
 									// set to actual fit tolerance
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_make_str(straight const &str, double start_param, double end_param, double requested_tol = 0, double &actual_tol = *(double *)NULL_REF);
 /**
  * Creates a NUB (i.e., Non-Uniform B-spline) %curve from an elliptical arc.
  * <br><br>
@@ -244,15 +233,6 @@ bs3_curve_make_ell(
 			double &actual_tol = *(double *)NULL_REF
 									// set to actual fit tolerance
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_make_ell(
-			ellipse const &ell,		// given ellipse
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
-									// set to actual fit tolerance
-		);
 
 // Construct a spline curve from a helical arc.
 /**
@@ -277,15 +257,6 @@ gme_bs3_curve_make_ell(
  **/
 DECL_SPLINE bs3_curve
 bs3_curve_make_hel(
-			helix const &hel,		// given helix
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
-									// set to actual fit tolerance
-		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_make_hel(
 			helix const &hel,		// given helix
 			double start_param,					// start SPAparameter
 			double end_param,					// end SPAparameter
@@ -435,26 +406,6 @@ bs3_curve_interp(
 		    logical periodic = FALSE
 		                            // Periodic if closed and no end conds
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_interp(
-			int npts,					// number of points
-			SPAposition const *pts,		// array of points to interpolate or fit
-			SPAunit_vector const &start_dir,	// start direction
-			SPAunit_vector const &end_dir,	// end direction
-			double fitol,					// fit tolerance, 0 for interpolate
-			double &actual_tol = *(double *)NULL_REF,
-									// set to actual fit tolerance
-		    logical periodic = FALSE
-		                            // Periodic if closed and no end conds
-		);
-// This function is an overloaded version used for pcurve construction
-DECL_SPLINE bs3_curve
-gme_bs3_curve_interp(
-			int npts,					// number of points
-			SPAposition const *pts,		// array of points to interpolate or fit
-			double const *params		// array of points' param on curve
-		);
-
 
 
 // Construct a curve along a u parameter line (i.e. one with constant
@@ -481,11 +432,7 @@ bs3_curve_u_param_line(
 			bs3_surface surf,
 			double v
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_u_param_line(
-			bs3_surface surf,
-			double v
-		);
+
 
 // Construct a curve along a v parameter line (i.e. one with constant
 // u parameter) of a spline surface.
@@ -509,11 +456,6 @@ gme_bs3_curve_u_param_line(
  **/
 DECL_SPLINE bs3_curve
 bs3_curve_v_param_line(
-			bs3_surface surf,
-			double u
-		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_v_param_line(
 			bs3_surface surf,
 			double u
 		);
@@ -577,14 +519,6 @@ bs3_curve_subset(
 			double &actual_fit = *(double *)NULL_REF, // returns actual fit tolerance
 			logical shift_seam = FALSE
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_subset(
-			bs3_curve old_bs,				// given curve
-			SPAinterval const &new_range,		// required bounds
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF, // returns actual fit tolerance
-			logical shift_seam = FALSE
-		);
 
 
 // **** Modification ****
@@ -614,12 +548,7 @@ bs3_curve_reparam(
 			double end,				// end SPAparameter desired
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE void
-gme_bs3_curve_reparam(
-			double start,				// start SPAparameter desired
-			double end,				// end SPAparameter desired
-			bs3_curve cur			// given curve
-		);
+
 
 // Shift the parameter values of a 3D B-spline curve by a given amount.
 /**
@@ -634,11 +563,6 @@ gme_bs3_curve_reparam(
  **/
 DECL_SPLINE void
 bs3_curve_shift(
-			double delta,				// SPAparameter shift desired
-			bs3_curve cur			// given curve
-		);
-DECL_SPLINE void
-gme_bs3_curve_shift(
 			double delta,				// SPAparameter shift desired
 			bs3_curve cur			// given curve
 		);
@@ -660,10 +584,6 @@ gme_bs3_curve_shift(
  **/
 DECL_SPLINE void
 bs3_curve_reverse(
-			bs3_curve cur			// given curve
-		);
-DECL_SPLINE void
-gme_bs3_curve_reverse(
 			bs3_curve cur			// given curve
 		);
 
@@ -735,14 +655,6 @@ gme_bs3_curve_reverse(
  **/
 DECL_SPLINE bs3_curve
 bs3_curve_split(
-			bs3_curve &cur,			// given curve
-			double param,					// given SPAparameter value
-			SPAposition const &split_pt = *(SPAposition *)NULL_REF, // given SPAposition
-			SPAunit_vector const &vec1 = *(SPAunit_vector *)NULL_REF, // given direction
-		    SPAunit_vector const &vec2 = *(SPAunit_vector *)NULL_REF  // ditto, on "high" side
-		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_split(
 			bs3_curve &cur,			// given curve
 			double param,					// given SPAparameter value
 			SPAposition const &split_pt = *(SPAposition *)NULL_REF, // given SPAposition
@@ -872,13 +784,6 @@ bs3_curve_connect(
 			logical joinC1 = TRUE,
 			logical joinC0 = FALSE
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_connect(
-			bs3_curve bs1,
-			bs3_curve bs2,
-			logical joinC1 = TRUE,
-			logical joinC0 = FALSE
-		);
 
 // Make a bs3_curve a rational bs3_curve
 /**
@@ -897,8 +802,6 @@ gme_bs3_curve_connect(
  **/
 DECL_SPLINE logical
 bs3_curve_make_rational(bs3_curve bs);
-DECL_SPLINE logical
-gme_bs3_curve_make_rational(bs3_curve bs);
 
 // Transform a curve. This involves transforming the control
 // points, and scaling the knot values, in order to maintain the
@@ -931,8 +834,7 @@ bs3_curve_trans(
 			bs3_curve cur,			// given curve
 			SPAtransf const &t		// given SPAtransf
 		);
-DECL_SPLINE void
-gme_bs3_curve_trans(bs3_curve cur, SPAtransf const &t);
+
 
 /**
 * Warp a B-spline %curve.
@@ -972,10 +874,6 @@ DECL_SPLINE logical
 bs3_curve_open(
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE logical
-gme_bs3_curve_open(
-			bs3_curve cur			// given curve
-		);
 
 
 // Return a logical indicating whether the curve is a closed loop
@@ -996,10 +894,6 @@ bs3_curve_closed(
 			bs3_curve cur			// given curve
 		);
 
-DECL_SPLINE logical
-gme_bs3_curve_closed(
-			bs3_curve cur			// given curve
-		);
 
 // Return a logical indicating whether the curve is periodic
 // or not.
@@ -1018,10 +912,6 @@ bs3_curve_periodic(
 			bs3_curve cur			// given curve
 		);
 
-DECL_SPLINE logical
-gme_bs3_curve_periodic(
-			bs3_curve cur			// given curve
-		);
 
 
 // Return the parameter range of a 3D B-spline curve.
@@ -1036,10 +926,6 @@ gme_bs3_curve_periodic(
  **/
 DECL_SPLINE SPAinterval
 bs3_curve_range(
-			bs3_curve cur			// given curve
-		);
-DECL_SPLINE SPAinterval
-gme_bs3_curve_range(
 			bs3_curve cur			// given curve
 		);
 
@@ -1062,10 +948,7 @@ DECL_SPLINE double
 bs3_curve_period(
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE double
-gme_bs3_curve_period(
-			bs3_curve cur			// given curve
-		);
+
 
 // On the assumption that a bs3_curve is made up of a sequence of
 // simpler pieces (e.g. a B spline may be considered to be a sequence
@@ -1199,8 +1082,6 @@ bs3_curve_accurate_derivs(
  **/
 DECL_SPLINE double
 bs3_curve_knottol();
-DECL_SPLINE double
-gme_bs3_curve_knottol();
 
 // General evaluator, giving an arbitrary number of derivatives (up
 // to a maximum returned by "accurate_derivs"), and selection of the
@@ -1260,8 +1141,6 @@ bs3_curve_evaluate(
 									// evaluate the right-hand derivative,
 									// and 0 for "don't care".
 		);
-DECL_SPLINE int
-gme_bs3_curve_evaluate(double param, bs3_curve cur, SPAposition& pos, SPAvector *const *vec = nullptr, int nd = 0, int index = 0);
 
 // Evaluate position and parametric derivatives of a given 3D B-spline
 // curve at given parameter value. Only evaluates derivatives if
@@ -1300,12 +1179,7 @@ bs3_curve_eval(
 			SPAvector &xdot = *(SPAvector *)NULL_REF,	// first derivative returned
 			SPAvector &xdotdot = *(SPAvector *)NULL_REF	// second derivative returned
 		);
-DECL_SPLINE void
-gme_bs3_curve_eval(
-  double param,	bs3_curve cur, SPAposition &x,
-  SPAvector &xdot = *(SPAvector *)NULL_REF,
-  SPAvector &xdotdot = *(SPAvector *)NULL_REF
-);
+
 
 // Evaluate a SPAposition on a given 3D B-spline curve at given SPAparameter
 // value.
@@ -1327,7 +1201,7 @@ bs3_curve_position(
 			double param,				// given SPAparameter value
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE SPAposition gme_bs3_curve_position(double param, bs3_curve cur);
+
 
 // Evaluate the parametric derivative (direction and magnitude) of
 // a given 3D B-spline curve at a given parameter value.
@@ -1348,8 +1222,7 @@ bs3_curve_deriv(
 			double param,				// given SPAparameter value
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE SPAvector
-gme_bs3_curve_deriv(double param, bs3_curve cur);
+
 
 // Evaluate the tangent direction to a given 3D B-spline curve at a
 // given SPAparameter value.
@@ -1370,8 +1243,7 @@ bs3_curve_tangent(
 			double param,				// given SPAparameter value
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE SPAunit_vector
-gme_bs3_curve_tangent( double param, bs3_curve cur);
+
 
 // Evaluate the curvature of a 3D B-spline curve at a
 // given SPAparameter value.
@@ -1391,11 +1263,6 @@ gme_bs3_curve_tangent( double param, bs3_curve cur);
  **/
 DECL_SPLINE SPAvector
 bs3_curve_curvature(
-			double param,				// given SPAparameter value
-			bs3_curve cur			// given curve
-		);
-DECL_SPLINE SPAvector
-gme_bs3_curve_curvature(
 			double param,				// given SPAparameter value
 			bs3_curve cur			// given curve
 		);
@@ -1426,7 +1293,7 @@ bs3_curve_nderiv(
 			bs3_curve cur,        // given curve
             int nder              // derivative number
         );
-DECL_SPLINE SPAvector gme_bs3_curve_nderiv(double param, bs3_curve cur, int nder);
+
 // **** Geometric Properties ****
 
 // Find the parameter of a point on a 3D B-spline curve.
@@ -1461,13 +1328,6 @@ DECL_SPLINE SPAvector gme_bs3_curve_nderiv(double param, bs3_curve cur, int nder
  **/
 DECL_SPLINE double
 bs3_curve_invert(
-			SPAposition const &pos,	// given point
-			double given_tol,				// given tolerance
-			bs3_curve cur,			// given curve
-			SPAparameter const &param_guess = *(SPAparameter *)NULL_REF	// SPAparameter guess
-		);
-DECL_SPLINE double
-gme_bs3_curve_invert(
 			SPAposition const &pos,	// given point
 			double given_tol,				// given tolerance
 			bs3_curve cur,			// given curve
@@ -1573,16 +1433,6 @@ bs3_curve_testpt(
 			SPAparameter &param_exact = *(SPAparameter *)NULL_REF
 								// set to exact SPAparameter value
 		);
-DECL_SPLINE logical
-gme_bs3_curve_testpt(
-			SPAposition const &pos,	// given point
-			double tol,				// given tolerance
-			bs3_curve cur,			// given curve
-			SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
-								// approximation to SPAparameter value
-			SPAparameter &param_exact = *(SPAparameter *)NULL_REF
-								// set to exact SPAparameter value
-		);
 
 
 // Find the length of a 3D B-spline curve between given SPAparameter
@@ -1601,15 +1451,6 @@ gme_bs3_curve_testpt(
  **/
 DECL_SPLINE double
 bs3_curve_length(
-			bs3_curve cur,			// Given curve
-			SPAinterval const &cur_range = *(SPAinterval *)NULL_REF,
-								// Optional parametric bounds
-			logical appr_len = FALSE		// TRUE to get approximate length
-								// quickly (e.g. length of control
-								// polygon)
-		);
-DECL_SPLINE double
-gme_bs3_curve_length(
 			bs3_curve cur,			// Given curve
 			SPAinterval const &cur_range = *(SPAinterval *)NULL_REF,
 								// Optional parametric bounds
@@ -1791,11 +1632,7 @@ bs3_curve_box(
 			bs3_curve cur,			// given curve
 			double fitol				// given tolerance
 		);
-DECL_SPLINE SPAbox
-gme_bs3_curve_box(
-			bs3_curve cur,			// given curve
-			double fitol				// given tolerance
-		);
+
 
 // Test whether two spline curves are (apparently) the same. This is
 // not a comprehensive test - curves which are coincident but have
@@ -1821,12 +1658,6 @@ gme_bs3_curve_box(
  **/
 DECL_SPLINE logical
 bs3_curve_same(
-			bs3_curve bs1,			// first curve for comparison
-			bs3_curve bs2,			// second curve
-			double tol = 0.0		// tolerance on control point positions
-		);
-DECL_SPLINE logical
-gme_bs3_curve_same(
 			bs3_curve bs1,			// first curve for comparison
 			bs3_curve bs2,			// second curve
 			double tol = 0.0		// tolerance on control point positions
@@ -1884,10 +1715,6 @@ DECL_SPLINE bs3_curve
 bs3_curve_copy(
 			bs3_curve cur			// given curve
 		);
-DECL_SPLINE bs3_curve
-gme_bs3_curve_copy(
-			bs3_curve cur			// given curve
-		);
 
 
 // Remove a 3D B-spline curve from free store.
@@ -1905,10 +1732,6 @@ gme_bs3_curve_copy(
  **/
 DECL_SPLINE void
 bs3_curve_delete(
-			bs3_curve &cur		// given curve
-		);
-DECL_SPLINE void
-gme_bs3_curve_delete(
 			bs3_curve &cur		// given curve
 		);
 
@@ -1982,12 +1805,7 @@ bs3_curve_debug(
 			char const *leader,
 			FILE *fp = debug_file_ptr
 		);
-DECL_SPLINE void
-gme_bs3_curve_debug(
-			bs3_curve cur,			// given curve
-			char const *leader,
-			FILE *fp = debug_file_ptr
-		);
+
 
 // STI dgh }		// End 
 
@@ -2052,15 +1870,6 @@ bs3_curve_set_ctrlpt(    // eff: set the SPAposition of one cpt
                          //      only used if curv is rational
 		const logical use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
 		);
-DECL_SPLINE void
-gme_bs3_curve_set_ctrlpt(    // eff: set the SPAposition of one cpt
-  		bs3_curve curv,       // in : tgt bs3_curve to modify
-   		int index,             // in : index of tgt control point
-   		double *pos,        // in : [xyz] loc copied into cpt,size:[3]
-    	double weight,          // in : weight to which cpt is assigned
-                         //      only used if curv is rational
-		const logical use_bs3_seam_data = FALSE //in:  used for periodic geometry when initial knot multiplicty != order
-		);
 
 /**
  * Sets the position of all control points.
@@ -2081,15 +1890,6 @@ gme_bs3_curve_set_ctrlpt(    // eff: set the SPAposition of one cpt
  **/
 DECL_SPLINE void
 bs3_curve_set_ctrlpts(   // eff: set the SPAposition of all cpts
-  		bs3_curve curv,  // in : tgt bs3_curve to modify
-   		int cpt_count,   // in : number of control points
-   		double *pos,     // in : [xyz0,xyz1..] to copy sized:[3*cpt_count]
-   		double *weight,  // in : weights for each cpt. only used if
-                         //      curv is rational sized:[cpt_count]
-		const logical use_bs3_seam_data = FALSE // in: used for periodic geometry when initial knot multiplicty != order
-		);
-DECL_SPLINE void
-gme_bs3_curve_set_ctrlpts(   // eff: set the SPAposition of all cpts
   		bs3_curve curv,  // in : tgt bs3_curve to modify
    		int cpt_count,   // in : number of control points
    		double *pos,     // in : [xyz0,xyz1..] to copy sized:[3*cpt_count]

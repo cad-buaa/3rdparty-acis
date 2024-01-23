@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -32,9 +32,6 @@
  *
  * @{
  */
-
-// 支撑性测试
-// #define GME_KERN_TVERTEX  //将ACIS接口切换为GME接口
 
 /**
  * @nodoc
@@ -127,7 +124,6 @@ public:
 	// Basic constructor, used internally for bulletin board activity.
 
 	TVERTEX();
-	TVERTEX(const char *gme );
 
 
 	// Public constructor, which initialises the record and interfaces
@@ -135,14 +131,11 @@ public:
 	// reflect this new use.
 
 	TVERTEX( APOINT *, double );
-	TVERTEX( const char *gme, APOINT *, double );
 
 	// Data reading routines.
 	double get_tolerance() const;
-	double gme_get_tolerance() const;
 
 	double get_tolerance();
-	double gme_get_tolerance();
 
     /**
      * @nodoc
@@ -163,14 +156,10 @@ public:
 	// program, these checks may be disabled, to improve efficiency.
 
 	void set_tolerance( double, logical = TRUE );
-	void gme_set_tolerance( double, logical = TRUE );
 
 	void set_update( logical flag = TRUE );
-	void gme_set_update( logical flag = TRUE );
 	void mark_to_update() {set_update(TRUE);}
-	void gme_mark_to_update() {gme_set_update(TRUE);}
 
-	ENTITY* gme_make_copy() const;
 // STI jmb: Handle save/restore of use counted histories
 	/**
 	 * @nodoc

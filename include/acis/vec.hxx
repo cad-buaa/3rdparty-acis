@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernutil/d3_ext/vec.hxx */
+/* ORIGINAL: acis2.1/kernutil/d3_ext/vec.hxx */
 /* $Id: vec.hxx,v 1.9 2002/08/09 17:15:28 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -47,10 +47,9 @@ inline DECL_KERN logical VEC_equal( const SPAvector& U, const SPAvector& V,
 extern DECL_KERN double VEC_angle( const SPAvector& U, const SPAvector& V );
 
 extern DECL_KERN double VEC_acute_angle( const SPAvector& U, const SPAvector& V );
-extern DECL_KERN double gme_VEC_acute_angle( const SPAvector& U, const SPAvector& V );
 
 extern DECL_KERN logical VEC_orthogonal( const SPAvector& U, const SPAvector& V, 
-			       const double res = SPAresnor ); 
+			       const double res = SPAresnor );
 
 extern DECL_KERN logical VEC_parallel( const SPAvector& U, const SPAvector& V, 
 			     const double res = SPAresnor );

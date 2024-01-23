@@ -42,8 +42,6 @@ class tensor;
  * second tensor.
  */
 DECL_KERN tensor operator+( tensor const & first_ten, tensor const & sec_ten);
-DECL_KERN tensor gme_operator_add( tensor const & first_ten, tensor const & sec_ten);
-
 /**
  * Performs a binary minus operation.
  *<br><br>
@@ -53,7 +51,6 @@ DECL_KERN tensor gme_operator_add( tensor const & first_ten, tensor const & sec_
  * second tensor.
  */
 DECL_KERN tensor operator-( tensor const & first_ten, tensor const & sec_ten );
-DECL_KERN tensor gme_operator_substract( tensor const & first_ten, tensor const & sec_ten );
 /**
  * Performs a unary minus operation.
  *<br><br>
@@ -61,7 +58,6 @@ DECL_KERN tensor gme_operator_substract( tensor const & first_ten, tensor const 
  * tensor.
  */
 DECL_KERN tensor operator-( tensor const & ten);
-DECL_KERN tensor gme_operator_substract( tensor const & ten);
 /**
  * Multiplies a tensor by a double.
  *<br><br>
@@ -71,7 +67,6 @@ DECL_KERN tensor gme_operator_substract( tensor const & ten);
  * double value.
  */
 DECL_KERN tensor operator*(tensor const & ten, double val);
-DECL_KERN tensor gme_operator_multiply(tensor const & ten, double val);
 /**
  * Multiplies a tensor by a double.
  *<br><br>
@@ -81,7 +76,6 @@ DECL_KERN tensor gme_operator_multiply(tensor const & ten, double val);
  * tensor.
  */
 DECL_KERN tensor operator*(double val, tensor const & ten);
-DECL_KERN tensor gme_operator_multiply(double val, tensor const & ten);
 /**
  * Transforms a tensor by a <tt>3 x 3</tt> (orthogonal) matrix.
  *<br><br>
@@ -94,7 +88,6 @@ DECL_KERN tensor gme_operator_multiply(double val, tensor const & ten);
  * matrix.
  */
 DECL_KERN tensor operator*(tensor const & ten, SPAmatrix const & mat);
-DECL_KERN tensor gme_operator_multiply(tensor const & ten, SPAmatrix const & mat);
 /**
  * Transforms a tensor by a general transformation.
  *<br><br>
@@ -108,7 +101,6 @@ DECL_KERN tensor gme_operator_multiply(tensor const & ten, SPAmatrix const & mat
  * transformation.
  */
 DECL_KERN tensor operator*(tensor const & ten , SPAtransf const & transf);
-DECL_KERN tensor gme_operator_multiply(tensor const & ten , SPAtransf const & transf);
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -139,12 +131,10 @@ public:
 	 * symmetric tensor.
 	 */
 	tensor( symtensor const & sym_tem);
-        tensor(const char*, symtensor const & sym_tem);
     /**
      * Zeroes all elements of the tensor.
      */
 	void zero();		// zero elements of tensor
-        void gme_zero();
 
 	// Extract an element (i,j) where row and column, i and j, are
 	// in the range 0 to 2.
@@ -171,7 +161,7 @@ public:
      * value to be set.
      */
 	void set_element( int i, int j, double set);
-        void gme_set_element( int i, int j, double set);
+
 	// Unary minus
     /*
     // tbrv
@@ -180,7 +170,6 @@ public:
      * @nodoc
      */
 	friend DECL_KERN tensor operator-( tensor const & );
-        friend DECL_KERN tensor gme_operator_substract( tensor const & );
 
 	// Binary plus
 
@@ -191,8 +180,6 @@ public:
      * @nodoc
      */
 	friend DECL_KERN tensor operator+( tensor const &, tensor const & );
-        friend DECL_KERN tensor gme_operator_add( tensor const &, tensor const & );
-
 	/**
 	 * Performs the unary plus operation.
 	 *<br><br>
@@ -200,7 +187,6 @@ public:
 	 * tensor.
 	 */
 	tensor const &operator+=( tensor const & ten);
-        tensor const &gme_operator_add_assign( tensor const & ten);
 
 	// Binary minus
     /*
@@ -210,8 +196,6 @@ public:
      * @nodoc
      */
 	friend DECL_KERN tensor operator-( tensor const &, tensor const & );
-        friend DECL_KERN tensor gme_operator_substract( tensor const &, tensor const & );
-
 	/**
 	 * Performs the unary minus operation.
 	 *<br><br>
@@ -219,7 +203,6 @@ public:
 	 * tensor.
 	 */
 	tensor const &operator-=( tensor const & ten);
-        tensor const &gme_operator_sub_assign( tensor const & ten);
 
 	// Multiply tensor by a double.
     /*
@@ -230,7 +213,6 @@ public:
      */
 
 	friend DECL_KERN tensor operator*( tensor const &, double );
-        friend DECL_KERN tensor gme_operator_multiply( tensor const &, double );
 	/*
 	// tbrv
 	*/
@@ -238,7 +220,6 @@ public:
 	 * @nodoc
 	 */
 	friend DECL_KERN tensor operator*( double, tensor const & );
-        friend DECL_KERN tensor gme_operator_multiply( double, tensor const & );
 	/**
 	 * Multiplies a tensor by a double.
 	 *<br><br>
@@ -246,7 +227,6 @@ public:
 	 * double value.
 	 */
 	tensor const &operator*=( double val);
-        tensor const &gme_operator_multiply_assign( double val);
 
 	// Transform a tensor by a 3x3 (orthogonal) SPAmatrix.
 	// Pre-multiplies tensor by SPAmatrix, then post-multiplies
@@ -258,7 +238,6 @@ public:
      * @nodoc
      */
 	friend DECL_KERN tensor operator*( tensor const &, SPAmatrix const & );
-        friend DECL_KERN tensor gme_operator_multiply( tensor const &, SPAmatrix const & );
 	/**
 	 * Transforms a tensor by a <tt>3 x 3</tt> (orthogonal) matrix.
 	 *<br><br>
@@ -269,7 +248,6 @@ public:
 	 * matrix.
 	 */
 	tensor const &operator*=( SPAmatrix const & mat);
-        tensor const &gme_operator_multiply_assign( SPAmatrix const & mat);
 
 	// Same for a transformation: this does a SPAmatrix multiplication
 	// for the rotation part, then multiplies by the scaling twice.
@@ -282,8 +260,6 @@ public:
      * @nodoc
      */
 	friend DECL_KERN tensor operator*( tensor const &, SPAtransf const & );
-        friend DECL_KERN tensor gme_operator_multiply( tensor const &, SPAtransf const & );
-
 	/**
 	 * Transforms a tensor by a <tt>3 x 3</tt> transformation.
 	 *<br><br>
@@ -296,7 +272,6 @@ public:
 	 * transformation.
 	 */
 	tensor const &operator*=( SPAtransf const & transf);
-        tensor const &gme_operator_multiply_assign( SPAtransf const & transf);
 
 	// Output details of a tensor.
     /**
@@ -308,7 +283,6 @@ public:
      * file name.
      */
 	void debug( char const * leader, FILE * filename = debug_file_ptr ) const;
-        void gme_debug( char const * leader, FILE * filename = debug_file_ptr ) const;
 };
 /** @} */
 /**
@@ -327,7 +301,6 @@ public:
  */
 
 DECL_KERN symtensor operator-( symtensor const & );
-DECL_KERN symtensor gme_operator_substract( symtensor const & );
 /*
 // tbrv
 */
@@ -336,7 +309,6 @@ DECL_KERN symtensor gme_operator_substract( symtensor const & );
  */
 
 DECL_KERN symtensor operator+( symtensor const &, symtensor const & );
-DECL_KERN symtensor gme_operator_add( symtensor const &, symtensor const & );
 /*
 // tbrv
 */
@@ -345,7 +317,6 @@ DECL_KERN symtensor gme_operator_add( symtensor const &, symtensor const & );
  */
 
 DECL_KERN symtensor operator-( symtensor const &, symtensor const & );
-DECL_KERN symtensor gme_operator_substract( symtensor const &, symtensor const & );
 /*
 // tbrv
 */
@@ -354,7 +325,6 @@ DECL_KERN symtensor gme_operator_substract( symtensor const &, symtensor const &
  */
 
 DECL_KERN symtensor operator*( symtensor const &, double );
-DECL_KERN symtensor gme_operator_multiply( symtensor const &, double );
 /*
 // tbrv
 */
@@ -363,7 +333,6 @@ DECL_KERN symtensor gme_operator_multiply( symtensor const &, double );
  */
 
 DECL_KERN symtensor operator*( double, symtensor const & );
-DECL_KERN symtensor gme_operator_multiply( double, symtensor const & );
 /*
 // tbrv
 */
@@ -372,7 +341,6 @@ DECL_KERN symtensor gme_operator_multiply( double, symtensor const & );
  */
 
 DECL_KERN symtensor operator*( symtensor const &, SPAmatrix const & );
-DECL_KERN symtensor gme_operator_multiply( symtensor const &, SPAmatrix const & );
 /*
 // tbrv
 */
@@ -381,7 +349,6 @@ DECL_KERN symtensor gme_operator_multiply( symtensor const &, SPAmatrix const & 
  */
 
 DECL_KERN symtensor operator*( symtensor const &, SPAtransf const & );
-DECL_KERN symtensor gme_operator_multiply( symtensor const &, SPAtransf const & );
 /** @} */
 /**
  * \addtogroup ACISGEOMETRICATOMS
@@ -412,7 +379,6 @@ public:
 	// Zero the terms of a symtensor.
 
 	void zero();
-        void gme_zero();
 
 	// Return the major diagonal terms in a SPAvector.
 
@@ -427,50 +393,37 @@ public:
 	// Set the diagonal terms of a symtensor.
 
 	void set_diag( SPAvector const & );
-        void gme_set_diag( SPAvector const & );
-
 
 	// Set the off-diagonal terms in a symtensor.
 
 	void set_off_diag( SPAvector const & );
-        void gme_set_off_diag( SPAvector const & );
 
 	// Unary minus.
 
 	friend DECL_KERN symtensor operator-( symtensor const & );
-        friend DECL_KERN symtensor gme_operator_substract( symtensor const & );
 
 	// Binary plus.
 
 	friend DECL_KERN symtensor operator+( symtensor const &, symtensor const & );
-        friend DECL_KERN symtensor gme_operator_add( symtensor const &, symtensor const & );
 	symtensor const &operator+=( symtensor const & );
-        symtensor const &gme_operator_add_assign( symtensor const & );
 
 	// Binary minus.
 
 	friend DECL_KERN symtensor operator-( symtensor const &, symtensor const & );
-        friend DECL_KERN symtensor gme_operator_substract( symtensor const &, symtensor const & );
 	symtensor const &operator-=( symtensor const & );
-        symtensor const &gme_operator_sub_assign( symtensor const & );
 
 	// Multiply a symtensor by a double.
 
 	friend DECL_KERN symtensor operator*( symtensor const &, double );
-        friend DECL_KERN symtensor gme_operator_multiply( symtensor const &, double );
 	friend DECL_KERN symtensor operator*( double, symtensor const & );
-        friend DECL_KERN symtensor gme_operator_multiply( double, symtensor const & );
 	symtensor const &operator*=( double );
-        symtensor const &gme_operator_multiply_assign( double );
 
 	// Transform a symtensor by a 3x3 (orthogonal) SPAmatrix.
 	// Pre-multiplies symtensor by SPAmatrix, then post-multiplies
 	// result by transpose of SPAmatrix.
 
 	friend DECL_KERN symtensor operator*( symtensor const &, SPAmatrix const & );
-        friend DECL_KERN symtensor gme_operator_multiply( symtensor const &, SPAmatrix const & );
 	symtensor const &operator*=( SPAmatrix const & );
-        symtensor const &gme_operator_multiply_assign( SPAmatrix const & );
 
 	// Same for a transformation: this does a SPAmatrix multiplication
 	// for the rotation part, then multiplies by the scaling twice.
@@ -478,14 +431,11 @@ public:
 	// par with a SPAvector (as opposed to a SPAposition or unit SPAvector).
 
 	friend DECL_KERN symtensor operator*( symtensor const &, SPAtransf const & );
-        friend DECL_KERN symtensor gme_operator_multiply( symtensor const &, SPAtransf const & );
 	symtensor const &operator*=( SPAtransf const & );
-        symtensor const &gme_operator_multiply_assign( SPAtransf const & );
 
 	// Output details of a symtensor.
 
 	void debug( char const *, FILE * = debug_file_ptr ) const;
-        void gme_debug( char const *, FILE * = debug_file_ptr ) const;
 };
 /** @} */
 /**
@@ -502,7 +452,7 @@ public:
  */
 
 DECL_KERN tensor outer( SPAvector const&, SPAvector const& );
-DECL_KERN tensor gme_outer( SPAvector const&, SPAvector const& );
+
 
 // Form the outer product of a SPAvector with itself.
 /*
@@ -513,7 +463,7 @@ DECL_KERN tensor gme_outer( SPAvector const&, SPAvector const& );
  */
 
 DECL_KERN symtensor outer( SPAvector const& );
-DECL_KERN symtensor gme_outer( SPAvector const& );
+
 
 // Form a symtensor from vectors a and b as
 // 0.5*( outer(a,b) + outer(b,a) ).
@@ -525,7 +475,6 @@ DECL_KERN symtensor gme_outer( SPAvector const& );
  */
 
 DECL_KERN symtensor sym_outer( SPAvector const&, SPAvector const& );
-DECL_KERN symtensor gme_sym_outer( SPAvector const&, SPAvector const& );
 
 /** @} */
 #endif

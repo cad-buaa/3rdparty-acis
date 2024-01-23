@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -14,8 +14,6 @@
 #include "dcl_base.h"
 #include "mmgr.hxx"
 #include <stdio.h>
-#include <unordered_map>
-
 /**
  * \defgroup ACISLISTS Lists
  * \ingroup KERNAPI
@@ -46,6 +44,7 @@ extern DECL_BASE void * const LIST_ENTRY_DELETED;
  * <b>Role:</b> This is a fundamental list container class used by many ACIS classes, such as ENTITY_LIST and EELIST.
  */
 class DECL_BASE LIST_HEADER : public ACIS_OBJECT {
+
 	void * m_util[INITIAL_SIZE];//main data array
 	void ** m_list;				//generic list pointer
 	
@@ -56,11 +55,6 @@ class DECL_BASE LIST_HEADER : public ACIS_OBJECT {
 	int m_hash;					//last computed hash index
 	int m_last;					//last lookup index
 	intptr_t m_high, m_low;		//lowest and highest entries
-
-// #ifdef GME_BASE_LIST_HEADER
-//     // int m_gme_flag;
-// 	std::unordered_map<intptr_t, std::vector<int>> m_index_map; // map between entry and its array indexes
-// #endif
 	
 public:
 
@@ -68,7 +62,6 @@ public:
 	 * Default constructor - initializes data.
 	 */
 	LIST_HEADER();
-	LIST_HEADER(const char* gme);
 	/**
 	* Copy constructor, which copies the whole list (complete with deleted entries, if any), 
 	* so that the indices in the copy match those in the original.
@@ -76,7 +69,6 @@ public:
 	* list to copy
     */	
 	LIST_HEADER(LIST_HEADER const &source);
-	LIST_HEADER(const char* gme, LIST_HEADER const& source);
 	/**
 	 * Default destructor - frees memory.
 	 */
@@ -87,17 +79,14 @@ public:
 	 * source list
 	 */
 	LIST_HEADER& operator=( LIST_HEADER const & source);
-	LIST_HEADER& gme_operator_assign(LIST_HEADER const& source);
 
 	// Move constructor.
 
 	LIST_HEADER(LIST_HEADER &&other) /*noexcept*/;
-	LIST_HEADER(const char* gme, LIST_HEADER&& other);
 
 	// Move assignment operator.
 
 	LIST_HEADER& operator=(LIST_HEADER &&other) /*noexcept*/;
-	LIST_HEADER& gme_operator_assign(LIST_HEADER&& other);
 
 	/**
 	 * Add the entry to the list and return its index.
@@ -110,8 +99,7 @@ public:
 	 * @param check
 	 * logical check for duplicates - TRUE by default
 	 */
-	int add( void * entry, logical check = TRUE );
-	int gme_add(void* entry, logical check = TRUE);
+	int add( void * entry, logical check = TRUE );	
 	/**
 	 * Lookup the specified entry in the list and return its index.
   	 * <br><br>
@@ -119,7 +107,6 @@ public:
 	 * entry to remove
 	 */
 	int lookup( void const * entry );
-	int gme_lookup(void const* entry);
 	/**
 	 * Remove the specified entry from the list and return its index.
   	 * <br><br>
@@ -130,7 +117,6 @@ public:
 	 * entry to remove
 	 */
 	int remove( void const * entry );
-	int gme_remove( void const * entry );
 	/**
 	 * Remove the entry at the specified index from the list and return its index.
   	 * <br><br>
@@ -141,7 +127,6 @@ public:
 	 * index of entry to remove
 	 */
 	int remove( int index );
-	int gme_remove( int index );
 	/**
 	 * Replace the entry at the specified index with the new entry and return the old entry.
  	 * <br><br>
@@ -151,7 +136,6 @@ public:
 	 * new entry
 	 */
 	void* replace( int index, void const * entry );
-	void* gme_replace( int index, void const * entry );
 	/**
 	 * Return the number of entries in the list including the deleted ones (tombstones).
 	 */
@@ -171,7 +155,6 @@ public:
 	 * index of entry to return
 	 */
 	void *operator[]( int index);
-	void *gme_operator_subscript( int index );
 	/**
 	 * Initialize the iterator to zero.
 	 * <br><br>
@@ -181,7 +164,6 @@ public:
 	 * the next method to return entries from the beginning of the list.
 	 */
 	void init();
-	void gme_init();
 	/**
 	 * Return the next live entry relative to the iterator.
 	 * <br><br>
@@ -190,7 +172,6 @@ public:
 	 * Use init to reset the iterator and cause next to start at the beginning of the list.
 	 */
 	void *next();
-	void *gme_next();
 	/**
 	 *	Return the next live entry from the list relative to the supplied custom iterator.
 	 * <br><br>
@@ -201,17 +182,14 @@ public:
 	 * index of entry to return
 	 */
 	void *next_from( int &index );	
-	void *gme_next_from( int &index );
 	/**
 	 * Clear all entries from the list and reset indexes and counters for reuse.
 	 */
 	void clear();
-	void gme_clear();
 	/**
 	 * Return the memory size, in bytes, of the list.
 	 */
 	int byte_count();
-	int gme_byte_count();
         /**
          * Sorts the list based upon the user-supplied comparison function.
          * <br><br>
@@ -226,15 +204,11 @@ public:
          * comparison function
          */
 	void sort( int (*compare_func)(const void* entry1, const void* entry2 ) );
-	void gme_sort( int (*compare_func)(const void* entry1, const void* entry2 ) );
 
 private:
 
 	int raw_add( void const *, int);		//internal add method
-	int gme_raw_add( void const *, int);	
-
 	int raw_lookup( void const *);	//internal lookup method
-	int gme_raw_lookup( void const *);
 };
 
 /** @} */

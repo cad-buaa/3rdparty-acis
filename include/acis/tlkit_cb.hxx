@@ -78,6 +78,13 @@ protected:
 
 public:
 
+	/**
+	 * @nodoc
+	 */
+	MMGR_SUPPORT_THIS
+#if 0
+; // semicolon needed for mkman (doc tool) parsing
+#endif
 
 /**
  * C++ constructor, creating a <tt>toolkit_callback</tt>.

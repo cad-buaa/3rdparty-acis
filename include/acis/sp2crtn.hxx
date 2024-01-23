@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -189,16 +189,6 @@ bs2_curve_interp(
 			double &acfitol = *(double *)NULL_REF
 									// set to actual fit tolerance
 		);
-DECL_SPLINE bs2_curve
-gme_bs2_curve_interp(
-			int npts,					// number of points
-			SPApar_pos const *pts,		// array of points to interpolate or fit
-			SPApar_vec const &start_dir,		// start derivative
-			SPApar_vec const &end_dir,		// end derivative
-			double fitol = 0,				// fit tolerance, 0 for interpolate
-			double &acfitol = *(double *)NULL_REF
-									// set to actual fit tolerance
-		);
 
 // Construct a parameter-space curve along a u parameter line (i.e.
 // one with constant v parameter) of a spline surface.
@@ -219,12 +209,6 @@ gme_bs2_curve_interp(
 **/
 DECL_SPLINE bs2_curve
 bs2_curve_u_param_line(
-			bs3_surface surf,
-			double v
-		);
-
-DECL_SPLINE bs2_curve
-gme_bs2_curve_u_param_line(
 			bs3_surface surf,
 			double v
 		);
@@ -282,12 +266,6 @@ bs2_curve_u_param_line(
 **/
 DECL_SPLINE bs2_curve
 bs2_curve_v_param_line(
-			bs3_surface surf,
-			double u
-		);
-
-DECL_SPLINE bs2_curve
-gme_bs2_curve_v_param_line(
 			bs3_surface surf,
 			double u
 		);
@@ -389,12 +367,6 @@ bs2_curve_reparam(
 			double end,				// end parameter desired
 			bs2_curve cur			// given curve
 		);
-DECL_SPLINE void
-gme_bs2_curve_reparam(
-			double start,				// start parameter desired
-			double end,				// end parameter desired
-			bs2_curve cur			// given curve
-		);
 
 
 // Shift the parameter values of a 2D B-spline curve by a given amount.
@@ -461,10 +433,6 @@ bs2_curve_set_end_prms(
 **/
 DECL_SPLINE void
 bs2_curve_reverse(
-			bs2_curve cur			// given curve
-		);
-DECL_SPLINE void
-gme_bs2_curve_reverse(
 			bs2_curve cur			// given curve
 		);
 
@@ -653,11 +621,6 @@ bs2_curve_trans(
 			bs2_curve crv1,		// given curve
 			SPAtransf const &trns	// given transform
 		);
-DECL_SPLINE void
-gme_bs2_curve_trans(
-			bs2_curve crv1,		// given curve
-			SPAtransf const &trns	// given transform
-		);
 
 // STI let (9/98) Added 3 new bs2_curve functions
 
@@ -795,10 +758,6 @@ DECL_SPLINE logical
 bs2_curve_closed(
 			bs2_curve cur		// given curve
 		);
-DECL_SPLINE logical
-gme_bs2_curve_closed(
-			bs2_curve cur		// given curve
-		);
 
 
 // Return a logical indicating whether the curve is periodic
@@ -817,10 +776,6 @@ gme_bs2_curve_closed(
 **/
 DECL_SPLINE logical
 bs2_curve_periodic(
-			bs2_curve cur			// given curve
-		);
-DECL_SPLINE logical
-gme_bs2_curve_periodic(
 			bs2_curve cur			// given curve
 		);
 
@@ -842,10 +797,6 @@ DECL_SPLINE SPAinterval
 bs2_curve_range(
 			bs2_curve cur		// given curve
 		);
-DECL_SPLINE SPAinterval
-gme_bs2_curve_range(
-			bs2_curve cur		// given curve
-		);
 
 
 // Return the SPAparameter period of a 2D B-spline curve.
@@ -863,10 +814,6 @@ gme_bs2_curve_range(
 **/
 DECL_SPLINE double
 bs2_curve_period(
-			bs2_curve cur		// given curve
-		);
-DECL_SPLINE double
-gme_bs2_curve_period(
 			bs2_curve cur		// given curve
 		);
 
@@ -949,24 +896,6 @@ bs2_curve_evaluate(
 									// evaluate the right-hand derivative,
 									// and 0 for "don't care".
 		);
-DECL_SPLINE int
-gme_bs2_curve_evaluate(
-			double param,					// given SPAparameter t
-			bs2_curve cur,				// given curve
-			SPApar_pos &pos,				// parametric SPAposition returned
-			SPApar_vec **deriv = NULL,		// array of pointers to locations
-									// in which derivatives are to be
-									// placed. Must contain at least
-									// nd pointers, but any may be NULL
-									// to indicate that that derivative
-									// is not required.
-			int nd = 0,				// number of derivatives (nd) to be
-									// evaluated.
-			int index = 0					// -ve to evaluate the left-hand
-									// derivative at a knot, +ve to
-									// evaluate the right-hand derivative,
-									// and 0 for "don't care".
-		);
 
 // Evaluate position and derivatives of a given 2D B-spline curve at
 // given parameter value. Any of the return arguments may be a NULL
@@ -1005,16 +934,6 @@ bs2_curve_eval(
 			SPApar_vec &xdotdot = *(SPApar_vec *)NULL_REF
 									// second derivative returned
 		);
-DECL_SPLINE void
-gme_bs2_curve_eval(
-			double param,					// given SPAparameter value
-			bs2_curve cur,				// given curve
-			SPApar_pos &x,				// parametric SPAposition returned
-			SPApar_vec &xdot = *(SPApar_vec *)NULL_REF,
-									// first derivative returned
-			SPApar_vec &xdotdot = *(SPApar_vec *)NULL_REF
-									// second derivative returned
-		);
 
 
 // Evaluate parametric position on a 2D B-spline curve at
@@ -1034,11 +953,6 @@ gme_bs2_curve_eval(
 **/
 DECL_SPLINE SPApar_pos
 bs2_curve_position(
-			double param,			// given SPAparameter value
-			bs2_curve cur		// given curve
-		);
-DECL_SPLINE SPApar_pos
-gme_bs2_curve_position(
 			double param,			// given SPAparameter value
 			bs2_curve cur		// given curve
 		);
@@ -1064,11 +978,6 @@ bs2_curve_deriv(
 			double param,			// given SPAparameter value
 			bs2_curve cur		// given curve
 		);
-DECL_SPLINE SPApar_vec
-gme_bs2_curve_deriv(
-			double param,			// given SPAparameter value
-			bs2_curve cur		// given curve
-		);
 
 
 // Evaluate the tangent to a 2D B-spline curve at given SPAparameter value.
@@ -1086,11 +995,6 @@ gme_bs2_curve_deriv(
 **/
 DECL_SPLINE SPApar_dir
 bs2_curve_tangent(
-			double param,			// given SPAparameter value
-			bs2_curve cur		// given curve
-		);
-DECL_SPLINE SPApar_dir
-gme_bs2_curve_tangent(
 			double param,			// given SPAparameter value
 			bs2_curve cur		// given curve
 		);
@@ -1113,12 +1017,6 @@ bs2_curve_invert(
 			bs2_curve,			// given curve
 			SPAparameter const & = *( SPAparameter * ) NULL_REF  // SPAparameter guess
 		);
-DECL_SPLINE double
-gme_bs2_curve_invert(
-			SPApar_pos const &,	// given point
-			bs2_curve,			// given curve
-			SPAparameter const & = *( SPAparameter * ) NULL_REF  // SPAparameter guess
-		);
 
 
 // Drop a perpendicular from a point to a spline curve, returning
@@ -1132,17 +1030,6 @@ gme_bs2_curve_invert(
 
 DECL_SPLINE void
 bs2_curve_perp(
-			SPApar_pos const &,	// given point
-			bs2_curve,			// curve
-			SPApar_pos &,			// (returned) foot of perpendicular
-			SPApar_dir &,		// (returned) curve tangent
-			SPAparameter const & = *( SPAparameter * ) NULL_REF,
-								// supplied approximate SPAparameter
-			SPAparameter & = *( SPAparameter * ) NULL_REF
-								// (returned) actual SPAparameter
-		);
-DECL_SPLINE void
-gme_bs2_curve_perp(
 			SPApar_pos const &,	// given point
 			bs2_curve,			// curve
 			SPApar_pos &,			// (returned) foot of perpendicular
@@ -1209,13 +1096,6 @@ bs2_curve_same(
 			double tol = 0.0	// SPAparameter-space tolerance for equal
 							// control points.
 		);
-DECL_SPLINE logical
-gme_bs2_curve_same(
-			bs2_curve bs1,
-			bs2_curve bs2,
-			double tol = 0.0	// SPAparameter-space tolerance for equal
-							// control points.
-		);
 
 
 // **** Utility ****
@@ -1240,11 +1120,6 @@ DECL_SPLINE bs2_curve
 bs2_curve_copy(
 			bs2_curve cur		// given curve
 		);
-DECL_SPLINE bs2_curve
-gme_bs2_curve_copy(
-			bs2_curve cur		// given curve
-		);
-
 
 
 // Remove a 2D B-spline curve from free store.
@@ -1263,10 +1138,6 @@ gme_bs2_curve_copy(
 **/
 DECL_SPLINE void
 bs2_curve_delete(
-			bs2_curve &cur
-		);
-DECL_SPLINE void
-gme_bs2_curve_delete(
 			bs2_curve &cur
 		);
 

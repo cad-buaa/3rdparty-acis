@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kernbool/trimface/trimface.hxx */
+/* ORIGINAL: acis2.1/kernbool/trimface/trimface.hxx */
 /* $Id: trimface.hxx,v 1.8 2000/12/26 18:26:28 products Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -124,10 +124,7 @@ DECL_BOOL logical trim_face(
 			FACE *this_face,
 			char const *subset_option = NULL
 		);
-DECL_BOOL logical gme_trim_face(
-			FACE *this_face,
-			char const *subset_option = NULL
-		);
+
 /**
  * @nodoc
  */

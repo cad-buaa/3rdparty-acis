@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -58,9 +58,6 @@ class SPAbox;
 class pattern_holder;
 class pattern;
 class VOID_LIST;
-
-// 支撑性测试
-// #define GME_KERN_SHELL //将ACIS接口切换为GME接口
 /**
  * @nodoc
  */
@@ -319,7 +316,6 @@ public:
  * management.
  */
 	SHELL();
-	SHELL(const char* gme);
 
 
 	// Public constructor, which initialises all the class data, and
@@ -352,8 +348,7 @@ public:
  * @param shell
  * next SHELL in the owning LUMP.
  */
-	SHELL( FACE *face, SUBSHELL *subshell, SHELL *shell );
-	SHELL( const char* gme, FACE *face, SUBSHELL *subshell, SHELL *shell );
+	SHELL( FACE *face, SUBSHELL *subshell, SHELL *shell );	
 
 /**
  * Constructs a <tt>SHELL</tt> from lists of <tt>WIRE</tt>s and <tt>SUBSHELL</tt>s and a connected <tt>SHELL</tt>
@@ -378,7 +373,6 @@ public:
  * next SHELL in the owning LUMP.
  */
 	SHELL( WIRE *wire, SUBSHELL *subshell, SHELL *shell );
-	SHELL( const char* gme, WIRE *wire, SUBSHELL *subshell, SHELL *shell );
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -438,13 +432,6 @@ public:
 	virtual void lose();
 #endif
 
-/**
- * Posts a delete bulletin to the bulletin board indicating this <tt>SHELL</tt> is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- */
-	/*virtual*/ void gme_lose();
-
 	// Data reading routines.
 // ROP
 /**
@@ -464,22 +451,18 @@ public:
  * (see Role).
  */
 	SHELL *next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
-	SHELL *gme_next(PAT_NEXT_TYPE next_type = PAT_CAN_CREATE) const;
 /**
  * Returns a pointer to the first <tt>SUBSHELL</tt> in a list of <tt>SUBSHELL</tt>s immediately contained within this <tt>SHELL</tt>.
  */
 	SUBSHELL *subshell() const;
-	SUBSHELL *gme_subshell() const;
 /**
  * Returns a pointer to the first <tt>FACE</tt> of a list of <tt>FACE</tt>s immediately contained in this <tt>SHELL</tt>.
  */
 	FACE *face_list() const;
-	FACE *gme_face_list() const;
 /**
  * Returns a pointer to the first <tt>WIRE</tt> of a list of <tt>WIRE</tt>s immediately contained in this <tt>SHELL</tt>.
  */
 	WIRE *wire_list() const;
-	WIRE *gme_wire_list() const;
 /**
  * Returns a pointer to the owning <tt>LUMP</tt>.
  * <br><br>
@@ -493,13 +476,12 @@ public:
  * the internal coordinate system of the <tt>BODY</tt>). The return may be <tt>NULL</tt> if the bound
  * was not calculated since the <tt>SHELL</tt> was last modified.
  */
-	SPAbox *bound() const { return box_container.get_box(); }	  
+	SPAbox *bound() const { return box_container.get_box(); }
 
 /**
  * Returns a pointer to the owning <tt>LUMP</tt>.
  */
 	ENTITY *owner() const;
-	ENTITY *gme_owner() const;
 
 
 	// Data changing routines. Each ensures that the SHELL object has
@@ -517,7 +499,6 @@ public:
  * internal use only.
  */
 	void set_next( SHELL *shell , logical reset_pattern = TRUE);
-	void gme_set_next( SHELL *shell , logical reset_pattern = TRUE);
 /**
  * Sets this <tt>SHELL</tt>'s <tt>SUBSHELL</tt> pointer to the given <tt>SUBSHELL</tt>.
  * <br><br>
@@ -531,7 +512,6 @@ public:
  * internal use only.
  */
 	void set_subshell( SUBSHELL *subshell , logical reset_pattern = TRUE);
-	void gme_set_subshell( SUBSHELL *subshell , logical reset_pattern = TRUE);
 /**
  * Sets this <tt>SHELL</tt>'s <tt>FACE</tt> pointer to the given <tt>FACE</tt>.
  * <br><br>
@@ -545,7 +525,6 @@ public:
  * internal use only.
  */
 	void set_face( FACE *face , logical reset_pattern = TRUE);
-	void gme_set_face( FACE *face , logical reset_pattern = TRUE);
 /**
  * Sets this <tt>SHELL</tt>'s <tt>WIRE</tt> pointer to the given <tt>WIRE</tt>.
  * <br><br>
@@ -559,7 +538,6 @@ public:
  * internal use only.
  */
 	void set_wire( WIRE *wire , logical reset_pattern = TRUE);
-	void gme_set_wire( WIRE *wire , logical reset_pattern = TRUE);
 /**
  * Sets this <tt>SHELL</tt>'s <tt>LUMP</tt> pointer to the specified <tt>LUMP</tt>.
  * <br><br>
@@ -573,7 +551,6 @@ public:
  * internal use only.
  */
 	void set_lump( LUMP *lump , logical reset_pattern = TRUE);
-	void gme_set_lump( LUMP *lump , logical reset_pattern = TRUE);
 /**
  * Sets the bounding region (box) of this <tt>SHELL</tt> to the specified box.
  * <br><br>
@@ -607,7 +584,6 @@ public:
  * undefined order of <tt>SUBSHELL</tt>s fluctuates with each change of the <tt>SUBSHELL</tt> subdivision.
  */
 	FACE *face() const;
-	FACE *gme_face() const;
 
 	// STI let (12/98): SHELL::first_face() is officially OBSOLETE in ACIS 5.0
 /**
@@ -626,7 +602,7 @@ public:
  * undefined order of <tt>SUBSHELL</tt>s fluctuates with each change of the <tt>SUBSHELL</tt> subdivision.
  */
 	WIRE *wire() const;
-	WIRE *gme_wire() const;
+
 	// STI let (07/00): Added a new method
 	// Determine if the shell is closed or not.  This method considers
 	// only single-sided faces.  It ignores all double-sided faces and wires.
@@ -637,24 +613,6 @@ public:
  * double-sided faces and wires.
  */
 	logical is_closed() const;
-	logical gme_is_closed() const;
-
-	//拷贝相关接口
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const SHELL* in_shell, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
-	ENTITY* gme_make_copy() const;
-	
-public:
-	// get and set functions for access.
-	void** get_next_ptr();
-	void** get_subshell_ptr();
-	void** get_face_ptr();
-	void** get_wire_ptr();
-	void** get_lump_ptr();
 };
 /** @} */
 #endif

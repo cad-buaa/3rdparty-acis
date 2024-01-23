@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -166,6 +166,5 @@ DECL_CLR outcome api_check_face_clearance(
 		SPAposition& p2,			// OUT: at clearance violation
 		double& min_dist, 			// OUT: distance between points
 		AcisOptions* ao = NULL );
-DECL_CLR outcome gme_api_check_face_clearance(FACE* face1, FACE* face2, double min_clearance, double facet_resolution, SPAposition& p1, SPAposition& p2, double& min_dist, AcisOptions* ao= NULL);
 /** @} */
 #endif

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -43,7 +43,6 @@ class helix;
  **/
 
 DECL_KERN logical is_BODY(const ENTITY* ent);
-DECL_KERN logical gme_is_BODY(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>WIRE</tt>.
@@ -59,7 +58,6 @@ DECL_KERN logical gme_is_BODY(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_WIRE(const ENTITY* ent);
-DECL_KERN logical gme_is_WIRE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>LUMP</tt>.
@@ -75,7 +73,6 @@ DECL_KERN logical gme_is_WIRE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_LUMP(const ENTITY* ent);
-DECL_KERN logical gme_is_LUMP(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>SHELL</tt>.
@@ -91,7 +88,6 @@ DECL_KERN logical gme_is_LUMP(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_SHELL(const ENTITY* ent);
-DECL_KERN logical gme_is_SHELL(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>SUBSHELL</tt>.
@@ -107,7 +103,6 @@ DECL_KERN logical gme_is_SHELL(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_SUBSHELL(const ENTITY* ent);
-DECL_KERN logical gme_is_SUBSHELL(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>FACE</tt>.
@@ -123,7 +118,6 @@ DECL_KERN logical gme_is_SUBSHELL(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_FACE(const ENTITY* ent);
-DECL_KERN logical gme_is_FACE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>LOOP</tt>.
@@ -139,7 +133,6 @@ DECL_KERN logical gme_is_FACE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_LOOP(const ENTITY* ent);
-DECL_KERN logical gme_is_LOOP(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is an <tt>EDGE</tt>.
@@ -155,8 +148,6 @@ DECL_KERN logical gme_is_LOOP(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_EDGE(const ENTITY* ent);
-DECL_KERN logical gme_is_EDGE(const ENTITY* ent);
-DECL_KERN logical gme_is_TEDGE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>COEDGE</tt>.
@@ -172,8 +163,6 @@ DECL_KERN logical gme_is_TEDGE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_COEDGE(const ENTITY* ent);
-DECL_KERN logical gme_is_COEDGE(const ENTITY* ent);
-DECL_KERN logical gme_is_TCOEDGE(const ENTITY* ent);
 
 /**
  * Determines if the <tt>ENTITY</tt> is a <tt>VERTEX</tt>.
@@ -189,24 +178,6 @@ DECL_KERN logical gme_is_TCOEDGE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_VERTEX(const ENTITY* ent);
-DECL_KERN logical gme_is_VERTEX(const ENTITY* ent);
-DECL_KERN logical gme_is_TVERTEX(const ENTITY* ent);
-
-/**
- * Determines if an <tt>ENTITY</tt> is an <tt>TRANSFORM</tt>.
- * <br><br>
- * <b>Role:</b> This procedure takes an <tt>ENTITY</tt> as an argument and returns <tt>TRUE</tt>
- * if the entity is an <tt>TRANSFORM</tt>, <tt>FALSE</tt> if it is not. This procedure also checks for a
- * <tt>NULL</tt> pointer.
- * <br><br>
- * <b>Effect:</b> Read-only
- * <br><br>
- * @param ent
- * entity to test.
- **/
-
-// DECL_KERN logical is_TRANSFORM(const ENTITY* ent);
-DECL_KERN logical gme_is_TRANSFORM(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is an <tt>APOINT</tt>.
@@ -222,7 +193,6 @@ DECL_KERN logical gme_is_TRANSFORM(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_APOINT(const ENTITY* ent);
-DECL_KERN logical gme_is_APOINT(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>CURVE</tt>.
@@ -238,7 +208,6 @@ DECL_KERN logical gme_is_APOINT(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_CURVE(const ENTITY* ent);
-DECL_KERN logical gme_is_CURVE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>PCURVE</tt>.
@@ -254,7 +223,6 @@ DECL_KERN logical gme_is_CURVE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_PCURVE(const ENTITY* ent);
-DECL_KERN logical gme_is_PCURVE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>STRAIGHT</tt>.
@@ -270,7 +238,6 @@ DECL_KERN logical gme_is_PCURVE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_STRAIGHT(const ENTITY* ent);
-DECL_KERN logical gme_is_STRAIGHT(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is an <tt>ELLIPSE</tt>.
@@ -286,7 +253,6 @@ DECL_KERN logical gme_is_STRAIGHT(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_ELLIPSE(const ENTITY* ent);
-DECL_KERN logical gme_is_ELLIPSE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is an <tt>INTCURVE</tt>.
@@ -302,7 +268,6 @@ DECL_KERN logical gme_is_ELLIPSE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_INTCURVE(const ENTITY* ent);
-DECL_KERN logical gme_is_INTCURVE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>HELIX</tt>.
@@ -318,7 +283,6 @@ DECL_KERN logical gme_is_INTCURVE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_HELIX(const ENTITY* ent);
-DECL_KERN logical gme_is_HELIX(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>SURFACE</tt>.
@@ -334,7 +298,6 @@ DECL_KERN logical gme_is_HELIX(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_SURFACE(const ENTITY* ent);
-DECL_KERN logical gme_is_SURFACE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>PLANE</tt>.
@@ -350,7 +313,6 @@ DECL_KERN logical gme_is_SURFACE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_PLANE(const ENTITY* ent);
-DECL_KERN logical gme_is_PLANE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>CONE</tt>.
@@ -366,7 +328,6 @@ DECL_KERN logical gme_is_PLANE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_CONE(const ENTITY* ent);
-DECL_KERN logical gme_is_CONE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>SPHERE</tt>.
@@ -382,7 +343,6 @@ DECL_KERN logical gme_is_CONE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_SPHERE(const ENTITY* ent);
-DECL_KERN logical gme_is_SPHERE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>TORUS</tt>.
@@ -398,7 +358,6 @@ DECL_KERN logical gme_is_SPHERE(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_TORUS(const ENTITY* ent);
-DECL_KERN logical gme_is_TORUS(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is a <tt>SPLINE</tt>.
@@ -414,7 +373,6 @@ DECL_KERN logical gme_is_TORUS(const ENTITY* ent);
  **/
 
 DECL_KERN logical is_SPLINE(const ENTITY* ent);
-DECL_KERN logical gme_is_SPLINE(const ENTITY* ent);
 
 /**
  * Determines if an <tt>ENTITY</tt> is an <tt>ATTRIB</tt>.

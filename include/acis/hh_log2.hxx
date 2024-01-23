@@ -25,4 +25,5 @@ hh_get_stitch_log_file (void);
 // Function for getting the current value of the Log File pointer
 DECL_STITCH void
 hh_reset_stitch_log_file (void);
+
 //---------------------------------------------------------------------------

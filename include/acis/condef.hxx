@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -17,11 +17,6 @@
 #include "surdef.hxx"
 #include "elldef.hxx"
 #include "debugmsc.hxx"
-
-// 支撑性测试
-// #define GME_KERN_CONDEF  //将ACIS接口切换为GME接口
-
-
 class SizeAccumulator;
 class SPAtransf;
 class cone;
@@ -47,7 +42,6 @@ class cone;
  * transform.
  */
 DECL_KERN cone operator*(cone const &item ,SPAtransf const &transform);
-DECL_KERN cone gme_operator_multiply(cone const &item ,SPAtransf const &transform);
 /**
  * @nodoc
  * Internal use. Restoring mechanism.
@@ -132,7 +126,6 @@ public:
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
  	cone();
-	cone(const char* gme);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
  * <br><br>
@@ -140,7 +133,6 @@ public:
  * cone.
  */
  	cone(cone const &c );
-	cone(const char* gme,cone const &c );
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
  * <br><br>
@@ -158,13 +150,6 @@ public:
  */
  	cone(
 				ellipse const &base,
-				double        sin_ang,
-				double        co_ang,
-                double        para = 0.0
-			);
-
-	cone(       const char* gme,
-		        ellipse const &base,
 				double        sin_ang,
 				double        co_ang,
                 double        para = 0.0
@@ -198,17 +183,6 @@ public:
 				double co_ang,
                 double para = 0.0
 			);
-	 	cone(   
-			    const char* gme,
-				SPAposition    const &centre,
-				SPAunit_vector const &dir,
-				SPAvector      const &radius,
-				double ratio,
-				double sin_ang,
-				double co_ang,
-                double para = 0.0
-			);
-
 /**
  * C++ destructor, deleting a cone.
  * <br><br>
@@ -260,9 +234,6 @@ public:
  	virtual int accurate_derivs(
 				SPApar_box const &box = *(SPApar_box *)NULL_REF
 			) const;
-		/*virtual*/ int gme_accurate_derivs(
-				SPApar_box const &box = *(SPApar_box *)NULL_REF
-			) const;
 /**
  * Returns a box around the portion of a surface bounded in parameter space.
  * <br><br>
@@ -272,10 +243,6 @@ public:
  * transformation.
  */
  	virtual SPAbox bound(
-				SPApar_box const &box   = *(SPApar_box *)NULL_REF,
-				SPAtransf const  &trans = *(SPAtransf *)NULL_REF
-			) const;
-	/*virtual*/ SPAbox gme_bound(
 				SPApar_box const &box   = *(SPApar_box *)NULL_REF,
 				SPAtransf const  &trans = *(SPAtransf *)NULL_REF
 			) const;
@@ -299,29 +266,24 @@ public:
  * cone is elliptical, so we just look for exact equality.
  */
  	logical circular() const {	return base.radius_ratio == 1;}
-	logical gme_circular() const;
 /**
  * Reports whether the surface is closed, smoothly or not, in the <i>u</i>-parameter direction.
  */
  	virtual logical closed_u() const;
-	/*virtual*/ logical gme_closed_u() const;
 /**
  * Reports whether the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
  */
  	virtual logical closed_v() const;
-	/*virtual*/ logical gme_closed_v() const;
 /**
  * Classification routine that returns <tt>TRUE</tt> if the sine angle and cosine angle are of opposite signs and <tt>FALSE</tt>, otherwise.
  * <br><br>
  * <b>Role:</b> This is only meaningful if <tt>cylinder()</tt> returns <tt>FALSE</tt>.
  */
  	logical contracting() const {logical retval = (sine_angle >= 0) != (cosine_angle >= 0);	return retval;}
-	logical gme_contracting() const;
 /**
  * Classification routine that returns <tt>TRUE</tt> if the sine angle is essentially zero (within <tt>SPAresnor</tt>).
  */
  	logical cylinder() const {return _IsCylinder;}
-	logical gme_cylinder() const;
 /**
  * Prints out the details of cone to a file.
  * <br><br>
@@ -334,12 +296,6 @@ public:
 				char const *lead_str,
 				FILE *fname = debug_file_ptr
 			) const;
-
-    void gme_debug(
-				char const *,
-				FILE * = debug_file_ptr
-			) const;
-
 /**
  * Creates a copy of an item that does not share any data with the original.
  * <br><br>
@@ -350,7 +306,6 @@ public:
  * list of items within the entity that are already deep copied.
  */
  	virtual surface *deep_copy(pointer_map * pm = NULL) const;
-	/*virtual*/ surface *gme_deep_copy(pointer_map * pm = NULL) const;
 /**
  * Returns <tt>TRUE</tt> if the cosine angle and the sine angle are of the square sign.
  * <br><br>
@@ -361,7 +316,6 @@ public:
 		logical retval = (sine_angle >= 0) == (cosine_angle >= 0);
 		return retval;
 	}
-	logical gme_expanding() const;
 /**
  * Finds the point on a parametric surface with given parameter values, and optionally the first and second derivatives as well or instead.
  * <br><br>
@@ -380,12 +334,6 @@ public:
 				SPAvector *first   = NULL,
 				SPAvector *second  = NULL
 			) const;
-	 	/*virtual*/ void gme_eval(
-				SPApar_pos const &para,
-				SPAposition      &posi,
-				SPAvector *first   = NULL,
-				SPAvector *second  = NULL
-			) const;
 /**
  * Finds the outward direction from the surface at a point with given parameter values.
  * <br><br>
@@ -393,9 +341,6 @@ public:
  * parameter.
  */
  	virtual SPAunit_vector eval_outdir(
-				SPApar_pos const &para
-			) const;
-	/*virtual*/ SPAunit_vector gme_eval_outdir(
 				SPApar_pos const &para
 			) const;
 /**
@@ -419,13 +364,6 @@ public:
 				SPAunit_vector   &s_axis,
 				double           &s_curv
 			) const;
-		/*virtual*/ void gme_eval_prin_curv(
-				SPApar_pos const &para,
-				SPAunit_vector   &f_axis,
-				double           &f_curv,
-				SPAunit_vector   &s_axis,
-				double           &s_curv
-			) const;
 /**
  * Finds the principal axes of curvature of the surface at a point with given parameter values.
  * <br><br>
@@ -438,9 +376,6 @@ public:
 	{
 		return surface::eval_prin_curv( param );
 	}
-	surf_princurv gme_eval_prin_curv(
-				SPApar_pos const &param
-			) const;
 /**
  * Calculates derivatives, of any order up to the number requested, and store them in vectors provided by the user.
  * <br><br>
@@ -471,13 +406,6 @@ public:
                 int                       number    = 0,
 				evaluate_surface_quadrant loc = evaluate_surface_unknown
             ) const;
-	/*virtual*/ int gme_evaluate(
-                SPApar_pos const          &para,
-                SPAposition               &pt,
-                SPAvector**               vec_array = NULL,
-                int                       number    = 0,
-				evaluate_surface_quadrant loc = evaluate_surface_unknown
-            ) const;
 /**
  * Classification routine that checks whether the cosine angle is essentially zero (within <tt>SPAresnor</tt>).
  * <br><br>
@@ -485,8 +413,6 @@ public:
  * should never occur.
  */
  	logical flat() const {	return fabs( cosine_angle ) < SPAresnor;}
-	logical gme_flat() const;
-
 /**
  * @nodoc
  */
@@ -495,7 +421,6 @@ public:
  * Determines the apex of the cone if it is not a cylinder.
  */
  	virtual SPAposition get_apex() const;
-		/*virtual*/ SPAposition gme_get_apex() const;
 /**
  * Returns the sweep path for a cone. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
  */
@@ -515,7 +440,6 @@ public:
  * Returns <tt>TRUE</tt> if the cosine angle is negative.
  */
  	logical hollow() const {return cosine_angle < 0;}
-	logical gme_hollow() const;
 /**
  * Indicates whether the parameter coordinate system of the surface is right or left-handed.
  * <br><br>
@@ -523,12 +447,10 @@ public:
  * right-handed if it is <tt>TRUE</tt>. The converse is <tt>TRUE</tt> for a hollow curve.
  */
  	virtual logical left_handed_uv() const;
-		/*virtual*/ logical gme_left_handed_uv() const;
 /**
  * Makes a copy of this cone on the heap, and returns a pointer to it.
  */
  	virtual surface *make_copy() const;
-	/*virtual*/ surface *gme_make_copy() const;
 /**
  * Returns a cone bounding the normal direction of a curve.
  * <br><br>
@@ -564,10 +486,6 @@ public:
 				SPAposition const &name,
 				SPApar_pos  const &posi = *(SPApar_pos *)NULL_REF
 			) const;
-	 	/*virtual*/ SPApar_pos gme_param(
-				SPAposition const &name,
-				SPApar_pos  const &posi = *(SPApar_pos *)NULL_REF
-			) const;
 /**
  * Returns the period of a periodic parametric surface.
  * <br><br>
@@ -575,7 +493,6 @@ public:
  * For a cone the <i>u</i>-parameter is nonperiodic.
  */
  	virtual double param_period_u() const;
-	/*virtual*/ double gme_param_period_u() const;
 /**
  * Returns the period of a periodic parametric surface.
  * <br><br>
@@ -583,7 +500,6 @@ public:
  * For a cone the <i>v</i>-parameter always has period <tt> 2 * p2 </tt>
  */
  	virtual double param_period_v() const;
-	/*virtual*/ double gme_param_period_v() const;
 /**
  * Returns the principal parameter range of a surface.
  * <br><br>
@@ -598,9 +514,6 @@ public:
  	virtual SPApar_box param_range(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
-	/*virtual*/ SPApar_box gme_param_range(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>u</i>-parameter direction.
  * <br><br>
@@ -610,9 +523,6 @@ public:
  	virtual SPAinterval param_range_u(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
-	 	/*virtual*/ SPAinterval gme_param_range_u(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
 /**
  * Returns the principal parameter range of a surface in the <i>v</i>-parameter direction.
  * <br><br>
@@ -620,9 +530,6 @@ public:
  * bounding box.
  */
  	virtual SPAinterval param_range_v(
-					SPAbox const &box = *(SPAbox *)NULL_REF
-				) const;
-	 	/*virtual*/ SPAinterval gme_param_range_v(
 					SPAbox const &box = *(SPAbox *)NULL_REF
 				) const;
 /**
@@ -637,10 +544,6 @@ public:
 				SPAunit_vector const &dirc,
 				SPApar_pos     const &posi
 			) const;
-	 	/*virtual*/ SPApar_vec gme_param_unitvec(
-				SPAunit_vector const &dirc,
-				SPApar_pos     const &posi
-			) const;
 /**
  * Determines if a cone is parametric and returns <tt>FALSE</tt>.
  * <br><br>
@@ -649,14 +552,12 @@ public:
  * this is ignored, so would normally be <tt>NULL</tt> or defaulted.
  */
  	virtual logical parametric() const;
-	/*virtual*/ logical gme_parametric() const;
 /**
  * Reports whether the surface is periodic in the <i>u</i>-parameter direction.
  * <br><br>
  * <b>Role:</b> It is smoothly closed, so faces can run over the seam.
  */
  	virtual logical periodic_u() const;
-	/*virtual*/ logical gme_periodic_u() const;
 /**
  * Reports whether the surface is periodic in the <i>u</i>-parameter direction.
  * <br><br>
@@ -664,7 +565,6 @@ public:
  * in the <i>v</i>-direction, not in the <i>u</i>.
  */
  	virtual logical periodic_v() const;
-	/*virtual*/ logical gme_periodic_v() const;
 /**
  * Returns normal at point on cone.
  * <br><br>
@@ -677,10 +577,6 @@ public:
 				SPAposition const &posi,
 				SPApar_pos const &para= *(SPApar_pos *)NULL_REF
 			) const;
-		/*virtual*/ SPAunit_vector gme_point_normal(
-					SPAposition const &posi,
-					SPApar_pos const &para= *(SPApar_pos *)NULL_REF
-				) const;
 /**
  * Finds an outward direction from the surface at a point on the surface.
  * <br><br>
@@ -696,10 +592,6 @@ public:
 				SPAposition const &posi,
 				SPApar_pos const &para = *(SPApar_pos *)NULL_REF
 			) const;
-		/*virtual*/ SPAunit_vector gme_point_outdir(
-					SPAposition const &posi,
-					SPApar_pos const &para = *(SPApar_pos *)NULL_REF
-				) const;
 /**
  * Finds the foot of the perpendicular.
  * <br><br>
@@ -723,15 +615,6 @@ public:
  * weak flag.
  */
  	virtual void point_perp(
-				SPAposition const &pt,
-				SPAposition       &foot,
-				SPAunit_vector    &vect,
-				surf_princurv     &curv,
-				SPApar_pos const  &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos        &para = *(SPApar_pos *)NULL_REF,
-				logical           f_weak=FALSE
-			) const;
-	/*virtual*/ void gme_point_perp(
 				SPAposition const &pt,
 				SPAposition       &foot,
 				SPAunit_vector    &vect,
@@ -777,15 +660,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-		void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition       &foot,
-				SPAunit_vector    &norm,
-				SPApar_pos const  &param_guess  = *(SPApar_pos *)NULL_REF,
-				SPApar_pos        &param_actual = *(SPApar_pos *)NULL_REF,
-				logical           f_weak=FALSE
-			) const;
-
 /**
  * Find the point on the surface nearest to the given point and optionally the normal to and principal curvatures of the surface at that point.
  * <br><br>
@@ -817,14 +691,6 @@ public:
 				param_actual, f_weak
 			);
 	}
-		void gme_point_perp(
-				SPAposition const &pos,
-				SPAposition       &foot,
-				SPApar_pos const  &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos        &param_actual = *(SPApar_pos *)NULL_REF,
-				logical           f_weak=FALSE
-			) const;
-	
 /**
  * Find the principal axes of curvature of the surface at a given point, and the curvatures in those directions.
  * <br><br>
@@ -849,15 +715,6 @@ public:
 				double            &curv1,
 				SPApar_pos const  &para = *(SPApar_pos *)NULL_REF
 			) const;
-	/*virtual*/ void gme_point_prin_curv(
-				SPAposition const &point,
-				SPAunit_vector    &dir,
-				double            &curv,
-				SPAunit_vector    &dir1,
-				double            &curv1,
-				SPApar_pos const  &para = *(SPApar_pos *)NULL_REF
-			) const;
-	
 /**
  * Finds the principal axes of the curvature of the surface at a given point.
  * <br><br>
@@ -873,16 +730,10 @@ public:
 	{
 		return surface::point_prin_curv( pos, param_guess );
 	}
-	 	surf_princurv gme_point_prin_curv(
-				SPAposition const &pos,
-				SPApar_pos const  &param_guess = *(SPApar_pos *)NULL_REF
-			) const;
-
 /**
  * Returns the inverse of the cone, with opposite normal.
  */
  	cone operator-() const;
-	cone gme_operator_substract() const;
 /**
  * Tests two surfaces for equality.
  * <br><br>
@@ -893,7 +744,6 @@ public:
  * surface name.
  */
  	virtual logical operator==( surface const &s_name ) const;
-	/*virtual*/ logical gme_operator_equal( surface const &s_name ) const;
 /**
  * Returns <tt>TRUE</tt> if the sine angle is negative.
  * <br><br>
@@ -904,21 +754,15 @@ public:
  * even in the cylinder case.
  */
  	logical positive() const {return sine_angle < 0;}
-	logical gme_positive() const;
 /**
  * Negates the cone.
  */
  	virtual surface &negate();
-	/*virtual*/ surface &gme_negate();
 /**
  * @nodoc
  * Internal use
  */
 	friend DECL_KERN cone operator*(
-				cone const &,
-				SPAtransf const &
-			);
-	friend DECL_KERN cone gme_operator_multiply(
 				cone const &,
 				SPAtransf const &
 			);
@@ -956,7 +800,6 @@ public:
  * transformation.
  */
  	virtual surface &operator*=( SPAtransf const &trans	);
-	/*virtual*/ surface &gme_operator_multiply_assign( SPAtransf const &trans	);
 /**
  * Returns <tt>TRUE</tt> if the cosine angle is small (less than 0.1 in absolute value).
  * <br><br>
@@ -964,7 +807,6 @@ public:
  * large half-angle.
  */
  	logical shallow() const {return fabs( cosine_angle ) < 0.1;}
-	logical gme_shallow() const; 
 /**
  * Saves the <tt>cone</tt>'s type and <tt>ellipse</tt> type, or <tt>cone_id</tt>, then calls <tt>cone::save_data</tt>.
  */
@@ -991,9 +833,6 @@ public:
  	virtual logical singular_u(
 					double u_para
 				) const;
-	 	/*virtual*/ logical gme_singular_u(
-					double u_para
-				) const;
 /**
  * Reports whether the surface parameterization is singular at the <i>v</i>-parameter value.
  * <br><br>
@@ -1006,9 +845,6 @@ public:
  * constant v-parameter.
  */
  	virtual logical singular_v(
-					double	v_para
-				) const;
-	 /*virtual*/ logical gme_singular_v(
 					double	v_para
 				) const;
 /**
@@ -1028,7 +864,6 @@ public:
  * Returns the sweep path type for a cone.
  */
      virtual sweep_path_type get_path_type() const {return straight_path_type; }
-	 /*virtual*/ sweep_path_type gme_get_path_type() const; 
 /**
  * Tests if a point lies on the surface to user-supplied precision.
  * <br><br>
@@ -1049,27 +884,18 @@ public:
 				SPApar_pos const  &param_guess = *(SPApar_pos *)NULL_REF,
 				SPApar_pos        &act_param = *(SPApar_pos *)NULL_REF
 			) const;
-	/*virtual*/ logical gme_test_point_tol(
-				SPAposition const &pt,
-				double            tol= 0,
-				SPApar_pos const  &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos        &act_param = *(SPApar_pos *)NULL_REF
-			) const;
 /**
  * Returns type code for surface,that is <tt>cone_type</tt>.
  */
  	virtual int type() const;
-	/*virtual*/ int gme_type() const;
 /**
  * Returns the string <tt>"cone"</tt>.
  */
  	virtual char const *type_name() const;
-	/*virtual*/ char const *gme_type_name() const;
 /**
  * Tests for uninitialized cone.
  */
  	virtual logical undef() const;
-	/*virtual*/ logical gme_undef() const;
 /**
  * Construct a parameter line on the surface.
  * <br><br>
@@ -1085,9 +911,6 @@ public:
  	virtual curve *u_param_line(
 				double	u_para
 			) const;
-	/*virtual*/ curve *gme_u_param_line(
-				double	u_para
-			) const;
 /**
  * Construct a parameter line on the surface.
  * <br><br>
@@ -1101,9 +924,6 @@ public:
  * constant v-parameter.
  */
  	virtual curve *v_param_line(
-				double	v_para
-			) const;
-	/*virtual*/ curve *gme_v_param_line(
 				double	v_para
 			) const;
 #if defined D3_STANDALONE || defined D3_DEBUG

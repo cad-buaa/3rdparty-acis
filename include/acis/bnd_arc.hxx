@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: 3dt2.1/geomhusk/bnd_arc.hxx */
+/* ORIGINAL: 3dt2.1/geomhusk/bnd_arc.hxx */
 // $Id: bnd_arc.hxx,v 1.6 2002/08/09 17:15:14 jeff Exp $
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -68,7 +68,7 @@ class DECL_KERN bounded_arc : public bounded_curve
  * <b>Role:</b> Requests memory for this object but does not populate it.
  */
     bounded_arc();
-    bounded_arc(const char* gme);
+
 // copy constructor
 /**
  * Constructs a <tt>bounded_arc</tt> from another one (copy constructor).
@@ -80,7 +80,7 @@ class DECL_KERN bounded_arc : public bounded_curve
  * bounded arc that is to be copied.
  */
     bounded_arc(const bounded_arc& b_arc);
-    bounded_arc(const char* gme, const bounded_arc& b_arc);
+
 // create a bounded_arc from an EDGE
 /**
  * Constructs a <tt>bounded_arc</tt> from an <tt>EDGE</tt> and a transform.
@@ -93,7 +93,7 @@ class DECL_KERN bounded_arc : public bounded_curve
  * transformation to be applied to the EDGE's CURVE.
  */
     bounded_arc(EDGE* edge, const SPAtransf* transf);
-    bounded_arc(const char* gme, EDGE* edge, const SPAtransf* transf);
+
 // Construct a bounded_arc given an ACIS curve and start and end parameters.
 /*
 // tbrv
@@ -102,7 +102,7 @@ class DECL_KERN bounded_arc : public bounded_curve
  * @nodoc
  */
     bounded_arc(const curve*, double, double);
-    bounded_arc(const char* gme, const curve*, double, double);
+
 //----------------------------------------------------------------------
 // Purpose---
 //    Create a bounded_arc which is a full circle given the center, radius,
@@ -123,12 +123,7 @@ class DECL_KERN bounded_arc : public bounded_curve
         double radius,
         const SPAunit_vector& normal
         );
-    bounded_arc(
-        const char* gme,
-        const SPAposition& center,
-        double radius,
-        const SPAunit_vector& normal
-        );
+
 //----------------------------------------------------------------------
 // Purpose---
 //    Create an arc or circle given a center point, SPAvector to start point,
@@ -167,15 +162,7 @@ class DECL_KERN bounded_arc : public bounded_curve
         double t1,                 // angle from major_axis to start point
 		double ratio = 1.0         // radius ratio
         );
-    bounded_arc(
-        const char* gme,
-        const SPAposition& center,    // center
-        const SPAunit_vector& normal, // normal SPAvector
-        const SPAvector& majax,       // SPAvector defining angle=0 axis and radius
-        double t0,                 // angle from major_axis to start point
-        double t1,                 // angle from major_axis to start point
-		double ratio = 1.0         // radius ratio
-        );
+
 //----------------------------------------------------------------------
 // Purpose---
 //    Create a bounded_arc which passes through 3 positions
@@ -205,13 +192,7 @@ class DECL_KERN bounded_arc : public bounded_curve
         const SPAposition& pt3,
         logical full
         );
-    bounded_arc(
-        const char* gme,
-        const SPAposition& pt1,
-        const SPAposition& pt2,
-        const SPAposition& pt3,
-        logical full
-        );
+
 //----------------------------------------------------------------------
 // Purpose---
 //    Create a bounded_arc given the center and two edge points
@@ -243,13 +224,7 @@ class DECL_KERN bounded_arc : public bounded_curve
         const SPAposition& pt2,
         const SPAunit_vector& normal
         );
-    bounded_arc(
-        const char* gme,
-        const SPAposition& center,
-        const SPAposition& pt1,
-        const SPAposition& pt2,
-        const SPAunit_vector& normal
-        );
+
 //----------------------------------------------------------------------
 // Purpose---
 //    Create a bounded_arc given two points on the diagonal
@@ -274,13 +249,7 @@ class DECL_KERN bounded_arc : public bounded_curve
         const SPAunit_vector& normal,
         logical full
         );
-    bounded_arc(
-        const char* gme,
-        const SPAposition& pt1,
-        const SPAposition& pt2,
-        const SPAunit_vector& normal,
-        logical full
-        );
+
 //======================================================================
 //
 // bounded_curve virtual methods

@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -10,9 +10,6 @@
 // definitions. It defines the base class for all types.
 // We provide a range of macros to declare and define a large number
 // of the standard member functions, used by most derived classes.
-
-// #define GME_KERN_LOSE
-
 #if !defined( ENTITY_CLASS )
 #define ENTITY_CLASS
 #include <stddef.h>
@@ -28,7 +25,6 @@
 #endif
 #include "bullsmal.hxx"
 #include "container.hxx"
-#include "interval.hxx"
 /**
  * \defgroup ACISTOPOLOGY Topology
  * \ingroup KERNAPI
@@ -1087,6 +1083,7 @@ DECL_KERN logical fix_entities_in_entity_array(restore_data& rd, int start_ent);
 class DECL_KERN ENTITY : public ACIS_OBJECT {
 
 private:
+//public:
 	friend int get_history_size(	HISTORY_STREAM *,
 									int &,
 									DELTA_STATE * );
@@ -1104,13 +1101,12 @@ private:
 	unknown_text_pointer text_ptr;
 
 	void destroy();
-    void gme_destroy();
 
 	virtual ENTITY *make_copy() const;
-	ENTITY* gme_make_copy() const;
+
 
 protected:
-
+//public:
     // Contains data used by the ENTITY that is not part of the roll.
 	// (The rollback pointer was moved into this object.)
 	/*
@@ -1153,7 +1149,6 @@ protected:
  * information to be restored into this argument.
  */
 	virtual void roll_notify( BULLETIN_TYPE bulletin_type, ENTITY * ent);
-    /*virtual*/ void gme_roll_notify( BULLETIN_TYPE bulletin_type, ENTITY * ent);
 
 	/**
 	 * @nodoc
@@ -1320,7 +1315,6 @@ public:
  * <b>Role:</b> For the <tt>ENTITY</tt> class, <tt>unknown</tt> is returned.
  */
 	virtual const char *type_name() const;
-	///*virtual*/ const char *gme_type_name() const;
 
 /**
  * Returns the size, in bytes, of this <tt>ENTITY</tt>.
@@ -1339,7 +1333,6 @@ public:
  * @nodoc
  */
 	unknown_entity_text* get_unknown_entity_text() const;
-	unknown_entity_text* gme_get_unknown_entity_text() const;
 
 /**
  * Prints the type and address of this <tt>ENTITY</tt>, roll back pointer, attributes, and any unknown subtype information.
@@ -1354,28 +1347,6 @@ public:
  * file pointer.
  */
 	virtual void debug_ent( FILE * file_pointer ) const;
-	void gme_debug_entity(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_body(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_lump(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_shell(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_subshell(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_face(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_wire(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_loop(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_coedge(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_edge(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_vertex(FILE* fp,ENTITY* ent,int tag = 0) const;
-	void gme_debug_transform(FILE* fp,ENTITY* ent) const;
-	void gme_debug_surface(FILE* fp,ENTITY* ent) const;
-	void gme_debug_param(FILE* fp,ENTITY* ent) const;
-	void gme_debug_param_range(FILE* fp,SPAinterval param) const;
-	void gme_debug_geometry(FILE* fp,ENTITY* ent) const;
-	void gme_debug_point(FILE* fp,ENTITY* ent) const;
-	void gme_debug_p(FILE* fp,ENTITY* ent) const;
-	void gme_debug_box(FILE* fp,SPAbox* box) const;
-	void gme_debug_uv_box(FILE* fp,SPApar_box* box) const;
-	void gme_debug_sense(FILE* fp,REVBIT sense) const;
-	void gme_debug_containment(FILE* fp,int cont_data) const;
 
 /**
  * Performs a save operation.
@@ -1518,19 +1489,12 @@ public:
 	 */
 	friend DECL_KERN logical is_ENTITY( const ENTITY * );
 
-	/**
-	 * @nodoc
-	 */
-	friend DECL_KERN logical is_ENTITY( const ENTITY * );
-
 /**
  * Posts a delete bulletin to the bulletin board indicating the instance is no longer used in the active model.
  * <br><br>
  * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
  */
 	virtual void lose();
-	 // #define GME_KERN_LOSE
-	/*virtual*/ void gme_lose();
 
 /**
  * Constructs an <tt>ENTITY</tt> from another <tt>ENTITY</tt> (copy constructor).
@@ -1544,7 +1508,6 @@ public:
  * the ENTITY to be copied.
  */
     ENTITY(const ENTITY& e);
-	ENTITY(const char* gme, const ENTITY& e);
 
 /**
  * Transfers data from another <tt>ENTITY</tt> to this <tt>ENTITY</tt> (assignment operator).
@@ -1570,7 +1533,6 @@ public:
      * @nodoc
      */
 	ENTITY();
-	ENTITY(const char* gme);
 
 
 	// Backup for rollback.  This just creates a duplicate record and a
@@ -1585,7 +1547,7 @@ public:
  * board. If not, the posting is done automatically. Called by all system change functions.
  */
 	ENTITY *backup();
-    ENTITY *gme_backup();
+
 
 	// Data reading routines.
 
@@ -1605,8 +1567,6 @@ public:
  * flag to assign a new tag number or not.
  */
     tag_id_type tag(logical assign_new = TRUE) const { return data_container.tag(this, assign_new); }
-	tag_id_type gme_tag(logical assign_new = TRUE) const;
-
 /**
  * Checks whether or not the record is already backed up.
  */
@@ -1632,13 +1592,11 @@ public:
 	 * @nodoc
 	 */
 	void set_proxy(entity_proxy* new_proxy);
-	void gme_set_proxy(entity_proxy* new_proxy);
 
 	/**
 	 * @nodoc
 	 */
 	entity_proxy* proxy() const;
-	entity_proxy* gme_proxy() const;
 
 	//
 	// DEBUG FUNCTIONS
@@ -1657,11 +1615,6 @@ public:
 	 */
 	virtual void debug_scheme( FILE *pFp, int Color ) const;
 
-	// 仅用于测试destroy()、gme_destroy()
-	void debug_destroy();
-	void debug_gme_destroy();
-	void get_data_container(entity_data_container*&, entity_data*&);
-	void set_data(entity_data*);
 
 	// Member setting functions.
 
@@ -1669,14 +1622,12 @@ public:
 private:
 
     void set_history(HISTORY_STREAM *hs) { data_container.set_history(this, hs); }
-	void gme_set_history(HISTORY_STREAM *hs);
     logical assign_tag(tag_id_type id) { return data_container.assign_tag(this, id); }
     int add_bulletin_count() { return data_container.add_bulletin_count(); }
     int remove_bulletin_count( logical clear_history ) 
     { 
         return data_container.remove_bulletin_count( this, clear_history ); 
     }
-	int gme_remove_bulletin_count( logical clear_history );
 
     // make fix_entities_in_entity_array a friend so that it can blow away tags
     // when restoring without history
@@ -1693,11 +1644,6 @@ private:
                                                                // tolerant (SPAresnor) comparisons between doubles.
                                                                // FALSE is used by BULLETIN::no_change().
                                                                // It requires exact matches when doing comparisons
-
-	logical gme_bulletin_no_change(ENTITY const* other,
-                               logical       ignore_attrib)
-                                                        const; 
-
 protected:
     // virtual function for comparing subclass data - called by bulletin_no_change
 /**
@@ -1722,11 +1668,6 @@ protected:
                                         // FALSE indicates tolerant compares and
                                         // returns FALSE as a default
 
-	/*virtual*/ logical gme_bulletin_no_change_vf(
-        const ENTITY* other,            
-        logical identical_comparator)   
-                                 const; 
-                                      
 protected:
 /**
  * Returns TRUE if this entity can have a pattern_holder. For internal use only.
@@ -1741,7 +1682,6 @@ public:
  * the new attribute.
  */
 	void set_attrib( ATTRIB * attr);
-	void gme_set_attrib( ATTRIB * attr);
 
 	// Identify the owner, if any, in the data structure of this
 	// entity. NULL indicates no owner or an unidentifiable one.
@@ -1753,7 +1693,6 @@ public:
  * Objects of the <tt>ENTITY</tt> base class have no identifiable owner.
  */
 	virtual ENTITY *owner() const;
-	// /*virtual*/ ENTITY *gme_owner() const;
 
 	// Indicate whether this entity is normally destroyed by lose(),
 	// or whether it is shared between multiple owners using a use
@@ -1769,7 +1708,6 @@ public:
  * returns <tt>TRUE</tt>.
  */
 	virtual logical deletable() const;
-	///*virtual*/ logical gme_deletable() const;
 
     // Indicate whether or not a pattern can be applied to this
     // entity.  The default is FALSE, so this needs to be overridden
@@ -2188,8 +2126,6 @@ public:
  * <b>Role:</b> The default implementation returns <tt>FALSE</tt>.
  */
 	virtual logical is_use_counted() const;
-	///*virtual*/ logical gme_is_use_counted() const;
-	/*@todo:经过测试，我们不调用该虚函数的情况下，acis却会调用该新增的虚函数，会导致异常，暂不清楚原因，因此直接重写原虚函数*/
 
 	// If the entity is use counted, add one to the count.  If the entity is
 	// not use counted, signal an error.
@@ -2206,8 +2142,6 @@ public:
  * <tt>ENTITYs</tt> implemented without the macros should implement these virtual methods manually.
  */
 	virtual void add( );
-	///*virtual*/ void gme_add( );
-	/*@todo:经过测试，我们不调用该虚函数的情况下，acis却会调用该新增的虚函数，会导致异常，暂不清楚原因，因此直接重写原虚函数*/
 
 	// If the entity is use counted, subtract one from the count and if the count
 	// goes to zero and lose_if_zero is set, lose the entity.  If the entity is not
@@ -2230,8 +2164,6 @@ public:
  * flag to lose the ENTITY when the use count drops to 0.
  */
 	virtual void remove( logical lose_if_zero = TRUE );
-	///*virtual*/ void gme_remove( logical lose_if_zero = TRUE );
-	/*@todo:经过测试，我们不调用该虚函数的情况下，acis却会调用该新增的虚函数，会导致异常，暂不清楚原因，因此直接重写原虚函数*/
 
 	// If the entity is use counted, get the count.  If not use counted, return zero.
 /**
@@ -2240,8 +2172,6 @@ public:
  * <b>Role:</b> Returns zero if the <tt>ENTITY</tt> is not use counted.
  */
 	virtual int  use_count() const;
-	///*virtual*/ int  gme_use_count() const;
-	/*@todo:经过测试，我们不调用该虚函数的情况下，acis却会调用该新增的虚函数，会导致异常，暂不清楚原因，因此直接重写原虚函数*/
 
 	// If the entity is use counted, set the count.  If not use counted, do nothing.
 /**
@@ -2253,8 +2183,6 @@ public:
  * new use count.
  */
 	virtual void set_use_count(int use );
-	///*virtual*/ void gme_set_use_count(int use );
-	/*@todo:经过测试，我们不调用该虚函数的情况下，acis却会调用该新增的虚函数，会导致异常，暂不清楚原因，因此直接重写原虚函数*/
 
 /**
  * Increments the <tt>SizeAccumulator</tt> by the size, in bytes, of everything owned by this 
@@ -2278,18 +2206,8 @@ public:
         void full_size(int&) const;   // This isn't returning an int since I don't want
 	                              // to have an overloaded function differ by return type
 	// STI ROLL
-	// 拷贝相关接口
-	public:
-	/*virtual*/ void gme_copy_scan(ENTITY_LIST& ent_list, SCAN_TYPE reason=SCAN_COPY, logical dpcpy_skip=0) const;
-	/*virtual*/ logical gme_is_deepcopyable() const;
-	/*virtual*/ ENTITY* gme_copy_data(ENTITY_LIST& ent_list, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY) const ;
-	/*virtual*/ void gme_fix_pointers(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY);
-	void gme_copy_common(ENTITY_LIST& ent_list, const ENTITY* in_ent, pointer_map* pm=NULL, logical dpcpy_skip=0, SCAN_TYPE reason=SCAN_COPY);
-	void gme_fix_common(ENTITY* ent_array[], SCAN_TYPE reason=SCAN_COPY); 
 
 	// STI jmb: end
-public:
-	void** get_attrib_ptr();
 };
 
 

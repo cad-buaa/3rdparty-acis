@@ -125,11 +125,6 @@ public:
  */
 	int hits_found;			// number of hits found
 
-/**
- * 射线代表的edge
- */
-        EDGE* edge_ray = nullptr;
-
 	// Construct a ray from a SPAposition and a SPAunit_vector and
 	// optional ray radius and maximum number of hits wanted.
 /**
@@ -146,8 +141,7 @@ public:
  */
 	ray( SPAposition const &pos, SPAunit_vector const &uv,
 		 double rad = 100.0 * SPAresabs, int hit= 0 );
-	ray( char const* gme, SPAposition const &pos, SPAunit_vector const &uv,
-        	 double rad = 100.0 * SPAresabs, int hit= 0 );
+
 	// Construct a ray as a copy of another ray.
 
 /**
@@ -157,13 +151,6 @@ public:
  * ray.
  */
 	ray( ray const &r );
-	ray( char const* gme, ray const &r );
-
-/**
- * C++ destructor.
- * <br><br>
- */
-      	~ray();
 
 /**
  * C++ assignment operator
@@ -310,17 +297,6 @@ public:
 		double u_or_t = DBL_MAX,
 		double v = DBL_MAX
 	);
-	hit
-	        (
-		char const* gme,
-	        ENTITY* inithit,
-	        hit_type type,
-	        double para,
-	        curve_surf_rel rel = curve_unknown,
-	        hit* npt = NULL,
-	        double u_or_t = DBL_MAX,
-	        double v = DBL_MAX
-	);
 
 	virtual ~hit();
 	// Print out details of the hit for information.
@@ -353,7 +329,6 @@ DECL_QUERY int enquire_hit_list( hit*, double& = *(double*)NULL_REF );
 * hit list to delete.
 **/
 DECL_QUERY void delete_hit_list( hit* list);
-DECL_QUERY void gme_delete_hit_list( hit* list);
 
 /*
 // tbrv
@@ -473,11 +448,6 @@ DECL_QUERY hit* raytest_face
 	ray& this_ray,					// ray
 	FACE* this_face					// target_face
 );
-DECL_QUERY hit* gme_raytest_face
-(
-	ray& this_ray,					// ray
-	FACE* this_face					// target_face
-);
 
 /**
  * Tests a ray against the given edge.
@@ -508,11 +478,6 @@ DECL_QUERY hit* raytest_edge
 	ray& this_ray,					// ray
 	EDGE* this_edge					// target_edge
 );
-DECL_QUERY hit* gme_raytest_edge
-(
-	ray& this_ray,					// ray
-	EDGE* this_edge					// target_edge
-);
 
 /*
 // tbrv
@@ -525,11 +490,7 @@ DECL_QUERY hit* raytest_vertex
 	ray&,					// ray
 	VERTEX*					// target_vertex
 );
-DECL_QUERY hit* gme_raytest_vertex
-(
-	ray&,					// ray
-	VERTEX*					// target_vertex
-);
+
 
 // Merge two already ordered lists of hits, truncate to wanted number
 // of hits, and update ray with number of hits and maximum SPAparameter.
@@ -540,13 +501,6 @@ DECL_QUERY hit* gme_raytest_vertex
  * @nodoc
  */
 DECL_QUERY hit* merge_hits
-(
-	hit*,				// first list
-	hit*,				// second list
-	ray&,
-	double tol = SPAresabs
-);
-DECL_QUERY hit* gme_merge_hits
 (
 	hit*,				// first list
 	hit*,				// second list
@@ -569,16 +523,12 @@ protected:
 	void*		_hit_object;
 	double		_u_or_t;	// If FACE, this is the _hit_object's surface u param. If EDGE, it's the edge t param.
 	double		_v;			// If FACE, this is the _hit_object's surface v param. If EDGE, it's DBL_MAX.
-
 public:
-	curve_surf_rel  _hit_type;
 	object_hit( double in_ray_param, void* in_entity = 0, double in_u_or_t = DBL_MAX, double in_v = DBL_MAX ) :
 		_ray_param( in_ray_param ), _hit_object( in_entity ), _u_or_t( in_u_or_t ), _v( in_v ) {};
 	object_hit();
 	object_hit( const object_hit& );
-	object_hit(const char* gme, const object_hit& );
 	object_hit &operator=( const object_hit& );
-	object_hit &gme_operator_assign(const object_hit& oh);
 	~object_hit() {};
 	const double hit_param() { return _ray_param; }
 	const double entity_u_or_t() { return _u_or_t; }
@@ -620,18 +570,6 @@ public:
 };
 
 /**
- * entity_hit_list中用到object_hit_array来存储entity_hit，但并未给出object_hit_array的定义。
- * 因此在此将object_hit_array定义成链表节点。
- * @see entity_hit_list
- */
-class object_hit_array : public ACIS_OBJECT
-{
-public:
-	entity_hit* hit;
-	object_hit_array *next;
-};
-
-/**
  * Represents a variable length, read-only list of entity_hit objects.
  * <br>
  * <b>Role:</b> This class provides the mechanism for returning ray hits
@@ -647,20 +585,11 @@ class DECL_QUERY entity_hit_list : public ACIS_OBJECT
 public:
 
 	entity_hit_list();
-	entity_hit_list(const char* gme);
 	~entity_hit_list();
-
-	void destroy();
-
 /**
  * Returns number of items in the entity_hit_list.
  */
 	int count() const;
-
-/**
- * 返回长度，当使用gme函数得到entity_hit_list时，请使用gme_count。
- */
-	int gme_count() const;
 
 /**
  * Returns a pointer to the ith item in the entity_hit_list.
@@ -669,11 +598,6 @@ public:
  * is forward order; that is, with increasing parameter values.
  */
        entity_hit* operator[](int i);
-
-/**
- * 对标[]操作符的函数，当使用gme函数得到entity_hit_list时，请使用at而不是[]
- */
-       entity_hit* at(int i);
 /**
  * The entity_hits returned by operator[] are in increasing parameter order.
  */
@@ -687,11 +611,6 @@ public:
  * @nodoc
  */
 	object_hit_array* get_impl() const;
-
-/**
- * 在末尾添加一个entity_hit，因为acis并未提供构造添加entity_hit的方法，因此创建此函数。
- */
-	void push_back( entity_hit* );
 };
 
 

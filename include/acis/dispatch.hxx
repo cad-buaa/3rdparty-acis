@@ -111,12 +111,9 @@
 #define THIS_FUNCTION(name) name2(THIS(), name)
 #define DECL_FUNCTION(lib)  name2(DECL_, lib)
 #else
-// #define THIS_FUNCTION(name) THIS()name
-// #define decl_() DECL_
-// #define DECL_FUNCTION(lib)  decl_()lib
-#define THIS_FUNCTION(name) CONCAT(THIS(), name)
+#define THIS_FUNCTION(name) THIS()name
 #define decl_() DECL_
-#define DECL_FUNCTION(lib)  CONCAT(DECL_, lib)
+#define DECL_FUNCTION(lib)  decl_()lib
 #endif
 #endif
 

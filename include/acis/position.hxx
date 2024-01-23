@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -53,7 +53,7 @@ class SPAposition;
  * double.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, double d);
-DECL_BASE SPAposition gme_operator_multiply(const  SPAposition &p, double d);
+
 /**
  * Returns the displacement (a vector) as the difference of two positions.
  * <br><br>
@@ -63,7 +63,7 @@ DECL_BASE SPAposition gme_operator_multiply(const  SPAposition &p, double d);
  * second position.
  */
 DECL_BASE SPAvector operator-( SPAposition const &p1, SPAposition const &p2 );
-DECL_BASE SPAvector gme_operator_substract(const  SPAposition &p1,const SPAposition  &p2 );
+
 /**
  * Translates a position by a vector.
  * <br><br>
@@ -73,7 +73,7 @@ DECL_BASE SPAvector gme_operator_substract(const  SPAposition &p1,const SPAposit
  * vector.
  */
 DECL_BASE SPAposition operator+( SPAposition const &p, SPAvector const &v );
-DECL_BASE SPAposition gme_operator_add(const  SPAposition &p,const  SPAvector &v );
+
 /**
  * Translates a position by a vector.
  * <br><br>
@@ -83,7 +83,7 @@ DECL_BASE SPAposition gme_operator_add(const  SPAposition &p,const  SPAvector &v
  * position.
  */
 DECL_BASE SPAposition operator+( SPAvector const &v, SPAposition const &p );
-DECL_BASE SPAposition gme_operator_add( const SPAvector &v, const SPAposition &p );
+
 /**
  * Translates a position by a vector.
  * <br><br>
@@ -93,7 +93,7 @@ DECL_BASE SPAposition gme_operator_add( const SPAvector &v, const SPAposition &p
  * vector.
  */
 DECL_BASE SPAposition operator-( SPAposition const &p, SPAvector const &v );
-DECL_BASE SPAposition gme_operator_substract( const SPAposition &p, const SPAvector &v );
+
 /**
  * Returns the cross product of a position with a unit vector.
  * <br><br>
@@ -103,7 +103,7 @@ DECL_BASE SPAposition gme_operator_substract( const SPAposition &p, const SPAvec
  * unit vector.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAunit_vector const &uv );
-DECL_BASE SPAposition gme_operator_multiply( const SPAposition &p, const SPAunit_vector &uv );
+
 /**
  * Returns the cross product of a unit vector with a position.
  * <br><br>
@@ -113,7 +113,7 @@ DECL_BASE SPAposition gme_operator_multiply( const SPAposition &p, const SPAunit
  * position.
  */
 DECL_BASE SPAposition operator*( SPAunit_vector const &uv, SPAposition const &p );
-DECL_BASE SPAposition gme_operator_multiply( SPAunit_vector const &uv, SPAposition const &p );
+
 /**
  * Transforms a position.
  * <br><br>
@@ -123,7 +123,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAunit_vector const &uv, SPApositi
  * position.
  */
 DECL_BASE SPAposition operator*( SPAmatrix const &m, SPAposition const &p );
-DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const &m, SPAposition const &p );
+
 /**
  * Transforms a position.
  * <br><br>
@@ -133,7 +133,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const &m, SPAposition con
  * affine transformation matrix.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAmatrix const &m );
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAmatrix const &m );
+
 /**
  * Transforms a position.
  * <br><br>
@@ -143,7 +143,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAmatrix con
  * transformation.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const &t );
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf const &t );
+
 /**
  * Transforms a position.
  * <br><br>
@@ -153,7 +153,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf con
  * transformation.
  */
 DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const *t );
-DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf const *t );
+
 /**
  * Interpolates between two positions.
  * <br><br>
@@ -175,7 +175,7 @@ DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAtransf con
  * second position (p2).
  **/
 DECL_BASE SPAposition interpolate( double param, SPAposition const &p1, SPAposition const &p2 );
-DECL_BASE SPAposition gme_interpolate( double param, SPAposition const &p1, SPAposition const &p2 );
+
 /**
  * Returns <tt>TRUE</tt> if the two positions are the same (i.e., they lie within the specified resolution or <tt>SPAresabs</tt>);
  * otherwise returns <tt>FALSE</tt>.
@@ -188,16 +188,6 @@ DECL_BASE SPAposition gme_interpolate( double param, SPAposition const &p1, SPAp
  * optional positional tolerance.
  */
 DECL_BASE logical same_point( SPAposition const&p1, SPAposition const&p2, const double res = SPAresabs);
-DECL_BASE logical gme_same_point( SPAposition const&p1, SPAposition const&p2, const double res = SPAresabs);
-
-
-/**
- * @brief 求两个点的中点
- * @return 返回两个参数的中点
- * @param p1 第一个点
- * @param p2 第二个点
-*/
-DECL_BASE SPAposition gme_mid_point( SPAposition const &p1, SPAposition const &p2);
 
 /** @} */
 /**
@@ -223,7 +213,7 @@ class DECL_BASE SPAposition {
  * @nodoc
  */
  	friend DECL_BASE SPAposition operator*( SPAposition const &p, double d);
-	friend DECL_BASE SPAposition gme_operator_multiply(const SPAposition &p, double d);
+
 public:
 
 	// Force creation of all positions to be by constructor.
@@ -239,6 +229,7 @@ public:
 #else
 		{}
 #endif
+
 
 	// Construct a SPAposition from three doubles.
 /**
@@ -259,6 +250,7 @@ public:
 		coord[ 2 ] = zi;
 	}
 
+
 	// Construct a SPAposition from an array of three doubles.
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
@@ -274,6 +266,7 @@ public:
 		coord[ 2 ] = p[ 2 ];
 	}
 
+
 	// Copy a SPAposition
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
@@ -286,6 +279,7 @@ public:
 		coord[ 1 ] = p.coord[ 1 ];
 		coord[ 2 ] = p.coord[ 2 ];
 	}
+
 	// MS IA64 Compiler bug
 #if (_MSC_VER == 1300) && defined(_WIN64)
 
@@ -310,7 +304,6 @@ public:
  */
 	inline double x() const
 		{ return coord[ 0 ]; }
-
 /**
  * Returns the y-coordinate value.
  */
@@ -321,6 +314,7 @@ public:
  */
 	inline double z() const
 		{ return coord[ 2 ]; }
+
 /**
  * Returns the ith component value.
  * <br><br>
@@ -333,19 +327,18 @@ public:
  */
 	inline double coordinate( int i ) const
 		{ return coord[ i ]; }
+
 	// Extract a coordinate value for update.
 /**
  * Extracts the x-coordinate value.
  */
 	inline double &x()
 		{ return coord[ 0 ]; }
-
 /**
  * Extracts the y-coordinate value.
  */
 	inline double &y()
 		{ return coord[ 1 ]; }
-
 /**
  * Extracts the z-coordinate value.
  */
@@ -380,7 +373,6 @@ public:
  * new y-coordinate value.
  */
  	inline void set_y( double new_y ) { coord[ 1 ] = new_y; }
-
 /**
  * Sets the z-coordinate value.
  * <br><br>
@@ -410,19 +402,18 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAvector operator-( SPAposition const &p1, SPAposition const &p2 );
-	friend DECL_BASE SPAvector gme_operator_substract( SPAposition const &p1, SPAposition const &p2 );
+
 
 	// Translate a SPAposition by a SPAvector.
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator+( SPAposition const &p, SPAvector const &v );
-	friend DECL_BASE SPAposition gme_operator_add( SPAposition const &p, SPAvector const &v );
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator+( SPAvector const &v, SPAposition const &p );
-	friend DECL_BASE SPAposition gme_operator_add( SPAvector const &v, SPAposition const &p );
+
 /**
  * Translates a position by a vector.
  * <br><br>
@@ -430,12 +421,12 @@ public:
  * vector.
  */
 	SPAposition const &operator+=( SPAvector const &v);
-	SPAposition const &gme_operator_add_assign( const SPAvector &v);
+
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator-( SPAposition const &p, SPAvector const &v );
-	friend DECL_BASE SPAposition gme_operator_substract( SPAposition const &p, SPAvector const &v );
+
 /**
  * Translates a position by a vector.
  * <br><br>
@@ -443,7 +434,7 @@ public:
  * vector.
  */
 	SPAposition const &operator-=( SPAvector const &v );
-	SPAposition const &gme_operator_sub_assign( const SPAvector &v );
+
 
 	// Scalar product of SPAposition with SPAvector.
 /**
@@ -470,12 +461,12 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAposition const &p, SPAunit_vector const &uv );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAunit_vector const &uv );
+
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAunit_vector const &uv, SPAposition const &p );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAunit_vector const &uv, SPAposition const &p );
+
 
 	// Transform a SPAposition.
 
@@ -483,12 +474,12 @@ public:
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAmatrix const &m, SPAposition const &p );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAmatrix const &m, SPAposition const &p );
+
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAposition const &p, SPAmatrix const &m );
-	friend DECL_BASE SPAposition gme_operator_multiply( SPAposition const &p, SPAmatrix const &m );
+
 /**
  * Transforms a vector by an affine transformation matrix.
  * <br><br>
@@ -496,17 +487,17 @@ public:
  * affine transformation matrix.
  */
 	SPAposition const &operator*=( SPAmatrix const & m);
-	SPAposition const &gme_operator_multiply_assign( SPAmatrix const & m);
+
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const &t );
-	friend DECL_BASE SPAposition gme_operator_multiply( const SPAposition &p, const SPAtransf  &t );
+
 /**
  * @nodoc
  */
 	friend DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const *t );
-	friend DECL_BASE SPAposition gme_operator_multiply( const SPAposition &p, const SPAtransf *t );
+
 /**
  * Transforms a position.
  * <br><br>
@@ -514,7 +505,7 @@ public:
  * transformation.
  */
 	SPAposition const &operator*=( SPAtransf const &t );
-	SPAposition const &gme_operator_multiply_assign( SPAtransf const &t );
+
 
 	// Interpolate between two positions. The parameter gives the
 	// proportion of the segment between p1 and p2. In fact, the
@@ -526,8 +517,7 @@ public:
  */
 	friend DECL_BASE SPAposition interpolate( double param,
 						SPAposition const &p1, SPAposition const &p2 );
-	friend DECL_BASE SPAposition gme_interpolate( double param,
-						SPAposition const &p1, SPAposition const &p2 );
+
 	// STI let: add some general functions
 
 	// Determine if 2 positions are equal, given some resolution
@@ -536,8 +526,6 @@ public:
  * @nodoc
  */
 	friend DECL_BASE logical same_point( SPAposition const &p1, SPAposition const &p2,
-		const double res );
-	friend DECL_BASE logical gme_same_point( SPAposition const &p1, SPAposition const &p2,
 		const double res );
 
 	// Output details of a SPAposition.
@@ -548,7 +536,7 @@ public:
  * output file.
  */
 	void debug( FILE * fp = debug_file_ptr ) const;
-	void gme_debug( FILE * fp = debug_file_ptr ) const;
+
 /**
  * Concatenates the information about the position to the passed string.
  * <br><br>
@@ -556,7 +544,7 @@ public:
  * given string.
  */
 	void debug_str(char * strP) const;
-	void gme_debug_str(char * strP) const;
+
 };
 /** @} */
 /**
@@ -612,7 +600,7 @@ inline logical operator!=( SPAposition const &p1, SPAposition const &p2 )
  * @nodoc
  */
 void DECL_BASE debug_scheme_pos( FILE *pFp, int Color, SPAposition const &Pos );
-void DECL_BASE gme_debug_scheme_pos( FILE *pFp, int Color, SPAposition const &Pos );
+
 // writes a segment represented by two endpoints into a file as a scheme command for visualization
 // [in] pFp   - the file to write
 // [in] Color - color of the entity drawn
@@ -623,7 +611,7 @@ void DECL_BASE gme_debug_scheme_pos( FILE *pFp, int Color, SPAposition const &Po
  * @nodoc
  */
 void DECL_BASE debug_scheme_segment( FILE *pFp, int Color, SPAposition const &P0, SPAposition const &P1 );
-void DECL_BASE gme_debug_scheme_segment( FILE *pFp, int Color, SPAposition const &P0, SPAposition const &P1 );
+
 /** @} */
 #endif
 
