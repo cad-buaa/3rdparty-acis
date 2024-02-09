@@ -1,4 +1,4 @@
-/* ORIGINAL: acis2.1/kerndata/geom/torus.hxx */
+﻿/* ORIGINAL: acis2.1/kerndata/geom/torus.hxx */
 /* $Id: torus.hxx,v 1.13 2002/08/09 17:15:18 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -32,17 +32,15 @@
 // encloses all but a finite region) if the minor radius is negative.
 // The minor radius may not be zero.
 
-
 #ifndef TORUS_CLASS
 #define TORUS_CLASS
 
 #include "dcl_kern.h"
 #include "surface.hxx"
-
 #include "tordef.hxx"
 
 /**
-* @file torus.hxx
+ * @file torus.hxx
  * @CAA2Level L1
  * @CAA2Usage U1
  * \addtogroup ACISGEOMETRICENTITIES
@@ -57,24 +55,21 @@ class SPAbox;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE( TORUS, KERN )
+ENTITY_IS_PROTOTYPE(TORUS, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
-
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
 
 extern DECL_KERN int TORUS_TYPE;
 
-
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY.
  */
 #define TORUS_LEVEL 2
-
 
 // TORUS declaration proper.
 /**
@@ -102,93 +97,91 @@ extern DECL_KERN int TORUS_TYPE;
  * the entity is deleted.
  * @see torus
  */
-class DECL_KERN TORUS: public SURFACE {
+class DECL_KERN TORUS : public SURFACE {
+    // Record a TORUS as a torus.
 
-	// Record a TORUS as a torus.
+    torus def;
 
-	torus def;
+    // STI ROLL begin - added virtual compare function for api_get_modified_faces
 
-
-// STI ROLL begin - added virtual compare function for api_get_modified_faces
-protected:
-/**
- * Virtual function for comparing subclass data - called by <tt>bulletin_no_change</tt>.
- * <br><br>
- * <b>Role:</b> For identical_comparator to be <tt>TRUE</tt> requires an exact match
- * when comparing doubles, and returns the result of memcmp as a default (for
- * non-overridden subclasses). <tt>FALSE</tt> indicates tolerant compares and returns
- * <tt>FALSE</tt> as a default.
- * <br><br>
- * @param other
- * other entity.
- * @param identical_comparator
- * comparator.
- */
+  protected:
+    /**
+     * Virtual function for comparing subclass data - called by <tt>bulletin_no_change</tt>.
+     * <br><br>
+     * <b>Role:</b> For identical_comparator to be <tt>TRUE</tt> requires an exact match
+     * when comparing doubles, and returns the result of memcmp as a default (for
+     * non-overridden subclasses). <tt>FALSE</tt> indicates tolerant compares and returns
+     * <tt>FALSE</tt> as a default.
+     * <br><br>
+     * @param other
+     * other entity.
+     * @param identical_comparator
+     * comparator.
+     */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-// STI ROLL end
+    // STI ROLL end
 
-	// Include the standard member functions for all entities.
+    // Include the standard member functions for all entities.
 
-	/**
-	 * @nodoc
-	 */
-	ENTITY_FUNCTIONS( TORUS , KERN)
+    /**
+     * @nodoc
+     */
+    ENTITY_FUNCTIONS(TORUS, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
-// explicitly here:
-public:
+    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
+    // explicitly here:
 
+  public:
+    // Now the functions specific to TORUS.
 
-	// Now the functions specific to TORUS.
+    // Make a bare TORUS to be filled in later.
+    /**
+     * Constructs a <tt>TORUS</tt> (default constructor).
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object but does not populate it. The
+     * allocation constructor is used primarily by restore. Applications should call
+     * this constructor only with the overloaded <tt>new</tt> operator, because this
+     * reserves the memory on the heap, a requirement to support roll back and history
+     * management.
+     */
+    TORUS();
 
-	// Make a bare TORUS to be filled in later.
-/**
- * Constructs a <tt>TORUS</tt> (default constructor).
- * <br><br>
- * <b>Role:</b> Requests memory for this object but does not populate it. The
- * allocation constructor is used primarily by restore. Applications should call
- * this constructor only with the overloaded <tt>new</tt> operator, because this
- * reserves the memory on the heap, a requirement to support roll back and history
- * management.
- */
-	TORUS();
+    // Create a TORUS centred on a given SPAposition and with
+    // given normal and radii.
+    /**
+     * Constructs a <tt>TORUS</tt> with specified center, normal, major radius, and minor radius.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as arguments. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param center
+     * center of the constructed TORUS.
+     * @param normal
+     * normal to the constructed TORUS.
+     * @param major_radius
+     * major radius of the constructed TORUS.
+     * @param minor_radius
+     * minor radius of the constructed TORUS.
+     */
+    TORUS(const SPAposition& center, const SPAunit_vector& normal, double major_radius, double minor_radius);
 
-	// Create a TORUS centred on a given SPAposition and with
-	// given normal and radii.
-/**
- * Constructs a <tt>TORUS</tt> with specified center, normal, major radius, and minor radius.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as arguments. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param center
- * center of the constructed TORUS.
- * @param normal
- * normal to the constructed TORUS.
- * @param major_radius
- * major radius of the constructed TORUS.
- * @param minor_radius
- * minor radius of the constructed TORUS.
- */
-	TORUS( const SPAposition &center, const SPAunit_vector &normal, double major_radius, double minor_radius);
-
-	// Create a TORUS from a torus.
-/**
- * Constructs a <tt>TORUS</tt> from the specified torus.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as the argument. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param tor
- * torus to be wrapped by the constructed TORUS.
- */
-	TORUS( const torus &tor );
+    // Create a TORUS from a torus.
+    /**
+     * Constructs a <tt>TORUS</tt> from the specified torus.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as the argument. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param tor
+     * torus to be wrapped by the constructed TORUS.
+     */
+    TORUS(const torus& tor);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -235,173 +228,168 @@ public:
     void restore_common();
 #endif
 
-	// Data reading routines.
+    // Data reading routines.
 
-/**
- * Returns the center position of this <tt>TORUS</tt>.
- */
-	const SPAposition &centre() const { return def.centre; }
-/**
- * Returns the normal vector of this <tt>TORUS</tt>.
- */
-	const SPAunit_vector &normal() const { return def.normal; }
-/**
- * Returns the major radius of this <tt>TORUS</tt>.
- */
-	double major_radius() const { return def.major_radius; }
-/**
- * Returns the minor radius of this <tt>TORUS</tt>.
- */
-	double minor_radius() const { return def.minor_radius; }
+    /**
+     * Returns the center position of this <tt>TORUS</tt>.
+     */
+    const SPAposition& centre() const { return def.centre; }
+    /**
+     * Returns the normal vector of this <tt>TORUS</tt>.
+     */
+    const SPAunit_vector& normal() const { return def.normal; }
+    /**
+     * Returns the major radius of this <tt>TORUS</tt>.
+     */
+    double major_radius() const { return def.major_radius; }
+    /**
+     * Returns the minor radius of this <tt>TORUS</tt>.
+     */
+    double minor_radius() const { return def.minor_radius; }
 
-	// Data changing routines.  Each of these routines checks
-	// that the record has been posted on the bulletin-board before
-	// performing the change.  If not, the routine provokes an error,
-	// so that the omission (forgetting to call backup() first) can
-	// be rectified in the program.  In production versions of the
-	// program, these checks may be disabled, to improve efficiency.
+    // Data changing routines.  Each of these routines checks
+    // that the record has been posted on the bulletin-board before
+    // performing the change.  If not, the routine provokes an error,
+    // so that the omission (forgetting to call backup() first) can
+    // be rectified in the program.  In production versions of the
+    // program, these checks may be disabled, to improve efficiency.
 
-/**
- * Sets this <tt>TORUS's</tt> center point to the given position.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param center
- * the new center.
- */
-	void set_centre( const SPAposition &center );
-/**
- * Sets this <tt>TORUS's</tt> normal to the given unit vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param normal
- * the new normal.
- */
-	void set_normal( const SPAunit_vector &normal );
-/**
- * Sets this <tt>TORUS's</tt> major radius to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param major_radius
- * the new major radius.
- */
-	void set_major_radius( double major_radius);
-/**
- * Sets this <tt>TORUS's</tt> minor radius to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param minor_radius
- * the new minor radius.
- */
-	void set_minor_radius( double minor_radius);
+    /**
+     * Sets this <tt>TORUS's</tt> center point to the given position.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param center
+     * the new center.
+     */
+    void set_centre(const SPAposition& center);
+    /**
+     * Sets this <tt>TORUS's</tt> normal to the given unit vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param normal
+     * the new normal.
+     */
+    void set_normal(const SPAunit_vector& normal);
+    /**
+     * Sets this <tt>TORUS's</tt> major radius to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param major_radius
+     * the new major radius.
+     */
+    void set_major_radius(double major_radius);
+    /**
+     * Sets this <tt>TORUS's</tt> minor radius to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param minor_radius
+     * the new minor radius.
+     */
+    void set_minor_radius(double minor_radius);
 
-	// Return the surface equation for reading only.
-/**
- * Returns the surface equation of this <tt>TORUS</tt>, for reading only.
- */
-	const surface &equation() const;
+    // Return the surface equation for reading only.
+    /**
+     * Returns the surface equation of this <tt>TORUS</tt>, for reading only.
+     */
+    const surface& equation() const;
 
-	// Return the surface equation, checking first for backup.
-/**
- * Returns the surface equation for update operations.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- */
-	surface &equation_for_update();
+    // Return the surface equation, checking first for backup.
+    /**
+     * Returns the surface equation for update operations.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     */
+    surface& equation_for_update();
 
-	// Get a new (lower-case) surface being the torus of the TORUS,
-	// transformed if the given SPAtransf is non-null and reversed
-	// in sense if the logical is true.
-/**
- * Returns the transformed surface equation of this <tt>TORUS</tt>.
- * <br><br>
- * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the surface is reversed.
- * <br><br>
- * @param t
- * transform to apply.
- * @param negate
- * flag to reverse the surface.
- */
-	surface *trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
+    // Get a new (lower-case) surface being the torus of the TORUS,
+    // transformed if the given SPAtransf is non-null and reversed
+    // in sense if the logical is true.
+    /**
+     * Returns the transformed surface equation of this <tt>TORUS</tt>.
+     * <br><br>
+     * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the surface is reversed.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     * @param negate
+     * flag to reverse the surface.
+     */
+    surface* trans_surface(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
 
-	// Transform the stored torus in place.
-/**
- * Transforms this <tt>TORUS</tt>.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param t
- * transform to apply.
- */
-	void operator*=( const SPAtransf &t );
+    // Transform the stored torus in place.
+    /**
+     * Transforms this <tt>TORUS</tt>.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     */
+    void operator*=(const SPAtransf& t);
 
-	// Construct a SPAbox containing a face on the TORUS bounded by the
-	// given LOOP list.
+    // Construct a SPAbox containing a face on the TORUS bounded by the
+    // given LOOP list.
 
-	// wseibold (Feb`02) added argument to compute tighter bounding boxes
-/**
- * Returns a bounding box for this <tt>TORUS</tt>.
- * <br><br>
- * <b>Role:</b> Returns a <tt>SPAbox</tt> bounding the complete surface.  If 
- * tight_box is TRUE, then a tighter box bounding the supplied <tt>LOOP</tt> 
- * list is computed.  If untransformed_box is supplied, it will be expanded 
- * to include the untransformed box just computed.
- * <br><br>
- * @param loop
- * list of <tt>LOOP<tt>s on the surface
- * @param t
- * transform to apply to the box
- * @param tight_box
- * flag to compute a tighter box
- * @param untransformed_box
- * accumulating box
- */
-	SPAbox make_box( LOOP *loop = NULL, // STL amt 26Jun03: default value added
-			const SPAtransf *t = NULL,
-			logical tight_box = FALSE,
-			SPAbox *untransformed_box = NULL) const;
+    // wseibold (Feb`02) added argument to compute tighter bounding boxes
+    /**
+     * Returns a bounding box for this <tt>TORUS</tt>.
+     * <br><br>
+     * <b>Role:</b> Returns a <tt>SPAbox</tt> bounding the complete surface.  If
+     * tight_box is TRUE, then a tighter box bounding the supplied <tt>LOOP</tt>
+     * list is computed.  If untransformed_box is supplied, it will be expanded
+     * to include the untransformed box just computed.
+     * <br><br>
+     * @param loop
+     * list of <tt>LOOP<tt>s on the surface
+     * @param t
+     * transform to apply to the box
+     * @param tight_box
+     * flag to compute a tighter box
+     * @param untransformed_box
+     * accumulating box
+     */
+    SPAbox make_box(LOOP* loop = NULL,  // STL amt 26Jun03: default value added
+                    const SPAtransf* t = NULL, logical tight_box = FALSE, SPAbox* untransformed_box = NULL) const;
 
     // STI swa 19Jul02 - New method for detection of clash with SPAbox.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-    logical box_clash(const SPAbox &test_box,
-                      const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
-                      double tol = SPAresabs) const;
+    /*
+    // tbrv
+    */
+    /**
+     * @nodoc
+     */
+    logical box_clash(const SPAbox& test_box, const SPAtransf& surf_transf = *(SPAtransf*)NULL_REF, double tol = SPAresabs) const;
 
     // STI ROLL
-/**
- * @nodoc
- */
-	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
+    /**
+     * @nodoc
+     */
+    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
     // STI ROLL
 
-	// lookup is done using SURFACE::lookup()
-	// int lookup( logical ) const;
+    // lookup is done using SURFACE::lookup()
+    // int lookup( logical ) const;
+
+  public:
+    // SHIVELINO: acisadaptor module add.
+    torus get_def();
 };
-
-
 
 /** @} */
 #endif

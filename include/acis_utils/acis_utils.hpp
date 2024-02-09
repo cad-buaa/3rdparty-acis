@@ -7,14 +7,15 @@
  * \file   acis_utils.cpp
  * \brief  ACIS环境初始化和结束函数
  *********************************************************************/
+#pragma once
 
+#include "acis/acistype.hxx"
+#include "acis/bulletin.hxx"
 #include "acis/kernapi.hxx"
 #include "acis/license.hxx"
-#include "acis/bulletin.hxx"
 #include "acis/spa_unlock_result.hxx"
 #include "spatial_license.h"
-#include "acis/acistype.hxx"
-//#include "gme/kernel/gme_kernel.hxx"
+// #include "gme/kernel/gme_kernel.hxx"
 #include <string>
 
 static inline void unlock_license() {
@@ -45,12 +46,12 @@ static inline int initialize_acis() {
 
 #if(defined(GME_KERN_API) && !defined(GME_BASE_OPTION))
     // 关闭annotation的生成(目前未实现)
-    option_header* annotations_option = find_option("annotations" );
+    option_header* annotations_option = find_option("annotations");
     annotations_option->push(FALSE);
 #endif
 
-    //gme_set_logging(true);
-    //gme_set_default_stream(get_default_stream());
+    // gme_set_logging(true);
+    // gme_set_default_stream(get_default_stream());
     return level;
 }
 
@@ -74,15 +75,15 @@ static inline int initialize_acis_debug() {
     }
     if(level < 3) unlock_license();
 
-    //gme_set_logging(true);
-    //gme_set_default_stream(get_default_stream());
+    // gme_set_logging(true);
+    // gme_set_default_stream(get_default_stream());
     return level;
 }
 
 static inline void terminate_acis(int level) {
-    //gme_set_logging(false);
-    //gme_set_default_stream(nullptr);
-    //gme_null_stream_root();
+    // gme_set_logging(false);
+    // gme_set_default_stream(nullptr);
+    // gme_null_stream_root();
 
     // 终止ACIS
     if(level > 1) {

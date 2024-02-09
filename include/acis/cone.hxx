@@ -1,4 +1,4 @@
-/* ORIGINAL: acis2.1/kerndata/geom/cone.hxx */
+﻿/* ORIGINAL: acis2.1/kerndata/geom/cone.hxx */
 /* $Id: cone.hxx,v 1.13 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -41,17 +41,15 @@
 // The surface stops at the apex (if any) - i.e. this surface type
 // does not represent a double cone.
 
-
 #ifndef CONE_CLASS
 #define CONE_CLASS
 
+#include "condef.hxx"
 #include "dcl_kern.h"
 #include "surface.hxx"
 
-#include "condef.hxx"
-
 /**
-* @file cone.hxx
+ * @file cone.hxx
  * @CAA2Level L1
  * @CAA2Usage U1
  * \addtogroup ACISGEOMETRICENTITIES
@@ -68,11 +66,10 @@ class SPAbox;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE( CONE, KERN )
+ENTITY_IS_PROTOTYPE(CONE, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
-
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
@@ -84,13 +81,11 @@ ENTITY_IS_PROTOTYPE( CONE, KERN )
  */
 extern DECL_KERN int CONE_TYPE;
 
-
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY.
  */
 #define CONE_LEVEL 2
-
 
 // CONE declaration proper.
 /**
@@ -113,96 +108,92 @@ extern DECL_KERN int CONE_TYPE;
  * and after the use count returns to 0, the entity is deleted.
  * @see cone
  */
-class DECL_KERN CONE: public SURFACE {
+class DECL_KERN CONE : public SURFACE {
+    // Record a CONE as a cone.
 
-	// Record a CONE as a cone.
+    cone def;
 
-	cone def;
+    // STI ROLL begin - added virtual compare function for api_get_modified_faces
 
-// STI ROLL begin - added virtual compare function for api_get_modified_faces
-protected:
-/**
- * @nodoc
- */
+  protected:
+    /**
+     * @nodoc
+     */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-// STI ROLL end
+    // STI ROLL end
 
-	// Include the standard member functions for all entities.
+    // Include the standard member functions for all entities.
 
-	/**
-	 * @nodoc
-	 */
-	ENTITY_FUNCTIONS( CONE , KERN)
+    /**
+     * @nodoc
+     */
+    ENTITY_FUNCTIONS(CONE, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
-// explicitly here:
-public:
+    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
+    // explicitly here:
 
-	// Now the functions specific to CONE.
+  public:
+    // Now the functions specific to CONE.
 
-	// Make a CONE to be filled in later.
-/**
- * Constructs a <tt>CONE</tt> (default constructor).
- * <br><br>
- * <b>Role:</b> Requests memory for this object but does not populate it. The
- * allocation constructor is used primarily by restore. Applications should call
- * this constructor only with the overloaded <tt>new</tt> operator, because this
- * reserves the memory on the heap, a requirement to support roll back and history
- * management.
- */
-	CONE();
+    // Make a CONE to be filled in later.
+    /**
+     * Constructs a <tt>CONE</tt> (default constructor).
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object but does not populate it. The
+     * allocation constructor is used primarily by restore. Applications should call
+     * this constructor only with the overloaded <tt>new</tt> operator, because this
+     * reserves the memory on the heap, a requirement to support roll back and history
+     * management.
+     */
+    CONE();
 
-	// Make a cone with axis through given SPAposition and along given
-	// unit SPAvector.  The SPAvector specifies the radius of the cone in
-	// the plane normal to its axis and through the axis SPAposition.
-	// The remaining reals are for the radius ratio of its
-	// cross-sectional ellipse, and the sine and cosine of the cone
-	// half-angle.
-/**
- * Constructs a <tt>CONE</tt> with specified center, normal, major axis, radius ratio, and half-angle.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as argumenta. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param center
- * center of the constructed CONE.
- * @param normal
- * normal (axis) of the constructed CONE.
- * @param major_axis
- * major axis of the constructed CONE's base.
- * @param radius_ratio
- * radius ratio of the constructed CONE.
- * @param sine_angle
- * sine of the constructed CONE's half-angle.
- * @param cos_angle
- * cosine of the constructed CONE's half-angle.
- */
-	CONE(
-			const SPAposition &center,
-			const SPAunit_vector &normal,
-			const SPAvector &major_axis,
-			double radius_ratio = 1,		// default to circular cone
-			double sine_angle = 0,		// default to cylinder
-			double cos_angle = 1
-		);
+    // Make a cone with axis through given SPAposition and along given
+    // unit SPAvector.  The SPAvector specifies the radius of the cone in
+    // the plane normal to its axis and through the axis SPAposition.
+    // The remaining reals are for the radius ratio of its
+    // cross-sectional ellipse, and the sine and cosine of the cone
+    // half-angle.
+    /**
+     * Constructs a <tt>CONE</tt> with specified center, normal, major axis, radius ratio, and half-angle.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as argumenta. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param center
+     * center of the constructed CONE.
+     * @param normal
+     * normal (axis) of the constructed CONE.
+     * @param major_axis
+     * major axis of the constructed CONE's base.
+     * @param radius_ratio
+     * radius ratio of the constructed CONE.
+     * @param sine_angle
+     * sine of the constructed CONE's half-angle.
+     * @param cos_angle
+     * cosine of the constructed CONE's half-angle.
+     */
+    CONE(const SPAposition& center, const SPAunit_vector& normal, const SPAvector& major_axis,
+         double radius_ratio = 1,  // default to circular cone
+         double sine_angle = 0,    // default to cylinder
+         double cos_angle = 1);
 
-	// Make a CONE from a cone.
-/**
- * Constructs a <tt>CONE</tt> from the specified cone.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as the argument. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param c
- * cone to be wrapped by the constructed CONE.
- */
-	CONE( const cone &c );
+    // Make a CONE from a cone.
+    /**
+     * Constructs a <tt>CONE</tt> from the specified cone.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as the argument. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param c
+     * cone to be wrapped by the constructed CONE.
+     */
+    CONE(const cone& c);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -253,181 +244,177 @@ public:
     void restore_common();
 #endif
 
-	// Data reading routines.
+    // Data reading routines.
 
-/**
- * Returns the center of the ellipse defining this <tt>CONE</tt>.
- */
-	const SPAposition &root_point() const { return def.base.centre; }
-/**
- * Returns the normal to the plane of the ellipse defining this <tt>CONE</tt>, i.e., the cone axis.
- */
-	const SPAunit_vector &direction() const { return def.base.normal; }
-/**
- * Returns the major axis of the ellipse defining this <tt>CONE</tt>.
- */
-	const SPAvector &major_axis() const { return def.base.major_axis; }
-/**
- * Returns the ratio of the minor-axis length to the major-axis length of the ellipse defining this <tt>CONE</tt>.
- */
-	double radius_ratio() const { return def.base.radius_ratio; }
-/**
- * Returns the sine of the half-angle defining this <tt>CONE</tt>.
- */
-	double sine_angle() const { return def.sine_angle; }
-/**
- * Returns the cosine of the half-angle defining this <tt>CONE</tt>.
- */
-	double cosine_angle() const { return def.cosine_angle; }
+    /**
+     * Returns the center of the ellipse defining this <tt>CONE</tt>.
+     */
+    const SPAposition& root_point() const { return def.base.centre; }
+    /**
+     * Returns the normal to the plane of the ellipse defining this <tt>CONE</tt>, i.e., the cone axis.
+     */
+    const SPAunit_vector& direction() const { return def.base.normal; }
+    /**
+     * Returns the major axis of the ellipse defining this <tt>CONE</tt>.
+     */
+    const SPAvector& major_axis() const { return def.base.major_axis; }
+    /**
+     * Returns the ratio of the minor-axis length to the major-axis length of the ellipse defining this <tt>CONE</tt>.
+     */
+    double radius_ratio() const { return def.base.radius_ratio; }
+    /**
+     * Returns the sine of the half-angle defining this <tt>CONE</tt>.
+     */
+    double sine_angle() const { return def.sine_angle; }
+    /**
+     * Returns the cosine of the half-angle defining this <tt>CONE</tt>.
+     */
+    double cosine_angle() const { return def.cosine_angle; }
 
+    // Data changing routines.  Each of these routines checks
+    // that the record has been posted on the bulletin-board before
+    // performing the change.  If not, the routine provokes an error,
+    // so that the omission (forgetting to call backup() first) can
+    // be rectified in the program.  In production versions of the
+    // program, these checks may be disabled, to improve efficiency.
 
-	// Data changing routines.  Each of these routines checks
-	// that the record has been posted on the bulletin-board before
-	// performing the change.  If not, the routine provokes an error,
-	// so that the omission (forgetting to call backup() first) can
-	// be rectified in the program.  In production versions of the
-	// program, these checks may be disabled, to improve efficiency.
+    /**
+     * Sets this <tt>CONE</tt>'s root point to the given position.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param center
+     * the new root point.
+     */
+    void set_root_point(const SPAposition& center);
+    /**
+     * Sets this <tt>CONE</tt>'s direction to the given unit vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param normal
+     * the new direction.
+     */
+    void set_direction(const SPAunit_vector& normal);
+    /**
+     * Sets this <tt>CONE</tt>'s major axis to the given vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param major_axis
+     * the new major axis.
+     */
+    void set_major_axis(const SPAvector& major_axis);
+    /**
+     * Sets this <tt>CONE</tt>'s major-to-minor radius ratio to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param radius_ratio
+     * the new radius ratio.
+     */
+    void set_radius_ratio(double radius_ratio);
+    /**
+     * Sets the sine of this <tt>CONE</tt>'s half-angle to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param sine_angle
+     * the new sine angle.
+     */
+    void set_sine_angle(double sine_angle);
+    /**
+     * Sets the cosine of this <tt>CONE</tt>'s half-angle to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param cosine_angle
+     * the new cosine angle.
+     */
+    void set_cosine_angle(double cosine_angle);
 
-/**
- * Sets this <tt>CONE</tt>'s root point to the given position.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param center
- * the new root point.
- */
-	void set_root_point( const SPAposition &center );
-/**
- * Sets this <tt>CONE</tt>'s direction to the given unit vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param normal
- * the new direction.
- */
-	void set_direction( const SPAunit_vector &normal );
-/**
- * Sets this <tt>CONE</tt>'s major axis to the given vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param major_axis
- * the new major axis.
- */
-	void set_major_axis( const SPAvector &major_axis );
-/**
- * Sets this <tt>CONE</tt>'s major-to-minor radius ratio to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param radius_ratio
- * the new radius ratio.
- */
-	void set_radius_ratio( double radius_ratio);
-/**
- * Sets the sine of this <tt>CONE</tt>'s half-angle to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param sine_angle
- * the new sine angle.
- */
-	void set_sine_angle( double sine_angle);
-/**
- * Sets the cosine of this <tt>CONE</tt>'s half-angle to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param cosine_angle
- * the new cosine angle.
- */
-	void set_cosine_angle( double cosine_angle);
+    // Return the cone equation, for read only.
+    /**
+     * Returns the <tt>surface</tt> equation of this <tt>CONE</tt>, for reading only.
+     */
+    const surface& equation() const;
 
+    // Return the cone equation, checking for backup first.
+    /**
+     * Returns the <tt>surface</tt> equation for update operations.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     */
+    surface& equation_for_update();
 
-	// Return the cone equation, for read only.
-/**
- * Returns the <tt>surface</tt> equation of this <tt>CONE</tt>, for reading only.
- */
-	const surface &equation() const;
+    // Get a new (lower-case) surface being the cone of the CONE,
+    // transformed if the given SPAtransf is non-null and reversed
+    // in sense if the logical is true.
+    /**
+     * Returns the transformed <tt>surface</tt> equation of this <tt>CONE</tt>.
+     * <br><br>
+     * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the <tt>surface</tt> is reversed.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     * @param negate
+     * flag to reverse the surface.
+     */
+    surface* trans_surface(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
 
-	// Return the cone equation, checking for backup first.
-/**
- * Returns the <tt>surface</tt> equation for update operations.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- */
-	surface &equation_for_update();
+    // Transform the stored cone in place.
+    /**
+     * Transforms this <tt>CONE</tt>.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     */
+    void operator*=(const SPAtransf& t);
 
-
-	// Get a new (lower-case) surface being the cone of the CONE,
-	// transformed if the given SPAtransf is non-null and reversed
-	// in sense if the logical is true.
-/**
- * Returns the transformed <tt>surface</tt> equation of this <tt>CONE</tt>.
- * <br><br>
- * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the <tt>surface</tt> is reversed.
- * <br><br>
- * @param t
- * transform to apply.
- * @param negate
- * flag to reverse the surface.
- */
-	surface *trans_surface(
-						const SPAtransf &t = *(SPAtransf*)NULL_REF,
-						logical negate = FALSE
-					) const;
-
-	// Transform the stored cone in place.
-/**
- * Transforms this <tt>CONE</tt>.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param t
- * transform to apply.
- */
-	void operator*=( const SPAtransf &t );
-
-	//	The generic SURFACE version of make_box() is enough
-	//	for any ruled surface.
-	//	SPAbox make_box( LOOP * ) const;
+    //	The generic SURFACE version of make_box() is enough
+    //	for any ruled surface.
+    //	SPAbox make_box( LOOP * ) const;
 
     // STI swa 19Jul02 - New method for detection of clash with SPAbox.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-    logical box_clash(const SPAbox &test_box,
-                      const SPAtransf &surf_transf = *(SPAtransf *)NULL_REF,
-                      double tol = SPAresabs) const;
+    /*
+    // tbrv
+    */
+    /**
+     * @nodoc
+     */
+    logical box_clash(const SPAbox& test_box, const SPAtransf& surf_transf = *(SPAtransf*)NULL_REF, double tol = SPAresabs) const;
 
-	//	lookup is done using SURFACE::lookup()
-	//	int lookup( logical ) const;
+    //	lookup is done using SURFACE::lookup()
+    //	int lookup( logical ) const;
 
-	// STI ROLL
-/**
- * @nodoc
- */
-	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
-	// STI ROLL
+    // STI ROLL
+    /**
+     * @nodoc
+     */
+    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
+    // STI ROLL
+
+  public:
+    // SHIVELINO: acisadaptor module add.
+    cone get_def();
 };
 /** @} */
 #endif

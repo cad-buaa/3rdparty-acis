@@ -1,4 +1,4 @@
-/*******************************************************************/
+﻿/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -16,10 +16,10 @@
 // of the ellipse is given by the normal (using right-hand screw rule).
 #ifndef ELLIPSE_CLASS
 #define ELLIPSE_CLASS
-#include "dcl_kern.h"
-#include "logical.h"
 #include "curve.hxx"
+#include "dcl_kern.h"
 #include "elldef.hxx"
+#include "logical.h"
 /**
  * @file ellipse.hxx
  * @CAA2Level L1
@@ -35,11 +35,10 @@ class SPAtransf;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE( ELLIPSE, KERN )
+ENTITY_IS_PROTOTYPE(ELLIPSE, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
-
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
@@ -53,9 +52,8 @@ extern DECL_KERN int ELLIPSE_TYPE;
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY
-*/
+ */
 #define ELLIPSE_LEVEL 2
-
 
 // ELLIPSE declaration proper.
 /**
@@ -81,95 +79,89 @@ extern DECL_KERN int ELLIPSE_TYPE;
  * @see ellipse
  */
 
-class DECL_KERN ELLIPSE: public CURVE {
+class DECL_KERN ELLIPSE : public CURVE {
+    // Record an ELLIPSE as an ellipse.
 
-	// Record an ELLIPSE as an ellipse.
+    ellipse def;
 
-	ellipse def;
+    // STI ROLL begin - added virtual compare function for api_get_modified_faces
 
-
-// STI ROLL begin - added virtual compare function for api_get_modified_faces
-protected:
-/**
- * @nodoc
- */
+  protected:
+    /**
+     * @nodoc
+     */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-// STI ROLL end
+    // STI ROLL end
 
-	// Include the standard member functions for all entities.
+    // Include the standard member functions for all entities.
 
-	/**
-	 * @nodoc
-	 */
-	ENTITY_FUNCTIONS( ELLIPSE , KERN)
+    /**
+     * @nodoc
+     */
+    ENTITY_FUNCTIONS(ELLIPSE, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
-// explicitly here:
-public:
+    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
+    // explicitly here:
 
-	/**
-	 * @nodoc
-	 */
-	FULLSIZE_FUNCTION
+  public:
+    /**
+     * @nodoc
+     */
+    FULLSIZE_FUNCTION
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
-	// Now the functions specific to ELLIPSE.
+    // Now the functions specific to ELLIPSE.
 
-	// Make a bare ELLIPSE to be filled in later.
-/**
- * Constructs an <tt>ELLIPSE</tt> (default constructor).
- * <br><br>
- * <b>Role:</b> Requests memory for this object but does not populate it. The
- * allocation constructor is used primarily by restore. Applications should call
- * this constructor only with the overloaded <tt>new</tt> operator, because this
- * reserves the memory on the heap, a requirement to support roll back and history
- * management.
- */
-	ELLIPSE();
+    // Make a bare ELLIPSE to be filled in later.
+    /**
+     * Constructs an <tt>ELLIPSE</tt> (default constructor).
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object but does not populate it. The
+     * allocation constructor is used primarily by restore. Applications should call
+     * this constructor only with the overloaded <tt>new</tt> operator, because this
+     * reserves the memory on the heap, a requirement to support roll back and history
+     * management.
+     */
+    ELLIPSE();
 
-	// Create an ELLIPSE from given centre, normal, major axis (SPAvector
-	// gives its size and direction), and radius ratio.
-/**
- * Constructs an <tt>ELLIPSE</tt> with specified center, normal, major axis, and radius ratio.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as argumenta. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param center
- * center of the constructed ELLIPSE.
- * @param normal
- * normal to the constructed ELLIPSE.
- * @param major_axis
- * major axis of the constructed ELLIPSE.
- * @param radius_ratio
- * ratio of the radii of the constructed ELLIPSE.
- */
-	ELLIPSE(
-			const SPAposition &center,
-			const SPAunit_vector &normal,
-			const SPAvector &major_axis,
-			double radius_ratio = 1.0
-		);
+    // Create an ELLIPSE from given centre, normal, major axis (SPAvector
+    // gives its size and direction), and radius ratio.
+    /**
+     * Constructs an <tt>ELLIPSE</tt> with specified center, normal, major axis, and radius ratio.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as argumenta. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param center
+     * center of the constructed ELLIPSE.
+     * @param normal
+     * normal to the constructed ELLIPSE.
+     * @param major_axis
+     * major axis of the constructed ELLIPSE.
+     * @param radius_ratio
+     * ratio of the radii of the constructed ELLIPSE.
+     */
+    ELLIPSE(const SPAposition& center, const SPAunit_vector& normal, const SPAvector& major_axis, double radius_ratio = 1.0);
 
-	// Create an ELLIPSE from an ellipse.
-/**
- * Constructs an <tt>ELLIPSE</tt> from the specified ellipse.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as the argument. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param ell
- * ellipse to be wrapped by the constructed ELLIPSE.
- */
-	ELLIPSE( const ellipse &ell );
+    // Create an ELLIPSE from an ellipse.
+    /**
+     * Constructs an <tt>ELLIPSE</tt> from the specified ellipse.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as the argument. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param ell
+     * ellipse to be wrapped by the constructed ELLIPSE.
+     */
+    ELLIPSE(const ellipse& ell);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -215,155 +207,152 @@ public:
     void restore_common();
 #endif
 
-	// Data reading routines.
+    // Data reading routines.
 
-/**
- * Returns the center position of this <tt>ELLIPSE</tt>.
- */
-	const SPAposition &centre() const { return def.centre; }
-/**
- * Returns the normal to the plane of this <tt>ELLIPSE</tt>.
- */
-	const SPAunit_vector &normal() const { return def.normal; }
-/**
- * Returns the major axis of this <tt>ELLIPSE</tt>.
- */
-	const SPAvector &major_axis() const { return def.major_axis; }
-/**
- * Returns the radius ratio of this <tt>ELLIPSE</tt>.
- */
-	double radius_ratio() const { return def.radius_ratio; }
+    /**
+     * Returns the center position of this <tt>ELLIPSE</tt>.
+     */
+    const SPAposition& centre() const { return def.centre; }
+    /**
+     * Returns the normal to the plane of this <tt>ELLIPSE</tt>.
+     */
+    const SPAunit_vector& normal() const { return def.normal; }
+    /**
+     * Returns the major axis of this <tt>ELLIPSE</tt>.
+     */
+    const SPAvector& major_axis() const { return def.major_axis; }
+    /**
+     * Returns the radius ratio of this <tt>ELLIPSE</tt>.
+     */
+    double radius_ratio() const { return def.radius_ratio; }
 
-	// Data changing routines.  Each of these routines checks
-	// that the record has been posted on the bulletin-board before
-	// performing the change.  If not, the routine provokes an error,
-	// so that the omission (forgetting to call backup() first) can
-	// be rectified in the program.  In production versions of the
-	// program, these checks may be disabled, to improve efficiency.
+    // Data changing routines.  Each of these routines checks
+    // that the record has been posted on the bulletin-board before
+    // performing the change.  If not, the routine provokes an error,
+    // so that the omission (forgetting to call backup() first) can
+    // be rectified in the program.  In production versions of the
+    // program, these checks may be disabled, to improve efficiency.
 
-/**
- * Sets this <tt>ELLIPSE</tt>'s center point to the given position.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param center
- * the new center.
- */
-	void set_centre( const SPAposition &center );
-/**
- * Sets this <tt>ELLIPSE</tt>'s planar normal to the given unit vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param normal
- * the new normal.
- */
-	void set_normal( const SPAunit_vector &normal );
-/**
- * Sets this <tt>ELLIPSE</tt>'s major axis to the given vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param major_axis
- * the new major axis.
- */
-	void set_major_axis( const SPAvector &major_axis );
-/**
- * Sets this <tt>ELLIPSE</tt>'s radius ratio to the given value.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param ratio
- * the new radius ratio.
- */
-	void set_radius_ratio( double ratio);
+    /**
+     * Sets this <tt>ELLIPSE</tt>'s center point to the given position.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param center
+     * the new center.
+     */
+    void set_centre(const SPAposition& center);
+    /**
+     * Sets this <tt>ELLIPSE</tt>'s planar normal to the given unit vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param normal
+     * the new normal.
+     */
+    void set_normal(const SPAunit_vector& normal);
+    /**
+     * Sets this <tt>ELLIPSE</tt>'s major axis to the given vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param major_axis
+     * the new major axis.
+     */
+    void set_major_axis(const SPAvector& major_axis);
+    /**
+     * Sets this <tt>ELLIPSE</tt>'s radius ratio to the given value.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param ratio
+     * the new radius ratio.
+     */
+    void set_radius_ratio(double ratio);
 
+    // Return the curve equation for reading only.
+    /**
+     * Returns the curve's equation of this <tt>ELLIPSE</tt>, for reading only.
+     */
+    const curve& equation() const;
 
-	// Return the curve equation for reading only.
-/**
- * Returns the curve's equation of this <tt>ELLIPSE</tt>, for reading only.
- */
-	const curve &equation() const;
+    // Return the curve equation, checking first for backup.
+    /**
+     * Returns the curve equation for update operations, backing it up first.
+     */
+    curve& equation_for_update();
 
-	// Return the curve equation, checking first for backup.
-/**
- * Returns the curve equation for update operations, backing it up first.
- */
-	curve &equation_for_update();
+    // Get a new (lower-case) curve being the ellipse of the
+    // ELLIPSE, transformed if the given SPAtransf is non-null and
+    // reversed in sense if the logical is true.
+    /**
+     * Transforms the curve equation of this <tt>ELLIPSE</tt>.
+     * <br><br>
+     * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the curve is reversed.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     * @param negate
+     * flag to reverse the curve.
+     */
+    curve* trans_curve(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
 
-	// Get a new (lower-case) curve being the ellipse of the
-	// ELLIPSE, transformed if the given SPAtransf is non-null and
-	// reversed in sense if the logical is true.
-/**
- * Transforms the curve equation of this <tt>ELLIPSE</tt>.
- * <br><br>
- * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the curve is reversed.
- * <br><br>
- * @param t
- * transform to apply.
- * @param negate
- * flag to reverse the curve.
- */
-	curve *trans_curve(
-					const SPAtransf &t = *(SPAtransf *)NULL_REF,
-					logical negate = FALSE
-				) const;
+    // Transform the stored ellipse in place.
+    /**
+     * Transforms this <tt>ELLIPSE</tt>.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     */
+    void operator*=(const SPAtransf& t);
 
-	// Transform the stored ellipse in place.
-/**
- * Transforms this <tt>ELLIPSE</tt>.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param t
- * transform to apply.
- */
-	void operator*=( const SPAtransf &t );
-
-
-	// Make a SPAbox enclosing a segment of this ellipse between
-	// two positions.
-/**
- * Makes a bounding box.
- * <br><br>
- * <b>Role:</b> Makes a bounding box for the portion of this <tt>ELLIPSE</tt>
- * delimited by two specified points that lie within its plane, and transforms it.
- * The box has sides parallel to the principal axes of the <tt>ELLIPSE</tt>.
- * <br><br>
- * @param start
- * first point on the curve.
- * @param end
- * second point on the curve.
- * @param t
- * transform.
- * @param tol
- * tolerance.
- */
-	SPAbox make_box( APOINT *start, APOINT *end, const SPAtransf *t , double tol = 0.0) const;
+    // Make a SPAbox enclosing a segment of this ellipse between
+    // two positions.
+    /**
+     * Makes a bounding box.
+     * <br><br>
+     * <b>Role:</b> Makes a bounding box for the portion of this <tt>ELLIPSE</tt>
+     * delimited by two specified points that lie within its plane, and transforms it.
+     * The box has sides parallel to the principal axes of the <tt>ELLIPSE</tt>.
+     * <br><br>
+     * @param start
+     * first point on the curve.
+     * @param end
+     * second point on the curve.
+     * @param t
+     * transform.
+     * @param tol
+     * tolerance.
+     */
+    SPAbox make_box(APOINT* start, APOINT* end, const SPAtransf* t, double tol = 0.0) const;
 
     // STI swa 19Jul02 - New method for detection of clash with SPAbox.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-    logical box_clash(const SPAbox &test_box,
-                      const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
-                      double tol = SPAresabs) const;
+    /*
+    // tbrv
+    */
+    /**
+     * @nodoc
+     */
+    logical box_clash(const SPAbox& test_box, const SPAtransf& surf_transf = *(SPAtransf*)NULL_REF, double tol = SPAresabs) const;
 
-	// lookup is done using CURVE::lookup()
-	// int lookup( logical ) const;
+    // lookup is done using CURVE::lookup()
+    // int lookup( logical ) const;
+
+  public:
+    // SHIVELINO: acisadaptor module add.
+    ellipse get_def();
 };
 
 /** @} */

@@ -1,4 +1,4 @@
-/*******************************************************************/
+﻿/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -13,12 +13,12 @@
 // direction of the curve.
 #ifndef STRAIGHT_CLASS
 #define STRAIGHT_CLASS
+#include "curve.hxx"
 #include "dcl_kern.h"
 #include "logical.h"
-#include "curve.hxx"
 #include "strdef.hxx"
 /**
-* @file straight.hxx
+ * @file straight.hxx
  * @CAA2Level L1
  * @CAA2Usage U1
  * \addtogroup ACISGEOMETRICENTITIES
@@ -31,11 +31,10 @@ class SPAtransf;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE( STRAIGHT, KERN )
+ENTITY_IS_PROTOTYPE(STRAIGHT, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
-
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
@@ -44,9 +43,8 @@ extern DECL_KERN int STRAIGHT_TYPE;
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY
-*/
+ */
 #define STRAIGHT_LEVEL 2
-
 
 // STRAIGHT declaration proper.
 /**
@@ -71,77 +69,77 @@ extern DECL_KERN int STRAIGHT_TYPE;
  * count, and after the use count returns to 0, the entity is deleted.
  * @see straight
  */
-class DECL_KERN STRAIGHT: public CURVE {
+class DECL_KERN STRAIGHT : public CURVE {
+    // Record a STRAIGHT as a straight.
 
-	// Record a STRAIGHT as a straight.
+    straight def;
 
-	straight def;
+    // STI ROLL begin - added virtual compare function for api_get_modified_faces
 
-// STI ROLL begin - added virtual compare function for api_get_modified_faces
-protected:
-/**
- * @nodoc
- */
+  protected:
+    /**
+     * @nodoc
+     */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-// STI ROLL end
+    // STI ROLL end
 
-	// Include the standard member functions for all entities.
+    // Include the standard member functions for all entities.
 
-	/**
-	 * @nodoc
-	 */
-	ENTITY_FUNCTIONS( STRAIGHT , KERN)
+    /**
+     * @nodoc
+     */
+    ENTITY_FUNCTIONS(STRAIGHT, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
-// explicitly here:
-public:
+    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
+    // explicitly here:
 
-	// Now the functions specific to STRAIGHT.
+  public:
+    // Now the functions specific to STRAIGHT.
 
-	// Make a bare STRAIGHT to be filled in later.
-/**
- * Constructs a <tt>STRAIGHT</tt> (default constructor).
- * <br><br>
- * <b>Role:</b> Requests memory for this object but does not populate it. The
- * allocation constructor is used primarily by restore. Applications should call
- * this constructor only with the overloaded <tt>new</tt> operator, because this
- * reserves the memory on the heap, a requirement to support roll back and history
- * management.
- */
-	STRAIGHT();
+    // Make a bare STRAIGHT to be filled in later.
+    /**
+     * Constructs a <tt>STRAIGHT</tt> (default constructor).
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object but does not populate it. The
+     * allocation constructor is used primarily by restore. Applications should call
+     * this constructor only with the overloaded <tt>new</tt> operator, because this
+     * reserves the memory on the heap, a requirement to support roll back and history
+     * management.
+     */
+    STRAIGHT();
 
-	// Create a STRAIGHT line that passes through given SPAposition
-	// and in direction of given unit SPAvector.
-/**
- * Constructs a <tt>STRAIGHT</tt> that passes through the given position and has the given direction.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as argumenta. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param pos
- * position on the constructed STRAIGHT.
- * @param dir
- * direction of the constructed STRAIGHT.
- */
-	STRAIGHT( const SPAposition &pos, const SPAunit_vector &dir );
+    // Create a STRAIGHT line that passes through given SPAposition
+    // and in direction of given unit SPAvector.
+    /**
+     * Constructs a <tt>STRAIGHT</tt> that passes through the given position and has the given direction.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as argumenta. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param pos
+     * position on the constructed STRAIGHT.
+     * @param dir
+     * direction of the constructed STRAIGHT.
+     */
+    STRAIGHT(const SPAposition& pos, const SPAunit_vector& dir);
 
-	// Create a STRAIGHT from a straight.
-/**
- * Constructs a <tt>STRAIGHT</tt> from the specified straight.
- * <br><br>
- * <b>Role:</b> Requests memory for this object and populates it with the data
- * supplied as the argument. Applications should call this constructor only with
- * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
- * a requirement to support roll back and history management.
- * <br><br>
- * @param str
- * straight to be wrapped by the constructed STRAIGHT.
- */
-	STRAIGHT( const straight &str );
+    // Create a STRAIGHT from a straight.
+    /**
+     * Constructs a <tt>STRAIGHT</tt> from the specified straight.
+     * <br><br>
+     * <b>Role:</b> Requests memory for this object and populates it with the data
+     * supplied as the argument. Applications should call this constructor only with
+     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+     * a requirement to support roll back and history management.
+     * <br><br>
+     * @param str
+     * straight to be wrapped by the constructed STRAIGHT.
+     */
+    STRAIGHT(const straight& str);
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -192,122 +190,119 @@ public:
     void restore_common();
 #endif
 
-	// Data reading routines.
+    // Data reading routines.
 
-/**
- * Returns the position on this <tt>STRAIGHT</tt> used in its definition.
- */
-	const SPAposition &root_point() const { return def.root_point; }
-/**
- * Returns the unit vector defining the direction of this <tt>STRAIGHT</tt>.
- */
-	const SPAunit_vector &direction() const { return def.direction; }
+    /**
+     * Returns the position on this <tt>STRAIGHT</tt> used in its definition.
+     */
+    const SPAposition& root_point() const { return def.root_point; }
+    /**
+     * Returns the unit vector defining the direction of this <tt>STRAIGHT</tt>.
+     */
+    const SPAunit_vector& direction() const { return def.direction; }
 
+    // Data changing routines.  Each of these routines checks
+    // that the record has been posted on the bulletin-board before
+    // performing the change.  If not, the routine provokes an error,
+    // so that the omission (forgetting to call backup() first) can
+    // be rectified in the program.  In production versions of the
+    // program, these checks may be disabled, to improve efficiency.
 
-	// Data changing routines.  Each of these routines checks
-	// that the record has been posted on the bulletin-board before
-	// performing the change.  If not, the routine provokes an error,
-	// so that the omission (forgetting to call backup() first) can
-	// be rectified in the program.  In production versions of the
-	// program, these checks may be disabled, to improve efficiency.
+    /**
+     * Sets this <tt>STRAIGHT</tt>'s root point to the given position.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param pos
+     * the new root point.
+     */
+    void set_root_point(const SPAposition& pos);
+    /**
+     * Sets this <tt>STRAIGHT</tt>'s direction to the given unit vector.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param dir
+     * the new direction.
+     */
+    void set_direction(const SPAunit_vector& dir);
 
-/**
- * Sets this <tt>STRAIGHT</tt>'s root point to the given position.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param pos
- * the new root point.
- */
-	void set_root_point( const SPAposition &pos );
-/**
- * Sets this <tt>STRAIGHT</tt>'s direction to the given unit vector.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param dir
- * the new direction.
- */
-	void set_direction( const SPAunit_vector &dir );
+    // Return the curve equation for reading only.
+    /**
+     * Returns the <tt>curve</tt> equation of this <tt>STRAIGHT</tt>, for reading only.
+     */
+    const curve& equation() const;
 
-	// Return the curve equation for reading only.
-/**
- * Returns the <tt>curve</tt> equation of this <tt>STRAIGHT</tt>, for reading only.
- */
-	const curve &equation() const;
+    // Return the curve equation, checking first for backup.
+    /**
+     * Returns the <tt>curve</tt> equation for update operations.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     */
+    curve& equation_for_update();
 
-	// Return the curve equation, checking first for backup.
-/**
- * Returns the <tt>curve</tt> equation for update operations.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- */
-	curve &equation_for_update();
+    // Get a new (lower-case) curve being the straight of the
+    // STRAIGHT, transformed if the given SPAtransf is non-null and
+    // reversed in sense if the logical is true.
+    /**
+     * Transforms the curve equation of this <tt>STRAIGHT</tt>.
+     * <br><br>
+     * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the <tt>curve</tt> is reversed.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     * @param negate
+     * flag to reverse the curve.
+     */
+    curve* trans_curve(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
 
-	// Get a new (lower-case) curve being the straight of the
-	// STRAIGHT, transformed if the given SPAtransf is non-null and
-	// reversed in sense if the logical is true.
-/**
- * Transforms the curve equation of this <tt>STRAIGHT</tt>.
- * <br><br>
- * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the <tt>curve</tt> is reversed.
- * <br><br>
- * @param t
- * transform to apply.
- * @param negate
- * flag to reverse the curve.
- */
-	curve *trans_curve(
-					const SPAtransf &t = *(SPAtransf*)NULL_REF,
-					logical negate = FALSE
-				) const;
+    // Transform the stored straight in place.
+    /**
+     * Transforms this <tt>STRAIGHT</tt>.
+     * <br><br>
+     * <b>Role:</b> Before performing the change, it checks if the data structure
+     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+     * to put an entry on the bulletin board.
+     * <br><br>
+     * @param t
+     * transform to apply.
+     */
+    void operator*=(const SPAtransf& t);
 
-	// Transform the stored straight in place.
-/**
- * Transforms this <tt>STRAIGHT</tt>.
- * <br><br>
- * <b>Role:</b> Before performing the change, it checks if the data structure
- * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
- * to put an entry on the bulletin board.
- * <br><br>
- * @param t
- * transform to apply.
- */
-	void operator*=( const SPAtransf &t );
-
-	// STI ROLL
-/**
- * @nodoc
- */
-	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
+    // STI ROLL
+    /**
+     * @nodoc
+     */
+    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
     // STI ROLL
 
-	// The generic CURVE version of make_box is good enough
-	// so the version for straight is left in abeyance.
+    // The generic CURVE version of make_box is good enough
+    // so the version for straight is left in abeyance.
 
-	// SPAbox make_box( APOINT *, APOINT *, SPAtransf const * ) const;
+    // SPAbox make_box( APOINT *, APOINT *, SPAtransf const * ) const;
 
     // STI swa 19Jul02 - New method for detection of clash with SPAbox.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-    logical box_clash(SPAbox const &test_box,
-                      SPAtransf const &surf_transf = *(SPAtransf *)NULL_REF,
-                      double tol = SPAresabs) const;
+    /*
+    // tbrv
+    */
+    /**
+     * @nodoc
+     */
+    logical box_clash(SPAbox const& test_box, SPAtransf const& surf_transf = *(SPAtransf*)NULL_REF, double tol = SPAresabs) const;
 
-	// lookup is done using CURVE::lookup()
-	// int lookup( logical ) const;
+    // lookup is done using CURVE::lookup()
+    // int lookup( logical ) const;
+
+  public:
+    // SHIVELINO: acisadaptor module add.
+    straight get_def();
 };
-
 
 /** @} */
 #endif
