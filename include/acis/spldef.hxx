@@ -191,11 +191,10 @@ DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
 class DECL_KERN spline : public surface {
     // Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
 #ifdef spline_FRIENDS
-    spline_FRIENDS
+    spline_FRIENDS;
 #endif
-        // NOTES SHEVO
-        friend spl_sur*
-        shevo_get_spl_sur(spline* spl);
+    // NOTES SHEVO
+    friend spl_sur* shevo_get_spl_sur(spline* spl);
 
 private:
     spl_sur* spl;  // Spline surface
@@ -234,9 +233,8 @@ public:
     /**
      * C++ allocation constructor requests memory for this object but does not populate it.
      */
-    spline() {
+    inline explicit spline() {
         spl = NULL;
-        rev = 0;
     }
 
     // Construct a spline from a spline.  Ups the use-count of the
