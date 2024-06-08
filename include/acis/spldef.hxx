@@ -200,8 +200,8 @@ class DECL_KERN spline : public surface {
 private:
     spl_sur* spl;  // Spline surface
 
-    logical rev = 0;  // True if this surface opposes the direction
-                      // of the underlying one.
+    logical rev;  // True if this surface opposes the direction
+                  // of the underlying one.
 
     discontinuity_info u_disc_info;
     discontinuity_info v_disc_info;
@@ -236,6 +236,7 @@ public:
      */
     spline() {
         spl = NULL;
+        rev = 0;
     }
 
     // Construct a spline from a spline.  Ups the use-count of the
