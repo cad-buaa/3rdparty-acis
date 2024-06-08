@@ -24,18 +24,18 @@
 /*******************************************************************/
 
 #if !defined(spline_CLASS)
-#    define spline_CLASS
-#    include "acis.hxx"
-#    include "box.hxx"
-#    include "bs3surf.hxx"
-#    include "cur_sur.hxx"
-#    include "dcl_kern.h"
-#    include "debugmsc.hxx"
-#    include "extend.hxx"
-#    include "logical.h"
-#    include "subtrans.hxx"
-#    include "surdef.hxx"
-#    include "transf.hxx"
+#define spline_CLASS
+#include "acis.hxx"
+#include "box.hxx"
+#include "bs3surf.hxx"
+#include "cur_sur.hxx"
+#include "dcl_kern.h"
+#include "debugmsc.hxx"
+#include "extend.hxx"
+#include "logical.h"
+#include "subtrans.hxx"
+#include "surdef.hxx"
+#include "transf.hxx"
 
 /**
  * @file spldef.hxx
@@ -46,13 +46,13 @@
  * @{
  */
 
-#    if defined D3_STANDALONE || defined D3_DEBUG
+#if defined D3_STANDALONE || defined D3_DEBUG
 
 class D3_istream;
 
 class D3_ostream;
 
-#    endif
+#endif
 
 class spl_sur;
 class splsur_cache;
@@ -93,7 +93,7 @@ enum copy_knots_mode { NO_COPY_KNOTS, COPY_KNOTS_INITIALLY };
 
 // Define an identifying type for this (lower-case) surface.
 
-#    define spline_type 10
+#define spline_type 10
 
 class spline;
 /**
@@ -127,7 +127,7 @@ void calc_patches(spl_sur& sur, double& fit, double*& knots1, int& nknots1, doub
  */
 logical calc_patch(spl_sur& sur, double& fit, double*& knots, int& nknots, logical uv_type, logical dir_type, logical calc_knots, SPAinterval& erange1, SPAinterval& erange2, SPAinterval& srange);
 
-#    if(defined D3_DEBUG || defined D3_STANDALONE)
+#if (defined D3_DEBUG || defined D3_STANDALONE)
 /*
 // tbrv
 */
@@ -142,7 +142,7 @@ DECL_KERN D3_ostream& operator<<(D3_ostream& os, const spl_sur& ss);
  * @nodoc
  */
 DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
-#    endif
+#endif
 
 /**
  * Represents a parametric surface.
@@ -190,18 +190,18 @@ DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
  */
 class DECL_KERN spline : public surface {
     // Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
-#    ifdef spline_FRIENDS
+#ifdef spline_FRIENDS
     spline_FRIENDS
-#    endif
-      // NOTES SHEVO
-      friend spl_sur*
-      shevo_get_spl_sur(spline* spl);
+#endif
+        // NOTES SHEVO
+        friend spl_sur*
+        shevo_get_spl_sur(spline* spl);
 
-  private:
+private:
     spl_sur* spl;  // Spline surface
 
-    logical rev;  // True if this surface opposes the direction
-                  // of the underlying one.
+    logical rev = 0;  // True if this surface opposes the direction
+                      // of the underlying one.
 
     discontinuity_info u_disc_info;
     discontinuity_info v_disc_info;
@@ -221,7 +221,7 @@ class DECL_KERN spline : public surface {
 
     // STI dgh  make_single_ref public for use in DS husk
 
-  public:
+public:
     // Ensure that the reference supplied points to a singly-used
     // record.  Take no action if it is already single, otherwise
     // copy everything.
@@ -234,7 +234,9 @@ class DECL_KERN spline : public surface {
     /**
      * C++ allocation constructor requests memory for this object but does not populate it.
      */
-    spline() { spl = NULL; }
+    spline() {
+        spl = NULL;
+    }
 
     // Construct a spline from a spline.  Ups the use-count of the
     // underlying spl_sur and copies the sense logical, but defers
@@ -312,7 +314,9 @@ class DECL_KERN spline : public surface {
     /**
      * Returns <tt>TRUE</tt> if the <tt>spline</tt> is reversed with respect to the underlying <tt>spl_sur</tt>.
      */
-    logical reversed() const { return rev; }
+    logical reversed() const {
+        return rev;
+    }
 
     // Returns the underlying spline surface, evaluating it if it is not present
     // by calling make_approx.  Note - it may be impossible to calculate the
@@ -350,7 +354,8 @@ class DECL_KERN spline : public surface {
      * Returns the fit tolerance of the <tt>bs3_curve</tt> to the true spline surface.
      */
     double fitol() const;  // fit tolerance
-                           /**
+
+    /**
                             * Returns defining spline surface and should only be used when absolutely necessary.
                             */
     spl_sur const& get_spl_sur() const {
@@ -688,6 +693,7 @@ class DECL_KERN spline : public surface {
                                  SPAunit_vector& axis2,  // second axis direction
                                  double& cur2,           // curvature in second direction
                                  SPApar_pos const& guess = *(SPApar_pos*)NULL_REF) const;
+
     /**
      * Finds the principal curvatures at a given point, returning the values in a struct.
      * <br><br>
@@ -699,7 +705,9 @@ class DECL_KERN spline : public surface {
      * @param param_guess
      * parameter position - possible parameter.
      */
-    surf_princurv point_prin_curv(SPAposition const& pos, SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF) const { return surface::point_prin_curv(pos, param_guess); }
+    surf_princurv point_prin_curv(SPAposition const& pos, SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF) const {
+        return surface::point_prin_curv(pos, param_guess);
+    }
 
     // Find the curvature of a cross-section curve of the surface at
     // the point on the surface closest to the given point, iterating
@@ -767,6 +775,7 @@ class DECL_KERN spline : public surface {
      * weak flag.
      */
     virtual void point_perp(SPAposition const& pos, SPAposition& surf, SPAunit_vector& normal, surf_princurv& curv, SPApar_pos const& guess = *(SPApar_pos*)NULL_REF, SPApar_pos& actual = *(SPApar_pos*)NULL_REF, logical f_weak = FALSE) const;
+
     /**
      * Finds the point on the surface nearest to the given point.
      * <br><br>
@@ -789,6 +798,7 @@ class DECL_KERN spline : public surface {
     void point_perp(SPAposition const& pos, SPAposition& foot, SPAunit_vector& norm, SPApar_pos const& param_guess = *(SPApar_pos*)NULL_REF, SPApar_pos& param_actual = *(SPApar_pos*)NULL_REF, logical f_weak = FALSE) const {
         point_perp(pos, foot, norm, *(surf_princurv*)NULL_REF, param_guess, param_actual, f_weak);
     }
+
     /**
      * Finds the point on the surface nearest to the given point.
      * <br><br>
@@ -918,13 +928,16 @@ class DECL_KERN spline : public surface {
                                 SPAunit_vector& axis2,  // second axis direction
                                 double& cur2            // curvature in second direction
     ) const;
+
     /**
      * Finds the principal axes of curvature of the surface at a given parameter-space location.
      * <br><br>
      * @param param
      * given parameter-space location.
      */
-    surf_princurv eval_prin_curv(SPApar_pos const& param) const { return surface::eval_prin_curv(param); }
+    surf_princurv eval_prin_curv(SPApar_pos const& param) const {
+        return surface::eval_prin_curv(param);
+    }
 
     // Find the curvature of a cross-section curve of the surface at
     // the point on the surface with given parameter values.
@@ -1493,7 +1506,7 @@ class DECL_KERN spline : public surface {
 
     // Stream i/o.
 
-#    if defined D3_STANDALONE || defined D3_DEBUG
+#if defined D3_STANDALONE || defined D3_DEBUG
     /*
     // tbrv
     */
@@ -1509,7 +1522,7 @@ class DECL_KERN spline : public surface {
      */
     virtual void print(D3_ostream&) const;
 
-#    endif
+#endif
 
     // Print out details of spline.
     /**
@@ -1524,7 +1537,7 @@ class DECL_KERN spline : public surface {
 
     // STI swa 27Jul98 -- functions for getting sweep information on a spline surface
 
-  public:
+public:
     /**
      * Returns the sweep path type for this spline.
      */
@@ -1557,7 +1570,7 @@ class DECL_KERN spline : public surface {
      */
     virtual void minimize(minimize_helper*);
 
-  public:
+public:
     // set/unset the flag for the sanity check.
     /*
     // tbrv
@@ -1574,7 +1587,7 @@ class DECL_KERN spline : public surface {
      */
     virtual void unset_checked();
 
-  protected:
+protected:
     // GSSL/RS - start : Functions for param_period ignoring subset range
     virtual double param_period_u_ignoring_limits() const;
     virtual double param_period_v_ignoring_limits() const;
@@ -1595,7 +1608,7 @@ class DECL_KERN spline : public surface {
      */
     virtual logical validate_v_guess(const SPAparameter& v_guess, SPAparameter& valid_v_guess) const;
 
-  public:
+public:
     // SHIVELINO: acisadaptor module add.
     spl_sur* get_spl();
     void set_rev(int data);
@@ -1636,6 +1649,7 @@ class summary_bs3_surface : public ACIS_OBJECT {
  * @nodoc
  */
 enum singularity_type { NON_SINGULAR, SINGULAR_LOW, SINGULAR_HIGH, SINGULAR_BOTH, SINGULARITY_UNKNOWN };
+
 /*
 // tbrv
 */
@@ -1724,11 +1738,11 @@ logical duv_fn(double u, double v, void* data, SPAvector& uvpar);
  */
 class DECL_KERN spl_sur : public subtrans_object {
     // Allow extensions to declare themselves as friends. USE WITH EXTREME CAUTION
-#    ifdef spl_sur_FRIENDS
+#ifdef spl_sur_FRIENDS
     spl_sur_FRIENDS
-#    endif
+#endif
 
-      friend class splsur_cache;
+        friend class splsur_cache;
     friend class gcmgr;
     friend class ss_gcmgr;
     friend class surface_evaluator_splsur;
@@ -1761,7 +1775,7 @@ class DECL_KERN spl_sur : public subtrans_object {
      */
     friend logical duv_fn(double u, double v, void* data, SPAvector& uvpar);
 
-  protected:
+protected:
     bs3_surface sur_data;
     // Object-space approximation to true surface.
 
@@ -1804,14 +1818,27 @@ class DECL_KERN spl_sur : public subtrans_object {
     // surface will be consistent.
 
     summary_bs3_surface* summary_data;
+
     // bs3_surface data in summary form.  This field may be set on
     // restore, if the full surface is not available.  It may be used to
     // make the actual bs3_surface.
 
-    int summary_nuknots() const { return summary_data->nuknots; }
-    int summary_nvknots() const { return summary_data->nvknots; }
-    const double* summary_uknots() const { return summary_data->uknots; }
-    const double* summary_vknots() const { return summary_data->vknots; }
+    int summary_nuknots() const {
+        return summary_data->nuknots;
+    }
+
+    int summary_nvknots() const {
+        return summary_data->nvknots;
+    }
+
+    const double* summary_uknots() const {
+        return summary_data->uknots;
+    }
+
+    const double* summary_vknots() const {
+        return summary_data->vknots;
+    }
+
     // Provide read-only access to the summary_data for derived classes
     // (so that they don't all have to be friends).
 
@@ -1819,6 +1846,7 @@ class DECL_KERN spl_sur : public subtrans_object {
         ACIS_DELETE summary_data;
         summary_data = 0;
     }
+
     // Allow derived classes to delete summary_data when it goes out of
     // date.
 
@@ -1828,15 +1856,15 @@ class DECL_KERN spl_sur : public subtrans_object {
 
     double local_geometric_resabs;
 
-#    ifdef ENABLE_CACHE_SWITCHING
+#ifdef ENABLE_CACHE_SWITCHING
 
-  private:
+private:
     // Pointer to cache information. This is manipulated solely by
     // base class functions, so is private rather than protected.
     mutable splsur_cache* cache;
-#    endif
+#endif
 
-  public:
+public:
     /**
      * Method to be called by any user who modifies the surface in an external process, to ensure that stale evaluation results are discarded.
      */
@@ -1845,7 +1873,7 @@ class DECL_KERN spl_sur : public subtrans_object {
     // behind our backs, to ensure that stale evaluation results
     // are discarded.
 
-  protected:
+protected:
     disc_info_calc_status disc_calc_status;
     virtual void calculate_disc_info();
     // Calculate the discontinuity information if it was never stored.  This
@@ -1868,7 +1896,7 @@ class DECL_KERN spl_sur : public subtrans_object {
 
     spl_sur();
 
-  public:
+public:
     // A constructor given all the basic data required.
     /**
      * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
@@ -1938,25 +1966,35 @@ class DECL_KERN spl_sur : public subtrans_object {
      */
     virtual spl_sur* deep_copy(pointer_map* pm = NULL) const = 0;
 
-  protected:
+protected:
     // The destructor eliminates all the dependent spline curve and
     // surface data. Each derived class must have a destructor if it
     // adds further dependent data.
 
     virtual ~spl_sur();
 
-  private:
+private:
     // Use count manipulation
 
-    void operator++() { add_ref(); }
-    void operator--() { remove_ref(); }
-    logical mult() { return mult_ref(); }
+    void operator++() {
+        add_ref();
+    }
 
-  protected:
+    void operator--() {
+        remove_ref();
+    }
+
+    logical mult() {
+        return mult_ref();
+    }
+
+protected:
     // Function to determine if this spl_sur is a pipe or is a wrapper
     // around a pipe surface (eg offset or subset pipe).
 
-    virtual logical contains_pipe() const { return FALSE; }
+    virtual logical contains_pipe() const {
+        return FALSE;
+    }
 
     // Search the underlying cache for an entry at the given SPAposition.
     // Returns the matching eval entry if this is found, or NULL otherwise.
@@ -2025,21 +2063,27 @@ class DECL_KERN spl_sur : public subtrans_object {
 
     // Extract detailed information about the surface.
 
-  public:
+public:
     /**
      * Returns the <tt>bs3_surface</tt> approximation.
      */
-    bs3_surface sur() const { return sur_data; }
+    bs3_surface sur() const {
+        return sur_data;
+    }
+
     /**
      * Returns the fit tolerance for the approximating <tt>bs3_surface</tt>.
      */
-    double fitol() const { return fitol_data; }
+    double fitol() const {
+        return fitol_data;
+    }
+
     /**
      * Constructs a duplicate <tt>spl_sur</tt> in free storage of this object, with a zero use count.
      */
     virtual subtrans_object* copy() const = 0;
 
-  protected:
+protected:
     // STI dgh: replace underlying bs3_surface approximation.  If the supplied
     // tol is negative, then it will be left unchanged (PC).
 
@@ -2216,7 +2260,7 @@ class DECL_KERN spl_sur : public subtrans_object {
     // (which is sometimes more reliable when there are inflexions),
     // and returns a success or failure indication.
 
-  public:
+public:
     /**
      * Support function for <tt>point_perp</tt> (and <tt>bs3_surface_perp</tt>).
      * <br><br>
@@ -2276,7 +2320,7 @@ class DECL_KERN spl_sur : public subtrans_object {
                                         // length 3 in order xuu, xuv, xvv
     ) const;
 
-  protected:
+protected:
     // Similar function with an "evaldata" argument for improved efficiency.
 
     logical iterate_perp(SPAposition const&, surface_evaldata*, SPAposition&, SPAunit_vector&, surf_princurv&, SPApar_pos const&, SPApar_pos&,
@@ -2471,7 +2515,7 @@ class DECL_KERN spl_sur : public subtrans_object {
     // Enquiry functions - make these public, so that code building the derived
     // types can use them.
 
-  public:
+public:
     // Report whether a parametric surface is periodic in either
     // parameter direction (i.e. it is smoothly closed, so faces can
     // run over the seam).
@@ -2481,25 +2525,35 @@ class DECL_KERN spl_sur : public subtrans_object {
      * <b>Role:</b> Determines if a parametric surface is periodic in the <i>u</i> direction.
      * (i.e. it is smoothly closed, so faces can run over the seam).
      */
-    logical periodic_u() const { return closed_in_u == PERIODIC; }
+    logical periodic_u() const {
+        return closed_in_u == PERIODIC;
+    }
+
     /**
      * Determines if a parametric surface is periodic in the v direction.
      * <br><br>
      * <b>Role:</b> Determines if a parametric surface is periodic in the <i>v</i> direction.
      * (i.e. it is smoothly closed, so faces can run over the seam).
      */
-    logical periodic_v() const { return closed_in_v == PERIODIC; }
+    logical periodic_v() const {
+        return closed_in_v == PERIODIC;
+    }
 
     // Report whether the surface is closed, smoothly or not, in
     // either parameter direction.
     /**
      * Determines if the surface is closed, smoothly or not, in the <i>u</i>-parameter direction.
      */
-    logical closed_u() const { return closed_in_u == CLOSED || closed_in_u == PERIODIC; }
+    logical closed_u() const {
+        return closed_in_u == CLOSED || closed_in_u == PERIODIC;
+    }
+
     /**
      * Determines if the surface is closed, smoothly or not, in the <i>v</i>-parameter direction.
      */
-    logical closed_v() const { return closed_in_v == CLOSED || closed_in_v == PERIODIC; }
+    logical closed_v() const {
+        return closed_in_v == CLOSED || closed_in_v == PERIODIC;
+    }
 
     // Returns the period of a periodic parametric surface, zero if
     // the surface is not periodic in the chosen parameter or not
@@ -2507,11 +2561,16 @@ class DECL_KERN spl_sur : public subtrans_object {
     /**
      * Returns the <i>u</i> period of a periodic parametric surface, zero if the surface is not periodic in the <i>u</i> direction.
      */
-    double param_period_u() const { return closed_in_u == PERIODIC ? u_range.length() : 0.0; }
+    double param_period_u() const {
+        return closed_in_u == PERIODIC ? u_range.length() : 0.0;
+    }
+
     /**
      * Returns the <i>v</i> period of a periodic parametric surface, zero if the surface is not periodic in the <i>v</i> direction.
      */
-    double param_period_v() const { return closed_in_v == PERIODIC ? v_range.length() : 0.0; }
+    double param_period_v() const {
+        return closed_in_v == PERIODIC ? v_range.length() : 0.0;
+    }
 
     // Returns the principal parameter range of a parametric surface in
     // a chosen parameter direction, or in both. For a non-parametric
@@ -2555,6 +2614,7 @@ class DECL_KERN spl_sur : public subtrans_object {
         SPAUNUSED(box)
         return SPApar_box(u_range, v_range);
     }
+
     /**
      * Returns the principal parameter range of a parametric surface in the <i>u</i>-parameter direction.
      * <br><br>
@@ -2571,6 +2631,7 @@ class DECL_KERN spl_sur : public subtrans_object {
         SPAUNUSED(box)
         return u_range;
     }
+
     /**
      * Returns the principal parameter range of a parametric surface in the <i>v</i>-parameter direction.
      * <br><br>
@@ -2619,7 +2680,7 @@ class DECL_KERN spl_sur : public subtrans_object {
     logical singular_v(double vparam  // constant v parameter
     ) const;
 
-  protected:
+protected:
     // Indicate whether the parameter coordinate system of the surface
     // is right- or left-handed. With a right-handed system, at any
     // point the outward normal is given by the cross product of the
@@ -2682,7 +2743,7 @@ class DECL_KERN spl_sur : public subtrans_object {
 
     void restore_common_data();
 
-#    if defined D3_STANDALONE || defined D3_DEBUG
+#if defined D3_STANDALONE || defined D3_DEBUG
 
     friend DECL_KERN D3_ostream& operator<<(D3_ostream&, spl_sur const&);
 
@@ -2692,7 +2753,7 @@ class DECL_KERN spl_sur : public subtrans_object {
 
     virtual void print(D3_ostream&) const;
 
-#    endif
+#endif
 
     // Debug printout. As for save and restore we split the operation
     // into two parts: the virtual function "debug" prints a class-
@@ -2740,22 +2801,28 @@ class DECL_KERN spl_sur : public subtrans_object {
                                      // of this list.
     );
 
-#    if(defined D3_DEBUG || defined D3_STANDALONE)
+#if (defined D3_DEBUG || defined D3_STANDALONE)
     friend DECL_KERN D3_ostream& operator<<(D3_ostream& os, const spl_sur& ss);
     friend DECL_KERN D3_istream& operator>>(D3_istream& is, spl_sur*& ss);
-#    endif
+#endif
 
     // STI swa 27Jul98 -- return sweep information
 
-  public:
+public:
     /**
      * Returns the sweep path type for this <tt>spl_sur</tt>.
      */
-    virtual sweep_path_type get_path_type() const { return unknown_path_type; }
+    virtual sweep_path_type get_path_type() const {
+        return unknown_path_type;
+    }
+
     /**
      * Returns the sweep path curve for this <tt>spl_sur</tt>. The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
      */
-    virtual curve* get_path() const { return NULL; }
+    virtual curve* get_path() const {
+        return NULL;
+    }
+
     /**
      * Returns the sweep profile curve for this <tt>spl_sur</tt>.  The caller has ownership of the returned curve and needs to cleanup to avoid memory leaks.
      * @param param
@@ -2765,10 +2832,14 @@ class DECL_KERN spl_sur : public subtrans_object {
         SPAUNUSED(param)
         return NULL;
     }
+
     /**
      * Returns the sweep rail law for this <tt>spl_sur</tt>.
      */
-    virtual law* get_rail() const { return NULL; }
+    virtual law* get_rail() const {
+        return NULL;
+    }
+
     // STI swa END
 
     // STI ROLL
@@ -2787,13 +2858,13 @@ class DECL_KERN spl_sur : public subtrans_object {
      * @nodoc
      **/
     virtual void process(geometry_definition_processor& p) const
-#    ifdef INTERNAL_DEBUG_CHECKS
-      = 0;
-#    else
-      ;
-#    endif
+#ifdef INTERNAL_DEBUG_CHECKS
+        = 0;
+#else
+        ;
+#endif
 
-  public:
+public:
     /*
     // tbrv
     */
@@ -2802,7 +2873,7 @@ class DECL_KERN spl_sur : public subtrans_object {
      */
     logical checked;
 
-  protected:
+protected:
     // For internal use only.
     /**
      * @nodoc
@@ -2826,7 +2897,7 @@ class DECL_KERN spl_sur : public subtrans_object {
      */
     virtual logical unbounded_v() const;
 
-  public:
+public:
     // SHIVELINO: acisadaptor module add.
     void set_fitol_data(double data);
 };
