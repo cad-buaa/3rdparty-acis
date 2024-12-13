@@ -19,6 +19,9 @@
 #include "face.hxx"
 #include "en_macro.hxx"
 #include "ptfcenum.hxx"
+#include "spa_null_kern.hxx"
+
+
 /**
  * @file loop.hxx
  * @CAA2Level L1
@@ -270,6 +273,14 @@ public:
 	 * @nodoc
 	 */
 	TRANSFORM_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
@@ -535,7 +546,7 @@ DECL_KERN void transform_face_list(
     ENTITY_LIST&    faces,
     ENTITY_LIST&    loops,
     SPAtransf&      the_trans,
-    ENTITY_LIST&    no_simplify_ents = *(ENTITY_LIST*)NULL_REF);
+    ENTITY_LIST&    no_simplify_ents = SpaAcis::NullObj::get_ENTITY_LIST());
 
 /** @} */
 #endif // LOOP_CLASS

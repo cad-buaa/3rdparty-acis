@@ -111,7 +111,7 @@ public:
 	// reversed in sense if the logical is true.
 
 	surface *trans_surface(
-						SPAtransf const & = *(SPAtransf *)NULL_REF,
+						SPAtransf const & = SPAtransf(),
 						logical = FALSE
 					) const;
 

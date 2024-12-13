@@ -49,7 +49,7 @@ extend_int_cur(
 		int_cur &,
 		SPAinterval const &,
 		logical = TRUE,
-		extension_info & = *(extension_info*)NULL_REF,
+		extension_info & = SpaAcis::NullObj::get_extension_info(),
 		logical = TRUE
 	);
 

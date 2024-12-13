@@ -17,6 +17,7 @@
 #include "logical.h"
 #include "en_macro.hxx"
 #include "usecount.hxx"
+#include "transf.hxx"
 /**
  * @file curve.hxx
  * @CAA2Level L1
@@ -28,7 +29,6 @@
 class EDGE;
 class APOINT;
 class curve;
-class SPAtransf;
 class SPAbox;
 class pattern_holder;
 class pattern;
@@ -173,6 +173,14 @@ public:
 	 * @nodoc
 	 */
 	TRANSFORM_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
@@ -379,7 +387,7 @@ public:
  * flag to reverse the curve.
  */
 	virtual curve* trans_curve(
-		const SPAtransf &t = *(SPAtransf*)NULL_REF, logical reverse = FALSE) const;
+		const SPAtransf &t = SPAtransf(), logical reverse = FALSE) const;
 /**
  * Transforms the equation of this <tt>CURVE</tt>.
  * <br><br>
@@ -426,7 +434,7 @@ public:
  * @nodoc
  */
     virtual logical box_clash(const SPAbox &test_box,
-                              const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
+                              const SPAtransf &surf_transf = SPAtransf(),
                               double tol = SPAresabs) const;
 
 	// Routines used for system debugging and instrumentation.

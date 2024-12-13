@@ -9,7 +9,7 @@
 // Declare procedures for working with class facet_options in scheme
 /*******************************************************************/
 #ifndef facet_typ_hxx
-#define ffacet_typ_hxx
+#define facet_typ_hxx
 
 #include "scheme.hxx"
 #include "logical.h"

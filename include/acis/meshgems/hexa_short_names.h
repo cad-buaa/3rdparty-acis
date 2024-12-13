@@ -39,5 +39,6 @@
 #define hexa_set_sizemap meshgems_hexa_set_sizemap
 #define hexa_set_surface_mesh meshgems_hexa_set_surface_mesh
 #define hexa_session_t meshgems_hexa_session_t
+#define hexa_unlock_product meshgems_hexa_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_HEXA_SHORT_NAMES__ */

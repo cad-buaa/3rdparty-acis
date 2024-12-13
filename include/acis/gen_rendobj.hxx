@@ -239,7 +239,7 @@ public:
      * @param color
      * Color
 	 */
-	virtual intptr_t insert_curve(CURVE* curve, SPAparameter start, SPAparameter end, const SPAtransf& trans, const rgb_color &color) = 0;
+	virtual intptr_t insert_curve(CURVE* curve, SPAparameter start, SPAparameter end, const SPAtransf* trans, const rgb_color &color) = 0;
 
 	/**
 	 * Computes drawing segments for  3D polyline from array of floats

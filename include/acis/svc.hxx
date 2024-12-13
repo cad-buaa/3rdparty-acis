@@ -171,6 +171,10 @@ private:
     void initialize( BOUNDED_SURFACE* bsf, double u, double v, 
 		     int us=99, int vs=99 );
 
+    int	distance(const SPAposition& iX,
+        double& value,
+        CURVATURE_MATRIX&,
+        THIRD_RANK_TENSOR*);
 public:
 
     SVEC( BOUNDED_SURFACE* bsf = 0, double u = SPAnull, double v = SPAnull,
@@ -207,7 +211,7 @@ public:
     // Data access functions: 
 
     const surface&   sf() const  { return _bsf ? _bsf->sf() 
-                                               : *(const surface*)NULL_REF ; }
+                                               : SpaAcis::NullObj::get_surface() ; }
 
     BOUNDED_SURFACE& bsf() const { return *_bsf; }	
 
@@ -442,10 +446,14 @@ public:
     // Evaluate the distance function from a point X to the surface, when X is 
     // known to lie on the svec normal (i.e. relax has already been called). 
 
-    int		distance( const SPAposition&    iX,
-			  double&            value, 
-			  CURVATURE_MATRIX&  = *(CURVATURE_MATRIX*) NULL_REF, 
-			  THIRD_RANK_TENSOR& = *(THIRD_RANK_TENSOR*)NULL_REF );
+    int	distance(const SPAposition& iX,
+                double& value,
+                CURVATURE_MATRIX &);
+
+    int	distance(const SPAposition& iX,
+                double& value,
+                CURVATURE_MATRIX & ,
+                THIRD_RANK_TENSOR & );
 
 
     // Represent a SPAvector in the SVEC tangent plane as a*Pu + b*Pv

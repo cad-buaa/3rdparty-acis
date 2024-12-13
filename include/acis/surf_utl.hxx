@@ -18,9 +18,8 @@
 #define surf_utl_hxx
 
 #include "dcl_kern.h"
-// ywoo 08Jan01: added the header file.
 #include "base.hxx"
-// ywoo: end
+#include "spa_null_base.hxx"
 
 //======================================================================
 
@@ -36,8 +35,8 @@ DECL_KERN surface* get_surface_from_face(FACE const*);
 
 DECL_KERN void exercise_surface_derivatives(
 	FACE	 *in_face, 
-	const SPAinterval &range_u = *(SPAinterval *) NULL_REF, 
-	const SPAinterval &range_v = *(SPAinterval *) NULL_REF, 
+	const SPAinterval &range_u = SpaAcis::NullObj::get_interval(), 
+	const SPAinterval &range_v = SpaAcis::NullObj::get_interval(), 
 	int		  nu=10, 
 	int		  nv=10, 
 	FILE	 *out_file_ptr=NULL);

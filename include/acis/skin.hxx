@@ -278,7 +278,7 @@ sg_loft_coedges(
 	Loft_Connected_Coedge_List *& sections,	// Set of lists of coedges.
 	BODY*& out_body,
 	skin_options* opts,
-    double &oTol = *( double * )NULL_REF
+    double &oTol = SpaAcis::NullObj::get_double()
     );
 
 DECL_SKIN outcome  
@@ -289,7 +289,7 @@ sg_loft_coedges(
         EDGE* guides[],
 		BODY*& out_body,
 		skin_options* opts,
-        double &oTol = *( double * )NULL_REF
+        double &oTol = SpaAcis::NullObj::get_double()
         );
 
 DECL_SKIN BODY*  
@@ -356,7 +356,7 @@ sg_make_lofting_wires(int in_no_sets,							// Input number of coed_sets
 					  int &number_of_laws,						// number of laws associated with the wires
 					  law** &laws,								// the laws associated with the routines
 					  BODY** &sections,							// wires made by the routine before break-up
-					  logical &closed,							// closed option is passed by reference  
+					  int&closed,							    // closed option is passed by reference  
 					  logical& all_closed,
 					  logical& degenerate_wire);
 
@@ -388,8 +388,8 @@ sg_stitch_skinning_faces(int no_of_wires,			// Number of sections
 						 BODY*& result,				// Skin body returned		  
 						 logical closed,			// Construct a closed solid body if TRUE
 						 logical solid,				// End cap the first and last wires if TRUE
-						 logical sliver_faces = 0,
-						 logical*& degen_face_flag = *(logical**)NULL_REF);
+						 int sliver_faces = 0,
+						 logical*& degen_face_flag = SpaAcis::NullObj::get_logical_ptr());
 
 // Added the optional argument c_replaced (which defaults to NULL); users can supply this and check
 // the result to determine if the returned curve is different from the input curve c - DO NOT compare pointer addresses,

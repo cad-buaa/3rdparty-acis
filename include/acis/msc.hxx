@@ -32,8 +32,5 @@
 
 #include "deb.hxx"
 
-#ifdef D3_DEBUG
-#include "psf.hxx"
-#endif
 
 #endif

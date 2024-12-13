@@ -1007,7 +1007,7 @@ public:
  * @param tol
  * tolerance.
  */
-DECL_BASE logical same_par_pos( SPApar_pos const &p1,
+DECL_BASE bool same_par_pos( SPApar_pos const &p1,
 								SPApar_pos const &p2,
 								double tol = SPAresnor );
 
@@ -1019,7 +1019,7 @@ DECL_BASE logical same_par_pos( SPApar_pos const &p1,
  * @param p2
  * second parameter position.
  */
-DECL_BASE inline logical operator==( SPApar_pos const &p1, SPApar_pos const &p2 )
+DECL_BASE inline bool operator==( SPApar_pos const &p1, SPApar_pos const &p2 )
 	{ return same_par_pos(p1, p2, SPAresnor); }
 
 
@@ -1031,7 +1031,7 @@ DECL_BASE inline logical operator==( SPApar_pos const &p1, SPApar_pos const &p2 
  * @param p2
  * second parameter position.
  */
-DECL_BASE inline logical operator!=( SPApar_pos const &p1, SPApar_pos const &p2 )
+DECL_BASE inline bool operator!=( SPApar_pos const &p1, SPApar_pos const &p2 )
 	{ return !same_par_pos(p1, p2, SPAresnor); }
 
 /** @} */
@@ -1194,7 +1194,7 @@ public:
  * @param v2
  * second parameter vector.
  */
-DECL_BASE logical operator==( SPApar_vec const &v1, SPApar_vec const &v2 );
+DECL_BASE bool operator==( SPApar_vec const &v1, SPApar_vec const &v2 );
 
 /**
  * Tests two parameter vectors for inequality within a tolerance of <tt>SPAresnor</tt>.
@@ -1204,7 +1204,7 @@ DECL_BASE logical operator==( SPApar_vec const &v1, SPApar_vec const &v2 );
  * @param v2
  * second parameter vector.
  */
-DECL_BASE inline logical operator!=( SPApar_vec const &v1, SPApar_vec const &v2 )
+DECL_BASE inline bool operator!=( SPApar_vec const &v1, SPApar_vec const &v2 )
 	{ return !(v1==v2); }
 
 /** @} */
@@ -1570,14 +1570,14 @@ public:
 	 * @param b
 	 * given box
 	 */
-	logical operator==(SPApar_box const & b);
+	bool operator==(SPApar_box const & b);
 
 	/**
 	* Inequality operator for determining whether this box isn't identical to given box.
 	* @param b
 	* given box
 	*/
-	logical operator!=(SPApar_box const & b);
+	bool operator!=(SPApar_box const & b);
 
 	void debug( char const *title, FILE *fp = debug_file_ptr ) const;
 };
@@ -1842,8 +1842,5 @@ public:
 
 // STI let: end
 
-
-
 /** @} */
 #endif
-

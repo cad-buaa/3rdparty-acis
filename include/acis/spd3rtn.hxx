@@ -14,6 +14,8 @@
 #include "bs2curve.hxx"
 #include "sp2crtn.hxx"
 #include "bs3surf.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * @file spd3rtn.hxx
  * @CAA2Level L1
@@ -303,9 +305,9 @@ DECL_SPLINE void bs3_curve_cylinder(
 **/
 
 DECL_SPLINE check_status_list* bs3_surface_check( bs3_surface bs3,
-				     const spline& spl = *(spline*)NULL_REF,
-				     const check_fix& fix = *(check_fix*)NULL_REF,
-				     check_fix& fixed = *(check_fix*)NULL_REF,
+				     const spline& spl = SpaAcis::NullObj::get_spline(),
+				     const check_fix& fix = SpaAcis::NullObj::get_check_fix(),
+				     check_fix& fixed = SpaAcis::NullObj::get_check_fix(),
 				     const check_status_list* list = NULL );
 
 // As above, but for bs3 curves.
@@ -324,7 +326,7 @@ DECL_SPLINE check_status_list* bs3_surface_check( bs3_surface bs3,
 **/
 
 DECL_SPLINE check_status_list* bs3_curve_check( bs3_curve bs3,
-				     const intcurve& ic = *(intcurve*)NULL_REF,
+				     const intcurve& ic = SpaAcis::NullObj::get_intcurve(),
 				     const check_status_list* check = NULL );
 
 
@@ -337,10 +339,10 @@ DECL_SPLINE check_status_list* bs3_curve_check( bs3_curve bs3,
  */
 
 DECL_SPLINE check_status_list* bs2_curve_check( bs2_curve,
-				     const intcurve& = *(intcurve*)NULL_REF,
-				     const surface& = *(surface*)NULL_REF,
-				     const check_fix& fix = *(check_fix*)NULL_REF,
-				     check_fix& fixed = *(check_fix*)NULL_REF,
+				     const intcurve& = SpaAcis::NullObj::get_intcurve(),
+				     const surface& = SpaAcis::NullObj::get_surface(),
+				     const check_fix& fix = SpaAcis::NullObj::get_check_fix(),
+				     check_fix& fixed = SpaAcis::NullObj::get_check_fix(),
 				     const check_status_list* = NULL );
 
 // STI dgh begin - prototypes for advanced blending
@@ -577,8 +579,9 @@ DECL_SPLINE logical bs2_curve_straddles_bs3_surface_knots(
  * @nodoc
  */
 
-DECL_SPLINE SPAinterval bs2_curve_extend( bs2_curve&, const SPAinterval& reqd_range,
-			   const SPAinterval& orig_range = *(const SPAinterval*)NULL_REF );
+DECL_SPLINE SPAinterval bs2_curve_extend( bs2_curve&, 
+				const SPAinterval& reqd_range,
+				const SPAinterval& orig_range = SpaAcis::NullObj::get_interval() );
 
 
 // For internal use only
@@ -586,8 +589,9 @@ DECL_SPLINE SPAinterval bs2_curve_extend( bs2_curve&, const SPAinterval& reqd_ra
  * @nodoc
  */
 
-DECL_SPLINE SPAinterval bs3_curve_extend( bs3_curve&, const SPAinterval& reqd_range,
-			   const SPAinterval& orig_range = *(const SPAinterval*)NULL_REF );
+DECL_SPLINE SPAinterval bs3_curve_extend( bs3_curve&, 
+				const SPAinterval& reqd_range,
+				const SPAinterval& orig_range = SpaAcis::NullObj::get_interval() );
 
 
 // For internal use only
@@ -595,8 +599,10 @@ DECL_SPLINE SPAinterval bs3_curve_extend( bs3_curve&, const SPAinterval& reqd_ra
  * @nodoc
  */
 
-DECL_SPLINE SPApar_box	bs3_surface_extend( bs3_surface&, const SPApar_box& reqd_range,
-			    const SPApar_box& orig_range = *(const SPApar_box*)NULL_REF );
+DECL_SPLINE SPApar_box	bs3_surface_extend( 
+				bs3_surface&, 
+				const SPApar_box& reqd_range,
+			    const SPApar_box& orig_range = SpaAcis::NullObj::get_par_pos() );
 
 
 // For internal use only
@@ -691,7 +697,7 @@ DECL_SPLINE	bs3_surface
 bs3_surface_make_approx( const surface&,
 			 const SPApar_box&,
 			 double tol,
-			 double& actual_tol = *(double*) NULL_REF,
+			 double& actual_tol = SpaAcis::NullObj::get_double(),
 			 int nuknots = 0,
 			 const double* uknots = 0,
 			 int nvknots = 0,
@@ -737,15 +743,22 @@ public:
     SPApar_box	range2;		// Second range containing the clash point
     sf_clash_list* next;
 	SPAposition pos;
+	logical irregular1;		// range1 hinting at being irregular or bad 
+	logical irregular2;		// range2 hinting at being irregular or bad 
+
+	sf_clash_list(const SPApar_pos& p1, const SPApar_pos& p2,
+		const SPApar_box& r1, const SPApar_box& r2, sf_clash_list* n)
+		: uv1( p1 ), uv2( p2 ), range1( r1 ), range2( r2 ), next( n ), irregular1( FALSE ), irregular2(FALSE) {}
 
     sf_clash_list( const SPApar_pos& p1, const SPApar_pos& p2,
-		const SPApar_box& r1, const SPApar_box& r2, sf_clash_list* n )
-	: uv1( p1 ), uv2( p2 ), range1( r1 ), range2( r2 ), next( n ) {}
-    //~sf_clash_list()	{ delete next; }
+		const SPApar_box& r1, const SPApar_box& r2, sf_clash_list* n, logical const& irr_or_bad1, logical const& irr_or_bad2)
+	: uv1( p1 ), uv2( p2 ), range1( r1 ), range2( r2 ), next( n ), irregular1( irr_or_bad1 ), irregular2(irr_or_bad2) {}
+    
+	//~sf_clash_list()	{ delete next; }
     ~sf_clash_list();				// bmt 73739, stack overflow, removed recusrsion
 
     sf_clash_list( const SPApar_pos& p2, const SPApar_box& r2, SPAposition &p, sf_clash_list* n )
-		: uv2( p2 ), range2( r2 ), pos( p ), next( n ) {}
+		: uv2( p2 ), range2( r2 ), pos( p ), next( n ), irregular1(FALSE), irregular2(FALSE) {}
  };
 /**
  * @nodoc
@@ -764,16 +777,33 @@ public:
  * @nodoc
  * For internal use only
  */
-DECL_SPLINE	logical bs3_surface_check_hull( bs3_surface, double tol = SPAresabs,
-			int istep=1, int jstep=1,
-			sf_clash_list*& clashes = *(sf_clash_list**)NULL_REF,
+DECL_SPLINE	logical bs3_surface_check_hull( 
+			bs3_surface, 
+			double tol = SPAresabs,
+			int istep=1, 
+			int jstep=1,
+			sf_clash_list*& clashes  = SpaAcis::NullObj::get_sf_clash_list_ptr(),
+			CLASH_ANALYSER* analyser = 0);
+/**
+ * @nodoc
+ * For internal use only
+ */
+DECL_SPLINE	logical bs3_surface_check_hull_new(
+			bs3_surface,
+			double tol = SPAresabs,
+			int istep = 1,
+			int jstep = 1,
+			sf_clash_list*& clashes = SpaAcis::NullObj::get_sf_clash_list_ptr(),
 			CLASH_ANALYSER* analyser = 0);
 /**
  *.
  */
-DECL_SPLINE	logical bs3_surface_check_hit( bs3_surface, double tol = SPAresabs,
-			                                int istep=1, int jstep=1,
-			                                sf_clash_list*& clashes = *(sf_clash_list**)NULL_REF );
+DECL_SPLINE	logical bs3_surface_check_hit( 
+			bs3_surface, 
+			double tol = SPAresabs,
+			int istep=1, 
+			int jstep=1,
+			sf_clash_list*& clashes = SpaAcis::NullObj::get_sf_clash_list_ptr());
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -809,11 +839,12 @@ check_point_grid( int       nu,
                   SPAposition  *pts,
                   double    *u_knots,
                   double    *v_knots,
-                  SPApar_box   &exclude_region = *(SPApar_box*)NULL_REF,
-                  SPApar_box   &extension_box = *(SPApar_box*)NULL_REF,
-                  VOID_LIST &bad_uvs = *(VOID_LIST*)NULL_REF,
-                  int istep=1, int jstep=1,
-				  sf_clash_list*& clashes = *(sf_clash_list**)NULL_REF );
+                  SPApar_box   &exclude_region	= SpaAcis::NullObj::get_par_box(),
+                  SPApar_box   &extension_box	= SpaAcis::NullObj::get_par_box(),
+                  VOID_LIST &bad_uvs			= SpaAcis::NullObj::get_void_list(),
+                  int istep						= 1, 
+				  int jstep						= 1,
+				  sf_clash_list*& clashes		= SpaAcis::NullObj::get_sf_clash_list_ptr());
 
 // The following function checks whether a curve has a self-intersecting
 // b-spline hull.  It returns TRUE if the hull does not self-intersect and FALSE
@@ -874,7 +905,7 @@ public:
 DECL_SPLINE	logical
 bs3_curve_check_hull( bs3_curve,
 		      double tol = SPAresabs,
-		      cu_clash_list*& clashes = *(cu_clash_list**)NULL_REF,
+		      cu_clash_list*& clashes = SpaAcis::NullObj::get_cu_clash_list_ptr(),
 			  CU_CLASH_ANALYSER* analyser = 0,
 			  double approx_tol = -1.0,
 			  intcurve const* intc = 0);
@@ -903,6 +934,17 @@ enum clash_check_type
 	on_surface_clash = 4	// Find all clashes using points on the surface (check_point_grid) and return them in clash list.
 };
 // STI rr end
+
+/**
+ * @nodoc
+ */
+enum point_in_chord_classification
+{
+	point_in_chord_unknown,
+	point_in_chord_inside,
+	point_in_chord_outside,
+	point_in_chord_boundary
+};
 
 /**
  * @nodoc
@@ -937,6 +979,17 @@ public:
 		_null = VEC_equal( *_P0, *_P1 );
 	}
 
+	CHORDS(SPAposition& pts0, SPAposition& pts1, int i0, int j0, int i1, int j1)
+		:	_i0(D3_min(i0, i1)),
+			_i1(D3_max(i0, i1)),
+			_j0(D3_min(j0, j1)),
+			_j1(D3_max(j0, j1))
+	{
+		_P0 = &pts0;
+		_P1 = &pts1;
+		_null = VEC_equal(*_P0, *_P1);
+	}
+
 	SPAposition&   P0() { return *_P0; }
 	SPAposition&   P1() { return *_P1; }
 	
@@ -946,6 +999,14 @@ public:
 	int 		j1()	{ return _j1; }
 	
 	logical 	null()	{ return _null; }
+	
+	// The code assumes the given point to check lies on the line defining the chord.
+	// It checks if the given point is outside the chord or, on the boundary of the chord or, inside the chord. 
+	point_in_chord_classification point_classification(SPAposition const& pt, double const& tol);
+	
+	// Returns TRUE if the intersection point is either on boundary of both or, interior of both or, on boundary
+	// of one chord and interior of the other chord and vice versa. hit_param returned is for "this" chord.
+	logical intersect(CHORDS& ch, double const& tol, SPAposition& hit_pos, double& hit_param);
 };
 
 
@@ -977,6 +1038,10 @@ protected:
 		int x, y;
 		coords( int xin, int yin ) : x(xin), y(yin) {}
 		~coords() {}
+		bool operator == (coords const& point) const
+		{
+			return ((x == point.x) && (y == point.y));
+		}
 	};
 	
 	virtual ~quadTree(){}
@@ -1008,19 +1073,148 @@ class GRID;
 class subGrid : public quadTree
 {
 	coords low, high; // row,column coordinates of the lower left and the upper right corners that define the sub grid.
+
+	class triangle
+	{
+		// 3d position of triangle corners
+		SPAposition* _a;
+		SPAposition* _b;
+		SPAposition* _c;
+		
+		// grid index of the triangle corners va, vb, vc
+		coords _va;
+		coords _vb;
+		coords _vc;
+		
+		SPAbox _tri_box;
+		SPAvector _pl_norm;
+		SPAunit_vector _pl_norm_unit;
+				
+		SPAunit_vector bc_interior;
+		SPAunit_vector ac_interior;
+		SPAunit_vector ab_interior;
+
+		// Lazy computation flags
+		logical bc_interior_computed;
+		logical ac_interior_computed;
+		logical ab_interior_computed;
+		logical triangle_plane_norm_computed;
+
+		enum point_in_triangle_classification
+		{
+			point_in_triangle_unknown,
+			point_in_triangle_inside,
+			point_in_triangle_outside,
+			point_in_triangle_boundary
+		};
+		
+	public:
+		triangle(SPAposition* v1, SPAposition* v2, SPAposition* v3, coords i1, coords i2, coords i3) : 
+			_a(v1), _b(v2), _c(v3), _va(i1), _vb(i2), _vc(i3), bc_interior_computed(FALSE),
+			ac_interior_computed(FALSE), ab_interior_computed(FALSE), triangle_plane_norm_computed(FALSE)
+		{
+			_tri_box = SPAbox(*_a) | SPAbox(*_b) | SPAbox(*_c);
+		}
+		~triangle() {}
+		
+		coords corner1() { return _va; }
+		coords corner2() { return _vb; }
+		coords corner3() { return _vc; }
+		
+		SPAposition& point1() { return *_a; }
+		SPAposition& point2() { return *_b; }
+		SPAposition& point3() { return *_c; }
+		
+		CHORDS side1()
+		{
+			return CHORDS(*_a, *_b, _va.x, _va.y, _vb.x, _vb.y);
+		}
+		CHORDS side2()
+		{
+			return CHORDS(*_b, *_c, _vb.x, _vb.y, _vc.x, _vc.y);
+		}
+		CHORDS side3()
+		{
+			return CHORDS(*_c, *_a, _vc.x, _vc.y, _va.x, _va.y);
+		}
+		
+		void plane(SPAposition& pl_pos, SPAvector& pl_norm_vec, SPAunit_vector& pl_norm)
+		{
+			pl_pos = *_a;
+			
+			if (FALSE == triangle_plane_norm_computed)
+			{
+				SPAvector vec1 = *_b - *_a;
+				SPAvector vec2 = *_c - *_a;
+				_pl_norm = vec1 * vec2;
+				_pl_norm_unit = normalise(_pl_norm);
+				triangle_plane_norm_computed = TRUE;
+			}
+			
+			pl_norm_vec = _pl_norm;
+			pl_norm = _pl_norm_unit;
+		}
+		
+		logical intersect(subGrid::triangle* tr, double const& tol, logical const& touching);		
+
+	private:
+		// This function does a quick check for coincident triangles, it does not explicitly check for exact coincidence.
+		logical coincident(subGrid::triangle* tr, double const& tol);
+		
+		// This function checks if given trriangle tr is contained within this triangle.
+		logical contained(subGrid::triangle* tr, double const& tol);
+		
+		// checks intersection of chord with triangle.
+		logical chord_hit(CHORDS& segment, double const& tol, SPAposition& hit_pos, double& hit_param);
+		
+		// checks if point is inside or on the boundary of the triangle. The code assumes the point is on the plane of the triangle.
+		point_in_triangle_classification point_classification(SPAposition const& pt, double const& tol);
+		
+		// checks if pos_to_check is on or interior to side bc
+		logical interior_bc(SPAposition const& pos_to_check, double const& tol, point_in_triangle_classification& pt_classify);
+		
+		// checks if pos_to_check is on or interior to side ac
+		logical interior_ac(SPAposition const& pos_to_check, double const& tol, point_in_triangle_classification& pt_classify);
+		
+		// checks if pos_to_check is on or interior to side ab
+		logical interior_ab(SPAposition const& pos_to_check, double const& tol, point_in_triangle_classification& pt_classify);
+	};
+	
+	// information whether grid is twisted.
+	// -1 - uninitialized, 0 - not twisted, 1 - twisted
+	int _bad;
+	
+	// triangle representing the grid.
+	triangle* _tr1;
+	triangle* _tr2;
+
 protected:
-	~subGrid(){}
+	~subGrid()
+	{
+		delete _tr1;
+		delete _tr2;
+	}
 	
 	SPAbox subGrid_box; // The box of this subgrid.
 	GRID *grid; // reference to the grid of which this is a part.
 public:
-	subGrid() : quadTree(), low(0,0), high(0,0), grid(0) {}
+	subGrid() : quadTree(), low(0,0), high(0,0), grid(0), _bad(-1), _tr1(nullptr), _tr2(nullptr) {}
 	subGrid( int x1, int x2, int y1, int y2, GRID *g )
-		: quadTree(), low(x1,y1), high(x2,y2), grid(g) {}
+		: quadTree(), low(x1,y1), high(x2,y2), grid(g), _bad(-1), _tr1(nullptr), _tr2(nullptr) {}
 	void subDivide();
 	// STI rr (11/12/02) begin: Look for the enum definition above.
 	logical intersects( CHORDS &ch, SPAbox const &ch_box, double const &tol, clash_check_type const &check_type,logical& finish );
 	logical intersects1(CHORDS &ch, SPAbox const &chord_box, double const &tol, clash_check_type const &check_type );
+	
+	// rcy5 : new functions
+	void triangulate(triangle*& tr1, triangle*& tr2);
+	logical triangles_adjacent(triangle& tr1, triangle& tr2);
+	logical intersects(subGrid* sbGrid, double const& tol, logical& finish);
+	
+	logical add_clashes();
+	logical is_bad();
+	logical grid_adjacent(subGrid* grid_to_chk);
+	SPAbox get_box() { return subGrid_box; }	
 };
 
 // STI rr begin: Declare this function as it is needed to store the clash information during tree traversal.
@@ -1032,6 +1226,14 @@ void add_to_list( sf_clash_list*& clashes,
 							int ig0, int jg0, int ig1, int jg1, 
 							int deg_u, int deg_v, 
 							double* uknots, double* vknots );
+/**
+ * @nodoc
+ */
+void add_to_list(sf_clash_list*& clashes, GRID&,
+	int ic0, int jc0, int ic1, int jc1,
+	int ig0, int jg0, int ig1, int jg1,
+	int deg_u, int deg_v,
+	double* uknots, double* vknots, logical const& irregular1, logical const& irregular2);
 /**
  * @nodoc
  */
@@ -1064,7 +1266,7 @@ class GRID : public ACIS_OBJECT
 	SPAbox *_boxes;    // For quicker boxing when looking for self-intersections
 	
 	CLASH_ANALYSER* _analyser;
-
+	
 	logical ihit( CHORDS &ch, int i )
 	{ 
 		return i <= ch.i1() && i+_istep >= ch.i0() || 
@@ -1088,7 +1290,13 @@ public:
 		clash_list(NULL),_tol( tol ), _tol_sq( tol*tol ),
 	    _analyser(analyser) {}
 	
-	~GRID() { if (_boxes) ACIS_DELETE [] _boxes; _subGrid->remove(); }
+	~GRID() 
+	{ 
+		if (_boxes) 
+			ACIS_DELETE [] _boxes; 
+		if (_subGrid)
+			_subGrid->remove(); 
+	}
 	
 	int 		imin()	{ return _imin; }
 	int 		imax()	{ return _imax; }
@@ -1122,12 +1330,32 @@ public:
 	}
 	double *u_knots() const { return uknots; }
 	double *v_knots() const { return vknots; }
-	SPApar_box &exclude_region() const { return _exclude_region ? *_exclude_region : *(SPApar_box*)NULL_REF; }
-	SPApar_box &extension_box() { return _extension_box ? *_extension_box : *(SPApar_box*)NULL_REF; }
-	VOID_LIST &bad_uvs() { return _bad_uvs ? *_bad_uvs : *(VOID_LIST *)NULL_REF; }
+	SPApar_box &exclude_region() const 
+	{ 
+		return _exclude_region ? *_exclude_region : SpaAcis::NullObj::get_par_box(); 
+	}
+	
+	SPApar_box &extension_box() 
+	{ 
+		return _extension_box ? *_extension_box : SpaAcis::NullObj::get_par_box(); 
+	}
+	
+	VOID_LIST &bad_uvs() { return _bad_uvs ? *_bad_uvs : SpaAcis::NullObj::get_void_list(); }
 	
 	logical add_clashes(CHORDS &ch, int ig0, int jg0, int ig1, int jg1);
-
+	
+	// rcy5 : New add routine Starts.
+	logical add_clashes (int const& ic0, int const& jc0, 
+						 int const& ic1, int const& jc1, 
+						 int const& ig0, int const& jg0, 
+						 int const& ig1, int const& jg1, 
+						 logical const& irregular1, logical const& irregular2);
+	
+	logical closed_u()	{ return (_imod > 0) ? TRUE : FALSE; }
+	
+	logical closed_v() { return (_jmod > 0) ? TRUE : FALSE; }
+	// rcy5 : New add routine Ends.
+	
 	void add_clashes(CHORDS &ch, int ig0, int jg0, int ig1, int jg1, SPAposition &pos)
 	{
 		add_to_list1( clash_list, *this, ch, ig0, jg0, ig1, jg1, degree_u, degree_v, uknots, vknots, pos );
@@ -1192,7 +1420,7 @@ DECL_SPLINE	bs3_curve
 bs3_curve_make_approx( const curve&,
 		       const SPAinterval&,
 		       double tol,
-		       double& actual_tol = *(double*) NULL_REF,
+		       double& actual_tol = SpaAcis::NullObj::get_double(),
 		       int nknots = 0,
 		       const double* knots = 0,
 		       logical geometric_refine = FALSE,
@@ -1247,8 +1475,10 @@ DECL_SPLINE curve* approx_arclength_curve(const curve& base_curve, double start,
  * @nodoc
  */
 
-DECL_SPLINE logical	bs2_curve_constant_u( bs2_curve, double& u = *(double*)NULL_REF,
-			      logical& same_para = *(logical*)NULL_REF );
+DECL_SPLINE logical	bs2_curve_constant_u ( 
+					bs2_curve, 
+					double& u = SpaAcis::NullObj::get_double(),
+					logical& same_para = SpaAcis::NullObj::get_logical());
 
 
 // For internal use only
@@ -1256,8 +1486,10 @@ DECL_SPLINE logical	bs2_curve_constant_u( bs2_curve, double& u = *(double*)NULL_
  * @nodoc
  */
 
-DECL_SPLINE logical	bs2_curve_constant_v( bs2_curve, double& v = *(double*)NULL_REF,
-			      logical& same_para = *(logical*)NULL_REF );
+DECL_SPLINE logical	bs2_curve_constant_v( 
+					bs2_curve, 
+					double& v = SpaAcis::NullObj::get_double(),
+					logical& same_para = SpaAcis::NullObj::get_logical());
 
 // STI dgh end - prototypes from kerngeom/d3_vbl/vbl_bs3.hxx
 

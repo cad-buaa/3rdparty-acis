@@ -15,7 +15,7 @@ class DECL_BOOL n_body_unite_options;
 
 /**
 * @file n_body_unite.hxx
-* \addtogroup BOOLAPI
+* \addtogroup BOOLADVAPI
 * @{
 */
 
@@ -103,3 +103,4 @@ DECL_BOOL outcome api_n_body_unite_2d(
 	const bool regularized = true, 
 	BoolOptions* bopts = nullptr,
 	const AcisOptions* ao = nullptr);
+/*! @} */

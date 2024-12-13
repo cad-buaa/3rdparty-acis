@@ -20,6 +20,7 @@
 #include "transf.hxx"
 #include "dispatch.hxx"
 #include "msh_sur.hxx"
+#include "spa_null_base.hxx" 
 
 class meshsurf;
 class ENTITY;
@@ -142,7 +143,7 @@ public:
 	 * Test two surfaces for equality.  DOES NOT use a tolerance,
 	 * and therefore usually only valid for testing copies.
      */
-	virtual logical operator==( surface const & ) const;
+	virtual bool operator==( surface const & ) const;
     /**
 	 * Return a transformed copy of the meshsurf.  Makes
 	 * a deferred copy, then calls operator*=.
@@ -171,15 +172,15 @@ public:
 	 * Surface bounded in parameter space.
      */
 	virtual SPAbox bound(
-				SPApar_box const & = *(SPApar_box *)NULL_REF,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box(),
+				SPAtransf const & = SPAtransf()
 			) const;
     /**
 	 * Surface bounded in object space.
      */
 	virtual SPAbox bound(
 				SPAbox const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
     /**
 	 * Return a cone bounding the normal direction of the surface. The
@@ -188,7 +189,7 @@ public:
 	virtual surf_normcone normal_cone(
 				SPApar_box const &,	 // parameter bounds
 				logical = FALSE,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
     /**
 	 * Return whether the mesh is considered parametric.
@@ -199,7 +200,7 @@ public:
      */
 	virtual SPAunit_vector point_normal(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
 	 * Find an outward direction from the surface at a point on
@@ -207,7 +208,7 @@ public:
      */
 	virtual SPAunit_vector point_outdir(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
 	 * Find the principal axes of curvature of the surface at a
@@ -216,17 +217,17 @@ public:
 	virtual void point_prin_curv(
 				SPAposition const &,
 				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
+				double &,				// curvature in first direction
 				SPAunit_vector &,		// second axis direction
 				double &,			// curvature in second direction
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
      *
      */
 	surf_princurv point_prin_curv(
 				SPAposition const &pos,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const
 	{
 		return surface::point_prin_curv( pos, param_guess );
@@ -238,7 +239,7 @@ public:
 	virtual double point_cross(
 				SPAposition const &,
 				SPAunit_vector const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
 	 * Find the point on the surface nearest to the given point and 
@@ -251,8 +252,8 @@ public:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos & = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const;
     /**
@@ -265,8 +266,8 @@ public:
 				SPAposition const &pos,
 				SPAposition &foot,
 				SPAunit_vector &norm,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const
 	{
@@ -274,7 +275,7 @@ public:
 				pos,
 				foot,
 				norm,
-				*(surf_princurv *)NULL_REF,
+				SpaAcis::NullObj::get_surf_princurv(),
 				param_guess,
 				param_actual, f_weak
 			);
@@ -288,16 +289,16 @@ public:
 	void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const
 	{
 		point_perp(
 				pos,
 				foot,
-				*(SPAunit_vector *)NULL_REF,
-				*(surf_princurv *)NULL_REF,
+				SpaAcis::NullObj::get_unit_vector(),
+				SpaAcis::NullObj::get_surf_princurv(),
 				param_guess,
 				param_actual, f_weak
 			);
@@ -308,7 +309,7 @@ public:
      */
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
 	 * Find the change in surface parameter corresponding to a unit
@@ -406,7 +407,7 @@ public:
 	 * more than anyone could reasonably want.
      */
 	virtual int accurate_derivs( 
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
     /**
@@ -447,19 +448,19 @@ public:
 	 * a chosen parameter direction, or in both.  The range can
 	 * be limited to a provided SPAbox.
      */
-	virtual SPApar_box param_range( SPAbox const & = *(SPAbox *)NULL_REF ) const;
+	virtual SPApar_box param_range( SPAbox const & = SpaAcis::NullObj::get_box()) const;
     /**
 	 * Return the principal parameter range of a parametric surface in
 	 * u parameter direction.  The range can
 	 * be limited to a provided SPAbox.
      */
-    virtual SPAinterval param_range_u( SPAbox const & = *(SPAbox *)NULL_REF ) const;
+    virtual SPAinterval param_range_u( SPAbox const & = SpaAcis::NullObj::get_box()) const;
     /**
 	 * Return the principal parameter range of a parametric surface in
 	 * v parameter direction.  The range can
 	 * be limited to a provided SPAbox.
      */
-    virtual SPAinterval param_range_v( SPAbox const & = *(SPAbox *)NULL_REF ) const;
+    virtual SPAinterval param_range_v( SPAbox const & = SpaAcis::NullObj::get_box()) const;
     /**
 	 * Return whether the surface parametrization is singular in the u direction.
      */
@@ -492,8 +493,8 @@ public:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double = 0,		// defaults to SPAresabs
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 			) const;
     /**
 	 * Return type of (lower-case) surface.

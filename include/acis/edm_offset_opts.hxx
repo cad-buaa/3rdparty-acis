@@ -140,14 +140,14 @@ public:
 	 * @param rRhs
 	 * edm_offset_options to be compared.
 	 */
-	logical operator==(const edm_offset_options& rRhs);
+	bool operator==(const edm_offset_options& rRhs);
 
 	/**
 	 * Non-equals operator.
 	 * @param rRhs
 	 * edm_offset_options to be compared.
 	 */
-	logical operator!=(const edm_offset_options& rRhs);
+	bool operator!=(const edm_offset_options& rRhs);
 };
 
 /**

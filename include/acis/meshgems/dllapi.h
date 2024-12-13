@@ -1,3 +1,4 @@
+/** @CAA2Required */
 #ifndef __MESHGEMS_DLLAPI_H__
 #define __MESHGEMS_DLLAPI_H__
 

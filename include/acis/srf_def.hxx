@@ -22,6 +22,7 @@
 #include "bs3surf.hxx"
 #include "dcl_spl.h"
 #include "base.hxx"
+#include "spa_null_base.hxx"
 
 struct ag_surface;
 struct ag_snode;
@@ -78,8 +79,8 @@ public:
 
     void set_initial_seam_multiplicity(int u_seam_mult, int u_start_mult, int v_seam_mult, int v_start_mult);
 
-    int  initial_u_seam_multiplicity(int &start_u_mult = *(int*)NULL_REF);
-    int  initial_v_seam_multiplicity(int &start_v_mult = *(int*)NULL_REF);
+    int  initial_u_seam_multiplicity(int &start_u_mult = SpaAcis::NullObj::get_int());
+    int  initial_v_seam_multiplicity(int &start_v_mult = SpaAcis::NullObj::get_int());
 };
 
 #endif

@@ -27,6 +27,9 @@
 #ifndef FN2H
 #define FN2H
 
+//#pragma message ("\nDeprecation Notice: Header file \"fn2.hxx\" will be removed in 2025 1.0 release.")
+//#pragma message ("\"fn2.hxx\" is for internal purposes only. \n")
+
 #include "dcl_kern.h"
 #include "logical.h"
 #include "fv2.hxx"
@@ -54,7 +57,11 @@ class D3_istream;
 // local knowledge about the function. The base class of the REGION (which 
 // follows) is trivial, as is the base class FUNC_2V's use of it. 
 
-class DECL_KERN REGION : public ACIS_OBJECT
+class DECL_KERN 
+#ifdef  _WINDOWS_SOURCE
+[[deprecated("\"class REGION\" will be removed in upcoming Release 2025 1.0.0")]]
+#endif
+REGION : public ACIS_OBJECT
 {
 protected:
     REGION*	_next;
@@ -205,8 +212,12 @@ extern DECL_KERN D3_ostream& operator<<( D3_ostream& os,
 // The FN2_CURVE_POINT class. The exploration functions build up lists of 
 // these to represent curves. Applications may derive their own class. 
 
-class DECL_KERN FN2_CURVE_POINT : public ACIS_OBJECT
-    {
+class DECL_KERN 
+#ifdef  _WINDOWS_SOURCE
+    [[deprecated("\"class FN2_CURVE_POINT\" will be removed in upcoming Release 2025 1.0.0")]]
+#endif
+FN2_CURVE_POINT : public ACIS_OBJECT
+{
     FVAL_2V*	_fval;
     SPApar_dir	_duv;
     FN2_CURVE_POINT* _next;
@@ -222,13 +233,17 @@ public:
     const SPApar_pos&	uv()	const	{ return _fval->uv(); }
     const SPApar_dir&	duv()	const	{ return _duv; }
     FN2_CURVE_POINT* 	next()	const	{ return _next; }
-    };
+};
 
 
 // The FN2_CURVE class. This is simply a list of FN2_CURVE_POINTS. 
 
-class DECL_KERN FN2_CURVE : public ACIS_OBJECT
-    {
+class DECL_KERN 
+#ifdef  _WINDOWS_SOURCE
+    [[deprecated("\"class FN2_CURVE\" will be removed in upcoming Release 2025 1.0.0")]]
+#endif
+FN2_CURVE : public ACIS_OBJECT
+{
     FN2_CURVE_POINT*	_start;		// Start point
     FN2_CURVE_POINT*	_end;		// End point
     FN2_CURVE*		_next;		// Next curve
@@ -254,7 +269,7 @@ public:
     // Remove the next point and update the curve end (if necessary). It is 
     // the caller's responsible to ensure that cp is in the curve point list
     void    remove_next( FN2_CURVE_POINT* cp );
-    };
+};
 
 
 // The FUNC_2V class. 
@@ -271,8 +286,12 @@ public:
 // required. 
 // 
 
-class DECL_KERN FUNC_2V  : public ACIS_OBJECT
-    {
+class DECL_KERN 
+#ifdef  _WINDOWS_SOURCE
+    [[deprecated("\"class FUNC_2V\" will be removed in upcoming Release 2025 1.0.0")]]
+#endif
+FUNC_2V  : public ACIS_OBJECT
+{
 protected:
     FVAL_2V*	_fval;			// A workspace fval used in calculations
 					// and returned by various functions,
@@ -476,17 +495,10 @@ public:
 	virtual int evaluate(FVAL_2V&,int derivs = 2) =0;
 
 	// Overload fval() rather than use a default argument to avoid having to
-	// specify a NULL_REF for dir
-    FVAL_2V& fval( const SPApar_pos& uv, const SPApar_vec& dir = *(SPApar_vec*) NULL_REF )
-	{ return fval(uv,2,dir); }
+	// specify a NULL object for dir
+    FVAL_2V& fval(const SPApar_pos& uv, const SPApar_vec& dir = SpaAcis::NullObj::get_par_vec());
 
-    FVAL_2V& fval( const SPApar_pos& uv, int n_deriv, const SPApar_vec& dir = *(SPApar_vec*) NULL_REF )
-	{
-		// Return the fval if at least two derivatives, or the number requested (<2)
-		// have been successfully evaluated
-		int derivs_evaluated = _fval->overwrite( uv, dir ,n_deriv);
-		return (derivs_evaluated>=2 || derivs_evaluated==n_deriv) ? *_fval : *(FVAL_2V*) NULL_REF;
-	}
+    FVAL_2V& fval(const SPApar_pos& uv, int n_deriv, const SPApar_vec& dir = SpaAcis::NullObj::get_par_vec());
 
     // Functions allowing derived classes to store and recover extra data - 
     // such as parameters on the second surface, in the case of IVECs. 
@@ -692,11 +704,11 @@ public:
     HELP_POINT*	add_entry_point( FVAL_2V&, FUNC_2V_BOUNDARY_DATA* b = 0, FVAL_2V* orig_fval = 0 ); 
     HELP_POINT*	add_exit_point( FVAL_2V&, FUNC_2V_BOUNDARY_DATA* b = 0, FVAL_2V* orig_fval = 0 ); 
     HELP_POINT*	add_isolated_point( FVAL_2V&, FUNC_2V_BOUNDARY_DATA* b = 0,
-		logical& new_ipt = *( logical* ) NULL_REF );
+		logical& new_ipt = SpaAcis::NullObj::get_logical());
     HELP_POINT*	add_turning_point( FVAL_2V& );
 
     TERMINATOR*	add_terminator( FVAL_2V&, FUNC_2V_BOUNDARY_DATA* b = 0, 
-				logical& new_term = *(logical*)NULL_REF,
+				logical& new_term = SpaAcis::NullObj::get_logical(),
 				int ndir = 0, SPApar_dir* tangents = 0,
 				logical force_terminator = FALSE );
 	// STL jb 07 Sep 2005: Adding of discontinuity points. For handling of 
@@ -708,7 +720,7 @@ public:
 	// Virtual function to allow derived classes to do more work when a
 	// terminator is added (the default is just to call add_terminator)
     virtual TERMINATOR*	add_terminator_and_extras( FVAL_2V&, FUNC_2V_BOUNDARY_DATA* b = 0, 
-				logical& new_term = *(logical*)NULL_REF);
+				logical& new_term = SpaAcis::NullObj::get_logical());
 
 
 
@@ -827,7 +839,7 @@ public:
     virtual void input( D3_istream& );
 
 #endif
-    };
+};
 
 #if defined D3_STANDALONE || defined D3_DEBUG
 

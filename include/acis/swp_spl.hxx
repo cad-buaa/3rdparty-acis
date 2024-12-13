@@ -47,11 +47,16 @@ class VOID_LIST;
  * @nodoc
  * Internal use.
  */
-DECL_KERN bs3_surface make_sweep_approx( sweep_spl_sur const &,  double &,
-	SPAinterval*uint, SPAinterval*vint, bs3_curve* path_in = NULL,
-	logical self_int_test = FALSE, VOID_LIST& bad_uvs = *(VOID_LIST*)NULL_REF,
-	SPApar_box& exclude_region = *(SPApar_box*)NULL_REF,
-	SPApar_box& extension_box = *(SPApar_box*)NULL_REF );
+DECL_KERN bs3_surface make_sweep_approx( 
+	sweep_spl_sur const &,  
+	double &,
+	SPAinterval*uint, 
+	SPAinterval*vint, 
+	bs3_curve* path_in			= NULL,
+	logical self_int_test		= FALSE, 
+	VOID_LIST& bad_uvs			= SpaAcis::NullObj::get_void_list(),
+	SPApar_box& exclude_region	= SpaAcis::NullObj::get_par_box(),
+	SPApar_box& extension_box	= SpaAcis::NullObj::get_par_box() );
 /**
  * @nodoc
  * Internal use
@@ -331,7 +336,7 @@ protected:
  * does guarantee that different surfaces are correctly
  * identified as such.
  */
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 /**
  * Transform this sweep by the given SPAtransf.
  */
@@ -397,8 +402,8 @@ protected:
 				SPApar_pos const &uv,
 				SPAposition &foot,
 				SPApar_pos &uv_actual,
-				SPAunit_vector &norm = *(SPAunit_vector *)NULL_REF,
-				surf_princurv &curv = *(surf_princurv *)NULL_REF
+				SPAunit_vector &norm	= SpaAcis::NullObj::get_unit_vector(),
+				surf_princurv &curv		= SpaAcis::NullObj::get_surf_princurv()
 		)const ;
 
 	/**
@@ -413,10 +418,10 @@ protected:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos(),
+				logical f_weak		= FALSE,
+			    SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 			) const;
 
 /**
@@ -425,7 +430,7 @@ protected:
 
 	virtual SPAunit_vector point_normal(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 /**
@@ -436,10 +441,10 @@ protected:
 	virtual void point_prin_curv(
 				SPAposition const &,
 				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
+				double &,				// curvature in first direction
 				SPAunit_vector &,		// second axis direction
-				double &,			// curvature in second direction
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+				double &,				// curvature in second direction
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
                 evaluate_surface_quadrant = evaluate_surface_unknown
 			) const;
 
@@ -449,7 +454,7 @@ protected:
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
@@ -517,8 +522,8 @@ protected:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos()
 			) const;
 
 /**
@@ -529,11 +534,11 @@ protected:
  * surface and the actual fit error that was achieved in the <tt>spl_sur</tt>,
  * overriding the declared const-ness of the function to do this.
  */
-    virtual void	make_approx(
+    virtual void make_approx(
 							 double fit,
-							 const spline& spl = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const;
+							) const;
 
 //GSSL VPL Incremental approx project.
 	virtual logical incremental_make_approx( double fit);
@@ -663,12 +668,12 @@ public:
 			SPAinterval const&    u_range,
 			SPAinterval const&    v_range,
 			logical               shape_perp,
-			bs3_curve help_profile_bs  = (bs3_curve)NULL,
-			bs3_curve help_path_bs  = (bs3_curve)NULL,
-			SPAunit_vector const &in_profile_nor = *(const class SPAunit_vector *)NULL_REF,
-			logical               use_old_nonperpdraft = FALSE,
-         SPAunit_vector const &in_rigid_tangent = *(const class SPAunit_vector *)NULL_REF,
-         SPAunit_vector const &in_axis = *(const class SPAunit_vector *)NULL_REF
+			bs3_curve			  help_profile_bs		= (bs3_curve)NULL,
+			bs3_curve			  help_path_bs			= (bs3_curve)NULL,
+			SPAunit_vector const &in_profile_nor		= SpaAcis::NullObj::get_unit_vector(),
+			logical               use_old_nonperpdraft	= FALSE,
+			SPAunit_vector const &in_rigid_tangent		= SpaAcis::NullObj::get_unit_vector(),
+			SPAunit_vector const &in_axis				= SpaAcis::NullObj::get_unit_vector()
 		);
 /**
  * Calculates the derivatives for the surface.
@@ -677,7 +682,7 @@ public:
  * range for derivs.
  */
 	int accurate_derivs(
-               SPApar_box const & range = *(SPApar_box *)NULL_REF
+               SPApar_box const & range = SpaAcis::NullObj::get_par_box()
            ) const;
 /**
  * This function should be used after creating a <tt>sweep_spl_sur</tt>,
@@ -748,11 +753,11 @@ public:
  * TRUE is right handed.
  */
 	logical helix( spline const &owner,
-				   SPAvector &axis = *(SPAvector *)NULL_REF,
-				   SPAposition &root = *(SPAposition *)NULL_REF,
-				   double &pitch = *(double *)NULL_REF,
-				   double &radius = *(double *)NULL_REF,
-				   logical &right_handed = *(logical *)NULL_REF) const;
+				   SPAvector &axis		 = SpaAcis::NullObj::get_vector(),
+				   SPAposition &root	 = SpaAcis::NullObj::get_position(),
+				   double &pitch		 = SpaAcis::NullObj::get_double(),
+				   double &radius		 = SpaAcis::NullObj::get_double(),
+				   logical &right_handed = SpaAcis::NullObj::get_logical()) const;
 /**
  * Returns the ID for the <tt>sweep_spl_sur</tt> list.
  */
@@ -828,7 +833,7 @@ public:
 * @param box
 * object space box.
 */
-	SPApar_box param_range(SPAbox const &box = *(SPAbox *)NULL_REF) const;
+	SPApar_box param_range(SPAbox const &box = SpaAcis::NullObj::get_box()) const;
 /**
 * Returns the principal parameter range of a parametric surface in the <i>u</i>-parameter direction.
 * <br><br>
@@ -841,7 +846,7 @@ public:
 * @param box
 * object space box.
 */
-	SPAinterval param_range_u(SPAbox const & = *(SPAbox *)NULL_REF) const;
+	SPAinterval param_range_u(SPAbox const & = SpaAcis::NullObj::get_box()) const;
 /**
 * Returns the principal parameter range of a parametric surface in the <i>v</i>-parameter direction.
 * <br><br>
@@ -854,7 +859,7 @@ public:
 * @param box
 * object space box.
 */
-	SPAinterval param_range_v(SPAbox const &box = *(SPAbox *)NULL_REF)const;
+	SPAinterval param_range_v(SPAbox const &box = SpaAcis::NullObj::get_box())const;
 	//changes end
 };
 

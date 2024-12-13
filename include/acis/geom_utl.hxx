@@ -123,7 +123,7 @@ DECL_KERN SPAposition proj_pt_to_plane(
 DECL_KERN double angle_between(
     const SPAunit_vector& v1,
     const SPAunit_vector& v2,
-    const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF
+    const SPAunit_vector& z = SpaAcis::NullObj::get_unit_vector()
     );
 
 /**
@@ -149,7 +149,7 @@ DECL_KERN double angle_between(
 DECL_KERN double angle_between(
     const SPAvector& v1,
     const SPAvector& v2,
-    const SPAunit_vector& z = *(SPAunit_vector *)NULL_REF
+    const SPAunit_vector& z = SpaAcis::NullObj::get_unit_vector()
     );
 
 /**

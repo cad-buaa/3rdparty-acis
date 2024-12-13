@@ -448,7 +448,16 @@ public:
 	asm_model_info get_model_info() const;
 
 /**
- * @nodoc
+ * Notifies the entity manager that entities are being added to it.
+ * <br>
+ * If the <tt>restoring_asat</tt> flag is <tt>TRUE</tt>, then the entities are being added to the
+ * manager as part of the ASAT restore process. 
+ * <br><br>
+ * @param ents
+ * The entities being added to the entity manager.
+ * @param restoring_asat
+ * Indicates whether the entities are to be added to the manager as part of the ASAT restore process.
+ * Default value is <tt>FALSE</tt>.
  */
 	 void add_entities(ENTITY_LIST& ents, logical restoring_asat = FALSE);
 //	void register_restored_entities(ENTITY_LIST&);

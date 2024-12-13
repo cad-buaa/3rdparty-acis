@@ -26,7 +26,7 @@ class SPAbox;
 DECL_INTR curve_curve_int *int_cur_cur(
 				curve const &,
 				curve const &,
-				SPAbox const & = *(SPAbox *)NULL_REF,
+				SPAbox const & = SpaAcis::NullObj::get_box(),
 				double = SPAresabs
 			);
 

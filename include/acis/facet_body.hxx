@@ -15,30 +15,27 @@
 #include "dcl_kern.h"
 #include "entity.hxx"
 #include "api.hxx"
+#include "SPA_raw_mesh.hxx"
 
-/**
-* @file apolybody.hxx
- * @CAA2Level L1
- * @CAA2Usage U1
- *! \addtogroup KERNAPI
- *
- * @{
- */
+ /**
+  * @file facet_body.hxx
+  * @CAA2Level L1
+  * @CAA2Usage U2
+  * \addtogroup KERNAPI
+  *
+  * @{
+  */
 
-// Identifier used to find out (via identity() defined below) to what
-// an entity pointer refers.
-
+ // Identifier used to identity the type of an entity pointer.
 extern DECL_KERN int FACET_BODY_TYPE;
 
-// Identifier that gives number of levels of derivation of this class
-// from ENTITY.
-
+// Identifier that gives number of levels of derivation of this class from ENTITY.
 #define FACET_BODY_LEVEL 1
 
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE( FACET_BODY, KERN )
+ENTITY_IS_PROTOTYPE(FACET_BODY, KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
@@ -48,37 +45,63 @@ ENTITY_IS_PROTOTYPE( FACET_BODY, KERN )
 * @nodoc
 */
 struct FACET_BODY_data;
-#include "SPA_raw_mesh.hxx"
+
 
 /**
- * @nodoc
+ * FACET_BODY represents triangular raw mesh. 
+ * <br>
+ * <b>Role:</b> A <tt>FACET_BODY</tt> is an Entity that wraps raw mesh pointer.
+ * <br><br>
  */
-class DECL_KERN FACET_BODY : public ENTITY 
+
+class DECL_KERN FACET_BODY : public ENTITY
 {
 	// allows internal clients to declare themselves friend of FACET_BODY
 #ifdef FACET_BODY_FRIENDS
 	FACET_BODY_FRIENDS
 #endif
+	/**
+	* @nodoc
+	*/
 	unsigned int _version;
+	
+	/**
+	* @nodoc
+	*/
 	FACET_BODY_data* _data;
 public:
-
+	/**
+	 * C++ constructor, creating a <tt>FACET_BODY</tt>.
+	 * <br><br>
+	 * <b>Role:</b> Applications should never directly call this constructor.
+	 */
 	FACET_BODY();
 
-	/**
-	 * @nodoc
-	 */
-	ENTITY_FUNCTIONS( FACET_BODY, KERN )
+	ENTITY_FUNCTIONS(FACET_BODY, KERN)
 #if 0
-; // semicolon needed for mkman (doc tool) parsing)
+		; // semicolon needed for mkman (doc tool) parsing)
 #endif
-
+	
+	/**
+	* Returns number of faces.
+	*/
 	int num_faces() const;
+	
+	/**
+	* Returns SPA_raw_mesh of a face.
+	*/
 	Spa_raw_mesh const& get_face_mesh(int which_face) const;
+	
+	/**
+	* Returns SPA_raw_mesh of a complete body. 
+	* There are not duplicate nodes around a boundary. 
+	* This raw mesh might have anomalies with it so it needs to be healed. 
+	*/
+	Spa_raw_mesh const& get_body_mesh() const;
 
 	FACET_BODY& operator=(FACET_BODY const& other);
 };
 
-/*! @} */
+/** @} */
 #endif
 

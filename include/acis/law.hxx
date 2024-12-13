@@ -136,10 +136,10 @@ DECL_KERN CURVE *test_for_ellipse(law *in_law, const SPAinterval& tint);
 
 DECL_KERN logical is_helix(EDGE     *the_edge,
 						   SPAvector   &axis,
-						   SPAposition &root = *(SPAposition *)NULL_REF,
-						   double   &pitch = *(double *)NULL_REF,
-						   double   &radius = *(double *)NULL_REF,
-						   logical  &right_handed = *(logical *)NULL_REF
+						   SPAposition &root	= SpaAcis::NullObj::get_position(),
+						   double   &pitch		= SpaAcis::NullObj::get_double(),
+						   double   &radius		= SpaAcis::NullObj::get_double(),
+						   logical  &right_handed = SpaAcis::NullObj::get_logical()
 						   );
 /*
 // tbrv
@@ -151,10 +151,10 @@ DECL_KERN logical is_helix(EDGE     *the_edge,
 DECL_KERN logical is_helix(curve    const &the_curve,
 						   const SPAinterval& domain,
 						   SPAvector   &axis,
-						   SPAposition &root = *(SPAposition *)NULL_REF,
-						   double   &pitch = *(double *)NULL_REF,
-						   double   &radius = *(double *)NULL_REF,
-						   logical  &right_handed = *(logical *)NULL_REF
+						   SPAposition &root	= SpaAcis::NullObj::get_position(),
+						   double   &pitch		= SpaAcis::NullObj::get_double(),
+						   double   &radius		= SpaAcis::NullObj::get_double(),
+						   logical  &right_handed = SpaAcis::NullObj::get_logical()
 						   );
 /*
 // tbrv
@@ -165,10 +165,10 @@ DECL_KERN logical is_helix(curve    const &the_curve,
 DECL_KERN logical is_helix(law      *the_law,
 						   const SPAinterval& domain,
 						   SPAvector   &axis,
-						   SPAposition &root = *(SPAposition *)NULL_REF,
-						   double   &pitch = *(double *)NULL_REF,
-						   double   &radius = *(double *)NULL_REF,
-						   logical  &right_handed = *(logical *)NULL_REF
+						   SPAposition &root	= SpaAcis::NullObj::get_position(),
+						   double   &pitch		= SpaAcis::NullObj::get_double(),
+						   double   &radius		= SpaAcis::NullObj::get_double(),
+						   logical  &right_handed = SpaAcis::NullObj::get_logical()
 						   );
 
 /*
@@ -179,16 +179,20 @@ DECL_KERN logical is_helix(law      *the_law,
  */
 DECL_KERN logical is_planar(curve const &the_curve,
 				  const SPAinterval& domain,
-				  logical &pl_data_ok = *(logical *)NULL_REF,		// Flag returns TRUE if the plane data has been correctly computed
-				  SPAposition &root = *(SPAposition *)NULL_REF,			// Root of the plane if the curve is planar
-				  SPAunit_vector &normal = *(SPAunit_vector *)NULL_REF);	// Normal of the plane if the curve is planar
+				  logical &pl_data_ok		= SpaAcis::NullObj::get_logical(),				// Flag returns TRUE if the plane data has been correctly computed
+				  SPAposition &root			= SpaAcis::NullObj::get_position(),	// Root of the plane if the curve is planar
+				  SPAunit_vector &normal	= SpaAcis::NullObj::get_unit_vector());	// Normal of the plane if the curve is planar
 /*
 // tbrv
 */
 /**
  * @nodoc
  */
-DECL_KERN curve_law * make_curve_law(EDGE *in_edge,SPAtransf &in_trans= *(SPAtransf *)NULL_REF);
+
+DECL_KERN curve_law* make_curve_law(EDGE* in_edge);
+
+
+DECL_KERN curve_law * make_curve_law(EDGE *in_edge, const SPAtransf &in_trans);
 
 /*
 // tbrv
@@ -273,7 +277,7 @@ public:
   */
 	wire_law_data(
             COEDGE* in_wire_coedge,
-            const SPAtransf& in_trans = *(const class SPAtransf*)NULL_REF);
+            const SPAtransf& in_trans = SPAtransf() );
 
  /**
   * Constructs a <tt>wire_law_data</tt> from an ACIS <tt>EDGE</tt> and an optional transform.
@@ -285,7 +289,7 @@ public:
   */
 	wire_law_data(
             EDGE* in_wire_edge,
-            const SPAtransf& in_trans = *(const class SPAtransf*)NULL_REF);
+            const SPAtransf& in_trans = SPAtransf());
 
  /**
   * Constructs a <tt>wire_law_data</tt> from an array of ACIS <tt>curves</tt> and all of their defining data.
@@ -1053,10 +1057,13 @@ DECL_KERN COEDGE *start_of_wire_chain(COEDGE* wire_coedge);
 /*
 // tbrv
 */
+
 /**
  * @nodoc
  */
+[[deprecated("Deprecated Interface, \"get_face_trans\" will be removed in 2025 1.0 release")]]
 DECL_KERN SPAtransf &get_face_trans(FACE *face);
+
 /*
 // tbrv
 */

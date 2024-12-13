@@ -25,6 +25,7 @@
 
 #include "param.hxx"
 #include "surdef.hxx"
+#include "spa_null_blnd.hxx"
 
 class COEDGE;
 class SPAposition;
@@ -92,24 +93,24 @@ public:
 
     // Debug the information object.
 
-    void debug( FILE *dfp ) const
+    void debug(FILE* dbgfp) const
     {
-        char const *type_str = none() ? "None" : 
-            ( param() ? "Curve parameter" : "Surface parameter" );
-        fprintf( dfp, "\nType: %s", type_str );
-        if ( param() )
+        char const* type_str = none() ? "None" :
+            (param() ? "Curve parameter" : "Surface parameter");
+        fprintf(dbgfp, "\nType: %s", type_str);
+        if (param())
         {
-            fprintf( dfp, "\nParameter: %lf", t() );
-            if ( side() != 99 )
-                fprintf( dfp, " Evaluate side: %d", side() );
+            fprintf(dbgfp, "\nParameter: %lf", t());
+            if (side() != 99)
+                fprintf(dbgfp, " Evaluate side: %d", side());
         }
-        else if ( pp() )
+        else if (pp())
         {
-fprintf( dfp, "\nParameter: %g %g",(double) uv().u,(double) uv().v );
-            if ( uside() != 99 )
-                fprintf( dfp, " Evaluate u side: %d", uside() );                
-            if ( vside() != 99 )
-                fprintf( dfp, " Evaluate v side: %d", vside() );
+            fprintf(dbgfp, "\nParameter: %g %g", (double)uv().u, (double)uv().v);
+            if (uside() != 99)
+                fprintf(dbgfp, " Evaluate u side: %d", uside());
+            if (vside() != 99)
+                fprintf(dbgfp, " Evaluate v side: %d", vside());
         }
     }
 
@@ -132,7 +133,7 @@ bl_get_face_pars(
 		 double edge_par,
 		 SPAposition const &pos,
          const bl_sided_par_pos &uv_guess
-           = * ( bl_sided_par_pos * ) NULL_REF
+           = SpaAcis::NullObj::get_bl_sided_par_pos()
 		 );
 
 #endif

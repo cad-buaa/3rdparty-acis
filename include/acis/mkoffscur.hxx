@@ -31,7 +31,7 @@ DECL_KERN curve* make_offset_curve( const   surface* base_sf,
                                     const   surface* offs_sf1   = NULL,
                                     const   surface* offs_sf2   = NULL,
                                             COEDGE*  coed       = NULL,
-											logical& pcurve_invalid = *(logical*)NULL_REF );
+											logical& pcurve_invalid = SpaAcis::NullObj::get_logical());
 
 
 

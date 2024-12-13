@@ -70,11 +70,11 @@ protected:
     // its shape. This override does nothing, even if the force flag is set.
     // (although we could make it compute a better approximation in the extended
     // regions of extended rationals)
-    virtual void	make_approx(
+    virtual void make_approx(
 							 double fit,
-							 const spline& spl = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-						 ) const;
+						    ) const;
 
 public:
 
@@ -116,7 +116,7 @@ protected:
 	// identified as such. The base class (spl_sur) version is fine
 	// for us here.
 
-//	logical operator==( subtype_object const & ) const;
+//	bool operator==( subtype_object const & ) const;
 
 
 	// Transformation. The base class transforms the spline and fit
@@ -124,7 +124,7 @@ protected:
 
 //	virtual void operator*=( SPAtransf const & );
 
-	// Parameter shift: adjust the spline surface to have a SPAparameter
+	// Parameter shift: adjust the spline surface to have a parameter
 	// range increased by the argument value (which may be negative).
 	// This is only used to move portions of a periodic surface by
 	// integral multiples of the period. The base class implementation
@@ -138,25 +138,25 @@ protected:
 	// order).
 
 	virtual void reparam_u(
-				double,		// new start u SPAparameter
-				double		// new end u SPAparameter
+				double,		// new start u parameter
+				double		// new end u parameter
 			);
 	virtual void reparam_v(
-				double,		// new start v SPAparameter
-				double		// new end v SPAparameter
+				double,		// new start v parameter
+				double		// new end v parameter
 			);
 	virtual void reparam(
-				double,		// new start u SPAparameter
-				double,		// new end u SPAparameter
-				double,		// new start v SPAparameter
-				double		// new end v SPAparameter
+				double,		// new start u parameter
+				double,		// new end u parameter
+				double,		// new start v parameter
+				double		// new end v parameter
 			);
 
 
-	// Divide a surface into two pieces at a given SPAparameter value.
-	// If the split is at the end of the SPAparameter range, the spl_sur
+	// Divide a surface into two pieces at a given parameter value.
+	// If the split is at the end of the parameter range, the spl_sur
 	// is just returned as the appropriate half (in increasing
-	// SPAparameter order), and the other is NULL. Otherwise a new spl_sur
+	// parameter order), and the other is NULL. Otherwise a new spl_sur
 	// is used for one part, and the old one is modified for the other.
 
 	virtual void split_u(
@@ -171,8 +171,8 @@ protected:
 
 	// Concatenate the contents of two surfaces into one. The surfaces
 	// are guaranteed to be the same base or derived type, and to have
-	// contiguous SPAparameter ranges ("this" is the beginning part of
-	// the combined surface (i.e. lower SPAparameter values), the
+	// contiguous parameter ranges ("this" is the beginning part of
+	// the combined surface (i.e. lower parameter values), the
 	// argument gives the end part). The base class implementation
 	// is fine.
 
@@ -183,12 +183,12 @@ protected:
 	// Geometric evaluation.
 
 	// Evaluate the normal at the given point. The base class finds
-	// the SPAparameter value, then evaluates the surface there. This is
+	// the parameter value, then evaluates the surface there. This is
 	// fine for us.
 
 //	virtual SPAunit_vector point_normal(
 //				SPAposition const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 	
@@ -201,14 +201,14 @@ protected:
 //				double &,			// curvature in first direction
 //				SPAunit_vector &,		// second axis direction
 //				double &,			// curvature in second direction
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
 //              evaluate_surface_quadrant = evaluate_surface_unknown
 //			) const;
 
 
 	// Find the curvature of a cross-section curve of the surface at
 	// the point on the surface closest to the given point, iterating 
-	// from the given SPAparameter values (if supplied).
+	// from the given parameter values (if supplied).
 	// The cross-section curve is determined by the intersection of 
 	// the surface with a plane passing through the point on the
 	// surface and with given normal.
@@ -216,32 +216,32 @@ protected:
 //	virtual double point_cross(
 //				SPAposition const &,
 //				SPAunit_vector const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
 	// Find the point on the surface nearest to the given point, 
-	// iterating from the given SPAparameter values (if supplied).
+	// iterating from the given parameter values (if supplied).
 	// Return the found point, the normal to the surface at that 
-	// point and the SPAparameter values at the found point.
+	// point and the parameter values at the found point.
 
 //	virtual void point_perp(
 //				SPAposition const &,
 //				SPAposition &,
 //				SPAunit_vector &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-//				SPApar_pos & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+//				SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
-	// Find the SPAparameter values of a point on the surface.
+	// Find the parameter values of a point on the surface.
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
-	// Find the change in surface SPAparameter corresponding to a unit
+	// Find the change in surface parameter corresponding to a unit
 	// offset in a given direction at a given SPAposition, the SPAposition
 	// and direction both lying in the surface.
 
@@ -264,7 +264,7 @@ protected:
 			) const;
 
 
-	// Find the point on the surface with given SPAparameter values.
+	// Find the point on the surface with given parameter values.
 	// The default uses eval().
 
 //	virtual SPAposition eval_position(
@@ -273,7 +273,7 @@ protected:
 
 
  	// Find the normal to the surface at the point with given 
-	// SPAparameter values. The default uses eval().
+	// parameter values. The default uses eval().
 
 //	virtual SPAunit_vector eval_normal(
 //				SPApar_pos const &
@@ -281,7 +281,7 @@ protected:
 
 
 	// Find the principal axes of curvature of the surface at a
-	// point with given SPAparameter values, and the curvatures in those
+	// point with given parameter values, and the curvatures in those
 	// directions. The default uses eval().
 
 //	virtual void eval_prin_curv(
@@ -295,7 +295,7 @@ protected:
 
 
 	// Find the curvature of a cross-section curve of the surface at
-	// the point on the surface with given SPAparameter values.
+	// the point on the surface with given parameter values.
 	// The cross-section curve is defined as the intersection of 
 	// the surface with a plane passing through the point on the
 	// surface and normal to the given direction, which must lie in
@@ -318,22 +318,22 @@ protected:
 	// cost increases.
 
 	virtual int evaluate(
-                SPApar_pos const &,	// Parameter
-                SPAposition &,			// Point on surface at given SPAparameter
+                SPApar_pos const &,		// Parameter
+                SPAposition &,			// Point on surface at given parameter
                 SPAvector ** = NULL, 	// Array of pointers to arrays of
-									// vectors, of size nd. Any of the
-									// pointers may be null, in which
-									// case the corresponding derivatives
-									// will not be returned. Otherwise
-									// they must point to arrays long
-									// enough for all the derivatives of
-									// that order - i.e. 2 for the first
-									// derivatives, 3 for the second, etc.
-                int = 0,       		// Number of derivatives required (nd) 
+										// vectors, of size nd. Any of the
+										// pointers may be null, in which
+										// case the corresponding derivatives
+										// will not be returned. Otherwise
+										// they must point to arrays long
+										// enough for all the derivatives of
+										// that order - i.e. 2 for the first
+										// derivatives, 3 for the second, etc.
+                int = 0,       			// Number of derivatives required (nd) 
 				evaluate_surface_quadrant = evaluate_surface_unknown
-									// the evaluation location - above,
-									// below for each SPAparameter direction,
-									// or don't care.
+										// the evaluation location - above,
+										// below for each parameter direction,
+										// or don't care.
             ) const;
 
 
@@ -345,7 +345,7 @@ protected:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs( 
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -357,8 +357,8 @@ protected:
 //	virtual logical test_point_tol(
 //				SPAposition const &,
 //				double,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-//				SPApar_pos & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+//				SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 

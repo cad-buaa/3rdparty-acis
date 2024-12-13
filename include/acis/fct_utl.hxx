@@ -21,6 +21,8 @@ class facet_options;
 #include "logical.h"
 #include "dcl_fct.h"
 #include "idx_mesh.hxx"
+#include "generic_progress_info.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file fct_utl.hxx
  * @CAA2Level L1
@@ -82,11 +84,11 @@ DECL_FCT INDEXED_MESH* GetMesh(const ENTITY*);
 **/
 DECL_FCT int FacetEntity(ENTITY* ent,
 						 logical unfacetted_only,
-						 int& NumStrips= *(int*)NULL_REF,
-						 int& NumSingleTris = *(int*)NULL_REF,
-						 unsigned& SizeOfData= *(unsigned *)NULL_REF,
-						 facet_options* fo = NULL,
-						 AcisOptions* ao = NULL   // acis options
+						 int& NumStrips			= SpaAcis::NullObj::get_int(),
+						 int& NumSingleTris		= SpaAcis::NullObj::get_int(),
+						 unsigned& SizeOfData	= SpaAcis::NullObj::get_unsigned(),
+						 facet_options* fo		= NULL,
+						 AcisOptions* ao		= NULL   // acis options
 						 );
 
 /**
@@ -151,44 +153,30 @@ UpdateMeshFromSurface      //      using surf
 
 
 /**
- * @nodoc
- * Class used in Progress Meter for Rendering (process facet results to vieweing system)
- * This is a specific instance for HA_Render_Model and Ha_Render_Entities functions
- * This meter will update be updated every 1%.
- */
-class DECL_FCT HA_RENDER_progress_info: public SPA_progress_info
+* @nodoc
+* Class used in Progress Meter for Rendering (process facet results to vieweing system)
+* This is a specific instance for HA_Render_Model and Ha_Render_Entities functions
+* This meter will update be updated every 1%.
+*/
+class DECL_FCT HA_RENDER_progress_info: public generic_progress_info
 {
-    // total number of entitites to render
-	int ent_count;
-    // current entity count
-	int current_ent_count;
-    // If we are in the first call or last one
-	logical first_call, last_call;
-    // previous percentage computed
-	int last_pct;
-
 public:
-    /**
-     * Constructor
-     * @param ec
-     * Total number of entities
-     */
-	HA_RENDER_progress_info( int ec );
+
 	/**
-     * Destructor
-     */
+	* Constructor
+	* @param ec
+	* Total number of entities
+	*/
+	HA_RENDER_progress_info( int ec );
+
+	/**
+	* Destructor
+	*/
 	~HA_RENDER_progress_info();
-    /**
-     * Type of progress info
-     */
-	virtual SPA_progress_info_type_id get_type() const;
-    /**
-     * Current percentage
-     */
-	virtual int percentage() const;
-    /**
-     * Do update, will increment the counter
-     */
+
+	/**
+	* Do update, will increment the counter
+	*/
 	void update( void );
 };
 

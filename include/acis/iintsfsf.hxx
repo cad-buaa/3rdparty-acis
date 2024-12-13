@@ -54,18 +54,18 @@ DECL_INTR surf_surf_int *int_plane_plane(
 			plane const &,
 			plane const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,            
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 DECL_INTR surf_surf_int *int_plane_plane_coi(
 			plane const &,
 			plane const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,            
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // In intplco.cxx
@@ -75,9 +75,9 @@ DECL_INTR surf_surf_int *int_plane_cone(
 			cone const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -88,9 +88,9 @@ DECL_INTR surf_surf_int *int_plane_sphere(
 			sphere const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -101,9 +101,9 @@ DECL_INTR surf_surf_int *int_plane_torus(
 			torus const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -114,9 +114,9 @@ DECL_INTR surf_surf_int *int_plane_spline(
 			spline const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // In intcoco.cxx
@@ -125,18 +125,18 @@ DECL_INTR surf_surf_int *int_cone_cone(
 			cone const &,
 			cone const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 DECL_INTR surf_surf_int *int_cone_cone_coi(
 			cone const &,
 			cone const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // STI pmalrais 11/19/97
@@ -163,9 +163,9 @@ DECL_INTR surf_surf_int *int_cone_sphere(
 			sphere const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -176,9 +176,9 @@ DECL_INTR surf_surf_int *int_cone_torus(
 			torus const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -189,9 +189,9 @@ DECL_INTR surf_surf_int *int_cone_spline(
 			spline const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // In intshsh.cxx
@@ -200,9 +200,9 @@ DECL_INTR surf_surf_int *int_sphere_sphere(
 			sphere const &,
 			sphere const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -213,9 +213,9 @@ DECL_INTR surf_surf_int *int_sphere_torus(
 			torus const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -226,9 +226,9 @@ DECL_INTR surf_surf_int *int_sphere_spline(
 			spline const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // In inttoto.cxx
@@ -237,9 +237,9 @@ DECL_INTR surf_surf_int *int_torus_torus(
 			torus const &,
 			torus const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -250,9 +250,9 @@ DECL_INTR surf_surf_int *int_torus_spline(
 			spline const &,
 			double const,
 			logical = FALSE,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 // In intspsp.cxx
@@ -261,9 +261,9 @@ DECL_INTR surf_surf_int *int_spline_spline(
 			spline const &,
 			spline const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -297,8 +297,8 @@ DECL_INTR SPAunit_vector point_int_tan(
 			SPAposition const &,
 			surface const &,
 			surface const &,
-			SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-			SPApar_pos const & = *(SPApar_pos *)NULL_REF
+			SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+			SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 		);
 
 // Cone-cone intersection enumeration of cases. The first division

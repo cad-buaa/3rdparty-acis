@@ -16,7 +16,7 @@
 
 #include "polyadic.hxx"
 #include "interval.hxx"
-
+#include "spa_null_kern.hxx"
 /**
 * @file curextnd.hxx
  * @CAA2Level L1
@@ -87,7 +87,7 @@ extend_curve(
 		curve & cur,
 		SPAinterval const & requested_param_range,
 		logical partial_ok = TRUE,
-		extension_info& ei = *(extension_info*)NULL_REF,
+		extension_info& ei = SpaAcis::NullObj::get_extension_info(),
 		logical f = FALSE
 	);
 

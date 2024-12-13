@@ -120,7 +120,7 @@ public:
 	 * @param in_decomp_opt
 	 * object to compare.
 	 */
-	logical operator== (decomp_options const& in_decomp_opt) const;
+	bool operator== (decomp_options const& in_decomp_opt) const;
 
 	/**
 	 * Gets the type of subshell decomposition to perform.

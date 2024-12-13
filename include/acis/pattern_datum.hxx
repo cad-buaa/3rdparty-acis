@@ -64,11 +64,11 @@ private:
         ) const;
 
     // Comparison
-    logical operator==(
+    bool operator==(
         const pattern_datum& datum
         );
 
-    logical operator!=(
+    bool operator!=(
         const pattern_datum& datum
         );
 

@@ -1,67 +1,80 @@
-                   /* VglTools wide include file */ 
+/*********************************************************************
+ *                                                                   *
+ *                          DevTools 1.8.0                           *
+ *                                                                   *
+ *  These coded instructions, statements and computer programs       *
+ *  contain unpublished proprietary information of Tech Soft 3D,     *
+ *  and are protected by Federal copyright law.  They may not be     *
+ *  disclosed to third parties or copied or duplicated in any form,  *
+ *  in whole or in part, without the prior written consent of        *
+ *  Tech Soft 3D.                                                    *
+ *                                                                   *
+ *                 Copyright (C) 2023, Tech Soft 3D                  *
+ *                                                                   *
+ *********************************************************************/
+/* VglTools wide include file */
 
 #ifndef VGLDEFS_DEF
 #define VGLDEFS_DEF
 
 #include "base/basedefs.h"
 
-typedef struct vgl_Bitmap      vgl_Bitmap;
-typedef struct vgl_DataBuf     vgl_DataBuf;
-typedef struct vgl_DFile       vgl_DFile;
-typedef struct vgl_Direct3DDev vgl_Direct3DDev;
-typedef struct vgl_DispFun     vgl_DispFun;
-typedef struct vgl_DList       vgl_DList;
-typedef struct vgl_DMap        vgl_DMap;
-typedef struct vgl_DOpt        vgl_DOpt;
-typedef struct vgl_DrawFun     vgl_DrawFun;
-typedef struct vgl_DrawIPC     vgl_DrawIPC;
-typedef struct vgl_DTee        vgl_DTee;
-typedef struct vgl_DView       vgl_DView;
-typedef struct vgl_FBuffer     vgl_FBuffer;
-typedef struct vgl_GDIDev      vgl_GDIDev;
-typedef struct vgl_IActor      vgl_IActor;
-typedef struct vgl_OpenGLDev   vgl_OpenGLDev;
-typedef struct vgl_Pixelmap    vgl_Pixelmap;
-typedef struct vgl_Popup       vgl_Popup;
-typedef struct vgl_Quadric     vgl_Quadric;
-typedef struct vgl_RasFont     vgl_RasFont;
-typedef struct vgl_RendBuf     vgl_RendBuf;
-typedef struct vgl_SVGDev      vgl_SVGDev;
-typedef struct vgl_Texture     vgl_Texture;
-typedef struct vgl_X11Dev      vgl_X11Dev;
-typedef struct vgl_Xfm         vgl_Xfm;
-typedef struct vgl_Xfmstack    vgl_Xfmstack;
-typedef struct vgl_ZBuffer     vgl_ZBuffer;
+typedef struct vgl_Bitmap vgl_Bitmap;
+typedef struct vgl_DataBuf vgl_DataBuf;
+typedef struct vgl_DFile vgl_DFile;
+typedef struct vgl_DispFun vgl_DispFun;
+typedef struct vgl_DList vgl_DList;
+typedef struct vgl_DOpt vgl_DOpt;
+typedef struct vgl_DrawFun vgl_DrawFun;
+typedef struct vgl_DrawIPC vgl_DrawIPC;
+typedef struct vgl_DTee vgl_DTee;
+typedef struct vgl_DView vgl_DView;
+typedef struct vgl_FBuffer vgl_FBuffer;
+typedef struct vgl_GDIDev vgl_GDIDev;
+typedef struct vgl_IActor vgl_IActor;
+typedef struct vgl_OpenGLDev vgl_OpenGLDev;
+typedef struct vgl_Pixelmap vgl_Pixelmap;
+typedef struct vgl_Popup vgl_Popup;
+typedef struct vgl_Quadric vgl_Quadric;
+typedef struct vgl_RasFont vgl_RasFont;
+typedef struct vgl_RendBuf vgl_RendBuf;
+typedef struct vgl_SVGDev vgl_SVGDev;
+typedef struct vgl_Texture vgl_Texture;
+typedef struct vgl_X11Dev vgl_X11Dev;
+typedef struct vgl_Xfm vgl_Xfm;
+typedef struct vgl_Xfmstack vgl_Xfmstack;
+typedef struct vgl_ZBuffer vgl_ZBuffer;
+typedef struct vgl_GIFWriter vgl_GIFWriter;
 
-                   /* SetFunction */
-#ifdef  __cplusplus
+/* SetFunction */
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void           (VDFilefunc)(vgl_DFile*,Vobject*);
-typedef void           (VDListfunc)(vgl_DList*,Vobject*);
-typedef void           (VIActorfunc)(vgl_IActor*,Vobject*);
-typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
+typedef void(VDFilefunc)(vgl_DFile*, Vobject*);
+typedef void(VDListfunc)(vgl_DList*, Vobject*);
+typedef void(VIActorfunc)(vgl_IActor*, Vobject*);
+typedef void(VPopupfunc)(vgl_Popup*, Vobject*);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 
-                   /* defines for error flags */
-#define VGL_ERROR_NONE        0
-#define VGL_ERROR_VALUE       1
-#define VGL_ERROR_ENUM        2
-#define VGL_ERROR_OBJECTTYPE  3
-#define VGL_ERROR_MEMORY      4
-#define VGL_ERROR_NULLOBJECT  5
-#define VGL_ERROR_FILE        6
-#define VGL_ERROR_COMPUTE     7
-#define VGL_ERROR_OPERATION   8
-#define VGL_ERROR_OVERFLOW    9
+/* defines for error flags */
+#define VGL_ERROR_NONE       0
+#define VGL_ERROR_VALUE      1
+#define VGL_ERROR_ENUM       2
+#define VGL_ERROR_OBJECTTYPE 3
+#define VGL_ERROR_MEMORY     4
+#define VGL_ERROR_NULLOBJECT 5
+#define VGL_ERROR_FILE       6
+#define VGL_ERROR_COMPUTE    7
+#define VGL_ERROR_OPERATION  8
+#define VGL_ERROR_OVERFLOW   9
 #define VGL_ERROR_UNDERFLOW  10
 #define VGL_ERROR_FORMAT     12
 
-                   /* defines for object types */
+/* defines for object types */
 #define VGL_DRAWFUN          3000
 #define VGL_DRAWFUN_TEE      3001
 #define VGL_DISPFUN          3010
@@ -80,84 +93,95 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_POPUP_2          3122
 #define VGL_POPUP_3          3123
 #define VGL_QUADRIC          3130
+#define VGL_ZBUFFER          3140
 
-                   /* defines for device driver mode types */ 
-#define VGL_ZBUFFERMODE       1
-#define VGL_DBUFFERMODE       2
-#define VGL_FRONTBUFFERDRAWMODE  3
-#define VGL_XORMODE           4
-#define VGL_LIGHTMODE         5
-#define VGL_SSAOMODE          6
-#define VGL_POLYGONDEPTHMODE  7
-#define VGL_SHADERMODE        8
-#define VGL_BACKFACECULLMODE  9
-#define VGL_CLIPMODE         10
-#define VGL_FRONTBUFFERREADMODE  11
-#define VGL_EVENTQUEUEMODE   12
-#define VGL_LINEDRAWMODE     13
-#define VGL_BLENDTRANSMODE   14
-#define VGL_TEXTANCHORMODE   15
-#define VGL_TWOSIDELIGHTMODE 16
-#define VGL_ZBUFFERWRITEMODE 17
-#define VGL_LEFTBUFFERDRAWMODE   18
-#define VGL_RASFONTDRAWMODE  19
-#define VGL_SELECTSTACKMODE  20
-#define VGL_ALPHATESTMODE    21
-#define VGL_TEXTPIXELSIZEMODE    22
-#define VGL_LINETRANSMODE    23
-#define VGL_TEXTDIRECTIONMODE    24
-#define VGL_ZBUFFERFUNCMODE  25
-#define VGL_LINESTYLEFACTOR  26
+/* defines for device driver mode types */
+#define VGL_ZBUFFERMODE         1
+#define VGL_DBUFFERMODE         2
+#define VGL_FRONTBUFFERDRAWMODE 3
+#define VGL_XORMODE             4
+#define VGL_LIGHTMODE           5
+#define VGL_SSAOMODE            6
+#define VGL_POLYGONDEPTHMODE    7
+#define VGL_SHADERMODE          8
+#define VGL_BACKFACECULLMODE    9
+#define VGL_CLIPMODE            10
+#define VGL_FRONTBUFFERREADMODE 11
+#define VGL_EVENTQUEUEMODE      12
+#define VGL_LINEDRAWMODE        13
+#define VGL_BLENDTRANSMODE      14
+#define VGL_TEXTANCHORMODE      15
+#define VGL_TWOSIDELIGHTMODE    16
+#define VGL_ZBUFFERWRITEMODE    17
+#define VGL_LEFTBUFFERDRAWMODE  18
+#define VGL_RASFONTDRAWMODE     19
+#define VGL_SELECTSTACKMODE     20
+#define VGL_FRONTFACECULLMODE   21
+#define VGL_TEXTPIXELSIZEMODE   22
+#define VGL_LINETRANSMODE       23
+#define VGL_TEXTDIRECTIONMODE   24
+#define VGL_ZBUFFERFUNCMODE     25
+#define VGL_LINESTYLEFACTOR     26
 
-#define VGL_STENCILMODE       27
-#define VGL_STENCILWRITEMASK  28
-#define VGL_STENCILFUNCMODE   29
-#define VGL_STENCILFUNCREF    30
-#define VGL_STENCILFUNCMASK   31
-#define VGL_STENCILOPFAIL     32
-#define VGL_STENCILOPZFAIL    33
-#define VGL_STENCILOPZPASS    34
+#define VGL_STENCILMODE      27
+#define VGL_STENCILWRITEMASK 28
+#define VGL_STENCILFUNCMODE  29
+#define VGL_STENCILFUNCREF   30
+#define VGL_STENCILFUNCMASK  31
+#define VGL_STENCILOPFAIL    32
+#define VGL_STENCILOPZFAIL   33
+#define VGL_STENCILOPZPASS   34
 
-#define VGL_COLORWRITEMODE  35
-#define VGL_SWAPMODE        36
-#define VGL_POINTARRAYLIGHTMODE  37
-#define VGL_LINEARRAYLIGHTMODE   38
-#define VGL_UPDATEMODE       39
-#define VGL_POINTICONMODE    40
-#define VGL_ZBUFFEREDGEMODE  41
-#define VGL_DEFORMMODE       42
-#define VGL_POINTICONDIM     43
-#define VGL_DEPTHPEELMODE    44
-#define VGL_TRANSVALUEMODE   45
-#define VGL_COLORVALUEMODE   46
-#define VGL_PRIMITIVEMODE    47
+#define VGL_COLORWRITEMODE      35
+#define VGL_SWAPMODE            36
+#define VGL_POINTARRAYLIGHTMODE 37
+#define VGL_LINEARRAYLIGHTMODE  38
+#define VGL_UPDATEMODE          39
+#define VGL_DATASIZEMODE        40
+#define VGL_ZBUFFEREDGEMODE     41
+#define VGL_DATADEFORMMODE      42
+#define VGL_FRONTFACEFLIPMODE   43
+#define VGL_DEPTHPEELMODE       44
+#define VGL_TRANSVALUEMODE      45
+#define VGL_COLORVALUEMODE      46
+#define VGL_PRIMITIVEMODE       47
+#define VGL_MULTISAMPLEMODE     48
+#define VGL_OITMODE             49
+#define VGL_OITAVERAGELAYERS    50
+#define VGL_POINTCULLMODE       51
+#define VGL_LINECULLMODE        52
+#define VGL_DATAINDEXMAXROWS    53
 
-#define VGL_UPDATE_FBUFFER    1
-#define VGL_UPDATE_FZBUFFER   2
+/* defines for oit mode type */
+#define VGL_OITMODE_TERM -1
+/* defines for maximum number of data indices */
+#define VGL_MAXDATAINDEX 4
 
-                   /* defines for primitive types */
-#define VGL_LINESTRIP            0
-#define VGL_LINELOOP             1
-#define VGL_LINES                2
+/* defines for primitive types */
+#define VGL_POINTS 0
 
-#define VGL_POLYGON              0
-#define VGL_TRISTRIP             1
-#define VGL_TRIFAN               2
-#define VGL_TRIANGLES            3
-#define VGL_QUADS                4
-#define VGL_POLYHEDRON           5
+#define VGL_LINESTRIP 1
+#define VGL_LINELOOP  2
+#define VGL_LINES     3
 
-                   /* defines for color types */
-#define VGL_COLOR_4B              2
-#define VGL_COLOR_3F              3
-#define VGL_COLOR_4F              4
+#define VGL_POLYGON    4
+#define VGL_TRISTRIP   5
+#define VGL_TRIFAN     6
+#define VGL_TRIANGLES  7
+#define VGL_QUADS      8
+#define VGL_POLYHEDRON 9
 
-                   /* defines for normal types */
-#define VGL_NORMAL_4B             1
-#define VGL_NORMAL_3F             2
+/* defines for color types */
+#define VGL_COLOR_4B 2
+#define VGL_COLOR_3F 3
+#define VGL_COLOR_4F 4
 
-                   /* defines for device parameter gets */
-                   /* need to be above last MODE */
+/* defines for normal types */
+#define VGL_NORMAL_4B 1
+#define VGL_NORMAL_3F 2
+
+/* defines for device parameter gets */
+/* need to be above last MODE */
 #define VGL_WINDOWSIZE            101
 #define VGL_PLANEDEPTH            102
 #define VGL_MAXWINDOWSIZE         103
@@ -218,23 +242,31 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_ZBUFFERDEPTH          159
 #define VGL_SHADER_VERSION        160
 #define VGL_SHADER_SUPPORTED      161
+#define VGL_DEPTHPEEL_PIXELS      162
+#define VGL_MULTISAMPLE_SUPPORTED 163
+#define VGL_OIT_SUPPORTED         164
+#define VGL_OIT_COUNTERS          165
+#define VGL_OIT_MEMORYFAIL        166
+#define VGL_DEV_ERROR             167
+#define VGL_POINTSTYLE            168
+#define VGL_BUFFER_SUPPORTED      169
 
-                   /* defines for window systems gets */
-#define VGL_WINDOW_NONE           0
-#define VGL_WINDOW_X              1
-#define VGL_WINDOW_NT             2
+/* defines for window systems gets */
+#define VGL_WINDOW_NONE 0
+#define VGL_WINDOW_X    1
+#define VGL_WINDOW_NT   2
 
-                   /* defines for cursor types */
-#define VGL_CURSOR_DEFAULT       0
-#define VGL_CURSOR_WATCH         1
-#define VGL_CURSOR_HAND          2
-#define VGL_CURSOR_CROSSHAIR     3
-#define VGL_CURSOR_TRANSLATION   4
-#define VGL_CURSOR_ROTATION      5
-#define VGL_CURSOR_ZOOM          6
-#define VGL_CURSOR_ARROW         7
-#define VGL_CURSOR_QUESTION      8
-#define VGL_CURSOR_PENCIL        9
+/* defines for cursor types */
+#define VGL_CURSOR_DEFAULT      0
+#define VGL_CURSOR_WATCH        1
+#define VGL_CURSOR_HAND         2
+#define VGL_CURSOR_CROSSHAIR    3
+#define VGL_CURSOR_TRANSLATION  4
+#define VGL_CURSOR_ROTATION     5
+#define VGL_CURSOR_ZOOM         6
+#define VGL_CURSOR_ARROW        7
+#define VGL_CURSOR_QUESTION     8
+#define VGL_CURSOR_PENCIL       9
 #define VGL_CURSOR_MAGNIFYGLASS 10
 #define VGL_CURSOR_PIRATE       11
 #define VGL_CURSOR_LLANGLE      12
@@ -246,54 +278,53 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_CURSOR_FAR          18
 #define VGL_CURSORMAX           18
 
-                   /* defines for render mode */
-                   /* VGL_RENDER should be 0, all others non-zero */
-#define VGL_RENDER              0
-#define VGL_SELECT              1
-#define VGL_EXTENT              2
-#define VGL_EXTENT_DEVICE       2
-#define VGL_EXTENT_EYE          4
-#define VGL_EXTENT_WORLD        5
-#define VGL_EXTENT_FIT          6
-#define VGL_BUFFER_DATAINDEX    7
-#define VGL_BUFFER_COLOR        8
+/* defines for render mode */
+/* VGL_RENDER should be 0, all others non-zero */
+#define VGL_RENDER        0
+#define VGL_SELECT        1
+#define VGL_EXTENT        2
+#define VGL_EXTENT_DEVICE 2
+#define VGL_EXTENT_EYE    4
+#define VGL_EXTENT_WORLD  5
+#define VGL_EXTENT_FIT    6
+#define VGL_BUFFER_COLOR  7
 
-                   /* defines for hit geometry */
-#define VGL_REGION_POLYGON        1
-#define VGL_REGION_RECTANGLE      2
-#define VGL_REGION_CLIPPLANE      3
+/* defines for hit geometry */
+#define VGL_REGION_POLYGON   1
+#define VGL_REGION_RECTANGLE 2
+#define VGL_REGION_CLIPPLANE 3
 
-                   /* defines for max number of data rows */
-#define VGL_MAXDATAROWS  16
+/* defines for max number of data rows */
+#define VGL_MAXDATAROWS 16
 
-                   /* defines for maximum lights */
-#define VGL_MAXLIGHT            8
+/* defines for maximum lights */
+#define VGL_MAXLIGHT 8
 
-                   /* define for suggested number of points in primitive */
-#define VGL_NUMPOINTS          64
+/* define for suggested number of points in primitive */
+#define VGL_NUMPOINTS 64
 
-#define VGL_MAXPOINTSIZE        8
-#define VGL_MAXLINEWIDTH       64
-                   /* maximum size of index stack */ 
-#define VGL_MAXINDEXSTACK      64
-                   /* maximum size of user data */ 
-#define VGL_MAXUSERDATA         8
-                   /* maximum size of user data */ 
-#define VGL_MAXCLIPPLANE        6
+#define VGL_MAXPOINTSIZE 8
+#define VGL_MAXLINEWIDTH 64
+/* maximum size of index stack */
+#define VGL_MAXINDEXSTACK 64
+/* maximum size of user data */
+#define VGL_MAXUSERDATA 8
+/* maximum size of user data */
+#define VGL_MAXCLIPPLANE 6
 
-                   /* defines for visuals */
-#define VGL_VISUAL_USECONTEXT    1 << 0
-#define VGL_VISUAL_SINGLEBUFFER  1 << 1
-#define VGL_VISUAL_OVERLAY       1 << 2
+/* defines for visuals */
+#define VGL_VISUAL_USECONTEXT   1 << 0
+#define VGL_VISUAL_SINGLEBUFFER 1 << 1
+#define VGL_VISUAL_OVERLAY      1 << 2
+#define VGL_VISUAL_MULTISAMPLE  1 << 3
+#define VGL_VISUAL_PIXMAP       1 << 4
 
-#define VGL_VISUAL_PIXMAP        1 << 4
+#define VGL_VISUAL_STEREO   1 << 6
+#define VGL_VISUAL_SWAPCOPY 1 << 7
+#define VGL_VISUAL_DEFAULT  1 << 8
+#define VGL_VISUAL_STENCIL  1 << 9
 
-#define VGL_VISUAL_STEREO        1 << 6
-#define VGL_VISUAL_SWAPCOPY      1 << 7
-#define VGL_VISUAL_DEFAULT       1 << 8
-#define VGL_VISUAL_STENCIL       1 << 9
-
-                   /* defines for attribute stack */
+/* defines for attribute stack */
 #define VGL_POINTATT    1 << 0
 #define VGL_LINEATT     1 << 1
 #define VGL_POLYGONATT  1 << 2
@@ -301,12 +332,12 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_VIEWPORTATT 1 << 4
 #define VGL_ALLATT      31
 
-                   /* defines for primitive type */ 
-#define VGL_PRIM_POINT    1
-#define VGL_PRIM_LINE     2
-#define VGL_PRIM_POLYGON  3
+/* defines for primitive type */
+#define VGL_PRIM_POINT   1
+#define VGL_PRIM_LINE    2
+#define VGL_PRIM_POLYGON 3
 
-                   /* defines for function comparisons, do not change */ 
+/* defines for function comparisons, do not change */
 #define VGL_NEVER    0
 #define VGL_LESS     1
 #define VGL_LEQUAL   2
@@ -315,7 +346,7 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_EQUAL    5
 #define VGL_NOTEQUAL 6
 #define VGL_ALWAYS   7
-                   /* defines for stencil operations, do not change */ 
+/* defines for stencil operations, do not change */
 #define VGL_OP_ZERO    0
 #define VGL_OP_KEEP    1
 #define VGL_OP_REPLACE 2
@@ -323,85 +354,101 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_OP_DECR    4
 #define VGL_OP_INVERT  5
 
-                   /* defines for linestyle */ 
-#define VGL_LINESTYLE_SOLID     0
-#define VGL_LINESTYLE_DOT       1
-#define VGL_LINESTYLE_DASH      2
-#define VGL_LINESTYLE_DOTDASH   3
-#define VGL_LINESTYLE_LDASH     4
-#define VGL_LINESTYLE_DOTLDASH  5
-#define VGL_LINESTYLE_DOTDOT       6
-#define VGL_LINESTYLE_DOTDOTLDASH  7
-#define VGL_LINESTYLE_LLDASH       8
-#define VGL_LINESTYLE_MAX          8
+/* defines for linestyle */
+#define VGL_LINESTYLE_SOLID       0
+#define VGL_LINESTYLE_DOT         1
+#define VGL_LINESTYLE_DASH        2
+#define VGL_LINESTYLE_DOTDASH     3
+#define VGL_LINESTYLE_LDASH       4
+#define VGL_LINESTYLE_DOTLDASH    5
+#define VGL_LINESTYLE_DOTDOT      6
+#define VGL_LINESTYLE_DOTDOTLDASH 7
+#define VGL_LINESTYLE_LLDASH      8
+#define VGL_LINESTYLE_MAX         8 /* max of stippled styles */
+#define VGL_LINESTYLE_SOLIDROUND  9
 
-                   /* defines for pointstyle */ 
-#define VGL_POINTMODE_DOT     0
-#define VGL_POINTMODE_CUBE    1
-#define VGL_POINTMODE_SPHERE  2
-#define VGL_POINTMODE_MAX     3
+/* defines for pointstyle */
+#define VGL_POINTSTYLE_DOT           0
+#define VGL_POINTSTYLE_CIRCLE        1
+#define VGL_POINTSTYLE_SPHERE        2
+#define VGL_POINTSTYLE_SPHEREWORLD   3
+#define VGL_POINTSTYLE_UINT          4
+#define VGL_POINTSTYLE_UINTLL        5
+#define VGL_POINTSTYLE_PLUS9         14
+#define VGL_POINTSTYLE_ASTERISK9     15
+#define VGL_POINTSTYLE_CROSS9        16
+#define VGL_POINTSTYLE_BOX9          17
+#define VGL_POINTSTYLE_CROSSBOX9     18
+#define VGL_POINTSTYLE_CIRCLE9       19
+#define VGL_POINTSTYLE_TRIUP9        20
+#define VGL_POINTSTYLE_TRIRIGHT9     21
+#define VGL_POINTSTYLE_TRIDOWN9      22
+#define VGL_POINTSTYLE_TRILEFT9      23
+#define VGL_POINTSTYLE_DIAMOND9      24
+#define VGL_POINTSTYLE_TBOXBITS9     25
+#define VGL_POINTSTYLE_TDIAMONDBITS9 26
+#define VGL_POINTSTYLE_CROSSCIRCLE9  27
+#define VGL_POINTSTYLE_PLUSCIRCLE9   28
 
-                   /* defines for depthpeelmode */ 
-#define VGL_DEPTHPEELLAST    -1
+/* defines for depthpeelmode */
+#define VGL_DEPTHPEELLAST -1
 
-                   /* defines for projection type */ 
-#define VGL_PROJORTHO    0
-#define VGL_PROJFRUSTUM  1
+/* defines for projection type */
+#define VGL_PROJORTHO   0
+#define VGL_PROJFRUSTUM 1
 
-                   /* polygon vertex shading flags */ 
-#define VGL_NOSHADE       0
-#define VGL_FLATSHADE     1
-#define VGL_VERTEXSHADE   1 << 1
-#define VGL_ANYSHADE      (VGL_FLATSHADE | VGL_VERTEXSHADE)
+/* polygon vertex shading flags */
+#define VGL_NOSHADE     0
+#define VGL_FLATSHADE   1
+#define VGL_VERTEXSHADE 1 << 1
+#define VGL_ANYSHADE    (VGL_FLATSHADE | VGL_VERTEXSHADE)
 
-                   /* polygon vertex texture coordinate flags */ 
-#define VGL_NOTEXTURE     0
-#define VGL_1DTEXTURE     1 << 2
-#define VGL_2DTEXTURE     1 << 3
-#define VGL_ANYTEXTURE    (VGL_1DTEXTURE | VGL_2DTEXTURE)
+/* polygon vertex texture coordinate flags */
+#define VGL_NOTEXTURE  0
+#define VGL_1DTEXTURE  1 << 2
+#define VGL_2DTEXTURE  1 << 3
+#define VGL_ANYTEXTURE (VGL_1DTEXTURE | VGL_2DTEXTURE)
 
-                   /* number of normals in primitive */ 
-#define POLYNUMBNORM(nt,np) (((nt) == VGL_VERTEXSHADE) * (np) + \
-                            ((nt) == VGL_FLATSHADE))
+/* number of normals in primitive */
+#define POLYNUMBNORM(nt, np) (((nt) == VGL_VERTEXSHADE) * (np) + ((nt) == VGL_FLATSHADE))
 
-#define NUMBNORM(nt,pt,np) (((nt) == VGL_VERTEXSHADE) * (np) + \
-                 ((nt) == VGL_FLATSHADE) * (((pt) == VGL_POLYGON) + \
-                                    (((np) - 2) * ((pt) == VGL_TRISTRIP)) + \
-                                    (((pt) == VGL_POLYHEDRON)) + \
-                                    ((np/3) * ((pt) == VGL_TRIANGLES)) + \
-                                    ((np/4) * ((pt) == VGL_QUADS))))
+#define NUMBNORM(nt, pt, np)                                                                                               \
+    (((nt) == VGL_VERTEXSHADE) * (np) +                                                                                    \
+     ((nt) == VGL_FLATSHADE) * (((pt) == VGL_POLYGON) + (((np)-2) * ((pt) == VGL_TRISTRIP)) + (((pt) == VGL_POLYHEDRON)) + \
+                                ((np / 3) * ((pt) == VGL_TRIANGLES)) + ((np / 4) * ((pt) == VGL_QUADS))))
 
-#define NUMBTEXT(nt,np)    (((nt) == VGL_1DTEXTURE) * (np) + \
-                            ((nt) == VGL_2DTEXTURE) * 2*(np))
+#define NUMBTEXT(nt, np) (((nt) == VGL_1DTEXTURE) * (np) + ((nt) == VGL_2DTEXTURE) * 2 * (np))
 
-                   /* project DC primitives */ 
-#define VGL_projDC(obj,p,dc,pd)  if((obj)->projtype == 0) {\
-        (pd)[0] = (p)[0] + (dc)[0] * (obj)->projsx;\
-        (pd)[1] = (p)[1] + (dc)[1] * (obj)->projsy;\
-                                 } else {\
-        (pd)[0] = (p)[0] + (dc)[0] * (obj)->projsx*(p)[2]*(obj)->factsz;\
-        (pd)[1] = (p)[1] + (dc)[1] * (obj)->projsy*(p)[2]*(obj)->factsz;\
-                                 }\
-                                 (pd)[2] = (p)[2]
-                   /* entity types */ 
-#define VGL_LIGHT      1
-#define VGL_CLIPPLANE  2
+/* project DC primitives */
+#define VGL_projDC(obj, p, dc, pd)                                           \
+    if ((obj)->projtype == 0) {                                              \
+        (pd)[0] = (p)[0] + (dc)[0] * (obj)->projsx;                          \
+        (pd)[1] = (p)[1] + (dc)[1] * (obj)->projsy;                          \
+    }                                                                        \
+    else {                                                                   \
+        (pd)[0] = (p)[0] + (dc)[0] * (obj)->projsx * (p)[2] * (obj)->factsz; \
+        (pd)[1] = (p)[1] + (dc)[1] * (obj)->projsy * (p)[2] * (obj)->factsz; \
+    }                                                                        \
+    (pd)[2] = (p)[2]
+/* entity types */
+#define VGL_LIGHT     1
+#define VGL_CLIPPLANE 2
 
-                   /* light types */ 
+/* light types */
 #define VGL_LIGHT_NONE    -1
-#define VGL_LIGHT_AMBIENT  0
-#define VGL_LIGHT_DISTANT  1
-#define VGL_LIGHT_LOCAL    2
+#define VGL_LIGHT_AMBIENT 0
+#define VGL_LIGHT_DISTANT 1
+#define VGL_LIGHT_LOCAL   2
 
-                   /* event types */ 
+/* event types */
 #define VGL_EVENT_UNRECOGNIZED -1
-#define VGL_EVENT_NONE          0
-#define VGL_EVENT_LEFTMOUSE     1
-#define VGL_EVENT_EXPOSE        2
-#define VGL_EVENT_MIDDLEMOUSE   3
-#define VGL_EVENT_RIGHTMOUSE    4
-#define VGL_EVENT_KEYPRESS      5
-#define VGL_EVENT_KEYRELEASE    6
+#define VGL_EVENT_NONE         0
+#define VGL_EVENT_LEFTMOUSE    1
+#define VGL_EVENT_EXPOSE       2
+#define VGL_EVENT_MIDDLEMOUSE  3
+#define VGL_EVENT_RIGHTMOUSE   4
+#define VGL_EVENT_KEYPRESS     5
+#define VGL_EVENT_KEYRELEASE   6
 #define VGL_EVENT_F1           11
 #define VGL_EVENT_F2           12
 #define VGL_EVENT_F3           13
@@ -415,25 +462,25 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_EVENT_F11          21
 #define VGL_EVENT_F12          22
 
-#define VGL_EVENT_SHIFT        27
-#define VGL_EVENT_CTRL         28
-#define VGL_EVENT_ALT          29
-#define VGL_EVENT_ESC          30
+#define VGL_EVENT_SHIFT 27
+#define VGL_EVENT_CTRL  28
+#define VGL_EVENT_ALT   29
+#define VGL_EVENT_ESC   30
 
-                   /* mouse buttons and modifier keys */ 
-#define VGL_LEFTMOUSE      1 << 0
-#define VGL_MIDDLEMOUSE    1 << 1
-#define VGL_RIGHTMOUSE     1 << 2
-#define VGL_SHIFT          1 << 3
-#define VGL_CTRL           1 << 4
-#define VGL_ALT            1 << 5
-#define VGL_ESC            1 << 6
+/* mouse buttons and modifier keys */
+#define VGL_LEFTMOUSE   1 << 0
+#define VGL_MIDDLEMOUSE 1 << 1
+#define VGL_RIGHTMOUSE  1 << 2
+#define VGL_SHIFT       1 << 3
+#define VGL_CTRL        1 << 4
+#define VGL_ALT         1 << 5
+#define VGL_ESC         1 << 6
 
-                   /* defines for on - off flag */
+/* defines for on - off flag */
 #define VGL_OFF 0
 #define VGL_ON  1
 
-                   /* defines for position, identical to VisTools */
+/* defines for position, identical to VisTools */
 #define VGL_RIGHT       0
 #define VGL_LEFT        1
 #define VGL_BOTTOM      2
@@ -443,29 +490,26 @@ typedef void           (VPopupfunc)(vgl_Popup*,Vobject*);
 #define VGL_TOPRIGHT    6
 #define VGL_BOTTOMLEFT  7
 #define VGL_TOPLEFT     8
-#define VGL_BACK        9
-#define VGL_FRONT      10
 
-                   /* defines for dragger types */
-#define VGL_DRAG_INIT  1
-#define VGL_DRAG_MOVE  2
-#define VGL_DRAG_TERM  3
+/* defines for dragger types */
+#define VGL_DRAG_INIT 1
+#define VGL_DRAG_MOVE 2
+#define VGL_DRAG_TERM 3
 
-                   /* defines for buffer types */
-#define VGL_COLOR_BUFFER  0
-#define VGL_DEPTH_BUFFER  1
+/* defines for buffer types */
+#define VGL_COLOR_BUFFER 0
+#define VGL_DEPTH_BUFFER 1
 
-                   /* defines for array data types */
-#define VGL_DATA_NONE     0
-#define VGL_DATA_DEFORM   1
+/* defines for array data types */
+#define VGL_DATA_NONE   0
+#define VGL_DATA_DEFORM 1
 
-                   /* defines for factors */
-#define VGL_ZBUFFEREDGESCALE  1
-#define VGL_DEFORMSCALE       2
-#define VGL_POINTICONSCALE    3
-#define VGL_POINTICONSCALEXYZ 4
-#define VGL_TRANSVALUE        5
-#define VGL_COLORVALUE        6
-#define VGL_SSAODIST          7
+/* defines for factors */
+#define VGL_ZBUFFEREDGESCALE 1
+#define VGL_DEFORMSCALE      2
+#define VGL_WORLDSIZE        3
+#define VGL_TRANSVALUE       5
+#define VGL_COLORVALUE       6
+#define VGL_SSAODIST         7
 
 #endif

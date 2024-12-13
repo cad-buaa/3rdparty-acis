@@ -822,4 +822,25 @@ const int IOPPID_ATTRIB_DEF_MAJOR = 28;
 const int IOPPID_ATTRIB_DEF_MINOR = 0;
 const int IOPPID_ATTRIB_DEF_VERSION = PORTMANTEAU(IOPPID_ATTRIB_DEF_MAJOR, IOPPID_ATTRIB_DEF_MINOR);
 
+// The version from which param_scale is saved
+const int STRAIGHT_SCALE_MAJOR = 33;
+const int STRAIGHT_SCALE_MINOR = 0;
+const int STRAIGHT_SCALE_VERSION = PORTMANTEAU(STRAIGHT_SCALE_MAJOR, STRAIGHT_SCALE_MINOR);
+
+// The version from which AcisPolyhedra (based on CGMPoly) is saved
+const int ACIS_POLYHEDRA_MAJOR = 33;
+const int ACIS_POLYHEDRA_MINOR = 0;
+const int ACIS_POLYHEDRA_VERSION = PORTMANTEAU(ACIS_POLYHEDRA_MAJOR, ACIS_POLYHEDRA_MINOR);
+
+// The version from which transform matrix determinant is snapped to 1.0 (or -1) if difference is within SPAresmch during Transf restore.
+const int TRANSF_AFFINE_MAJOR = 33;
+const int TRANSF_AFFINE_MINOR = 0;
+const int TRANSF_AFFINE_VERSION = PORTMANTEAU(TRANSF_AFFINE_MAJOR, TRANSF_AFFINE_MINOR);
+
+
+// The version from which when ATTRIB_GEN_ENTITY is lost, it will lose the entity it "owns" only if "delete_value_on_lose" is true.
+const int ATT_GEN_ENT_DEL_VAL_ON_LOSE_MAJOR = 34;
+const int ATT_GEN_ENT_DEL_VAL_ON_LOSE_MINOR = 0;
+const int ATT_GEN_ENT_DEL_VAL_ON_LOSE_VERSION = PORTMANTEAU(ATT_GEN_ENT_DEL_VAL_ON_LOSE_MAJOR, ATT_GEN_ENT_DEL_VAL_ON_LOSE_MINOR);
+
 #endif

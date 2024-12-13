@@ -32,8 +32,8 @@ class DECL_KERN extension_info  : public ACIS_OBJECT
     discontinuity_info	_discontinuities;
 
 public:
-    logical hit_low_limit;
-    logical hit_high_limit;
+    logical hit_low_limit=FALSE;
+    logical hit_high_limit=FALSE;
 
     extension_info() {}
 

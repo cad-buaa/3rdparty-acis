@@ -30,6 +30,9 @@
 #include "bullsmal.hxx"
 #include "option.hxx"
 #include "vlists.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 
 /**
 * @file bulletin.hxx
@@ -1159,7 +1162,7 @@ public:
  * @param result
  * result.
  */
-     ENTITY* get_entity_from_tag(tag_id_type tag_no, outcome& result = *(outcome*)NULL_REF);
+     ENTITY* get_entity_from_tag(tag_id_type tag_no, outcome& result = SpaAcis::NullObj::get_outcome());
 
     // Method to return the tag on an ENTITY in the HISTORY_STREAM
 /**
@@ -2128,7 +2131,7 @@ public:
  * remove bulletins or not.
  */
      logical mixed_streams(HISTORY_STREAM*& alternative_hs,
-                          logical& move_fixes = *(logical *)NULL_REF,
+                          logical& move_fixes = SpaAcis::NullObj::get_logical(),
                           logical remove_bulls = FALSE);
 
 	// STI ROLL BB merge Check and set methods

@@ -17,11 +17,11 @@
 //--------------------------------------------------------------
 
 #include "dcl_ct.h"
-//#include "ptinbody.hxx"
 #include "ptcont.hxx"
 #include "ptfcenum.hxx"
 #include "raytest.hxx"
 #include "cthdr.hxx"
+#include "spa_null_kern.hxx"
 
 class insanity_list;
 
@@ -57,7 +57,11 @@ class insanity_list;
  * @param this_cell
  * cell to be examined.
  **/
-DECL_CT point_containment ct_point_in_cell ( SPAposition const &given_pnt, CELL3D *this_cell, ENTITY_LIST &cface_list = *(ENTITY_LIST *)NULL_REF );
+DECL_CT point_containment ct_point_in_cell ( 
+	SPAposition const &given_pnt, 
+	CELL3D *this_cell, 
+	ENTITY_LIST &cface_list = SpaAcis::NullObj::get_ENTITY_LIST()
+	);
 
 /**
  * Determines whether a given point lies on or off a 2D cell.
@@ -83,7 +87,7 @@ DECL_CT logical ct_point_in_cell ( SPAposition const &given_pnt, CELL2D *this_ce
 /**
  * @nodoc
  */
-DECL_CT SPAposition ct_find_cshell_point ( CSHELL *, SPAposition const& = *(SPAposition *)NULL_REF);
+DECL_CT SPAposition ct_find_cshell_point ( CSHELL *, SPAposition const& = SpaAcis::NullObj::get_position());
 
 /**
  * @nodoc

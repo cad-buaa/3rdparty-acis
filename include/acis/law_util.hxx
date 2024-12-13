@@ -597,12 +597,12 @@ double DECL_LAW law_get_time();
 DECL_LAW double check_dlaw(
 	law    *in_law, 
 	int     w, 
-	double  &problem_at= *(double *) NULL_REF   // where the law has problem
+	double  &problem_at= SpaAcis::NullObj::get_double()   // where the law has problem
 	);
 
 DECL_LAW double check_ilaw(
 	law     *in_law,
-	double *&problem_at = (double *&) NULL_REF   // where the law has problem
+	double *&problem_at = SpaAcis::NullObj::get_double_ptr()   // where the law has problem
 	);
 
 // functions for the law complier

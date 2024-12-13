@@ -14,6 +14,7 @@
 //#include <stdio.h>
 #include "acis.hxx"
 #include "dcl_blnd.h"
+#include "spa_null_base.hxx"
 
 class ATTRIB_BLEND;
 class var_blend_spl_sur;
@@ -28,4 +29,4 @@ DECL_BLND logical holdline_march(ATTRIB_BLEND* att,
 						 logical forward, 
 						 logical &looped,
 						 double **discs = NULL,
-						 int &num_discs = *(int*)NULL_REF);
+						 int &num_discs = SpaAcis::NullObj::get_int());

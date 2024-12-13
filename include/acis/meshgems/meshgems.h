@@ -1,14 +1,20 @@
 #ifndef __MESHGEMS_H__
 #define __MESHGEMS_H__
-
-#define MESHGEMS_VERSION_MAJOR 2
-#define MESHGEMS_VERSION_MINOR 14
-#define MESHGEMS_VERSION_PATCH 4
-#define MESHGEMS_VERSION "2.14"
-#define MESHGEMS_PATCHRE "4"
-#define MESHGEMS_RELEASE_YEAR "2022"
-#define MESHGEMS_RELEASE "February, " MESHGEMS_RELEASE_YEAR
-#define MESHGEMS_VERSION_LONG "2.14-4"
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
+#define MESHGEMS_VERSION_MAJOR 2024
+#define MESHGEMS_VERSION_MINOR 1
+#define MESHGEMS_VERSION_SP 1
+#define MESHGEMS_VERSION_PATCH 0
+#define MESHGEMS_VERSION "2024 1.0.1"
+#define MESHGEMS_PATCHRE "0"
+#define MESHGEMS_RELEASE_YEAR "2024"
+#define MESHGEMS_RELEASE "April, " MESHGEMS_RELEASE_YEAR
+#define MESHGEMS_VERSION_LONG "2024 1.0.1"
 
 #include <meshgems/mdecl.h>
 #include <meshgems/stubs.h>

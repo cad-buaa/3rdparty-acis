@@ -1,6 +1,11 @@
 #ifndef __HIGHORDER_H__
 #define __HIGHORDER_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/meshgems.h>
 
 struct meshgems_highorder_session_t_t;
@@ -103,5 +108,9 @@ MESHGEMS_METHOD status_t meshgems_highorder_compute_mesh(meshgems_highorder_sess
  *
  */
 MESHGEMS_METHOD status_t meshgems_highorder_get_mesh(meshgems_highorder_session_t *hos,meshgems_mesh_t **msh);
+
+
+MESHGEMS_METHOD meshgems_status_t meshgems_highorder_set_message_callback(meshgems_highorder_session_t *tms, 
+	message_callback_t cb, void *user_data);
 
 #endif

@@ -119,6 +119,14 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+
 	// Search a private list for this object, used for debugging.
 
 	/**

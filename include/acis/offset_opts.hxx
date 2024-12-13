@@ -131,13 +131,13 @@ public:
 	 * @param rRhs
 	 * offset_options to be compared.
 	 */
-	logical operator==(const offset_options& rRhs);
+	bool operator==(const offset_options& rRhs);
 	/**
 	 * Non-equals operator.
 	 * @param rRhs
 	 * offset_options to be compared.
 	 */
-	logical operator!=(const offset_options& rRhs);
+	bool operator!=(const offset_options& rRhs);
     /**
 	 * @nodoc
 	 * verify version flag

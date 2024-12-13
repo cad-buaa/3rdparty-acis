@@ -86,6 +86,8 @@ class segmentation_options;
 #include "SPA_edge_line_arc_options.hxx"
 #include "formatted_text.hxx"
 #include "points_segment_hndl.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * Specifies the direction of an entity as forward or reversed, relative to the direction of some underlying entity.
  * <br>
@@ -3677,7 +3679,7 @@ DECL_CSTR outcome api_ed_inters_to_ents(
 * new B-spline edge to replace the original edge, specify <tt>edge2</tt> as <tt>NULL</tt>.
 * <br><br>
 * To ensure that the new edge has the same direction as the input edge, set 
-* the global option <tt>spl_edges_forward</tt> to <tt>TRUE</tt> before calling <tt>api_edge_to_spline</tt>.
+* the global option <tt>spl_edges_forward</tt> to <tt>FALSE</tt> before calling <tt>api_edge_to_spline</tt>.
 * <br><br>
 * <b>Effect:</b> Changes model
 * <br><br>
@@ -4130,7 +4132,7 @@ DECL_CSTR outcome api_reverse_wire(
 * <br><br>
 * <b>Journal: </b> Available
 * <br><br>
-* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral 
+* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
  * <br><br>
 * @param body
 * the body to be modified.
@@ -4144,7 +4146,7 @@ DECL_CSTR outcome api_reverse_wire(
 DECL_CSTR outcome api_body_to_1d(
 		BODY*               body,
 		logical             fix_normals,
-		const ENTITY_LIST&  ref_faces = *(ENTITY_LIST*)NULL_REF,
+		const ENTITY_LIST&  ref_faces = SpaAcis::NullObj::get_ENTITY_LIST(),
 		AcisOptions*        ao = NULL
 	);
 
@@ -4300,7 +4302,7 @@ DECL_CSTR outcome api_enclose_void(
 DECL_CSTR outcome api_accurate_bs3_approximation(
 		FACE* face,
 		double requested_tol,
-		bs3_surface& fit_sur = *(bs3_surface*)NULL_REF,
+		bs3_surface& fit_sur = SpaAcis::NullObj::get_bs3_surface(),
 		AcisOptions* ao = NULL
 	);
 
@@ -4348,7 +4350,7 @@ DECL_CSTR outcome api_reset_bs3_approximation(
 		FACE* face,
 		double& achieved_tol,
 		double requested_tol,
-		bs3_surface& fit_sur = *(bs3_surface*)NULL_REF,
+		bs3_surface& fit_sur = SpaAcis::NullObj::get_bs3_surface(),
 		logical force_regeneration = FALSE,
 		AcisOptions* ao = NULL
 	);
@@ -4413,7 +4415,7 @@ DECL_CSTR outcome api_orient_wire(COEDGE* coed, AcisOptions* ao = NULL);
 DECL_CSTR outcome api_set_pcurve_tightness(
 		COEDGE* coed,
 		double tol,
-		bs2_curve& fit_cur = *(bs2_curve*)NULL_REF,
+		bs2_curve& fit_cur = SpaAcis::NullObj::get_bs2_curve(),
 		logical use_approx_surf = FALSE,
 		logical force_regeneration = FALSE,
 		AcisOptions* ao = NULL
@@ -5290,7 +5292,7 @@ DECL_CSTR outcome api_simplify_pcurve(
 DECL_CSTR outcome api_set_coedge_tightness(
 		COEDGE* coed,
 		double requested_tol,
-		double& achieved_tol = *(double*)NULL_REF,
+		double& achieved_tol = SpaAcis::NullObj::get_double(),
 		AcisOptions* ao = NULL
 	);
 

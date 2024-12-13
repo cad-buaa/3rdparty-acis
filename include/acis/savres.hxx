@@ -113,10 +113,8 @@ class DECL_KERN restore_data : public ACIS_OBJECT {
 	int          init_ents;
 	int			 multi_body_blocks;
 
-// Assignment operator could not be generated warning
-// is taken care of by adding a private one.  PRS
-private:
-	restore_data& operator=(const restore_data&) {return *(restore_data *)NULL_REF;}
+	// Deleting assignment operator
+	restore_data& operator=(const restore_data&) = delete;
 };
 
 /*

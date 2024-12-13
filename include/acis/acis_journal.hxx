@@ -132,7 +132,7 @@ public:
 /**
  * @nodoc
  */
-	void		 start_api_journal(char* function_name, logical need_to_load_sat = TRUE);
+	void		 start_api_journal(const char* function_name, logical need_to_load_sat = TRUE);
 /*
 // tbrv
 */
@@ -165,6 +165,8 @@ protected:
 	void		set_sat_file_index();
 	void		set_save_number(int num);
 	int			get_save_number();
+	ENTITY_LIST* get_saved_entity_list() const { return m_saved_entity_list; };
+	void		reset_saved_entity_list();
 
 //  Writes down the option_header options which are not set to the default value.
 	void write_header_options();
@@ -176,7 +178,7 @@ protected:
 //  (define name (transform:compose t1 t2))
 //  (define name (transform:compose name t3))
 // *****************************************************************************************************
-	void write_transform(char* name, SPAtransf);
+	void write_transform(const char* name, SPAtransf);
 
 // *****************************************************************************************************
 //  Writes down the definition of an acis_options
@@ -212,28 +214,28 @@ protected:
 //   Writes down an integer to the SCM file in the format
 //   (define name xxx)
 // *****************************************************************************************************
-	void write_int_to_scm(char* name, int num);
+	void write_int_to_scm(const char* name, int num);
 
 
 // *****************************************************************************************************
 //  Writes down a floating point number to the SCM file with the format
 //  (define name XXX.XXXXXXXX)
 // *****************************************************************************************************
-	void write_float_to_scm(char* name, double num);
+	void write_float_to_scm(const char* name, double num);
 
 // *****************************************************************************************************
 //  Writes down a SPAvector array to the SCM file in the form of a list
 //  Format:
 //  (define listname (list (gvector x1 y1 z1) (gvector x2 y2 y2) ... (gvector xn yx zn)))
 // *****************************************************************************************************
-	void write_vector_array_to_scm(int num_vectors, SPAvector* vectors, char* name);
+	void write_vector_array_to_scm(int num_vectors, SPAvector* vectors, const char* name);
 
 // *****************************************************************************************************
 //  Writes down a floating point number array to the SCM file in the form of a list
 //  Format:
 //  (define listname (list num1 num2 ... numN))
 // *****************************************************************************************************
-	void write_float_array_to_scm(int num_magnitudes, double* magnitudes, char* name);
+	void write_float_array_to_scm(int num_magnitudes, double* magnitudes, const char* name);
 
 // *****************************************************************************************************
 //  Writes down the definition of a list of entities taken from a SAT file and increases the saved
@@ -241,8 +243,7 @@ protected:
 //  Format:
 //  (define listname (list-ref (part:entities) x) (list-ref (part:entities) y)... (list-ref (part:entities) n))
 // *****************************************************************************************************
-	void write_ENTITY_LIST_to_scm(const ENTITY_LIST& ent_list, char* name);
-
+	void write_ENTITY_LIST_to_scm(const ENTITY_LIST& ent_list, const char* name);
 // *****************************************************************************************************
 //  Writes down the definition or handling of an entity taken from a SAT file and increases the saved
 //  entity counter.
@@ -251,48 +252,48 @@ protected:
 //  or
 //  (list-ref (part:entities) x)
 // *****************************************************************************************************
-	void write_ENTITY_to_scm(char* name, logical define = TRUE);
+	void write_ENTITY_to_scm(const char* name, logical define = TRUE);
 
 // *****************************************************************************************************
 //  Writes down a logical value to the SCM file
 //  Format:
 //  (define name #t) or (define name #f)
 // *****************************************************************************************************
-	void write_logical_to_scm(char* name, logical state);
+	void write_logical_to_scm(const char* name, logical state);
 
 // *****************************************************************************************************
 //  Writes down a SPAvector to the SCM file
 //  Format:
 //  (define name (gvector x y z))
 // *****************************************************************************************************
-	void write_vector_to_scm(char* name, const SPAvector& the_vector);
+	void write_vector_to_scm(const char* name, const SPAvector& the_vector);
 
 // *****************************************************************************************************
 //  Writes down a SPAposition to the SCM file
 //  Format:
 //  (define name (SPAposition x y z))
 // *****************************************************************************************************
-	void write_position_to_scm(char* name, const SPAposition& the_pos);
+	void write_position_to_scm(const char* name, const SPAposition& the_pos);
 
 // *****************************************************************************************************
 //  Writes down a SPAposition list to the SCM file
 //  Format:
 //  (define name (list (SPAposition x y z)....))
 // *****************************************************************************************************
-	void write_position_array_to_scm(char* name, int nop, SPAposition* the_pos_array);
+	void write_position_array_to_scm(const char* name, int nop, SPAposition* the_pos_array);
 
 // *****************************************************************************************************
 //  Writes down a SPAposition list to the SCM file as a list of reals
 //  Format:
 //  (define name (list x1 y1 z1 x2 y2 z2 ....))
 // *****************************************************************************************************
-    void write_positions_as_float_array_to_scm(char* name, int nop, SPAposition* the_pos_array);
+    void write_positions_as_float_array_to_scm(const char* name, int nop, SPAposition* the_pos_array);
 
 // *****************************************************************************************************
 //  Writes down a par-box to the SCM file with the format
 //  (define name (cons (par u-low u-high) (par v-low v-high) ) )
 // *****************************************************************************************************
-	void write_par_box_to_scm( char const * name, SPApar_box const& pbx );
+	void write_par_box_to_scm(const char* name, SPApar_box const& pbx);
 
 // *****************************************************************************************************
 // Writes down an Entity to the Scm file. The ENTITY can be of any kind, Since the owner of an ENTITY
@@ -306,7 +307,7 @@ protected:
 // if Entity is a Body
 // (define name (list-ref (part:entities) x))
 //
-	void write_ENTITY(char* name, ENTITY* theEntity);
+	void write_ENTITY(const char* name, ENTITY* theEntity);
 
 // *****************************************************************************************************
 //  Writes down an ENTITY_LIST to the journal file and saves those entities to the SAT file, the
@@ -323,8 +324,8 @@ protected:
 //								 ....
 //								 (list-ref (entity:type (list-ref (part:entities) x) y)  )
 // *****************************************************************************************************
-	void write_ENTITY_LIST(char* name, const ENTITY_LIST& entity_list, logical noclasify=FALSE);
-
+	void write_ENTITY_LIST(const char* name, const ENTITY_LIST& entity_list, logical noclasify=FALSE);
+	
 
 // *****************************************************************************************************
 //  Writes down an ENTITY_LIST to the journal file and saves those entities to the SAT file, the
@@ -342,7 +343,13 @@ protected:
 //								 ....
 //								 (list-ref (entity:type (list-ref (part:entities) x) y)  )
 // *****************************************************************************************************
-	void write_ENTITY_LIST(char* name, const ENTITY_LIST& ORIG_entity_list, logical noclasify, logical checkforduplicates);
+	void write_ENTITY_LIST(const char* name, const ENTITY_LIST& ORIG_entity_list, logical noclasify, logical checkforduplicates);
+
+	// In addition the funcitonality mentioned above, this signature of write_ENTITY_LIST checks for owners 
+	// saved by previous calls to this function signature when checkforglobalduplicates is TRUE.
+	// This prevents saving an entity multiple times when journaling an API call with multiple entity lists.
+	void write_ENTITY_LIST(const char* name, const ENTITY_LIST& ORIG_entity_list, 
+							logical noclasify, logical checkforduplicates, logical checkforglobalduplicates);
 
 // *****************************************************************************************************
 //  Writes down a law to the journal file and saves it to the SAT file, the
@@ -353,21 +360,21 @@ protected:
 //  or
 //  (list-ref (part:entities x))
 //  ; String definition 						<NOTE that the string evaluation may not be correct
-	void write_LAW(char* name, law* theLaw, logical define = TRUE);
+	void write_LAW(const char* name, law* theLaw, logical define = TRUE);
 
 // *****************************************************************************************************
 //  Writes down an ENTITY array to the journal file. Saves the entities to the SAT file and the
 //  saved counter is increased.
 //  Format:
 //  (define listname (list-ref (part:entities) x) (list-ref (part:entities) y)... (list-ref (part:entities) n))
-	void write_ENTITY_array(char* name, int num_entities,ENTITY** entity_array,ENTITY_LIST &ent_list);
+	void write_ENTITY_array(const char* name, int num_entities,ENTITY** entity_array,ENTITY_LIST &ent_list);
 
 // *****************************************************************************************************
 //  Writes down a LAW array to the journal file. Saves the laws to the SAT file and the
 //  saved counter is increased.
 //  Format:
 //  (define listname (list-ref (part:entities) x) (list-ref (part:entities) y)... (list-ref (part:entities) n))
-	void write_LAW_array(char* name, int num_laws,LAW** law_array,ENTITY_LIST &law_list);
+	void write_LAW_array(const char* name, int num_laws,LAW** law_array,ENTITY_LIST &law_list);
 
 // *****************************************************************************************************
 //  Writes down the API Header. Writes down the name specified (should be the api being called)
@@ -378,7 +385,7 @@ protected:
 //					simply create an analytic from scratch - there is no need to create a sat file in these
 //					api's, hence, no need to load it.
 // *****************************************************************************************************
-	void write_api_header(char* name, logical need_to_load_sat = TRUE);
+	void write_api_header(const char* name, logical need_to_load_sat = TRUE);
 	void write_api_footer();
 
 // *****************************************************************************************************
@@ -395,7 +402,8 @@ protected:
 	logical       m_status;					 //  Journaling on/off
 	int			  m_sat_file_index;
 	int			  m_scm_file_index;
-	int			  m_saved_entity_number;
+	int			  m_saved_entity_number;  // Number of saved entities
+	ENTITY_LIST*  m_saved_entity_list;    // List of saved entities (optionally set)
 	FILE*	      m_scm_file;
 	FILE*		  m_sat_file;
 	char*         m_sat_file_name;

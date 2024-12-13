@@ -1,6 +1,11 @@
 #ifndef __CODE_H__
 #define __CODE_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/basic_types.h>
 
 /**

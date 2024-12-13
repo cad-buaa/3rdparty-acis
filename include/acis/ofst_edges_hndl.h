@@ -18,7 +18,6 @@ class ENTITY;
 /**
 * @file ofst_edges_hndl.h
 * \addtogroup HLC
-* \addtogroup
 * @{
 */
 

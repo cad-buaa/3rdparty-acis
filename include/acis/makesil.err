@@ -1,23 +1,23 @@
-// Error code definitions for module "spaacis/src"
+// Error code definitions for module "spaacisds/src"
 
-#ifndef SPAACIS_MAKESIL_ERRMOD_INCLUDED
-#define SPAACIS_MAKESIL_ERRMOD_INCLUDED
+#ifndef SPAACISDS_MAKESIL_ERRMOD_INCLUDED
+#define SPAACISDS_MAKESIL_ERRMOD_INCLUDED
 
 #include "errorbase.hxx"
 #include "errmsg.hxx"
 
 #include "importexport.h"
-#ifdef __SpaACIS
-extern EXPORT_SYMBOL message_module spaacis_makesil_errmod;
+#ifdef __SPAAcisDs
+extern EXPORT_SYMBOL message_module spaacisds_makesil_errmod;
 
 #else
-extern IMPORT_SYMBOL message_module spaacis_makesil_errmod;
+extern IMPORT_SYMBOL message_module spaacisds_makesil_errmod;
 
 #endif
-#define PAR_BAD_SURFACE spaacis_makesil_errmod.message_code(0)
-#define SIL_BAD_SURFACE spaacis_makesil_errmod.message_code(1)
-#define CHAR_BAD_SURFACE spaacis_makesil_errmod.message_code(2)
-#define NO_SILHOUETTES spaacis_makesil_errmod.message_code(3)
-#define CHAR_BAD_SOLUTION spaacis_makesil_errmod.message_code(4)
+#define PAR_BAD_SURFACE spaacisds_makesil_errmod.message_code(0)
+#define SIL_BAD_SURFACE spaacisds_makesil_errmod.message_code(1)
+#define CHAR_BAD_SURFACE spaacisds_makesil_errmod.message_code(2)
+#define NO_SILHOUETTES spaacisds_makesil_errmod.message_code(3)
+#define CHAR_BAD_SOLUTION spaacisds_makesil_errmod.message_code(4)
 
-#endif /* SPAACIS_MAKESIL_ERRMOD_INCLUDED */
+#endif /* SPAACISDS_MAKESIL_ERRMOD_INCLUDED */

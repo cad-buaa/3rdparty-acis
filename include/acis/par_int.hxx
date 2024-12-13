@@ -36,6 +36,7 @@
 #include "intdef.hxx"
 
 #include "debugmsc.hxx"
+#include "spa_null_kern.hxx"
 
 class surface;
 class spline;
@@ -92,8 +93,8 @@ DECL_KERN D3_ostream& operator<<( D3_ostream &, int_cur const & );
  * neither a u or v parameter curve.
  **/
 enum par_int_cur_dir {
-	par_int_cur_u,		// u SPAparameter line (v = constant)
-	par_int_cur_v,		// v SPAparameter line (u = constant)
+	par_int_cur_u,		// u parameter line (v = constant)
+	par_int_cur_v,		// v parameter line (u = constant)
 	par_int_cur_unset,  // STL ajr 19May06. Fix for 81755.
     par_int_cur_general // a general parameter curve
 };
@@ -148,11 +149,11 @@ public:
  */
 	par_int_cur(
 			surface const &sur_cur,		// surface on which curve lies
-			par_int_cur_dir dir,	// select u or v direction
-			double uvparam,				// constant v or u SPAparameter
+			par_int_cur_dir dir,		// select u or v direction
+			double uvparam,				// constant v or u parameter
 			logical surf = TRUE,		// TRUE to make the surface #1,
-								// FALSE for surface #2
-		    const discontinuity_info& discontinue = *(discontinuity_info*) NULL_REF
+										// FALSE for surface #2
+		    const discontinuity_info& discontinue = SpaAcis::NullObj::get_discontinuity_info()
 		);
 
 	// Construct a general SPAparameter curve, given an exact bs2_curve
@@ -182,16 +183,16 @@ public:
 			bs3_curve spl,			// spline curve
 			double tol,				// fit tolerance
 			surface const &sur_cur,	// surface on which curve lies
-			bs2_curve cur_par,			// curve in SPAparameter space of the
-								// surface
-			logical sur = TRUE,		// TRUE to make surf1 SPAparameter curve
-								// define the true curve, FALSE for
-								// surf2
-		    const discontinuity_info& discontinue = *(discontinuity_info*) NULL_REF
+			bs2_curve cur_par,		// curve in parameter space of the
+									// surface
+			logical sur = TRUE,		// TRUE to make surf1 parameter curve
+									// define the true curve, FALSE for
+									// surf2
+		    const discontinuity_info& discontinue = SpaAcis::NullObj::get_discontinuity_info()
 		);
 
-	// Construct a general SPAparameter curve, with an additional surface
-	// and SPAparameter curve.
+	// Construct a general parameter curve, with an additional surface
+	// and parameter curve.
 
 /**
  * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
@@ -222,14 +223,14 @@ public:
 			double tol,				// fit tolerance
 			surface const &sur1,	// first surface on which curve lies
 			surface const &sur2,	// second surface on which curve lies
-			bs2_curve cur1,			// curve in SPAparameter space of the
-								// first surface
-			bs2_curve cur2,			// curve in SPAparameter space of the
-								// second surface
-			logical sur = TRUE,		// TRUE to make surf1 SPAparameter curve
-								// define the true curve, FALSE for
-								// surf2
-		    const discontinuity_info& discontinue = *(discontinuity_info*) NULL_REF
+			bs2_curve cur1,			// curve in parameter space of the
+									// first surface
+			bs2_curve cur2,			// curve in parameter space of the
+									// second surface
+			logical sur = TRUE,		// TRUE to make surf1 parameter curve
+									// define the true curve, FALSE for
+									// surf2
+		    const discontinuity_info& discontinue = SpaAcis::NullObj::get_discontinuity_info()
 		);
 
 	// Copy constructor
@@ -295,7 +296,7 @@ private:
 	// Test for equality - not guaranteed to find all cases of curve
 	// superimposition, but reliably flagging cases of inequality.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 	// STI dgh begin - make this public to support translators
 
@@ -394,8 +395,8 @@ protected:
 //				SPAposition const &,
 //				SPAposition &,
 //				SPAunit_vector &,
-//				SPAparameter const & = *(SPAparameter *)NULL_REF,
-//				SPAparameter & = *(SPAparameter *)NULL_REF
+//				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+//				SPAparameter & = SpaAcis::NullObj::get_parameter()
 //			) const;
 
 
@@ -603,17 +604,17 @@ public:
 				evaluate_curve_side eval_loc = evaluate_curve_unknown,
 									// the evaluation location - above,
 									// below or don't care.
-                SPAposition &pt_sur1 = *(SPAposition*) NULL_REF,	// Point on support surface 1
+                SPAposition &pt_sur1 = SpaAcis::NullObj::get_position(),	// Point on support surface 1
                 SPAvector *der_sur1 = NULL, 	// Derivatives of the first support surface.
-                SPAposition &pt_sur2 = *(SPAposition*) NULL_REF,	// Point on support surface 2
+                SPAposition &pt_sur2 = SpaAcis::NullObj::get_position(),	// Point on support surface 2
                 SPAvector *der_sur2 = NULL, 	// Derivatives of the second support surface.
-				SPApar_pos& par_sur1 = *(SPApar_pos*) NULL_REF,  // Parameters on surface 1
+				SPApar_pos& par_sur1 = SpaAcis::NullObj::get_par_pos(),  // Parameters on surface 1
 				SPApar_vec* der_par_sur1 = NULL,  	// Derivatives of parameters on surface 1
-				SPApar_pos& par_sur2 = *(SPApar_pos*) NULL_REF,  // Parameters on surface 2
+				SPApar_pos& par_sur2 = SpaAcis::NullObj::get_par_pos(),  // Parameters on surface 2
 				SPApar_vec* der_par_sur2 = NULL, 	// Derivatives of parameters on surface 2
-				SPApar_pos const &guess1 = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const &guess1 = SpaAcis::NullObj::get_par_pos(),
 					   // optional guess value for first SPApar_pos
-				SPApar_pos const &guess2 = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &guess2 = SpaAcis::NullObj::get_par_pos()
 					   // optional guess value for second SPApar_pos
             ) const;
 
@@ -627,7 +628,7 @@ protected:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 
@@ -692,7 +693,7 @@ protected:
 
     virtual void	make_approx(
 							 double fit,
-							 const intcurve& ic = *(intcurve*) NULL_REF,
+							 const intcurve& ic = SpaAcis::NullObj::get_intcurve(),
 							 logical force=FALSE
 							 ) const;
 
@@ -706,22 +707,22 @@ protected:
 	// Check for any data errors in the curve, and correct the errors if
 	// possible.  The various arguments provide control over which checks
 	// are made, which fixes can be applied and which fixes were actually
-	// applied.  The function returns a list of errors that remain in the
+	// applied. The function returns a list of errors that remain in the
 	// curve on exit.
 	// See chk_stat.hxx for information on the argument types used here.
 
 	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
+  		        const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 						 // supplies a set of flags which say which fixes
 						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
+				check_fix& result = SpaAcis::NullObj::get_check_fix(),
 						 // returns a set of flags which say which fixes
 						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
-						 // list of checks that are to be made.  If the
+				const check_status_list* = nullptr
+						 // list of checks that are to be made. If the
 						 // list is null, then every possible check will
 						 // be made; otherwise, the function will only
-						 // check for things in the list.  The return
+						 // check for things in the list. The return
 						 // value for the function will then be a subset
 						 // of this list.
 				);

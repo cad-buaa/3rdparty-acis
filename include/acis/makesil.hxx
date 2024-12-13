@@ -17,6 +17,8 @@
 #include "dcl_intr.h"
 #include "position.hxx"
 #include "unitvec.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 
 class surface;
 
@@ -64,8 +66,8 @@ public:
 DECL_INTR surf_surf_int *make_surf_persp_sil(
 			surface const &,
 			SPAposition const &,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			surface *& = *(surface **)NULL_REF,
+			SPAbox const & = SpaAcis::NullObj::get_box(),
+			surface *& = SpaAcis::NullObj::get_surface_ptr(),
 			double const = SPAresabs
 		);
 
@@ -76,8 +78,8 @@ DECL_INTR surf_surf_int *make_surf_persp_sil(
 DECL_INTR surf_surf_int *make_surf_parallel_sil(
 			surface const &,
 			SPAvector const &,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			surface *& = *(surface **)NULL_REF,
+			SPAbox const & = SpaAcis::NullObj::get_box(),
+			surface *& = SpaAcis::NullObj::get_surface_ptr(),
 			double const = SPAresabs
 		);
 
@@ -90,20 +92,19 @@ DECL_INTR surf_surf_int *make_surf_sil(
 			SPAunit_vector const &,
 			double,
 			SPAposition const &,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			surface *& = *(surface **)NULL_REF
+			SPAbox const & = SpaAcis::NullObj::get_box(),
+			surface *& = SpaAcis::NullObj::get_surface_ptr()
 		);
 
 
 // Compute the silhouette lines on a given surface, for a general
 // projection.
 
-DECL_INTR surf_surf_int *
-make_sil(
+DECL_INTR surf_surf_int * make_sil(
 			surface const &,
 			view_spec const &,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			surface *& = *(surface **)NULL_REF,
+			SPAbox const & = SpaAcis::NullObj::get_box(),
+			surface *& = SpaAcis::NullObj::get_surface_ptr(),
 			double const = SPAresabs
 		);
 

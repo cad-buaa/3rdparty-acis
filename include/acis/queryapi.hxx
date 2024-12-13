@@ -53,6 +53,10 @@
 #include "ent_pt_dist_opts.hxx"
 #include "detect_match_opts.hxx"
 
+#include <utility>
+#include <list>
+#include "spa_null_intr.hxx"
+
 class APOINT;
 class mass_props;
 class mass_props_options;
@@ -442,6 +446,79 @@ DECL_QUERY outcome api_ray_fire(
 							   AcisOptions* ao=NULL
 							   );
 
+/**
+ * Gets the lists of entities that are hit when rays are fired at an ENTITY_LIST.
+ * <br><br>
+ * <b>Role:</b> This API fires the given rays at the entities in the given ENTITY_LIST.
+ * It returns an entity_hit_list for each ray fired. Each entity_hit consists of an entity
+ * and a parameter value of the hit point along the ray. The entity_hits are returned in an
+ * increasing parameter order.
+ * <br><br>
+ * The ray tests all faces, edges and vertices of all the entities in the target entity list.
+ * Only entities in the forward direction along the ray can be hit, except that hits "behind"
+ * the initial position can be returned, but only those that are within the ray radius of the
+ * initial position. <tt>hits_wanted</tt> indicates the maximum number of hits to return. To
+ * return all the hits, specify <tt>hits_wanted</tt> as zero.
+ * <br><br>
+ * When several connected entities are wanted, for example, all edges of a face, pick one
+ * entity, for instance, the face, and the others are found by following the model
+ * pointers.
+ * <br><br>
+ * If a ray intersects a FACE and one of its EDGEs within the same intersection with the ray
+ * cylinder, then a single EDGE hit would be returned. Similarly, if the ray intersected a
+ * VERTEX within the same intersecion, the single VERTEX hit will be returned.
+ * <br><br>
+ * If a ray has more than one distinct intersection with a FACE or an EDGE, one hit will be
+ * returned for each distinct intersection.
+ * <br><br>
+ * The @href rayfire_options class controls optional behavior of this API. Such optional behavior
+ * includes setting a maximum of one hit returned per ENTITY, or returning only hits of a specified type.
+ * <br><br>
+ * To pick edges or vertices, it is often helpful to increase the ray radius, but
+ * to pick a face, keep the ray radius small to avoid picking edges or vertices of
+ * the face.
+ * <br><br>
+ * A call to this API will cause bounding boxes to be computed, causing a model
+ * change and the creation of a bulletin board. To make the process read-only,
+ * wrap the call to @href api_ray_fire in an API_NOP_BEGIN API_NOP_END block:
+ * <pre>
+ * outcome out(0);
+ * API_NOP_BEGIN
+ * out = api_ray_fire(...)
+ * API_NOP_END</pre>
+ * <br><br>
+ * <dl>
+ * <b>Errors:</b> If any input entity is <tt>NULL</tt>.
+ * <dd>&nbsp;Zero length <tt>ray_direction</tt> specified.</dd>
+ * <dd>&nbsp;Ray radius less than <tt>SPAresabs</tt>.</dd>
+ * </dl>
+ * <br>
+ * <b>Effect:</b> Changes model
+ * <br><br>
+ * <b>Journal: </b> Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
+ * <br><br>
+ * @param target_entities
+ * Specifies the list of target entities
+ * @param ray_hits
+ * A list of rays and the entities hit
+ * @param ro
+ * Specifies rayfire_options object for optional behavior
+ * @param ao
+ * Specifies ACIS options such as versioning and journaling
+ **/
+DECL_QUERY outcome api_ray_fire(
+	const ENTITY_LIST& target_entities,
+	std::list<std::pair<ray, entity_hit_list>>& ray_hits,
+	rayfire_options* ro = nullptr,
+	AcisOptions* ao = nullptr );
+
+/**
+* Set the following option to TRUE for enabling multithreaded ray-fire.
+**/
+extern DECL_QUERY option_header rayfire_mt;
+
 /** @} */
 
 /** \addtogroup INTRAPIDISTANCE
@@ -484,8 +561,8 @@ DECL_QUERY outcome api_entity_entity_distance(
 			SPAposition &pos1,
 			SPAposition &pos2,
 			double      &distance,
-			param_info  &ent1_info = *(param_info *) NULL_REF,
-			param_info  &ent2_info = *(param_info *) NULL_REF,
+			param_info  &ent1_info = SpaAcis::NullObj::get_param_info(),
+			param_info  &ent2_info = SpaAcis::NullObj::get_param_info(),
 		    AcisOptions *ao = NULL);
 
 
@@ -674,7 +751,7 @@ DECL_QUERY outcome api_entity_point_distance(
 			SPAposition &in_point,
 			SPAposition &closest_pos,
 			double      &distance,
-			param_info  &ent_info = *(param_info *) NULL_REF,
+			param_info  &ent_info = SpaAcis::NullObj::get_param_info(),
 		    AcisOptions *ao = NULL);
 
 /**
@@ -754,7 +831,7 @@ DECL_QUERY outcome api_entity_point_distance(
 			const SPAposition                   in_points[],
 			SPAposition                         closest_pos[],
 			double                              distances[],
-			param_info                          ent_infos[] = (param_info *) NULL_REF,
+			param_info                          ent_infos[] = NULL,
             SPAentity_point_distance_options    *epdo = NULL,
 		    AcisOptions                         *ao = NULL);
 
@@ -802,7 +879,7 @@ DECL_QUERY outcome api_entity_point_distance(
 			const SPAposition					in_points[], 
 			SPAposition							closest_pos[], 
 			double								distances[], 
-			param_info							ent_infos[] = (param_info *) NULL_REF,
+			param_info							ent_infos[] = NULL,
 			SPAentity_point_distance_options	*epdo = NULL, 
 			AcisOptions							*ao = NULL);
 
@@ -1294,7 +1371,6 @@ DECL_QUERY outcome api_clash_bodies(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
- * <b>Journal: </b> Available
  * @param body_a
  * (in) First body to be tested for clashes.
  * @param body_b
@@ -1308,6 +1384,7 @@ DECL_QUERY outcome api_clash_bodies(
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  * <br><br>
+ * Note - Incase of polyhedral input bodies behaviour is ignored.
  */
 DECL_QUERY outcome api_clash_bodies(
             BODY                *body_a,
@@ -1402,7 +1479,6 @@ DECL_QUERY outcome api_clash_bodies(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
- * <b>Journal: </b> Available
  * @param body_list
  * (in) List of bodies to be checked for clashes.
  * @param clash_results
@@ -1421,6 +1497,117 @@ DECL_QUERY outcome api_n_body_clash(
 			clash_mode mode = CLASH_CLASSIFY_BODIES,
 			clash_behaviour behaviour = CLASH_IGNORE_WIRES,
 			AcisOptions *ao = nullptr);
+
+//Determines the pairs of bodies that clash within a given lists of bodies, and optionally how they clash if so.
+//Avoids checking clash between the bodies belonging to the same body groups.
+
+/**
+ * Determines the pairs of bodies that clash within a given groups of bodies, avoiding clash check between the bodies belonging to the same body group
+ and optionally how they clash if so.This API is used when we have clash information between certain bodies which are necessary and we don't need to check clashing between 
+ them.
+ * <br><br>
+ * <b>Role:</b> This API tests for clashes between bodies in an input group of bodies. The bodies
+ * clash if there is a point on one body which is within SPAresabs of the other
+ * body. This can be applied to closed solid bodies or sheet bodies. It
+ * can also produce information about the way in which the bodies clash, and
+ * generate a full list of all of the pairs of boundary entities on the bodies
+ * that clash.It avoids checking clash of bodies within the same list.
+ * <br><br>
+ * The results of the clash tests are returned in an object of type @href n_body_clash_results
+ * passed into the API. This object keeps track of the pairs of bodies that constitute a clash.
+ * It stores details of the body clashes for the bodies that clash. The level of detail
+ * desired can be specified using the @href clash_mode. All the body clashes done as part of the operation
+ * will correspond to the given level of detail.
+ * <br><br>
+ * Similar to @href api_clash_bodies, this API has three different modes of operation to allow users to trade off
+ * level of detail against performance:
+ * <br><br>
+ * <ul>
+ * <li><tt>CLASH_EXISTENCE_ONLY</tt>:<br>
+ *      The API will do as little work as necessary to ascertain whether or not
+ *      two bodies clash, with no analysis of the way that they clash. The
+ *      result type will always be <tt>CLASH_NONE</tt> (bodies do not clash) or
+ *      <tt>CLASH_UNCLASSIFIED</tt> (bodies do clash), and no boundary entity pairs or
+ *      containing body will be returned.
+ * </li>
+ * <br><br>
+ * <li><tt>CLASH_CLASSIFY_BODIES</tt>:<br>
+ *      The API will do as little work as necessary to determine the way in
+ *      which two bodies clash. The result type will be one of <tt>CLASH_NONE</tt>,
+ *      <tt>CLASH_COINCIDENT</tt>, <tt>CLASH_CONTAINED</tt>, <tt>CLASH_CONTAINED_ABUTS</tt>,
+ *      <tt>CLASH_ABUTS</tt>,
+ *      or <tt>CLASH_INTERLOCK</tt>. If one body is contained within the other, the
+ *      containing_body() member will be set to the body that contains the other.
+ *      No sub-entity pairs will be returned.
+ * </li>
+ * <br><br>
+ * <li><tt>CLASH_CLASSIFY_SUB_ENTITIES</tt>:<br>
+ *      The API will classify every pair of faces and wire edges in the bodies
+ *      that do clash, and return not only the classification for the bodies, but
+ *      also a list of all sub-entity pairs that clash with their individual
+ *      classifications. For each sub-entity pair returned, the "a" entry in
+ *      each pair will be owned by <tt>body_a</tt> and the "b" entry will be
+ *      owned by <tt>body_b</tt>.
+ * </li>
+ * </ul>
+ * <br><br>
+ * The API has failsafe behaviour, that is, if a body clash operation fails between a particular
+ * pair of bodies, the API would record the failure and continue performing clashes on the rest
+ * of the input bodies. The details of the individual failures can be obtained using the @href outcome
+ * object returned by the API.
+ * <br><br>
+ * <br><br>
+ * <b>Limitations:</b>
+ * Open solid bodies are not supported. It is not possible to determine definitively
+ * whether such bodies clash in an efficient manner. For performance reasons,
+ * this API <em>does not</em> reject open solid bodies, and in many cases will produce
+ * correct results, but the results returned are not guaranteed to be accurate,
+ * or for different versions of ACIS to return the same results.
+ * <br><br>
+ * Currently, wire bodies and wires present in mixed-dimension bodies are not
+ * supported. The default behavior is that any wires in the input bodies are
+ * ignored, but this can be changed, for example, for debug builds of applications, such
+ * that the API will fail if any wires are present.
+ * <br><br>
+ * <b>Degenerate cases:</b>
+ * <ul>
+ * <li>If two bodies point to the same entity, then a clash
+ *     result of <tt>CLASH_COINCIDENT</tt> will be returned. In this case, a list of entity clashes
+ *     is not returned for that particular pair of bodies. However, note that if one body points to an <em>exact
+ *     copy</em> of another, then the same result will be returned, but entity
+ *     clash data will also be generated.</li>
+ * <li>If one or both of the bodies in a clash operation is <tt>NULL</tt>, then a clash result
+ *     of <tt>CLASH_UNKNOWN</tt> will be returned for that pair.</li>
+ * </ul>
+ * <br><br>
+ * <b>Effect:</b> Read-only
+ * <br><br>
+ * <b>Journal:</b> Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Modeler
+ * <br><br>
+ * @param num_body_groups
+ * (in) Number of entity lists.
+ * @param body_groups
+ * (in) List of entity list containing the bodies.
+ * @param clash_results
+ * (out) Results of clash tests between the input bodies. Stores a list of pairs of bodies that clash.
+ * @param mode
+ * (in) Operation mode for clash detection.
+ * @param behavior
+ * (in) Behavior modifier for clash detection operation.
+ * @param ao
+ * (in) ACIS options such as versioning and journaling.
+ * <br><br>
+ */
+DECL_QUERY outcome api_n_body_clash(
+	const int num_body_groups,
+	const ENTITY_LIST* body_groups,
+	n_body_clash_results*& clash_results,
+	clash_mode mode = CLASH_CLASSIFY_BODIES,
+	clash_behaviour behaviour = CLASH_IGNORE_WIRES,
+	AcisOptions* ao = nullptr
+);
 
 
 /**
@@ -1469,7 +1656,6 @@ DECL_QUERY outcome api_clash_faces(
  * <br><br>
 * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* <b>Journal: </b> Available
  * @param face_a
  * (in) First face to be tested for clash.
  * @param face_b

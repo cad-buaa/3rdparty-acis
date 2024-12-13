@@ -1,6 +1,11 @@
 #ifndef __TAG_SYSTEM_H__
 #define __TAG_SYSTEM_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /*
  * The in interface in this file is private. The public tag management
  * functions are in cad.h and mesh.h.

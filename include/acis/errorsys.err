@@ -1,19 +1,19 @@
-// Error code definitions for module "spaacis/src"
+// Error code definitions for module "spaacisds/src"
 
-#ifndef SPAACIS_ERRORSYS_ERRMOD_INCLUDED
-#define SPAACIS_ERRORSYS_ERRMOD_INCLUDED
+#ifndef SPAACISDS_ERRORSYS_ERRMOD_INCLUDED
+#define SPAACISDS_ERRORSYS_ERRMOD_INCLUDED
 
 #include "errorbase.hxx"
 #include "errmsg.hxx"
 
 #include "importexport.h"
-#ifdef __SpaACIS
-extern EXPORT_SYMBOL message_module spaacis_errorsys_errmod;
+#ifdef __SPAAcisDs
+extern EXPORT_SYMBOL message_module spaacisds_errorsys_errmod;
 
 #else
-extern IMPORT_SYMBOL message_module spaacis_errorsys_errmod;
+extern IMPORT_SYMBOL message_module spaacisds_errorsys_errmod;
 
 #endif
-#define FORCE_ERRORS_UNRESOLVED spaacis_errorsys_errmod.message_code(0)
+#define FORCE_ERRORS_UNRESOLVED spaacisds_errorsys_errmod.message_code(0)
 
-#endif /* SPAACIS_ERRORSYS_ERRMOD_INCLUDED */
+#endif /* SPAACISDS_ERRORSYS_ERRMOD_INCLUDED */

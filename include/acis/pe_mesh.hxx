@@ -524,8 +524,8 @@ public:
 	void			FreeTangents(void);
 	logical			HasTangents(void) const { return head_tans != NULL && tail_tans != NULL; }
 
-	void			SetHeadTan(uint edgnr,const SPAvector& tan) { head_tans[edgnr] = tan; }
-	void			SetTailTan(uint edgnr,const SPAvector& tan) { tail_tans[edgnr] = tan; }
+	void			SetHeadTan(uint edgnr,const SPAvector& tanVec) { head_tans[edgnr] = tanVec; }
+	void			SetTailTan(uint edgnr,const SPAvector& tanVec) { tail_tans[edgnr] = tanVec; }
 	const SPAvector&	GetHeadTan(uint edgnr) const { return head_tans[edgnr]; }
 	const SPAvector&	GetTailTan(uint edgnr) const { return tail_tans[edgnr]; }
 

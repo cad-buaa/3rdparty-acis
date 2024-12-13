@@ -165,6 +165,37 @@ private:
 };
 
 /**
+* The edge pairing preference option class.
+* @par Technical Article
+* <i>[Edge Pairing Preference Option](http://doc.spatial.com/articles/m/u/l/Multithreaded_Stitching_8e62.html#Edge_Pairing_Preference)</i>
+* @par Role
+* The edge_pairing_preference_option controls the preferences for pairing of edges during stitching. 
+* At present, preference for pairing of edges without splits have been added. 
+* It is relevant only for @href api_stitch_make_input and @href api_stitch. This class serves as a
+* public base class for mt_stitch_options.
+*/
+class DECL_STITCH edge_pairing_preference_option
+{
+public:
+	/**
+	* The public member to set the option.
+	* @param[in] flag a bool
+	*/
+	void set_prefer_pairing_without_splits(bool flag);
+	/**
+	* The public member to get the option.
+	* @return the set flag
+	*/
+	bool get_prefer_pairing_without_splits() const;
+
+protected:
+	edge_pairing_preference_option();
+
+private:
+	bool prefer_pairing_without_splits;
+};
+
+/**
 * The compound option class for multithreaded stitching. 
 * @par Technical Article
 * <i>[Multithreaded Stitching Options](http://doc.spatial.com/articles/m/u/l/Multithreaded_Stitching_8e62.html#Compounded_Stitching_Options)</i>
@@ -173,11 +204,12 @@ private:
 * @href api_stitch_make_input, @href api_stitch_manage_coins, and 
 * @href api_stitch. A pointer to mt_stitch_options is passed to the above
 * mentioned APIs to control their behavior. The class mt_stitch_options has
-* been derived from stitch_options, max_stitch_tol_option, manage_coins_option,
-* validation_option, and heal_option.
+* been derived from stitch_options, edge_pairing_preference_option, max_stitch_tol_option, 
+* manage_coins_option, validation_option, and heal_option.
 */
 class DECL_STITCH mt_stitch_options : 
 	public stitch_options, 
+	public edge_pairing_preference_option,
 	public max_stitch_tol_option,
 	public manage_coins_option,
 	public validation_option,

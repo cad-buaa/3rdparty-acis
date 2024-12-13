@@ -167,7 +167,7 @@ public:
  * @param other
  * pointer to what's tested.
  */
-	logical operator==( pt_cvty_info const &other ) const;
+	bool operator==( pt_cvty_info const &other ) const;
 
 	// Debug. Prints the "string representation" to the file.
 /**

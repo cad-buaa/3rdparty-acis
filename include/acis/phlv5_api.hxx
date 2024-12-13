@@ -241,7 +241,7 @@ DECL_PHLV5 outcome api_phlv5_compute(
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
-* <b>Journal: </b> Available
+* <b>Journal: </b> Not Available
 * <br><br>
  * <b>Product(s):</b> 3D ACIS PHL V5
  * <br><br>
@@ -513,5 +513,187 @@ DECL_PHLV5 outcome api_create_hatch_lines(	FACE*				  in_face,
 											SPAposition*&       hatchLinePos,
 											phlv5_options*		phlv5_opts = NULL,
 											AcisOptions*		ao = NULL);
+
+/**
+ * Defines a hlr_view.
+ * <br>
+ * <b>Role:</b> The <tt>hlr_view</tt> class acts as holder of single view definition
+ * for computation of hidden line data. This is input to API <tt>api_multi_view_hlr_compute</tt> when hidden line data
+ * computation of multiple views is required for the same input models.
+ * <br><br>
+ * <i><b>Note</b> All data stored in <tt>m_out_phlv5_edges</tt> is allocated with</i> <tt>new</tt>.<i>It is the user's responsibility
+ * to call</i> <tt>lose</tt> <i>for all the entities in the list when they are no longer needed.</i>
+ * <br><br>
+ * @see SPAposition,ENTITY_LIST
+ */
+struct DECL_PHLV5 hlr_view : public ACIS_OBJECT
+{
+	SPAposition m_eye;
+	SPAposition m_target;
+	bool m_persp;
+	ENTITY_LIST* m_out_phlv5_edges = nullptr;
+
+/**
+ * @param iEye
+ * SPAposition of the view eye position.
+ * @param iTarget
+ * SPAposition of the view target position.
+ * @param iPersp
+ * boolean if the view is perspective.
+ * @param iEdges
+ * ENTITY_LIST which would be populated with the output <tt>PHLV5_EDGE</tt>s for this view definition.
+ */
+	hlr_view(SPAposition const& iEye, SPAposition const& iTarget, bool iPersp, ENTITY_LIST& iEdges);
+
+	~hlr_view();
+};
+
+/**
+ * A handle to the input hlr data.
+ * <br>
+ * <b>Role:</b> The <tt>hlr_input_handle</tt> class acts as a handle to input hlr data consumed by multi-API's individual
+ * stages for computation of hidden line data. This will own the input asm_model / bodies and that would be deleted when this
+ * handle is cleaned up using <tt>api_cleanup_hlr_input_handle</tt>.
+ * <br><br>
+ * <i><b>Note</b> This owns <tt>asm_model</tt> / <tt>BODY</tt>s used for computing hidden line data. It is the user's responsibility
+ * to call</i> <tt>api_cleanup_hlr_input_handle</tt> <i>for cleaning up the input handle when they are no longer needed.</i>
+ * <br><br>
+ * @see api_create_hlr_input_handle, api_add_asm_model_to_hlr_handle, api_add_bodies_to_hlr_handle, api_compute_hlr_view, api_cleanup_hlr_input_handle
+ */
+class DECL_PHLV5 hlr_input_handle : public ACIS_OBJECT
+{
+public:
+
+	virtual ~hlr_input_handle() = 0;
+};
+
+/**
+ * Constructs <tt>hlr_input_handle</tt> consumed by multi-API individual stages for computation of hidden line data.
+ * <br><br>
+ * <b>Role:</b> Constructs <tt>hlr_input_handle</tt> which would maintain the input required for computing hidden line data. 
+ * <br><br>
+ * The options argument is of type <tt>phlv5_options</tt> and contains options for the
+ * hidden line removal algorithm.
+ * <br><br>
+ * <b>Errors:</b> 
+ * <br><br>
+ * <b>Effect:</b>
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS PHL V5
+ * <br><br>
+ * @param ioHandle
+ * <tt>hlr_input_handle</tt> handle for maintaining inputs of hidden line data computation.
+ * @param iPhlv5Opts
+ * option class.
+ * @param iAo
+ * acis options.
+ * <br><br>
+ * @see api_add_asm_model_to_hlr_handle, api_add_bodies_to_hlr_handle, api_compute_hlr_view, api_cleanup_hlr_input_handle
+ **/
+outcome DECL_PHLV5 api_create_hlr_input_handle(hlr_input_handle*& ioHandle, phlv5_options* iOpts = nullptr, AcisOptions* iAo = nullptr);
+
+/**
+ * Adds <tt>asm_model</tt> to <tt>hlr_input_handle</tt> for computation of hidden line data.
+ * <br><br>
+ * <b>Role:</b> The input <tt>asm_modle</tt> will be owned by <tt>hlr_input_handle</tt>. This would be deleted when this
+ * handle is cleaned up using <tt>api_cleanup_hlr_input_handle</tt>. This API should not be used along with <tt>api_add_bodies_to_hlr_handle</tt>,
+ * both of them should be used in a mutually exclusive manner else the API would raise an error of mixed input.
+ * <br><br>
+ * <b>Errors:</b>
+ * <br><br>
+ * <b>Effect:</b> Changes model
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS PHL V5
+ * <br><br>
+ * @param iHandle
+ * <tt>hlr_input_handle</tt> handle for maintaining inputs of hidden line data computation.
+ * @param iModel
+ * <tt>asm_model</tt> whose hidden line data needs to be calculated.
+ * @param iAo
+ * acis options.
+ * <br><br>
+ * @see api_create_hlr_input_handle, api_add_bodies_to_hlr_handle, api_compute_hlr_view, api_cleanup_hlr_input_handle
+ **/
+outcome DECL_PHLV5 api_add_asm_model_to_hlr_handle(hlr_input_handle* iHandle, asm_model* iModel, AcisOptions* iAo = nullptr);
+
+/**
+ * Adds <tt>ENTITY_LIST</tt> of <tt>BODY</tt>s to <tt>hlr_input_handle</tt> for computation of hidden line data.
+ * <br><br>
+ * <b>Role:</b> The input list of <tt>BODY</tt>s will be owned by <tt>hlr_input_handle</tt>. This would be deleted when this
+ * handle is cleaned up using <tt>api_cleanup_hlr_input_handle</tt>. This API should not be used along with <tt>api_add_asm_model_to_hlr_handle</tt>,
+ * both of them should be used in a mutually exclusive manner else the API would raise an error of mixed input.
+ * <br><br>
+ * <b>Errors:</b>
+ * <br><br>
+ * <b>Effect:</b> Changes model
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS PHL V5
+ * <br><br>
+ * @param iHandle
+ * <tt>hlr_input_handle</tt> handle for maintaining inputs of hidden line data computation.
+ * @param iBodies
+ * List of <tt>BODY</tt>s whose hidden line data needs to be calculated.
+ * @param iAo
+ * acis options.
+ * <br><br>
+ * @see api_create_hlr_input_handle, api_add_asm_model_to_hlr_handle, api_compute_hlr_view, api_cleanup_hlr_input_handle
+ **/
+outcome DECL_PHLV5 api_add_bodies_to_hlr_handle(hlr_input_handle* iHandle, ENTITY_LIST& iBodies, AcisOptions* iAo = nullptr);
+
+/**
+ * Computes hidden line data for input data provided by <tt>hlr_input_handle</tt>.
+ * <br><br>
+ * <b>Role:</b> Computes hidden line data for input data provided by <tt>hlr_input_handle</tt> for the view definition provided
+ * by <tt>hlr_view</tt> object. The output list of <tt>PHLV5_EDGE</tt>s would be populated in <tt>hlr_view</tt> object. 
+ * It is the user's responsibility to call <tt>lose</tt> for all the output entities in the list when they are no longer needed.
+ * <br><br>
+ * <b>Errors:</b>
+ * <br><br>
+ * <b>Effect:</b> Changes model
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS PHL V5
+ * <br><br>
+ * @ioView
+ * <tt>hlr_view</tt> object for input view definition for computing hidden line data and storing the output list of <tt>PHLV5_EDGE</tt>s.
+ * @param iHandle
+ * <tt>hlr_input_handle</tt> handle for maintaining inputs of hidden line data computation.
+ * @param iAo
+ * acis options.
+ * <br><br>
+ * @see api_create_hlr_input_handle, api_add_asm_model_to_hlr_handle, api_add_bodies_to_hlr_handle, api_cleanup_hlr_input_handle
+ **/
+outcome DECL_PHLV5 api_compute_hlr_view(hlr_view* ioView, hlr_input_handle* iHandle, AcisOptions* iAo = nullptr);
+
+/**
+ * Cleans up <tt>hlr_input_handle</tt>.
+ * <br><br>
+ * <b>Role:</b> This will clean up memory of <tt>hlr_input_handle</tt>. This will also delete / lose the <tt>asm_model</tt> or list of <tt>BODY</tt>s 
+ * owned by the input handle which was used for generating hidden line data.
+ * <br><br>
+ * <b>Errors:</b>
+ * <br><br>
+ * <b>Effect:</b> Changes model
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS PHL V5
+ * <br><br>
+ * @param iHandle
+ * <tt>hlr_input_handle</tt> handle whose memory needs to be cleaned.
+ * @param iAo
+ * acis options.
+ * <br><br>
+ * @see api_create_hlr_input_handle, api_add_asm_model_to_hlr_handle, api_add_bodies_to_hlr_handle, api_compute_hlr_view
+ **/
+outcome DECL_PHLV5 api_cleanup_hlr_input_handle(hlr_input_handle*& iHandle, AcisOptions* iAo = nullptr);
+
 /** @} */
 #endif

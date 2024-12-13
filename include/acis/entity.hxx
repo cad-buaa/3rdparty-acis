@@ -47,7 +47,7 @@
 /**
  * ASSEMBLY MODEL  ID
  */
-#define ASM_MODEL_REF_ID 0xE0000004
+#define ASM_MODEL_REF_ID 0x60000004
 /**
  * BODY ID
  */
@@ -448,6 +448,11 @@ public: \
 	virtual logical apply_transform( \
 		SPAtransf const &, ENTITY_LIST &, logical = FALSE, logical = TRUE);
 
+#define TRANSFORM_PTR_FUNCTION \
+public: \
+	virtual logical apply_transform( \
+		SPAtransf const *, ENTITY_LIST &, logical = FALSE, logical = TRUE);
+
 #define LOOKUP_FUNCTION \
 public: \
 	virtual int lookup( logical ) const;
@@ -614,6 +619,22 @@ logical THIS()::apply_transform( \
 	PARENT()::apply_transform(tform, list, negate, reset_pattern ); \
 	list.add( this ); \
 	trans_attrib( this, tform, &list );
+
+// At this point the application writer places code to transform the
+// entity. The application writer must include a return statement
+// with the value TRUE.
+
+#define TRANSFORM_PTR_DEF \
+} \
+\
+logical THIS()::apply_transform( \
+	SPAtransf const* tform, ENTITY_LIST &list, logical negate, logical reset_pattern ) { \
+	if (list.lookup( this ) >= 0) \
+		return TRUE; \
+	PARENT()::apply_transform(tform, list, negate, reset_pattern ); \
+	list.add( this ); \
+	if (nullptr != tform) \
+		trans_attrib( this, *tform, &list );
 
 // At this point the application writer places code to transform the
 // entity. The application writer must include a return statement
@@ -897,20 +918,20 @@ public:
  */
 	operator unknown_entity_text *() const { return ptr; }
 /**
- * Returns <tt>TRUE</tt> if the given pointer points to the defining unknown entity text; otherwise, it returns <tt>FALSE</tt>.
+ * Returns <tt>true</tt> if the given pointer points to the defining unknown entity text; otherwise, it returns <tt>false</tt>.
  * <br><br>
  * @param p
  * pointer to the unknown_entity_text being tested.
  */
-	logical operator==( unknown_entity_text *p ) const
+	bool operator==( unknown_entity_text *p ) const
 		{ return ptr == p; }
 /**
- * Returns <tt>FALSE</tt> if the given pointer points to the defining unknown entity text; otherwise, it returns <tt>TRUE</tt>.
+ * Returns <tt>false</tt> if the given pointer points to the defining unknown entity text; otherwise, it returns <tt>true</tt>.
  * <br><br>
  * @param p
  * pointer to the unknown_entity_text being tested.
  */
-	logical operator!=( unknown_entity_text *p ) const
+	bool operator!=( unknown_entity_text *p ) const
 		{ return ptr != p; }
 	// STI ROLL
 /**
@@ -1083,7 +1104,6 @@ DECL_KERN logical fix_entities_in_entity_array(restore_data& rd, int start_ent);
 class DECL_KERN ENTITY : public ACIS_OBJECT {
 
 private:
-//public:
 	friend int get_history_size(	HISTORY_STREAM *,
 									int &,
 									DELTA_STATE * );
@@ -1106,7 +1126,7 @@ private:
 
 
 protected:
-//public:
+
     // Contains data used by the ENTITY that is not part of the roll.
 	// (The rollback pointer was moved into this object.)
 	/*
@@ -2052,7 +2072,25 @@ public:
 	virtual logical apply_transform(
         const SPAtransf &t, ENTITY_LIST &list, logical negate = FALSE, logical reset_pattern = TRUE);
 
-
+/**
+* Transforms this <tt>ENTITY</tt>.
+* <br><br>
+* <b>Role:</b> The <tt>ENTITY_LIST</tt> is used to prevent sub-entities from being transformed
+* more than once.  This method is not included with the standard <tt>ENTITY</tt> methods in order
+* to allow nontransformable <tt>ENTITYs</tt> to use the default implementation.  (Supplied by the
+* <tt>TRANSFORM_PTR_FUNCTION</tt> and <tt>TRANSFORM_PTR_DEF</tt> macros.)
+* <br><br>
+* @param t
+* the pointer to transform to apply.
+* @param list
+* list of entities to which the transform has already been applied.
+* @param negate
+* negation flag.
+* @param reset_pattern
+* internal use only.
+*/
+	virtual logical apply_transform(
+			SPAtransf const* t, ENTITY_LIST& list, logical negate = FALSE, logical reset_pattern = TRUE);
 
 protected:
 	// Functions to start and terminate the save record, called by

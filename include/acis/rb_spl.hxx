@@ -35,6 +35,7 @@
 
 #include "logical.h"
 #include "blnd_spl.hxx"
+#include "spa_null_kern.hxx"
 
 class SizeAccumulator;
 
@@ -111,13 +112,13 @@ protected:
 */
 	virtual	check_status_list *check(
   		        check_fix const &input =			// supplies a set of flags which 
-					* (check_fix const *) NULL_REF, // say which fixes are allowable 
+					SpaAcis::NullObj::get_check_fix(), // say which fixes are allowable 
 					                                // (the default is to fix nothing)						 						 
-				check_fix &result = *(check_fix*) NULL_REF, // returns a set of flags 
-															// which say which fixes
+				check_fix &result =							// returns a set of flags 
+					SpaAcis::NullObj::get_check_fix(),		// which say which fixes
 															// were applied
-				check_status_list const * =				 // list of checks that are to 
-					(check_status_list const *) NULL_REF // be made. If the	list is null, 
+				check_status_list const * =	nullptr		 // list of checks that are to 
+														 // be made. If the	list is null, 
 														 // then every possible check will
 														 // be made; otherwise, the function 
 														 // will only check for things in 
@@ -642,12 +643,9 @@ public:
 
 	// Query the parameter space range of the surface.
 
-	// 	virtual SPApar_box  param_range( SPAbox const & = 
-	//							*(SPAbox *)NULL_REF) const;
-	// 	virtual SPAinterval param_range_u( SPAbox const & = 
-	//							*(SPAbox *)NULL_REF );
-	// 	virtual SPAinterval param_range_v( SPAbox const & = 
-	//							*(SPAbox *)NULL_REF) const;
+	// 	virtual SPApar_box  param_range( SPAbox const & = SpaAcis::NullObj::get_box() ) const;
+	// 	virtual SPAinterval param_range_u( SPAbox const & = SpaAcis::NullObj::get_box() );
+	// 	virtual SPAinterval param_range_v( SPAbox const & = SpaAcis::NullObj::get_box() ) const;
 
 	// The u/v closure of the blend surface.
 
@@ -669,11 +667,11 @@ public:
 	// does guarantee that different surfaces are correctly
 	// identified as such.
 
-	// logical operator==( subtype_object const & ) const;
+	// bool operator==( subtype_object const & ) const;
 
-	// Construct an iso-SPAparameter line on the surface. A u parameter 
-	// line runs in the direction of increasing u SPAparameter, at constant 
-	// v. A v SPAparameter line runs in the direction of increasing v, at
+	// Construct an iso-parameter line on the surface. A u parameter 
+	// line runs in the direction of increasing u-parameter, at constant 
+	// v. A v-parameter line runs in the direction of increasing v, at
 	// constant u. The parametrisation in the non-constant direction matches 
 	// that of the surface, and has the range obtained by use of param_range_u() 
 	// or param_range_v() appropriately.
@@ -787,7 +785,7 @@ public:
  */
 	virtual int evaluate(
 				 SPApar_pos const &val,	 // uv parameter
-				 SPAposition &pos,		 // Point on surface at given SPAparameter
+				 SPAposition &pos,		 // Point on surface at given parameter
 				 SPAvector **vec = NULL, // Array of pointers to arrays of
 										 // vectors, of size nd. Any of the
 										 // pointers may be null, in which
@@ -801,7 +799,7 @@ public:
 				 evaluate_surface_quadrant eval_sur = 
 					evaluate_surface_unknown
 										 // The evaluation location - above,
-										 // below for each SPAparameter direction,
+										 // below for each parameter direction,
 										 // or don't care.
 				 ) const;
 
@@ -825,7 +823,7 @@ public:
  */
 	virtual int accurate_derivs(
 						 SPApar_box const &box = 
-							*(SPApar_box *)NULL_REF // Defaults to the whole surface
+							SpaAcis::NullObj::get_par_box() // Defaults to the whole surface
 						 ) const;
 
  	// Find the SPAposition and first and second  derivatives of the
@@ -934,7 +932,7 @@ public:
  * evaluation location 1 => above,-1 => below,0 => don't care.
  */
     virtual void compute_section(
-						 double v,		// v SPAparameter
+						 double v,			// v parameter
 						 int spine_nder,	// number of required spine derivs
 						 int spring_nder,	// no. of req'd spring derivs
 						 logical xcrv_norm,	// whether to fill in xcurve normal
@@ -979,8 +977,8 @@ public:
 	//						SPAunit_vector &Tan,
 	//						SPAvector const &R0, 
 	//						SPAvector const &R1,
-	//						double &rr_sina = *( double * )NULL_REF,
-	//						double &rr_cosa = *( double * ) NULL_REF 
+	//						double &rr_sina = SpaAcis::NullObj::get_double(),
+	//						double &rr_cosa = SpaAcis::NullObj::get_double() 
 	//						) const;
 
 	// Find the angle between two radius vectors at def_cvec, according to 
@@ -1012,8 +1010,8 @@ public:
 	//				SPAunit_vector &Tan, 
 	//				SPAvector const &R0, 
 	//				SPAvector const &R1,
-	//				double &rr_sina = *( double * )NULL_REF,
-	//				double &rr_cosa = *( double * ) NULL_REF 
+	//				double &rr_sina = SpaAcis::NullObj::get_double(),
+	//				double &rr_cosa = SpaAcis::NullObj::get_double() 
 	//				) const;
 
 
@@ -1062,13 +1060,10 @@ public:
  					SPAposition &foot,
  					SPAunit_vector &norm,
  					surf_princurv &curv,
- 					SPApar_pos const &uv_guess = 
-						* (SPApar_pos *) NULL_REF,
- 					SPApar_pos &uv_actual = 
-						* (SPApar_pos *) NULL_REF,
-					logical f_weak = FALSE,
-					SPApar_box const &subset_range = 
-						* (SPApar_box *) NULL_REF
+ 					SPApar_pos const &uv_guess	= SpaAcis::NullObj::get_par_pos(),
+					SPApar_pos &uv_actual		= SpaAcis::NullObj::get_par_pos(),
+					logical f_weak				= FALSE,
+					SPApar_box const &subset_range = SpaAcis::NullObj::get_par_box()
 				  ) const;
 
 
@@ -1085,7 +1080,7 @@ public:
  */
 	logical	relax( SPAposition const &pos, SVEC &sv );
 
-	// Finds the SPAparameter values of a point on the surface.
+	// Finds the parameter values of a point on the surface.
 /**
  * Returns the parameter.
  * <br><br>
@@ -1097,8 +1092,7 @@ public:
 
 	virtual SPApar_pos param(
 						  SPAposition const &pos,
-						  SPApar_pos const &param_pos = 
-							*(SPApar_pos *)NULL_REF
+						  SPApar_pos const &param_pos = SpaAcis::NullObj::get_par_pos()
 						  ) const;
 
  	// Find the change in surface SPAparameter corresponding to a unit
@@ -1117,7 +1111,7 @@ public:
 	//	virtual SPAunit_vector point_normal(	
 	//								SPAposition const &,
 	//								SPApar_pos const & = 
-	//									*(SPApar_pos *)NULL_REF
+	//									SpaAcis::NullObj::get_par_pos()
 	//								) const;
 
 
@@ -1130,7 +1124,7 @@ public:
 	//					double &,			// curvature in first direction
 	//					SPAunit_vector &,	// second axis direction
 	//					double &,			// curvature in second direction
-	//					SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+	//					SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
 	//                  evaluate_surface_quadrant = evaluate_surface_unknown
 	//					) const;
 
@@ -1143,7 +1137,7 @@ public:
 	//	virtual double point_cross(
 	//						SPAposition const &,
 	//						SPAunit_vector const &,
-	//						SPApar_pos const & = *(SPApar_pos *)NULL_REF
+	//						SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 	//						) const;
 
 	// Test whether a point lies on the surface.
@@ -1151,8 +1145,8 @@ public:
 	// virtual logical test_point_tol(
 	//					SPAposition const &,
 	//					double,
-	//					SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-	//					SPApar_pos & = *(SPApar_pos *)NULL_REF
+	//					SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+	//					SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 	//					) const;
 
 

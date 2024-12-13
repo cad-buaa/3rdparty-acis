@@ -13,7 +13,7 @@
 #define IMPORT_EXPORT_SYMBOLS
 #define EXPORT_SYMBOL __declspec(dllexport)
 #define IMPORT_SYMBOL __declspec(dllimport)
-#elif defined(_LINUX_SOURCE)
+#elif defined(_LINUX_SOURCE) || defined( __clang__ ) || defined( OS_Darwin )
 #define IMPORT_EXPORT_SYMBOLS
 #define EXPORT_SYMBOL __attribute__((visibility("default")))
 #define IMPORT_SYMBOL __attribute__((visibility("default")))

@@ -46,7 +46,7 @@ public:
 
     render_scene* get_impl() const;
 
-	logical operator==(const render_scene_holder& rhs);
+	bool operator==(const render_scene_holder& rhs);
 
 };
 /** @} */

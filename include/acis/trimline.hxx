@@ -20,6 +20,7 @@
 // ywoo 08Jan01: added the header file.
 #include "base.hxx"
 // ywoo: end
+#include "spa_null_kern.hxx"
 
 class surf_surf_int;
 class FACE;
@@ -36,7 +37,7 @@ DECL_INTR surf_surf_int *trim_line_to_face(
 			surface const &,
 			surf_surf_int *,
 			ff_header *&,
-			surface const & = *(surface *)NULL_REF,
+			surface const & = SpaAcis::NullObj::get_surface(),
 				// This is a "help surface", which intersects the
 				// surface of the face in the lines to be trimmed. If
 				// present, the trimming of all the lines can be done

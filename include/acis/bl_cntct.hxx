@@ -290,6 +290,11 @@ public:
 
 	logical slice_singularity();
 
+    void recalc_off_pt_for_var_r_chamf(int nderivs = 0);
+
+    void recalc_off_pt_for_var_r_chamf_norm_dir(int nderivs = 0);
+
+
    // note: surface_normal_dv(ind, 0) is actually a unit_vector
     SPAvector  const &surface_normal_dv(int sup_index, int order)    const;
 
@@ -298,6 +303,7 @@ public:
 
     double            section_curvature_dv(int sup_index, int order) const;
 private:
+
 
     // The center contact point of three entity blends.
 

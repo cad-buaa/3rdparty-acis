@@ -1,6 +1,13 @@
 #ifndef __MESHGEMS_CADSURF_H__
 #define __MESHGEMS_CADSURF_H__
 
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
+
 #include <meshgems/meshgems.h>
 #include <meshgems/cadsurf_short_names.h>
 #include <meshgems/cadsurf_old_names.h>
@@ -659,6 +666,11 @@ MESHGEMS_METHOD meshgems_cadsurf_session_t *meshgems_cadsurf_session_new(meshgem
  */
 MESHGEMS_METHOD void meshgems_cadsurf_session_delete(meshgems_cadsurf_session_t *css);
 
+/**
+ * Unlock MeshGems-CADSurf with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cadsurf_unlock_product(const char * unlock_str);
 
 
 /**

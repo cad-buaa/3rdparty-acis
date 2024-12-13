@@ -17,6 +17,9 @@
 #include "scandef.hxx"
 #include "debugmsc.hxx"
 #include "transf.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 class surface;
 class pcurve;
 class SPAbox;
@@ -142,7 +145,7 @@ public:
     /**
      * Zero tolerance equality test.
      */
-	virtual logical operator==( curve const & ) const;
+	virtual bool operator==( curve const & ) const;
     /**
      * Returned a transformed copy.  Copies, then calls *=.
      */
@@ -165,7 +168,7 @@ public:
 	 * The supplied curve is modified to be the latter section,
 	 * and the initial section is returned as value.
      */
-    virtual curve *split( double, SPAposition const & = *(SPAposition *)NULL_REF );
+    virtual curve *split( double, SPAposition const & = SpaAcis::NullObj::get_position() );
     /**
      * Return a box around the curve. This may not be the minimum box
      * containing the curve, but a compromise between speed of
@@ -174,7 +177,7 @@ public:
 	virtual SPAbox bound(
 				SPAposition const &,
 				SPAposition const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
     /**
      * Return a box around the curve. This may not be the minimum box
@@ -183,21 +186,21 @@ public:
      */
     virtual SPAbox bound(
 				SPAinterval const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
 
     /**
      * Return a box surrounding that portion of the curve within the
 	 * given box
      */
-	virtual SPAbox bound( SPAbox const &, SPAtransf const & = *(SPAtransf *)NULL_REF ) const;
+	virtual SPAbox bound( SPAbox const &, SPAtransf const & = SPAtransf() ) const;
     /**
      * The following is retained for historical reasons, but will be withdrawn.
      */
 	SPAbox bound(
 				double start,
 				double end,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
+				SPAtransf const &t = SPAtransf()
 			) const
 	{
 		return bound( SPAinterval( start, end ), t );
@@ -209,7 +212,7 @@ public:
 	curve_tancone tangent_cone(
 				SPAinterval const &range,
 				logical approx_OK,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
+				SPAtransf const &t = SPAtransf()
 			) const;
     /**
      * Function to set the evaluation type for node seams for
@@ -221,14 +224,14 @@ public:
      */
 	virtual SPAunit_vector point_direction(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
  	/**
      * Find curvature at point on compcurv.
      */
 	virtual SPAvector point_curvature(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 	/**
      * Find the foot of the perpendicular from the given point to
@@ -245,8 +248,8 @@ public:
 				SPAposition &,
 				SPAunit_vector &,
 				SPAvector &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF,
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter(),
 				logical f_weak=FALSE
 			) const;
 	/**
@@ -263,8 +266,8 @@ public:
 				SPAposition const &pos,
 				SPAposition &foot,
 				SPAunit_vector &foot_dt,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &actual = *(SPAparameter *)NULL_REF,
+				SPAparameter const &guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter &actual = SpaAcis::NullObj::get_parameter(),
 				logical f_weak=FALSE
 			) const
 	{
@@ -272,7 +275,7 @@ public:
 					pos,
 					foot,
 					foot_dt,
-					*(SPAvector *)NULL_REF,
+					SpaAcis::NullObj::get_vector(),
 					guess,
 					actual,
 					f_weak
@@ -291,16 +294,16 @@ public:
     void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &actual = *(SPAparameter *)NULL_REF,
+				SPAparameter const &guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter &actual = SpaAcis::NullObj::get_parameter(),
 				logical f_weak=FALSE
 			) const
 	{
 		point_perp(
 					pos,
 					foot,
-					*(SPAunit_vector *)NULL_REF,
-					*(SPAvector *)NULL_REF,
+					SpaAcis::NullObj::get_unit_vector(),
+					SpaAcis::NullObj::get_vector(),
 					guess,
 					actual,
 					f_weak
@@ -311,7 +314,7 @@ public:
      */
 	virtual double param(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 	// In each of these five enquiry routines, there are two logical
@@ -327,8 +330,8 @@ public:
 	virtual void eval(
 				double,
 				SPAposition &,
-				SPAvector & = *(SPAvector *)NULL_REF,	// first derivative
-				SPAvector & = *(SPAvector *)NULL_REF,	// second derivative
+				SPAvector & = SpaAcis::NullObj::get_vector(),	// first derivative
+				SPAvector & = SpaAcis::NullObj::get_vector(),	// second derivative
 				logical = FALSE,
 				logical = FALSE
 			) const;
@@ -392,7 +395,7 @@ public:
 	 * more than anyone could reasonably want.
      */
 	virtual int accurate_derivs( 
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
     /**
@@ -413,7 +416,7 @@ public:
      * Find the parameter range of the compcurv as an interval.
      */
 	virtual SPAinterval param_range(
-				SPAbox const & = *(SPAbox *)NULL_REF
+				SPAbox const & = SpaAcis::NullObj::get_box()
 			) const;
     /**
 	 * Arc-length. Return the algebraic distance along the curve
@@ -456,15 +459,15 @@ public:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double = 0,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter()
 			) const;
     /**
      * Return a cylinder which encloses the portion of the curve bounded by the interval
      */
 	//
 	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval& = 
-												    *(SPAinterval*)NULL_REF ) const;
+												    SpaAcis::NullObj::get_interval() ) const;
     /**
      * Return an identifier uniquely specifying the curve type
      */
@@ -508,7 +511,7 @@ public:
 /**
  * @nodoc
  * Contains the actual node and element data.
- * It is kept seperate from the compcurv class
+ * It is kept separate from the compcurv class
  * to allow deferred local copies.  However, unlike the spl_sur
  * class, com_cur is not designed to support multiple references
  * within a model.  This should not be a problem for now since
@@ -630,7 +633,7 @@ public:
 	 * The real copy.  Takes entity lists of the world data
 	 * and the curve mesh data for converting pointers into integers.
      */
-	com_cur *copy( const ENTITY_LIST & = *(ENTITY_LIST *)NULL_REF ) const;
+	com_cur *copy( const ENTITY_LIST & = SpaAcis::NullObj::get_ENTITY_LIST() ) const;
     /**
 	 * Just do a copy of the pointers and the boxes.  Used in
 	 * back up.
@@ -645,12 +648,12 @@ public:
     /**
 	 * Zero tolerance equality check.  Good for copies.
      */
-	logical operator==( com_cur const & ) const;
+	bool operator==( com_cur const & ) const;
     /**
 	 * Find a bounding box for the subset of the curve
 	 * within the given parameter bounds.
      */
-	SPAbox bound( SPAinterval const & = *(SPAinterval *)NULL_REF ) const;
+	SPAbox bound( SPAinterval const & = SpaAcis::NullObj::get_interval() ) const;
     /**
 	 * Return a cone bounding the tangent direction of the curve. The
 	 * logical argument indicates that an approximation is ok.
@@ -686,14 +689,14 @@ public:
      */
 	SPAunit_vector point_direction(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
      /**
 	 * Curvature at point on mesh curve.
      */
 	SPAvector point_curvature(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
     /**	
 	 * Find the closest point given a start radius.
@@ -720,8 +723,8 @@ public:
 				SPAposition &,
 				SPAunit_vector &,
 				SPAvector &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF,
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter(),
 				logical f_weak=FALSE
 			) const;
     /**
@@ -729,7 +732,7 @@ public:
      */
 	double param(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
     /**
 	 * Find position, first and second derivative on curve at given
@@ -738,8 +741,8 @@ public:
 	void eval(
 				double,
 				SPAposition &,
-				SPAvector & = *(SPAvector *)NULL_REF,
-				SPAvector & = *(SPAvector *)NULL_REF,
+				SPAvector & = SpaAcis::NullObj::get_vector(),
+				SPAvector & = SpaAcis::NullObj::get_vector(),
 				logical = FALSE
 			) const;
     /**
@@ -796,7 +799,7 @@ public:
 	 * more than anyone could reasonably want.
      */
 	int accurate_derivs( 
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
     /**
@@ -817,7 +820,7 @@ public:
 	 * Find the parameter range of the interpolated curve as an 
 	 * interval.
      */
-	SPAinterval param_range( SPAbox const & = *(SPAbox *)NULL_REF ) const;
+	SPAinterval param_range( SPAbox const & = SpaAcis::NullObj::get_box() ) const;
     /**
 	 * Arc-length. Return the algebraic distance along the curve
 	 * between the given parameters, the sign being positive if the
@@ -861,14 +864,14 @@ public:
 	logical test_point_tol(
 				SPAposition const &,
 				double = 0,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter()
 			) const;
     /**
      * Find a cylinder that bounds the mesh.
      */
 	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval& = 
-												    *(SPAinterval*)NULL_REF ) const;
+												    SpaAcis::NullObj::get_interval() ) const;
     /** 
      * Returns type name
      */
@@ -876,7 +879,7 @@ public:
     /**
      *
      */
-	void save(ENTITY_LIST & = *(ENTITY_LIST *)NULL_REF) const;
+	void save(ENTITY_LIST &) const;
     /**
      *
      */

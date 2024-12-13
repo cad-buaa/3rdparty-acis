@@ -65,6 +65,8 @@ public:
 
 //	TRANSFORM_FUNCTION
 
+//  TRANSFORM_PTR_FUNCTION
+
 	// Elements are not deletable because they are subservient to meshes.
 
 	virtual logical deletable() const;
@@ -105,7 +107,7 @@ public:
 
 	// Comparison operator.  Placeholder.
 
-	virtual logical operator==(const ELEM *) const;
+	virtual bool operator==(const ELEM *) const;
 
 	// Element checker.
 

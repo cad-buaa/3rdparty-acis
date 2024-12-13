@@ -167,11 +167,11 @@ typedef sg_edge_point_relation point_edge_containment;
 */
 DECL_INTR point_edge_containment
 sg_point_in_edge(
-	SPAposition const &,		// Given SPAposition
+	SPAposition const &,	// Given SPAposition
 	EDGE const*,			// Given edge
-	SPAtransf const &,			// Any transformation
-	ENTITY *&,				// Entity-type hit returned.
-	SPAparameter &				// Edge SPAparameter returned.
+	SPAtransf const &,		// Any transformation
+	ENTITY *&,				// Entity-type hit returned
+	SPAparameter &			// Edge SPAparameter returned
 );
 
 // This function determines if the curve associated with a coedge

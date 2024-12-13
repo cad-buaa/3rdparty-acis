@@ -37,7 +37,7 @@ class acis_pm_entity_mgr;
 class PART;
 class component_entity_handle;
 
-logical InitializeRendering();
+logical InitializeRendering(const char*key = nullptr);
 logical TerminateRendering();
 
 outcome

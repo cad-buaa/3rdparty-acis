@@ -34,7 +34,7 @@ extern ScmObject P_Autoload P_((ScmObject, ScmObject));
 /* Bignums
  */
 extern ScmObject Make_Uninitialized_Bignum P_((int));
-extern int Bignum_Normalize_In_Place P_((struct S_Bignum *));
+extern void Bignum_Normalize_In_Place P_((struct S_Bignum *));
 
 /* Boolean operators
  */
@@ -106,11 +106,11 @@ extern ScmObject The_Environment, Global_Environment;
 /* Error handling
  */
 #if ! defined (PRIMITIVE_ERROR_IS_DEFINED)
-extern void Primitive_Error P_((ELLIPSIS));
+extern void Primitive_Error P_((const char*, ...));
 #endif
 
 #if ! defined (FATAL_ERROR_IS_DEFINED)
-extern void Fatal_Error P_((ELLIPSIS));
+extern void Fatal_Error P_((const char*, ...));
 #endif
 
 extern void Range_Error P_((ScmObject));

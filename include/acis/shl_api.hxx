@@ -121,6 +121,8 @@ DECL_SHL outcome api_terminate_shelling();
  * local operations options. NULL argument will set the default values.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low, box_high and pLopts are ignored.
  **/
   DECL_SHL outcome api_hollow_body(
 								BODY*        body,
@@ -198,6 +200,8 @@ DECL_SHL outcome api_terminate_shelling();
  * end of intersection box to be used.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low, box_high are ignored.
  **/
  DECL_SHL outcome api_hollow_body(
 								BODY*        body,
@@ -542,7 +546,9 @@ DECL_SHL outcome api_terminate_shelling();
  * <br><br>
  * <b>Errors:</b> Refer to the errors listed for the function, @href api_tweak_faces.
  * <br><br>
- * <b>Limitations:</b> The sheet must be manifold. In particular that means:
+ * <b>Limitations:</b>
+ * <br><br>
+ * The sheet must be manifold. In particular that means:
  * <br><br>
  * <ul>
  * <li>There cannot be more than two sheet edges meeting at any vertex and the sheet must consist of
@@ -554,6 +560,8 @@ DECL_SHL outcome api_terminate_shelling();
  * <br>
  * Only single-sided sheets can be thickened. If a double-sided sheet is encountered it is made
  * single-sided.
+ * <br><br>
+ * Incase polyherdral input body single sided offset is not supported(i.e both=false)
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
@@ -577,6 +585,8 @@ DECL_SHL outcome api_terminate_shelling();
  * logical approximation.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low, box_high, pLopts and approx_ok are ignored.
  **/
   DECL_SHL outcome api_sheet_thicken(
 						   BODY*        body,
@@ -637,7 +647,7 @@ DECL_SHL outcome api_terminate_shelling();
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
- * <b>Journal: </b> Not Available
+ * <b>Journal: </b>  Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
@@ -655,6 +665,8 @@ DECL_SHL outcome api_terminate_shelling();
  * logical approximation.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low, box_high and approx_ok are ignored.
  **/
  DECL_SHL outcome api_sheet_thicken(
 						   BODY*        body,
@@ -979,58 +991,256 @@ outcome api_create_wire_for_miter_faces(
 									AcisOptions *ao = NULL);
 
 
-/**
- * Specifies the structure for storing left and right face of face-pair.
- * <br>
- * <b>Role:</b> Used by <tt>api_make_mid_sheet_body</tt> for input argument
- * @param _left_face
- * Left face from face-pair.
- * @param _right_face
- * Right face from face-pair.
- **/
-
-struct DECL_SHL mid_sheet_face_pair
+ /**
+  * The following struct contains a pair of faces and the distance between them. 
+  * In general, it is not the minimum distance and is same for both the pair detection modes.
+  * <br>
+  * <b>Role:</b> This Struct is used in <tt>api_make_mid_sheet_body</tt> and <tt>api_detect_mid_sheet_face_pairs</tt>.
+  * <br><br>
+  * @see api_make_mid_sheet_body and api_detect_mid_sheet_face_pairs.
+  */
+struct DECL_SHL mid_sheet_face_pair : public ACIS_OBJECT
 {
+public:
+
+	/**
+	 * Left face of pair.
+	 **/
 	FACE* _left_face = nullptr;
+
+	/**
+	 * Right face of pair.
+	 **/
 	FACE* _right_face = nullptr;
+
+	/**
+	 * Get the distance between the left and right face.
+	 **/
+	double get_distance() const;
+
+public:
+
+	/**
+	 * Constructs an instance of <tt>mid_sheet_face_pair</tt>.
+	 **/
+	mid_sheet_face_pair();
+
+	/**
+	* Destructs an <tt>mid_sheet_face_pair</tt> object.
+	**/
+	virtual ~mid_sheet_face_pair();
+
+	/**
+	* Copy Constructor of an <tt>mid_sheet_face_pair</tt> object.
+	**/
+	mid_sheet_face_pair(const mid_sheet_face_pair&);
+
+	/**
+	* Assignment operator of an <tt>mid_sheet_face_pair</tt> object.
+	**/
+	mid_sheet_face_pair& operator=(const mid_sheet_face_pair&);
+
+private:
+
+	class mid_sheet_face_pair_impl;
+	mid_sheet_face_pair_impl* m_impl = nullptr;
+
+	friend class mid_sheet_face_pair_mgr;
 };
 
 /**
- * This API create the mid sheet @href BODY
+ * This API is used for extracting mid-surface sheet body between suitable face pairs.
  * <br><br>
  * <b>Technical Articles:</b> <i>[Mid Sheet Body](https://doc.spatial.com/articles/m/i/d/Mid_Sheet_Generation_90eb.html)</i>
  * <br><br>
- * <b>Role:</b> The mid-surface sheet body is created between suitable selected face-pairs on solid bodies.
- * It finds the minimum distance between the left and right faces and consider this to be the thickness between the faces.
- * It will then offset the 'left_faces' relative to this thickness.
- * This is opposite of sheet thicken. 
- * The mid-surface sheets are generally used to perform finite element analysis of thin-walled parts.
+ * <b>Role:</b> This API makes use of suitable face pairs and extracts the mid-surfaces.
+ * A sheet body is generated from these surfaces and returned as output. 
+ * Note: There is difference in default mode used in face pair detection for following api.
+ * In "api_make_mid_sheet_body" api, It is mid_sheet_body_options::pair_detection_mode::REGULAR.
+ * In "api_detect_mid_sheet_face_pairs" api, It is mid_sheet_body_options::pair_detection_mode::SHEET_METAL.
+ * User can select the other mode using "set_pair_detection_mode" function of "mid_sheet_body_options" class.
+ * For more information please refer @href mid_sheet_body_options.
  * <br><br>
  * <b>Errors:</b> Refer to the errors listed for @href api_offset_faces_specific
  * <br><br>
- * <b>Limitations:</b>
- * <ul>
- * <li>Faces in mid_sheet_face_pair must be in manifold. </li>
- * <li>All left faces in pair should be connected. Multi-lump body is created for dis-connected left faces </li>
- * </ul>
  * <b>Journal:</b> Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
  * @param num_pairs
- * Number of face-pair.
+ * Number of face pairs
  * @param mid_sheet_face_pairs
- * face-pair array having left and right faces.
+ * Array of face pairs to be used for mid-surface extraction
  * @param mid_sheet_body
- * mid-sheet body after the operation. Use @href mid_sheet_body_options to control the behavior.
+ * Sheet body created from extraced mid-surface
+ * @param mid_sheet_body_opts
+ * Options for finer control
  * @param ao
  * ACIS options for versioning and journaling
  */
-DECL_SHL
-outcome api_make_mid_sheet_body(int num_pairs,
-	mid_sheet_face_pair mid_sheet_face_pairs[],
+DECL_SHL outcome api_make_mid_sheet_body(
+	int num_pairs,
+	const mid_sheet_face_pair mid_sheet_face_pairs[],
 	BODY*& mid_sheet_body,
-	mid_sheet_body_options* mid_sheet_body_opts = nullptr,
+	const mid_sheet_body_options* mid_sheet_body_opts = nullptr,
+	AcisOptions* ao = nullptr );
+
+/**
+ * This API extracts the mid sheet body from given thin-walled solid @href BODY.
+ * <br><br>
+ * <b>Technical Articles:</b> <i>[Mid Sheet Body](https://doc.spatial.com/articles/m/i/d/Mid_Sheet_Generation_90eb.html)</i>
+ * <br><br>
+ * <b>Role:</b> This API identifies pairs of suitable opposite faces from the given model and extracts the mid-surface.
+ * A sheet body is generated from the mid-surface and returned as output. 
+ * Note: There is difference in default mode used in face pair detection for following api.
+ * In "api_make_mid_sheet_body" api, It is mid_sheet_body_options::pair_detection_mode::REGULAR.
+ * In "api_detect_mid_sheet_face_pairs" api, It is mid_sheet_body_options::pair_detection_mode::SHEET_METAL.
+ * User can select the other mode using "set_pair_detection_mode" function of "mid_sheet_body_options" class.
+ * For more information please refer @href mid_sheet_body_options.
+ * <br><br>
+ * <b>Errors:</b> Refer to the errors listed for @href api_offset_faces_specific
+ * <br><br>
+ * <b>Journal:</b> Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Modeler
+ * <br><br>
+ * @param body
+ * Solid body
+ * @param mid_sheet_body
+ * Mid-surface sheet body
+ * @param mid_sheet_body_opts
+ * Options for finer control
+ * @param ao
+ * ACIS options for versioning and journaling
+ */
+DECL_SHL outcome api_make_mid_sheet_body(
+	const BODY* body,
+	BODY*& mid_sheet_body,
+	const mid_sheet_body_options* mid_sheet_body_opts = nullptr,
+	AcisOptions* ao = nullptr);
+
+/**
+ * This API detects face pairs for mid-surface extraction from the given solid @href BODY.
+ * <br><br>
+ * <b>Technical Articles:</b> <i>[Mid Sheet Body](https://doc.spatial.com/articles/m/i/d/Mid_Sheet_Generation_90eb.html)</i>
+ * <br><br>
+ * <b>Role:</b> This API detects and returns pairs of opposite faces belonging to a
+ * thin-walled solid body. It tries to detect the pairs such that the left faces are connected. 
+ * Note: There is difference in default mode used in face pair detection for following api.
+ * In "api_make_mid_sheet_body" api, It is mid_sheet_body_options::pair_detection_mode::REGULAR.
+ * In "api_detect_mid_sheet_face_pairs" api, It is mid_sheet_body_options::pair_detection_mode::SHEET_METAL.
+ * User can select the other mode using "set_pair_detection_mode" function of "mid_sheet_body_options" class.
+ * For more information please refer @href mid_sheet_body_options.
+ * These pairs can be used as an input for @api_make_mid_sheet_body for extracting the mid-surface.
+ * <br><br>
+ * <b>Journal:</b> Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Modeler
+ * <br><br>
+ * @param body
+ * Solid body
+ * @param num_pairs
+ * Number of face pairs detected
+ * @param mid_sheet_face_pairs
+ * Array of face pairs
+ * @param mid_sheet_body_opts
+ * Options for finer control
+ * @param ao
+ * ACIS options for versioning and journaling
+ */
+DECL_SHL outcome api_detect_mid_sheet_face_pairs(
+	const BODY* body,
+	int& num_pairs, 
+	mid_sheet_face_pair*& mid_sheet_face_pairs,
+	const mid_sheet_body_options* mid_sheet_body_opts = nullptr,
+	AcisOptions* ao = nullptr );
+
+
+
+/**
+ * This API facilitates retrieving progenitor information from a given mid sheet face.
+ * <br><br>
+ * <b>Technical Articles:</b> <i>[Mid Sheet Body](https://doc.spatial.com/articles/m/i/d/Mid_Sheet_Generation_90eb.html)</i>
+ * <br><br>
+ * <b>Role:</b> This API facilitates retrieving progenitor information from a given mid sheet face. 
+ * The progenitor information consists of a pair of faces from which mid sheet created and the corresponding distance between them. 
+ * Prior to using the this API, users are required to call the @api_make_mid_sheet_body to cache the progenitor information. 
+ * The caching behavior of progenitor information can be controlled using the "mid_sheet_body_options::set_progenitor_info_flag" function.
+ * For more detailed information, please refer to the @href mid_sheet_body_options documentation.
+ * The @api_cleanup_mid_sheet_progenitor_info API is available to clean up the progenitor information for all mid sheet faces 
+ * within the mid sheet body.
+ * <br>
+ * It is important to note that the progenitor body, which is the original body from which the mid sheet was created,
+ * must be present and should not be modified or deleted during the usage of these APIs.
+ * In "REGULAR" and "SHEET_METAL" modes, the face pairs within the mid sheet face may vary, 
+ * leading to potentially different progenitor information in each mode.
+ * <br>
+ * The output of this API is an array of "mid_sheet_face_pair". 
+ * The ownership of this array lies with the caller and they have the responsibility to delete this array after using it
+ * <br>
+ * Note: This API do not utilize the @href mid_sheet_body_options internally. 
+ * However, it has been included for potential future use.
+ * <br><br>
+ * <b>Journal:</b> Not Available
+ * The journal feature is currently disabled. 
+ * Mid sheet api are caching the progenitor information within an internal attribute.
+ * However, it's important to note that this attribute is not savable, 
+ * meaning any cached information will be lost once it is saved. 
+ * As a result, utilizing a journal for these APIs may not be viable or yield meaningful results.
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Modeler
+ * <br><br>
+ * @param mid_sheet_face
+ * Mid sheet face
+ * @param num_pairs
+ * Number of face pairs detected
+ * @param mid_sheet_face_pairs
+ * Array of face pairs
+ * @param mid_sheet_body_opts
+ * Options for finer control
+ * @param ao
+ * ACIS options for versioning and journaling
+ */
+DECL_SHL outcome api_get_mid_sheet_progenitor_info(
+	const FACE* mid_sheet_face,
+	int& num_progenitor_pairs,
+	mid_sheet_face_pair*& progenitor_face_pairs,
+	const mid_sheet_body_options* mid_sheet_body_opts = nullptr,
+	AcisOptions* ao = nullptr);
+
+/**
+ * This API is utilized for the purpose of cleaning up the progenitor information associated with 
+ * all mid sheet faces within a mid sheet body.
+ * <br><br>
+ * <b>Technical Articles:</b> <i>[Mid Sheet Body](https://doc.spatial.com/articles/m/i/d/Mid_Sheet_Generation_90eb.html)</i>
+ * <br><br>
+ * <b>Role:</b> This API is utilized for the purpose of cleaning up the progenitor information associated with 
+ * all mid sheet faces within a mid sheet body.
+ * For more detailed information about the "progenitor information", please refer to the @href api_get_mid_sheet_progenitor_info documentation.
+ * <br>
+ * Note: This API do not utilize the @href mid_sheet_body_options internally. 
+ * However, it has been included for potential future use.
+ * <br><br>
+ * <b>Journal:</b> Not Available
+ * The journal feature is currently disabled. 
+ * Mid sheet api are caching the progenitor information within an internal attribute.
+ * However, it's important to note that this attribute is not savable, 
+ * meaning any cached information will be lost once it is saved. 
+ * As a result, utilizing a journal for these APIs may not be viable or yield meaningful results.
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Modeler
+ * <br><br>
+ * @param mid_sheet_body
+ * Mid sheet body
+ * @param mid_sheet_body_opts
+ * Options for finer control
+ * @param ao
+ * ACIS options for versioning and journaling
+ */
+
+DECL_SHL outcome api_cleanup_mid_sheet_progenitor_info(
+	const BODY* mid_sheet_body,
+	const mid_sheet_body_options* mid_sheet_body_opts = nullptr,
 	AcisOptions* ao = nullptr);
 
 /** @} */

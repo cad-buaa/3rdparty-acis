@@ -87,8 +87,9 @@ DECL_QUERY logical operator&&( ray const&, SPAbox const& );
 /**
  * @nodoc
  */
-DECL_QUERY logical rayxbox( ray const &r, SPAbox const &b,
-	SPAinterval& ray_portion = *(SPAinterval*) NULL_REF );
+DECL_QUERY logical rayxbox( ray const &r, 
+	SPAbox const &b,
+	SPAinterval& ray_portion = SpaAcis::NullObj::get_interval() );
 
 /**
  * Represents a 3D ray.
@@ -97,111 +98,122 @@ DECL_QUERY logical rayxbox( ray const &r, SPAbox const &b,
 class DECL_QUERY ray : public ACIS_OBJECT {
 
 public:
+	
+	/**
+	 * The start point of the ray.
+	 */
+	SPAposition root_point;
+	
+	/**
+	 * The direction of the ray.
+	 */
+	SPAunit_vector direction;
+	
+	/**
+	 * The ray radius.
+	 */
+	double radius;
+	
+	/**
+	 * The maximum parameter value of hits that have been found so far.
+	 */
+	double max_p;
 
-/**
- * The point on the ray.
- */
-	SPAposition root_point;	// point on ray
-/**
- * The direction of the ray.
- */
-	SPAunit_vector direction;	// direction of ray
-/**
- * The ray radius.
- */
-	double radius;			// ray radius
-/**
- * The maximum parameter value of hits that have been found so far.
- */
-	double max_p;		// maximum SPAparameter value of hits so far found
-/**
- * The maximum number of hits wanted.
- * <br><br>
- * <b>Role:</b> If this value is 0, it means that all hits are wanted.
- */
-	int hits_wanted;	// maximum number of hits wanted (0 means all)
-/**
- * The number of hits found.
- */
-	int hits_found;			// number of hits found
+	/**
+	 * The maximum number of hits wanted.
+	 * <br><br>
+	 * <b>Role:</b> If this value is 0, it means that all hits are wanted.
+	 */
+	int hits_wanted;
 
-	// Construct a ray from a SPAposition and a SPAunit_vector and
-	// optional ray radius and maximum number of hits wanted.
-/**
- * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
- * <br><br>
- * @param pos
- * point on ray.
- * @param uv
- * direction of ray.
- * @param rad
- * ray radius.
- * @param hit
- * maximum number of hits.
- */
-	ray( SPAposition const &pos, SPAunit_vector const &uv,
-		 double rad = 100.0 * SPAresabs, int hit= 0 );
+	/**
+	 * The number of hits found.
+	 */
+	int hits_found;
 
-	// Construct a ray as a copy of another ray.
+	ray() = default;
 
-/**
- * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
- * <br><br>
- * @param r
- * ray.
- */
-	ray( ray const &r );
+	/**
+	 * C++ initialize constructor requests memory for this object and populates
+	 * it with the data supplied as arguments.
+	 * <br><br>
+	 * @param pos
+	 * point on ray
+	 * @param dir
+	 * direction of ray
+	 * @param rad
+	 * ray radius
+	 * @param hit
+	 * maximum number of hits
+	 */
+	ray(
+		SPAposition const& pos,
+		SPAunit_vector const& dir,
+		double rad = 100.0 * SPAresabs,
+		int hit = 0 );
 
-/**
- * C++ assignment operator
- * <br><br>
- * @param r
- * ray.
- */
-	ray &operator=( ray const &r );
+	/**
+	 * C++ copy constructor requests memory for this object and populates
+	 * it with the data from the object supplied as an argument.
+	 * <br><br>
+	 * @param r
+	 * ray
+	 */
+	ray( ray const& r ) = default;
 
+	/**
+	 * C++ assignment operator
+	 * <br><br>
+	 * @param r
+	 * ray
+	 */
+	ray& operator=( ray const& r ) = default;
+	
 	// Transform a ray.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-	friend DECL_QUERY ray operator*( ray const &, SPAtransf const & );
-/**
- * Transforms a ray.
- * <br><br>
- * @param transf
- * transform.
- */
-	ray &operator*=( SPAtransf const &transf );
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
+	friend DECL_QUERY ray operator*( ray const&, SPAtransf const& );
+
+	/**
+	 * Transforms a ray.
+	 * <br><br>
+	 * @param transf
+	 * transform
+	 */
+	ray& operator*=( SPAtransf const& transf );
 
 	// Test if ray cuts a SPAbox.
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+	
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	friend DECL_QUERY logical operator&&( ray const&, SPAbox const& );
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
+	
+	/*
+	// tbrv
+	*/
+	/**
+	 * @nodoc
+	 */
 	friend DECL_QUERY logical rayxbox(
-			ray const &r,
-			SPAbox const &b,
-			SPAinterval& ray_portion );
-	// Print out details of the ray for information
-/**
- * Outputs debug information to the printer or to the specified file.
- * <br><br>
- * @param fp
- * file name.
- */
-	void debug( FILE * fp = debug_file_ptr ) const;
+		ray const& r,
+		SPAbox const& b,
+		SPAinterval& ray_portion );
+	
+	/**
+	 * Outputs debug information to the printer or to the specified file.
+	 * <br><br>
+	 * @param fp
+	 * file name
+	 */
+	void debug( FILE *fp = debug_file_ptr ) const;
 };
 
 /** @} */
@@ -318,7 +330,8 @@ public:
  * @nodoc
  */
 
-DECL_QUERY int enquire_hit_list( hit*, double& = *(double*)NULL_REF );
+DECL_QUERY int enquire_hit_list( hit*, 
+								double& = SpaAcis::NullObj::get_double() );
 
 /**
 * Deletes a hit list.
@@ -519,20 +532,25 @@ class object_hit_array;
 class DECL_QUERY object_hit : public ACIS_OBJECT
 {
 protected:
-	double		_ray_param;
-	void*		_hit_object;
-	double		_u_or_t;	// If FACE, this is the _hit_object's surface u param. If EDGE, it's the edge t param.
-	double		_v;			// If FACE, this is the _hit_object's surface v param. If EDGE, it's DBL_MAX.
+
+	double _ray_param;
+	void* _hit_object;
+	double _u_or_t;	// If FACE, this is the _hit_object's surface u param. If EDGE, it's the edge t param.
+	double _v;		// If FACE, this is the _hit_object's surface v param. If EDGE, it's DBL_MAX.
+
 public:
-	object_hit( double in_ray_param, void* in_entity = 0, double in_u_or_t = DBL_MAX, double in_v = DBL_MAX ) :
-		_ray_param( in_ray_param ), _hit_object( in_entity ), _u_or_t( in_u_or_t ), _v( in_v ) {};
-	object_hit();
-	object_hit( const object_hit& );
-	object_hit &operator=( const object_hit& );
-	~object_hit() {};
-	const double hit_param() { return _ray_param; }
-	const double entity_u_or_t() { return _u_or_t; }
-	const double entity_v() { return _v; }
+
+	explicit object_hit(
+		double in_ray_param = -DBL_MAX,
+		void* in_entity = nullptr,
+		double in_u_or_t = DBL_MAX,
+		double in_v = DBL_MAX ) :
+		_ray_param( in_ray_param ), _hit_object( in_entity ),
+		_u_or_t( in_u_or_t ), _v( in_v ) {};
+	
+	double hit_param() const { return _ray_param; }
+	double entity_u_or_t() const { return _u_or_t; }
+	double entity_v() const { return _v; }
 };
 
 /**
@@ -586,6 +604,13 @@ public:
 
 	entity_hit_list();
 	~entity_hit_list();
+
+	entity_hit_list( const entity_hit_list& ) = delete;
+	entity_hit_list& operator=( const entity_hit_list& ) = delete;
+
+	entity_hit_list( entity_hit_list&& other );
+	entity_hit_list& operator=( entity_hit_list&& other );
+
 /**
  * Returns number of items in the entity_hit_list.
  */
@@ -612,8 +637,5 @@ public:
  */
 	object_hit_array* get_impl() const;
 };
-
-
-
 
 #endif

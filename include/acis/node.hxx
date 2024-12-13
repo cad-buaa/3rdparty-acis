@@ -98,6 +98,14 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+	
 	// Nodes are not deletable because they are subservient to meshes.
 
 	virtual logical deletable() const;
@@ -160,7 +168,7 @@ public:
 
 	// Node comparison operator.  No tolerance is used.
 
-	virtual logical operator== (const NODE *) const;
+	virtual bool operator== (const NODE *) const;
 
 	// Real node fixing function.
 

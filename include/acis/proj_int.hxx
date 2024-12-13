@@ -101,7 +101,7 @@ public:
 								// the second
 			bs2_curve = NULL,	// pcurve for first surface
 			bs2_curve = NULL,	// pcurve for second surface
-			const SPAinterval& = *(const class SPAinterval*) NULL_REF
+			const SPAinterval& = SpaAcis::NullObj::get_interval()
 		);
 
 	// Copy constructor
@@ -149,7 +149,7 @@ private:
 	// Test for equality - not guaranteed to find all cases of curve
 	// superimposition, but reliably flagging cases of inequality.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 
 	// Utility function to find the point on the projection curve
@@ -320,7 +320,7 @@ private:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs( 
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 

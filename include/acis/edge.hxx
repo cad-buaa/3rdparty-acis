@@ -405,6 +405,14 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+
 
 	// Search a private list for this object, used for debugging.
 
@@ -469,7 +477,7 @@ public:
 		  CURVE *geometry,
 		  REVBIT sense,
 		  EDGE_cvty cvty = EDGE_cvty_unknown,
-		  SPAinterval const &domain = *(const class SPAinterval *)NULL_REF);
+		  SPAinterval const &domain = SpaAcis::NullObj::get_interval());
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -740,10 +748,11 @@ public:
  */
 	void set_convexity( EDGE_cvty cvty, logical reset_pattern = TRUE );
 
-	// This function checks the given range with the start
-	// and end vertexes if they do not agree it returns
-	// FALSE and does not set the range.  If the range could
-	// be set it returns TRUE
+// This function checks the given range with the start
+// and end vertexes if they do not agree it returns
+// FALSE and does not set the range.  If the range could
+// be set it returns TRUE
+
 /**
  * Checks the parameter range of this <tt>EDGE</tt>.
  * <br><br>
@@ -752,9 +761,9 @@ public:
  * does not set the range. If the range could be set it returns <tt>TRUE</tt>.
  * <br><br>
  * @param range
- * the parameter range to check.
+ * Pointer to the parameter range to check.
  */
-	logical set_param_range( SPAinterval const &range );
+	logical set_param_range( SPAinterval const* range );
 
 	// Routines for finding the positions of the start and end of
 	// the edge. Used a lot, so convenient to have.

@@ -17,6 +17,7 @@
 #include "dcl_bool.h"
 #include "logical.h"
 #include "base.hxx"
+#include "spa_null_kern.hxx"
 
 class ENTITY;
 class BODY;
@@ -34,14 +35,14 @@ class ENTITY_LIST;
 // "not equal" if there is any doubt.
 
 DECL_BOOL logical same_surfaces(
-			SURFACE *,
-			logical,		// TRUE if the reverse sense of the first
-							// surface is of interest
-			SURFACE *,
-			logical	,		// TRUE if the reverse sense of the second
-							// surface is of interest
-			double = SPAresnor, // angular tolerance
-			logical = TRUE   // use old spline comparison
+			SURFACE* sf1,
+			logical sf1_rev,		// TRUE if the reverse sense of the first
+									// surface is of interest
+			SURFACE* sf2,
+			logical	sf2_rev,		// TRUE if the reverse sense of the second
+									// surface is of interest
+			double ang_tol = SPAresnor, // angular tolerance
+			logical old_way = TRUE   // use old spline comparison
 		);
 
 DECL_BOOL void sg_join_two_edges_about_vertex(
@@ -77,10 +78,10 @@ typedef logical (*select_edge)( EDGE *, EDGE * );
 
 DECL_BOOL void 
 merge_edge_list(
-			ENTITY_LIST &,					// edge list
-			ENTITY_LIST &,					// constructed vertex list
-			select_face = NULL,
-			double = SPAresnor,				// angular tolerance
+			ENTITY_LIST& edge_list,					// edge list
+			ENTITY_LIST& vert_list,					// constructed vertex list
+			select_face selface = NULL,
+			double ang_tol = SPAresnor,				// angular tolerance
 			int keep_second_face_flag = -1,	// way to pick faces to keep, 
                                            // -1 means unset 
                                            //  0 means keep first,
@@ -91,10 +92,10 @@ merge_edge_list(
 
 DECL_BOOL void 
 merge_vertex_list(
-			ENTITY_LIST &,	// vertex list
-			select_edge = NULL,
-			ENTITY_LIST & = *(ENTITY_LIST *) NULL_REF,	// lost entities
-			double = SPAresnor, // angular tolerance
+			ENTITY_LIST& vert_list,	// vertex list
+			select_edge seledge = NULL,
+			ENTITY_LIST& lost_entities = SpaAcis::NullObj::get_ENTITY_LIST(),	// lost entities
+			double ang_tol = SPAresnor, // angular tolerance
 			logical tolerant_test = TRUE
 		);
 

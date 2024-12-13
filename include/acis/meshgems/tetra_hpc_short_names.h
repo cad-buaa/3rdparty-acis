@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_TETRA_HPC_SHORT_NAMES__
 #define __MESHGEMS_TETRA_HPC_SHORT_NAMES__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * Short names. Allow the caller to omit the meshgems_ prefix.
  */
@@ -47,5 +52,6 @@
 #define tetra_hpc_set_tetrahedron_quality_callback meshgems_tetra_hpc_set_tetrahedron_quality_callback
 #define tetra_hpc_session_t meshgems_tetra_hpc_session_t
 #define tetra_hpc_tetrahedron_quality_callback_t meshgems_tetra_hpc_tetrahedron_quality_callback_t
+#define tetra_hpc_unlock_product meshgems_tetra_hpc_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_TETRA_HPC_SHORT_NAMES__ */

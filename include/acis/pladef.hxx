@@ -23,6 +23,8 @@
 #include "debugmsc.hxx"
 #include "unitvec.hxx"
 #include "position.hxx"
+#include "spa_null_base.hxx" 
+
 class SizeAccumulator;
 class curve;
 class SPAbox;
@@ -114,8 +116,7 @@ public:
  * <b>Role:</b> This vector gives the direction and scaling of u-parameter lines.
  */
 	SPAvector u_deriv;			// A SPAvector in the plane which gives the
-							// direction and scaling of u SPAparameter
-							// lines.
+								// direction and scaling of u parameter lines.
 
 /**
  * By default the v-direction is the cross product of normal with <tt>u_dir</tt>.
@@ -237,7 +238,7 @@ public:
  * @param sur
  * surface.
  */
-	virtual logical operator==( surface const &sur ) const;
+	virtual bool operator==( surface const &sur ) const;
 
 
 	// Return a plane being (a copy of) this plane transformed by
@@ -290,7 +291,7 @@ public:
 	// needs to balance the tightness of the bound against the cost of
 	// evaluation.
 
-	// Surface bounded in SPAparameter space.
+	// Surface bounded in parameter space.
 
 /**
  * Returns a box around the surface.
@@ -301,8 +302,8 @@ public:
  * transformation.
  */
 	virtual SPAbox bound(
-				SPApar_box const &box = *(SPApar_box *)NULL_REF,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
+				SPApar_box const &box = SpaAcis::NullObj::get_par_box(),
+				SPAtransf const &trans = SPAtransf()
 			) const;
 
 	// Surface bounded in object space.
@@ -316,7 +317,7 @@ public:
  */
 	virtual SPAbox bound(
 				SPAbox const &box,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
+				SPAtransf const &trans = SPAtransf()
 			) const;
 
 
@@ -340,21 +341,21 @@ public:
  * returned object indicate whether the cone is in fact the best available, and if not whether
  * this result is inside or outside the best cone.
  * <br><br>
- * @param para_bound
- * parameter bounds.
- * @param result
- * approximate results OK.
+ * @param parbox
+ * parameter-space bounds.
+ * @param approx_OK
+ * approximate result is ok.
  * @param trans
- * plane transform.
+ * transformation to apply.
  */
 	virtual surf_normcone normal_cone(
-				SPApar_box const &para_bound,	// SPAparameter bounds
-				logical result = FALSE,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
+				SPApar_box const &parbox,
+				logical approx_OK = FALSE,
+				SPAtransf const &trans = SPAtransf()
 			) const;
 
 
-	// Get the u SPAparameter direction. If there is one stored, and it
+	// Get the u parameter direction. If there is one stored, and it
 	// is suitable (i.e. it is not parallel to the plane normal),
 	// return its projection into the plane, otherwise construct an
 	// arbitrary direction in the plane.
@@ -386,13 +387,13 @@ public:
  * Returns the surface normal at a given point on the surface.
  * <br><br>
  * @param pos
- * position.
- * @param param_pos
- * parameter position.
+ * the given position.
+ * @param param_guess
+ * the guess parameter-space position.
  */
 	virtual SPAunit_vector point_normal(
 				SPAposition const &pos,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
@@ -408,25 +409,25 @@ public:
  * rather arbitrary in this case.
  * <br><br>
  * @param pos
- * position.
- * @param vec1
- * direction.
- * @param para1
- * parameter.
- * @param vec2
- * direction.
- * @param para2
- * parameter.
- * @param param_pos
- * parameter position.
+ * position at which to evaluate the curvatures and curvature axes.
+ * @param axis1
+ * first axis of curvature.
+ * @param cur1
+ * curvature along the first axis.
+ * @param axis2
+ * second axis of curvature.
+ * @param cur2
+ * curvature along the second axis.
+ * @param param_guess
+ * guess parameter-space position.
  */
 	virtual void point_prin_curv(
 				SPAposition const &pos,
-				SPAunit_vector &vec1,		// first axis direction
-				double &para1,			// curvature in first direction
-				SPAunit_vector &vec2,		// second axis direction
-				double &para2,			// curvature in second direction
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
+				SPAunit_vector &axis1,		// first axis direction
+				double &cur1,				// curvature in first direction
+				SPAunit_vector &axis2,		// second axis direction
+				double &cur2,			// curvature in second direction
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const;
 /**
  * Returns the principal directions and magnitudes of curvature at a given point on the surface.
@@ -435,13 +436,13 @@ public:
  * rather arbitrary in this case.
  * <br><br>
  * @param pos
- * position.
+ * position at which to evaluate the curvature.
  * @param param_guess
- * parameter position possible parameter.
+ * guess parameter-space position.
  */
 	surf_princurv point_prin_curv(
 				SPAposition const &pos,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const
 	{
 		return surface::point_prin_curv( pos, param_guess );
@@ -453,28 +454,28 @@ public:
 	// The curvature of a plane is always zero.
 
 /**
- * Returns the curvature of a curve in the surface through a given point normal to a given direction in the surface.
+ * Returns the curvature of a cross-sectional curve through a given point normal to a given direction in the surface.
  * <br><br>
  * <b>Role:</b> The curvature of any curve on a plane is always zero.
  * <br><br>
  * @param pos
- * position name.
- * @param vec
- * direction.
- * @param para
- * parameter.
+ * position on the plane.
+ * @param normal
+ * normal to the plane.
+ * @param param_guess
+ * guess parameter-space position.
  */
 	virtual double point_cross(
 				SPAposition const &pos,
-				SPAunit_vector const &vec,
-				SPApar_pos const &para = *(SPApar_pos *)NULL_REF
+				SPAunit_vector const &normal,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
 	// Find the point on the surface nearest to the given point and
 	// optionally the normal to and principal curvatures of the
 	// surface at that point.  If the surface is parametric, also
-	// return the SPAparameter values at the found point.
+	// return the parameter values at the found point.
 
 /**
  * Finds the point on the surface nearest to the given point.
@@ -483,114 +484,116 @@ public:
  * that point. Also returns the parameter values at the found point, if desired.
  * <br><br>
  * @param pos
- * given position.
- * @param pos_plane
- * position on plane.
- * @param pt_plane
- * normal direction at point on plane.
+ * the input position.
+ * @param foot
+ * the position on the surface.
+ * @param surface_normal
+ * the returned normal.
  * @param cur
- * surface principle curve.
- * @param param_pos
- * param position.
- * @param act_pos
- * actual position.
+ * the principal curvature.
+ * @param param_guess
+ * guess parameter-space position.
+ * @param param_actual
+ * actual parameter-space position.
  * @param f_weak
  * weak flag.
  */
 	virtual void point_perp(
 				SPAposition const &pos,
-				SPAposition &pos_plane,
-				SPAunit_vector &pt_plane,
+				SPAposition &foot,
+				SPAunit_vector &surface_normal,
 				surf_princurv &cur,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &act_pos = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const;
+
 /**
  * Finds the point on the surface nearest to the given point.
  * <br><br>
  * <b>Role:</b> It may optionally return the parameter value at that point.
  * <br><br>
  * @param pos
- * given position.
+ * the input position.
  * @param foot
- * position on plane.
- * @param norm
- * normal direction at point on plane.
+ * the position on the surface.
+ * @param surface_normal
+ * the returned normal.
  * @param param_guess
- * param position.
+ * guess parameter-space position.
  * @param param_actual
- * possible position.
+ * actual parameter-space position.
  * @param f_weak
  * weak flag.
  */
 	void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPAunit_vector &norm,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
+				SPAunit_vector &surface_normal,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const
 	{
 		point_perp(
 				pos,
 				foot,
-				norm,
-				*(surf_princurv *)NULL_REF,
+				surface_normal,
+				SpaAcis::NullObj::get_surf_princurv(),
 				param_guess,
 				param_actual, f_weak
 			);
 	}
+
 /**
  * Finds the point on the surface nearest to the given point.
  * <br><br>
  * <b>Role:</b> It may optionally return the parameter value at that point.
  * <br><br>
  * @param pos
- * given position.
+ * the input position.
  * @param foot
- * position on plane.
+ * the position on the surface.
  * @param param_guess
- * param position.
+ * guess parameter-space position.
  * @param param_actual
- * possible position.
+ * actual parameter-space position.
  * @param f_weak
  * weak flag.
  */
 	void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPApar_pos const &param_guess = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_actual = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos(),
 				logical f_weak = FALSE
 			) const
 	{
 		point_perp(
 				pos,
 				foot,
-				*(SPAunit_vector *)NULL_REF,
-				*(surf_princurv *)NULL_REF,
+				SpaAcis::NullObj::get_unit_vector(),
+				SpaAcis::NullObj::get_surf_princurv(),
 				param_guess,
 				param_actual, f_weak
 			);
 	}
 
 
-	// Now there is a set of SPAparameter-based functions. The Acis
+	// Now there is a set of parameter-based functions. The Acis
 	// kernel only requires them to have defined results if the
 	// surface is parametric (i.e. the member function parametric()
 	// returns TRUE), but husks and applications may expect valid
 	// results for all surface types.
 
 	// The parametrisation implemented uses a SPAvector (u_dir) in the
-	// plane to show the u SPAparameter direction, and the scaling
+	// plane to show the u parameter direction, and the scaling
 	// factor for both parameters (to ensure that they are
 	// dimensionless). The v direction is orthogonal to the plane
 	// normal and u direction, and (n, u, v) form a right-handed or
 	// left-handed set according to the value of "reverse_v".
 
-	// Find the SPAparameter values of a point on a surface, given an
+	// Find the parameter values of a point on a surface, given an
 	// optional first guess.
 
 
@@ -598,27 +601,27 @@ public:
  * Finds the parameter values corresponding to a point on a surface.
  * <br><br>
  * @param pos
- * position.
- * @param param_pos
- * parameter position.
+ * the position for which the parameter-space position is to be found.
+ * @param param_guess
+ * the guess parameter-space position.
  */
 	virtual SPApar_pos param(
 				SPAposition const &pos,
-				SPApar_pos const &param_pos = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
-	// Find the rate of change in surface SPAparameter corresponding to
+	// Find the rate of change in surface parameter corresponding to
 	// a unit velocity in a given object-space direction at a given
-	// SPAposition in SPAparameter space..
+	// position in parameter space..
 
 /**
  * Finds the rate of change in surface parameter corresponding to a unit velocity in a given object-space direction at a given position in parameter space.
  * <br><br>
- * @param vec
- * direction.
- * @param param_pos
- * parameter position.
+ * @param dir
+ * object-space direction for which the result is determined.
+ * @param pos
+ * parameter-space position at which the result is determined.
  */
 	virtual SPApar_vec param_unitvec(
 				SPAunit_vector const &vec,
@@ -626,7 +629,7 @@ public:
 			) const;
 
 
-	// Find the point on a parametric surface with given SPAparameter
+	// Find the point on a parametric surface with given parameter
 	// values, and optionally the first and second derivatives as
 	// well or instead.
 
@@ -635,17 +638,17 @@ public:
  * <br><br>
  * <b>Role:</b> It may also return the first and second derivatives at this point.
  * <br><br>
- * @param param_pos
- * parameter position.
+ * @param param
+ * parameter-space position at which to perform the evaluation.
  * @param pos
- * position.
+ * position on surface at the specified parameter-space position.
  * @param first_der
  * first derivatives - array of length 2, in order xu, xv.
  * @param second_der
  * second derivatives - array of length 3, in order xuu, xuv, xvv.
  */
 	virtual void eval(
-				SPApar_pos const &param_pos,
+				SPApar_pos const &param,
 				SPAposition &pos,
 				SPAvector *first_der = NULL,	// first derivatives - array of
 									// length 2, in order xu, xv
@@ -654,7 +657,7 @@ public:
 			) const;
 
 
-	// Find the point on a parametric surface with given SPAparameter
+	// Find the point on a parametric surface with given parameter
 	// values. The default using eval() is fine.
 
 //	virtual SPAposition eval_position(
@@ -663,21 +666,21 @@ public:
 
 
 	// Find the normal to a parametric surface at a point with given
-	// SPAparameter values.
+	// parameter values.
 
 /**
  * Returns the surface normal at a given point on the surface.
  * <br><br>
- * @param param_pos
- * parameter position.
+ * @param pos
+ * parameter-space position at which to evaluate the surface normal.
  */
 	virtual SPAunit_vector eval_normal(
-				SPApar_pos const &param_pos
+				SPApar_pos const &pos
 			) const;
 
 
 	// Find the principal axes of curvature of the surface at a
-	// point with given SPAparameter values, and the curvatures in those
+	// point with given parameter values, and the curvatures in those
 	// directions.
 
 /**
@@ -685,22 +688,22 @@ public:
  * <br><br>
  * <b>Role:</b> The function also determines curvatures in those directions.
  * <br><br>
- * @param param_pos
- * parameter position.
- * @param vec1
- * first axis direction.
+ * @param pos
+ * parameter-space position at which to evaluate the curvatures and curvature axes.
+ * @param axis1
+ * first axis of curvature.
  * @param cur1
- * curvature in first direction.
- * @param vec2
- * second axis direction.
+ * curvature along the first axis.
+ * @param axis2
+ * second axis of curvature.
  * @param cur2
- * curvature in second direction.
+ * curvature along the second axis.
  */
 	virtual void eval_prin_curv(
-				SPApar_pos const &param_pos,
-				SPAunit_vector &vec1,		// first axis direction
+				SPApar_pos const &pos,
+				SPAunit_vector &axis1,		// first axis direction
 				double &cur1,			// curvature in first direction
-				SPAunit_vector &vec2,		// second axis direction
+				SPAunit_vector &axis2,		// second axis direction
 				double &cur2			// curvature in second direction
 			) const;
 
@@ -709,19 +712,19 @@ public:
  * <br><br>
  * <b>Role:</b> The function also determines curvatures in those directions.
  * <br><br>
- * @param param
- * parameter position.
+ * @param pos
+ * parameter-space position at which to evaluate the curvature.
  */
 	surf_princurv eval_prin_curv(
-				SPApar_pos const &param
+				SPApar_pos const &pos
 			) const
 	{
-		return surface::eval_prin_curv( param );
+		return surface::eval_prin_curv( pos );
 	}
 
 
 	// Find the curvature of a cross-section curve of the parametric
-	// surface at the point with given SPAparameter values.  The
+	// surface at the point with given parameter values.  The
 	// cross-section curve is given by the intersection of the
 	// surface with a plane passing through the point and with given
 	// normal.
@@ -733,13 +736,13 @@ public:
  * passing through the point and with given normal direction.
  * <br><br>
  * @param pos
- * parameter position.
- * @param vec
- * direction.
+ * parameter-space position on the intersecting plane.
+ * @param normal
+ * normal to the interecting plane.
  */
 	virtual double eval_cross(
 				SPApar_pos const &pos,
-				SPAunit_vector const &vec
+				SPAunit_vector const &normal
 			) const;
 
 
@@ -761,10 +764,10 @@ public:
  * must point to arrays long enough for all the derivatives of that order - i.e. <tt>2</tt> for the first
  * derivatives, <tt>3</tt> for the second, etc.
  * <br><br>
- * @param param_pos
- * parameter position.
+ * @param param
+ * the parameter-space position at which the surface is to be evaluated.
  * @param pos
- * position.
+ * point on the surface at the given parameter-space position.
  * @param ptrs
  * array of ptrs.
  * @param nd
@@ -774,8 +777,8 @@ public:
  */
 	virtual int evaluate(
                 SPApar_pos const &param_pos,	// Parameter
-                SPAposition &pos,			// Point on surface at given SPAparameter
-                SPAvector **ptrs = NULL, 	// Array of pointers to arrays of
+                SPAposition &pos,				// Point on surface at given parameter
+                SPAvector **ptrs = NULL, 		// Array of pointers to arrays of
 									// vectors, of size nd. Any of the
 									// pointers may be null, in which
 									// case the corresponding derivatives
@@ -787,7 +790,7 @@ public:
                 int nd = 0,       		// Number of derivatives required (nd)
 				evaluate_surface_quadrant loc = evaluate_surface_unknown
 									// the evaluation location - above,
-									// below for each SPAparameter direction,
+									// below for each parameter direction,
 									// or don't care.
             ) const;
 
@@ -804,11 +807,11 @@ public:
  * <br><br>
  * <b>Role:</b> For a plane, all surface derivatives can be obtained accurately.
  * <br><br>
- * @param para
- * parameter.
+ * @param box
+ * portion of the surface to be considered (optional).
  */
 	virtual int accurate_derivs(
-				SPApar_box const &para = *(SPApar_box *)NULL_REF
+				SPApar_box const &box = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -822,7 +825,7 @@ public:
  * @param pt
  * Point through which the plane passes.
  * @param vec
- * axis direction.
+ * normal direction.
  */
 	virtual logical planar(
 				SPAposition &pt,
@@ -830,7 +833,7 @@ public:
 			) const;
 // STI aed: end
 
-	// Report whether the surface is periodic in either SPAparameter
+	// Report whether the surface is periodic in either parameter
 	// direction (i.e. it is smoothly closed, so faces can run over
 	// the seam). A plane is not periodic in either direction.
 
@@ -849,7 +852,7 @@ public:
 
 
 	// Report whether the surface is closed, smoothly or not, in
-	// either SPAparameter direction. A plane is open in both directions.
+	// either parameter direction. A plane is open in both directions.
 
 /**
  * Reports if the surface is closed, smoothly or not, in the u-parameter direction.
@@ -866,7 +869,7 @@ public:
 
 
 	// Return the period of a periodic parametric surface, zero if
-	// the surface is not periodic in the chosen SPAparameter or not
+	// the surface is not periodic in the chosen parameter or not
 	// parametric. A plane is non-periodic in both directions.
 
 /**
@@ -883,20 +886,20 @@ public:
 	virtual double param_period_v() const;
 
 
-	// Return the principal SPAparameter range of a surface in
-	// a chosen SPAparameter direction.
+	// Return the principal parameter range of a surface in
+	// a chosen parameter direction.
 
-	// A periodic surface is defined for all SPAparameter values in the
-	// periodic direction, by reducing the given SPAparameter modulo the
+	// A periodic surface is defined for all parameter values in the
+	// periodic direction, by reducing the given parameter modulo the
 	// period into this principal range. For a surface open or non-
 	// periodic in the chosen direction the surface evaluation
-	// functions are defined only for SPAparameter values in the
+	// functions are defined only for parameter values in the
 	// returned range.
 
-	// If a SPAbox is provided, the SPAparameter range returned may be
+	// If a SPAbox is provided, the parameter range returned may be
 	// restricted to a portion of the surface which is guaranteed to
 	// contain all portions of the surface which lie within the region
-	// of interest. If none is provided, and the SPAparameter range in
+	// of interest. If none is provided, and the parameter range in
 	// some direction is unbounded, then conventionally an empty
 	// SPAinterval is returned.
 
@@ -912,7 +915,7 @@ public:
  * box name.
  */
 	virtual SPApar_box param_range(
-					SPAbox const &box = *(SPAbox *)NULL_REF
+					SPAbox const &box = SpaAcis::NullObj::get_box()
 				) const;
 /**
  * Returns the principal parameter range of a surface in the u-parameter direction.
@@ -926,7 +929,7 @@ public:
  * box name.
  */
 	virtual SPAinterval param_range_u(
-					SPAbox const &box = *(SPAbox *)NULL_REF
+					SPAbox const &box = SpaAcis::NullObj::get_box()
 				) const;
 /**
  * Returns the principal parameter range of a surface in the v-parameter direction.
@@ -940,15 +943,15 @@ public:
  * box name.
  */
 	virtual SPAinterval param_range_v(
-					SPAbox const &box = *(SPAbox *)NULL_REF
+					SPAbox const &box = SpaAcis::NullObj::get_box()
 				) const;
 
 
 	// Report whether the surface parametrisation is singular at
-	// the specified u or v SPAparameter value. The only singularity
-	// recognised is where every value of the non-constant SPAparameter
+	// the specified u or v parameter value. The only singularity
+	// recognised is where every value of the non-constant parameter
 	// generates the same object-space point, and these can only
-	// occur at the ends of the SPAparameter range as returned by
+	// occur at the ends of the parameter range as returned by
 	// the functions above. A plane is nonsingular in both directions.
 
 /**
@@ -963,7 +966,7 @@ public:
  * constant u parameter.
  */
 	virtual logical singular_u(
-					double uparam		// constant u SPAparameter
+					double uparam		// constant u parameter
 				) const;
 
 /**
@@ -978,11 +981,11 @@ public:
  * constant v parameter.
  */
 	virtual logical singular_v(
-					double vparam		// constant v SPAparameter
+					double vparam		// constant v parameter
 				) const;
 
 
-	// Indicate whether the SPAparameter coordinate system of the surface
+	// Indicate whether the parameter coordinate system of the surface
 	// is right- or left-handed. With a right-handed system, at any
 	// point the outward normal is given by the cross product of the
 	// increasing u direction with the increasing v direction, in that
@@ -999,9 +1002,9 @@ public:
 	virtual logical left_handed_uv() const;
 
 
-	// Construct a SPAparameter line on the surface. A u SPAparameter line
-	// runs in the direction of increasing u SPAparameter, at constant v.
-	// A v SPAparameter line runs in the direction of increasing v, at
+	// Construct a parameter line on the surface. A u-parameter line
+	// runs in the direction of increasing u-parameter, at constant v.
+	// A v-parameter line runs in the direction of increasing v, at
 	// constant u. The parametrisation in the non-constant direction
 	// matches that of the surface, and has the range obtained by
 	// use of param_range_u() or param_range_v() appropriately.
@@ -1026,7 +1029,7 @@ public:
  * parameter value.
  */
 	virtual curve *u_param_line(
-				double val			// constant v SPAparameter
+				double val			// constant v parameter
 			) const;
 /**
  * Constructs a parameter line on the surface.
@@ -1044,7 +1047,7 @@ public:
  * parameter value.
  */
 	virtual curve *v_param_line(
-				double val			// constant u SPAparameter
+				double val			// constant u parameter
 			) const;
 
 
@@ -1060,16 +1063,16 @@ public:
  * position.
  * @param tol
  * tolerance value.
- * @param param_pos1
- * param position.
- * @param param_pos2
- * param position.
+ * @param param_guess
+ * guess parameter-space position.
+ * @param param_actual
+ * actual parameter-space position.
  */
 	virtual logical test_point_tol(
 				SPAposition const &pos,
 				double tol = 0,
-				SPApar_pos const &param_pos1 = *(SPApar_pos *)NULL_REF,
-				SPApar_pos &param_pos2 = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &param_guess = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &param_actual = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 

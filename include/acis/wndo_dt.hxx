@@ -44,21 +44,6 @@ typedef HDC device_context;
 
 #endif
 
-#if defined( mac ) && !defined( macos_a64 ) && !defined( macos_b64 )
-#include <math.h>
-#include "carbonheader.h"
-
-// window clase (windowkind) for the mac windows
-enum { macKind = 1000, qd3dKind };
-
-// resource IDs
-enum { macWindowID = 129 };
-
-typedef WindowPtr window_handle;
-typedef WindowPtr device_context;
-typedef unsigned int display_handle;
-
-#endif // mac
 
 #ifdef X_WINDOWS
 #include <X11/Xlib.h>
@@ -66,11 +51,10 @@ typedef unsigned int display_handle;
 typedef Widget window_handle;
 typedef Display* display_handle;
 typedef unsigned long device_context;
-
 #endif
 
 
-#if defined( OS_Darwin )// ( defined( macos_a64) || defined( macos_b64) )
+#if defined( OS_Darwin )
 typedef long window_handle;
 typedef long device_context;
 typedef unsigned int display_handle;

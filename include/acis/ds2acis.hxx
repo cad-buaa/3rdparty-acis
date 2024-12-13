@@ -3101,7 +3101,7 @@ Add_area_C0_load // eff: adds area_cstrn to dmod
 /**
  * Sets the image point in a constraint or load and returns the tag type of the modified object.
  * <br><br>
- * <b>Role:</b> When <tt>p0</tt> is specified and <tt>p1</tt> is set to the <tt>NULL_REF</tt>,
+ * <b>Role:</b> When <tt>p0</tt> is specified and <tt>p1</tt> is set to the <tt>NULL Object</tt>,
  * the target image point is set to the location in <tt>p0</tt>. When both <tt>p0</tt> and <tt>p1</tt>
  * are specified, the target image point is projected onto a line running through positions <tt>p0</tt>
  * and <tt>p1</tt>. The projection direction is controlled by the <tt>dir</tt> flag. When <tt>dir=1</tt>,
@@ -3122,9 +3122,9 @@ Add_area_C0_load // eff: adds area_cstrn to dmod
  * @param p0
  * new ipt or p0 of iline=p0+u*p1-p0.
  * @param p1
- * NULL_REF or p1 of iline=p0+u*p1-p0.
+ * NULL Object or p1 of iline=p0+u*p1-p0.
  * @param dir_flag
- * specifies how to compute new_xyz P1=NULL_REF xyz=p0, 1="xy" xyz=xsect (iline, tag(xy_plane)), 2="z" xyz = proj(iline, tag(z_line)).
+ * specifies how to compute new_xyz P1=NULL Object xyz=p0, 1="xy" xyz=xsect (iline, tag(xy_plane)), 2="z" xyz = proj(iline, tag(z_line)).
  * @param cascade_flag
  * 2=move tangent vecs independently but update normal vecs, 1=update related pt_cstrn values and image_pts, 0=don't.
 
@@ -3147,8 +3147,8 @@ Add_area_C0_load // eff: adds area_cstrn to dmod
                            //      or a control point tag index,
                            //      or an id number in a spring_set.
      SPAposition &p0,         // in : new ipt or p0 of iline=p0+u*p1-p0
-     SPAposition &p1=         // in : NULL_REF or p1 of iline=p0+u*p1-p0
-     *(SPAposition *)NULL_REF,
+     SPAposition &p1=         // in : NULL Object or p1 of iline=p0+u*p1-p0
+      SpaAcis::NullObj::get_position(),
    int dir_flag=0,         // in : oneof
                            //      0=let image_pt = P0
                            //      for pt_index == DM_BASE_PT

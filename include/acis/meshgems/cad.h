@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_CAD_H__
 #define __MESHGEMS_CAD_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * \defgroup cad meshgems_cad_t
  *
@@ -244,6 +249,21 @@ typedef meshgems_status_t (*meshgems_cad_surf_t)(meshgems_real *uv,
  */
 typedef meshgems_status_t (*meshgems_cad_periodicity_transformation_t)(
     meshgems_real *xyz, meshgems_real *xyz_image, void *user_data);
+
+
+/**
+ * Type for tessellator functions.
+ * @param sag (in) : the chordal error expected for the tessellation
+ * @param size (in) : the targetted size of the tessellation
+ * @param anisotropic_ratio (in) : the max shape ratio llowed in the tessellation
+ * @param m2d (in/out) : the mesh in the UV space, need to be allocated (or NULL if not needed)
+ * @param m3d (in/out) : the mesh in the XYZ space, need to be allocated
+ * @param user_data (in) : a generic user pointer
+ * @return a status code
+ */
+typedef meshgems_status_t(*meshgems_cad_face_tessellator_t)(
+  meshgems_real sag, meshgems_real size, meshgems_real anisotropic_ratio, meshgems_mesh_t *m2d, meshgems_mesh_t *m3d, void *user_data);
+
 
 /**
  * Simple CAD constructor.
@@ -690,6 +710,8 @@ MESHGEMS_METHOD meshgems_status_t meshgems_cad_get_thread_safety(
 #define MESHGEMS_EDGE_PROPERTY_ARTIFICIAL  (1 << 5)
 /** Edge property for a ridge edge */
 #define MESHGEMS_EDGE_PROPERTY_RIDGE  (1 << 6)
+/** Edge property for a edge not lying on an input (discrete) edge */
+#define MESHGEMS_EDGE_PROPERTY_CREATED  (1 << 7)
 /**@}*/
 
 /**
@@ -720,6 +742,7 @@ MESHGEMS_METHOD meshgems_status_t meshgems_cad_get_thread_safety(
   * Face property for a planar geometry */
 #define MESHGEMS_FACE_PROPERTY_PLANAR_SURFACE (1 << 0)
 #define MESHGEMS_FACE_PROPERTY_SLIVER (1 << 1)
+#define MESHGEMS_FACE_PROPERTY_VOLUMIC_BL_SEED (1 << 2)
 /**@}*/
 
 /**
@@ -1031,6 +1054,9 @@ MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_get_edge(meshgems_cad_face_t
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_get_point(meshgems_cad_face_t *face, meshgems_integer i, meshgems_cad_point_t **e);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_get_cad(meshgems_cad_face_t *face, meshgems_cad_t **c);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_geometry_is_imposed(meshgems_cad_face_t *face, meshgems_integer *is);
+MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_set_tessellator(meshgems_cad_face_t *face, meshgems_cad_face_tessellator_t tessellator, void *udata);
+MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_get_tessellator(meshgems_cad_face_t *face, meshgems_cad_face_tessellator_t *tessellator, void **udata);
+MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_has_tessellator(meshgems_cad_face_t *face, meshgems_integer *has);
 
 MESHGEMS_METHOD meshgems_cad_edge_t *meshgems_cad_edge_new_newton1(meshgems_cad_face_t *f, meshgems_integer eid, meshgems_integer n, meshgems_real *uv, meshgems_real *xyz);
 MESHGEMS_METHOD meshgems_cad_edge_t *meshgems_cad_edge_new_newton1_with_ea(meshgems_cad_face_t *f, meshgems_integer eid,
@@ -1158,6 +1184,9 @@ MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_add_original_id(meshgems_cad
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_set_original_geometry_translator(meshgems_cad_face_t *f, meshgems_cad_face_geometry_translator_fun_t fun);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_get_sd_info(meshgems_cad_face_t *face, meshgems_integer *tin, meshgems_integer *tou);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_set_sd_info(meshgems_cad_face_t *face, meshgems_integer tin, meshgems_integer tou);
+MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_discrete_get_geometry_mapping(meshgems_cad_face_t *face, meshgems_integer **vtx_mapping, meshgems_integer **tri_mapping); 
+MESHGEMS_METHOD meshgems_status_t meshgems_cad_face_discrete_set_geometry_mapping(meshgems_cad_face_t *face, meshgems_integer *vtx_mapping, meshgems_integer *tri_mapping);
+
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_edge_reset_original_id(meshgems_cad_edge_t *e);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_edge_get_original_id_count(meshgems_cad_edge_t *e, meshgems_integer *nid);
 MESHGEMS_METHOD meshgems_status_t meshgems_cad_edge_get_original_id(meshgems_cad_edge_t *e, meshgems_integer i, meshgems_integer *id);

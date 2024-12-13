@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -25,17 +25,19 @@
 #define INTCURVE_CLASS
 
 /**
- * @file intcurve.hxx
+* @file intcurve.hxx
  * @CAA2Level L1
  * @CAA2Usage U2
  * \addtogroup ACISGEOMETRICENTITIES
  *
  * @{
  */
-#include "curve.hxx"
 #include "dcl_kern.h"
-#include "intdef.hxx"
 #include "logical.h"
+
+#include "curve.hxx"
+
+#include "intdef.hxx"
 
 class SPAtransf;
 class HELIX;
@@ -43,21 +45,24 @@ class HELIX;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE(INTCURVE, KERN)
+ENTITY_IS_PROTOTYPE( INTCURVE, KERN )
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
+
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
 
 extern DECL_KERN int INTCURVE_TYPE;
 
+
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY.
  */
 #define INTCURVE_LEVEL 2
+
 
 // INTCURVE declaration proper.
 
@@ -82,79 +87,76 @@ extern DECL_KERN int INTCURVE_TYPE;
  * and after the use count returns to 0, the entity is deleted.
  * @see intcurve
  */
-class DECL_KERN INTCURVE : public CURVE {
-    // NOTES SHEVO
-    friend intcurve* shevo_get_intcurve(INTCURVE* sp);
+class DECL_KERN INTCURVE: public CURVE {
 
-    // Record an INTCURVE as an intcurve.
+	// Record an INTCURVE as an intcurve.
 
-    intcurve def;
+	intcurve def;
 
-    // STI ROLL begin - added virtual compare function for api_get_modified_faces
-
-  protected:
-    /**
-     * Virtual function for comparing subclass data - called by <tt>bulletin_no_change</tt>.
-     * <br><br>
-     * <b>Role:</b> For the <tt>identical_comparator</tt> argument to be <tt>TRUE</tt>
-     * requires an exact match when comparing doubles and returns the result of
-     * <tt>memcmp</tt> as a default (for non-overridden subclasses). <tt>FALSE</tt>
-     * indicates tolerant compares and returns <tt>FALSE</tt> as a default.
-     * <br><br>
-     * @param other
-     * other entity.
-     * @param identical_comparator
-     * comparator.
-     */
+// STI ROLL begin - added virtual compare function for api_get_modified_faces
+protected:
+/**
+ * Virtual function for comparing subclass data - called by <tt>bulletin_no_change</tt>.
+ * <br><br>
+ * <b>Role:</b> For the <tt>identical_comparator</tt> argument to be <tt>TRUE</tt>
+ * requires an exact match when comparing doubles and returns the result of
+ * <tt>memcmp</tt> as a default (for non-overridden subclasses). <tt>FALSE</tt>
+ * indicates tolerant compares and returns <tt>FALSE</tt> as a default.
+ * <br><br>
+ * @param other
+ * other entity.
+ * @param identical_comparator
+ * comparator.
+ */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
 
-    // STI ROLL end
+// STI ROLL end
 
-    // Include the standard member functions for all entities.
+	// Include the standard member functions for all entities.
 
     /**
-     * @nodoc
+	 * @nodoc
      */
     friend class HELIX;
 
-    /**
-     * @nodoc
-     */
-    ENTITY_FUNCTIONS(INTCURVE, KERN)
+	/**
+	 * @nodoc
+	 */
+	ENTITY_FUNCTIONS( INTCURVE , KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
-    // explicitly here:
+// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", do so
+// explicitly here:
+public:
 
-  public:
-    // Now the functions specific to INTCURVE.
+	// Now the functions specific to INTCURVE.
 
-    // Make a bare INTCURVE to be filled in later.
-    /**
-     * Constructs an <tt>INTCURVE</tt> (default constructor).
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object but does not populate it. The
-     * allocation constructor is used primarily by restore. Applications should call
-     * this constructor only with the overloaded <tt>new</tt> operator, because this
-     * reserves the memory on the heap, a requirement to support roll back and history
-     * management.
-     */
-    INTCURVE();
+	// Make a bare INTCURVE to be filled in later.
+/**
+ * Constructs an <tt>INTCURVE</tt> (default constructor).
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object but does not populate it. The
+ * allocation constructor is used primarily by restore. Applications should call
+ * this constructor only with the overloaded <tt>new</tt> operator, because this
+ * reserves the memory on the heap, a requirement to support roll back and history
+ * management.
+ */
+	INTCURVE();
 
-    // Create an INTCURVE from an intcurve.
-    /**
-     * Constructs an <tt>INTCURVE</tt> containing a specified <tt>intcurve</tt>.
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object and populates it with the data
-     * supplied as the argument. Applications should call this constructor only with
-     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
-     * a requirement to support roll back and history management.
-     * <br><br>
-     * @param icrv
-     * intcurve to be wrapped by the constructed INTCURVE.
-     */
-    INTCURVE(const intcurve& icrv);
+	// Create an INTCURVE from an intcurve.
+/**
+ * Constructs an <tt>INTCURVE</tt> containing a specified <tt>intcurve</tt>.
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object and populates it with the data
+ * supplied as the argument. Applications should call this constructor only with
+ * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+ * a requirement to support roll back and history management.
+ * <br><br>
+ * @param icrv
+ * intcurve to be wrapped by the constructed INTCURVE.
+ */
+	INTCURVE( const intcurve &icrv );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -202,91 +204,90 @@ class DECL_KERN INTCURVE : public CURVE {
 #endif
 
     // Data changing routine.
-    /**
-     * Sets this <tt>INTCURVE's</tt> definition curve to the given intcurve.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure is
-     * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
-     * entry on the bulletin board.
-     * <br><br>
-     * @param icrv
-     * intcurve to which <tt>def</tt> is to be set.
-     */
-    void set_def(const intcurve& icrv);
+/**
+ * Sets this <tt>INTCURVE's</tt> definition curve to the given intcurve.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure is
+ * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
+ * entry on the bulletin board.
+ * <br><br>
+ * @param icrv
+ * intcurve to which <tt>def</tt> is to be set.
+ */
+	void set_def( const intcurve &icrv );
 
-    // Return the curve equation, for reading only.
-    /**
-     * Returns the curve's equation, for reading only.
-     */
-    const curve& equation() const;
+	// Return the curve equation, for reading only.
+/**
+ * Returns the curve's equation, for reading only.
+ */
+	const curve &equation() const;
 
-    // Return the curve equation, checking for backup first.
-    /**
-     * Returns the curve's equation.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure is
-     * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
-     * entry on the bulletin board.
-     */
-    curve& equation_for_update();
+	// Return the curve equation, checking for backup first.
+/**
+ * Returns the curve's equation.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure is
+ * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
+ * entry on the bulletin board.
+ */
+	curve &equation_for_update();
 
-    // Get a new (lower-case) curve being the intcurve of the
-    // INTCURVE, transformed if the given SPAtransf is non-null and
-    // reversed in sense if the logical is true.
-    /**
-     * Transforms the curve's equation.
-     * <br><br>
-     * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the curve is reversed.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     * @param negate
-     * flag to reverse the curve.
-     */
-    curve* trans_curve(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
+	// Get a new (lower-case) curve being the intcurve of the
+	// INTCURVE, transformed if the given SPAtransf is non-null and
+	// reversed in sense if the logical is true.
+/**
+ * Transforms the curve's equation.
+ * <br><br>
+ * <b>Role:</b> If the logical <tt>negate</tt> is <tt>TRUE</tt>, the curve is reversed.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ * @param negate
+ * flag to reverse the curve.
+ */
+	curve *trans_curve(
+					const SPAtransf &t = SPAtransf(),
+					logical negate = FALSE
+				) const;
 
-    // Transform the stored intcurve in place.
-    /**
-     * Transforms the equation of this <tt>INTCURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure
-     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
-     * to put an entry on the bulletin board.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     */
-    void operator*=(const SPAtransf& t);
+	// Transform the stored intcurve in place.
+/**
+ * Transforms the equation of this <tt>INTCURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure
+ * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+ * to put an entry on the bulletin board.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ */
+	void operator*=( const SPAtransf &t );
 
-    // Make a SPAbox enclosing a segment of this intersection curve
-    // between two positions.
-    /**
-     * Makes a bounding box for the portion of this <tt>INTCURVE</tt> delimited by two specified points, and transforms it.
-     * <br><br>
-     * @param start
-     * first point on the curve.
-     * @param end
-     * second point on the curve.
-     * @param t
-     * transform.
-     * @param tol
-     * tolerance.
-     */
-    SPAbox make_box(APOINT* start, APOINT* end, const SPAtransf* t, double tol = 0.0) const;
+	// Make a SPAbox enclosing a segment of this intersection curve
+	// between two positions.
+/**
+ * Makes a bounding box for the portion of this <tt>INTCURVE</tt> delimited by two specified points, and transforms it.
+ * <br><br>
+ * @param start
+ * first point on the curve.
+ * @param end
+ * second point on the curve.
+ * @param t
+ * transform.
+ * @param tol
+ * tolerance.
+ */
+	SPAbox make_box( APOINT *start, APOINT *end, const SPAtransf *t , double tol = 0.0) const;
 
-    // STI ROLL
-    /**
-     * @nodoc
-     */
-    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;  // internal use only
-                                                                           // STI ROLL
+	// STI ROLL
+/**
+ * @nodoc
+ */
+	void full_size(SizeAccumulator& est, logical countSelf=TRUE) const;// internal use only
+	// STI ROLL
 
-    // lookup is done using CURVE::lookup()
-    // int lookup( logical ) const;
-
-  public:
-    // SHIVELINO: acisadaptor module add.
-    intcurve get_def();
+	// lookup is done using CURVE::lookup()
+	// int lookup( logical ) const;
 };
 
 /** @} */

@@ -56,6 +56,7 @@
 #define tetra_unset_actions meshgems_tetra_unset_actions
 #define tetra_optim_level_t meshgems_tetra_optim_level_t
 #define tetra_session_t meshgems_tetra_session_t
+#define tetra_unlock_product meshgems_tetra_unlock_product
 #define TETRA_PATCHRE MESHGEMS_TETRA_PATCHRE
 #define TETRA_RELEASE MESHGEMS_TETRA_RELEASE
 #define STATUS_TETRA_ABS_START MESHGEMS_STATUS_TETRA_ABS_START

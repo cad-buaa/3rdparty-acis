@@ -36,3 +36,18 @@ void InsertRGBImage(int width, int height, unsigned char* pPxl, LPCTSTR , LPCTST
 DECL_BASE unsigned char * convert_RGB_bytes(int width, int height, unsigned char* pPxl, LPCTSTR hoops_name);
 
 DECL_BASE FILE * acis_fopen_path(const char * in_filename, char * in_openstyle, char * in_paths);
+
+class DECL_BASE ImageData
+{
+public:
+	ImageData() : pixels(0), width(0), height(0) {}
+	~ImageData()
+	{
+		if (pixels)
+			delete[] pixels;
+	}
+	unsigned char* pixels;
+	int width;
+	int height;
+};
+

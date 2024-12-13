@@ -83,8 +83,8 @@ protected:
 	// class freely.
 	friend DECL_KERN bs3_surface make_net_approx(
 							net_spl_sur const &,
-							SPAinterval const &,									// u SPAparameter range
-							SPAinterval const &,									// v SPAparameter range
+							SPAinterval const &,									// u parameter range
+							SPAinterval const &,									// v parameter range
 							double &, 												// tol returned
 							logical self_int_test,							// logical
 							VOID_LIST& bad_uvs,				// bad_uvs  
@@ -118,20 +118,20 @@ protected:
     // that was achieved in the spl_sur, overriding the declared const-ness 
     // of the function to do this. 
 
-    virtual void	make_approx( 
+    virtual void make_approx( 
 							 double fit, 
-							 const spline& spl = *(spline*) NULL_REF, 
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 )const; 
+							) const; 
 
 //GSSL VPL Incremental approx project. change return type to logical.
 	virtual logical incremental_make_approx(double fit,
 										 SPAinterval u_range,
 										 SPAinterval v_range,
 										 logical self_int_test = FALSE,
-							             VOID_LIST& bad_uvs = *(VOID_LIST*)NULL_REF,			// bad_uvs  
-							             SPApar_box& exclude_region = *(SPApar_box*) NULL_REF,	// exclude region
-							             SPApar_box& extension_box = *(SPApar_box*) NULL_REF);	// extension_box);
+							             VOID_LIST& bad_uvs	= SpaAcis::NullObj::get_void_list(), // bad_uvs  
+							             SPApar_box& exclude_region	= SpaAcis::NullObj::get_par_box(), // exclude region
+							             SPApar_box& extension_box = SpaAcis::NullObj::get_par_box()); // extension_box
 
 	void compute_cubic_blend_vectors (evaluate_curve_side curve_side,
 									 logical first_required, 
@@ -141,7 +141,7 @@ protected:
 									 int v_index, int u_index,
 									 curve *v_cur0, curve *v_cur1,
 									 curve *u_cur0, curve *u_cur1,
-									 double SPAparameter, double t_parameter, double *v_knots, double *u_knots,
+									 double parameter, double t_parameter, double *v_knots, double *u_knots,
 									 bernstein_basis &blend_data, 
 									 SPAvector &n0, SPAvector &n1,
 									 SPAvector &n0d, SPAvector &n1d,
@@ -214,7 +214,7 @@ public:
    virtual spl_sur *deep_copy(pointer_map * pm = NULL) const;
 
    int accurate_derivs(
-               SPApar_box const & = *(SPApar_box *)NULL_REF
+               SPApar_box const & = SpaAcis::NullObj::get_par_box()
                                    // Defaults to the whole surface
            ) const;
 
@@ -243,7 +243,7 @@ protected:
 	// does guarantee that different surfaces are correctly
 	// identified as such.
 
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 
 
 	// Transform this net by the given SPAtransf.
@@ -251,7 +251,7 @@ protected:
 	virtual void operator*=( SPAtransf const &	);
 
 
-    // Parameter shift: adjust the spline surface to have a SPAparameter
+    // Parameter shift: adjust the spline surface to have a parameter
     // range increased by the argument value (which may be negative).
     // This is only used to move portions of a periodic surface by
     // integral multiples of the period.
@@ -259,10 +259,10 @@ protected:
     virtual void shift_u( double );
     virtual void shift_v( double );
 
-	// Divide a surface into two pieces at a given SPAparameter value.
-	// If the split is at the end of the SPAparameter range, the spl_sur
+	// Divide a surface into two pieces at a given parameter value.
+	// If the split is at the end of the parameter range, the spl_sur
 	// is just returned as the appropriate half (in increasing
-	// SPAparameter order), and the other is NULL. Otherwise a new spl_sur
+	// parameter order), and the other is NULL. Otherwise a new spl_sur
 	// is used for one part, and the old one is modified for the other.
 
 	virtual void split_u(
@@ -277,8 +277,8 @@ protected:
 
 	// Concatenate the contents of two surfaces into one. The surfaces
 	// are guaranteed to be the same base or derived type, and to have
-	// contiguous SPAparameter ranges ("this" is the beginning part of
-	// the combined surface (i.e. lower SPAparameter values), the
+	// contiguous parameter ranges ("this" is the beginning part of
+	// the combined surface (i.e. lower parameter values), the
 	// argument gives the end part).
 
 	// virtual void append_u( spl_sur & );
@@ -287,11 +287,11 @@ protected:
 
 	// Geometric evaluation.
 
-	// Find the SPAparameter values of a point on the surface
+	// Find the parameter values of a point on the surface
 	
 	virtual SPApar_pos param(
 				 SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				 SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the SPAposition and first and second  derivatives of the
@@ -318,7 +318,7 @@ protected:
 
    virtual int evaluate(
                SPApar_pos const &,    // Parameter
-               SPAposition &,         // Point on surface at given SPAparameter
+               SPAposition &,         // Point on surface at given parameter
                SPAvector ** = NULL,   // Array of pointers to arrays of
                                    // vectors, of size nd. Any of the
                                    // pointers may be null, in which
@@ -331,7 +331,7 @@ protected:
                int = 0,            // Number of derivatives required (nd)
                evaluate_surface_quadrant = evaluate_surface_unknown
                                    // the evaluation location - above,
-                                   // below for each SPAparameter direction,
+                                   // below for each parameter direction,
                                    // or don't care.
            ) const;
 
@@ -478,14 +478,14 @@ protected:
 };
 
 DECL_KERN bs3_surface make_net_approx(
-                                        net_spl_sur const &,
-                                        SPAinterval const &,                                                                    // u SPAparameter range
-                                        SPAinterval const &,                                                                    // v SPAparameter range
-                                        double &,                                                                                               // tol returned
-                                        logical self_int_test = FALSE,                                                  // logical
-                                        VOID_LIST& bad_uvs = *(VOID_LIST*)NULL_REF,                             // bad_uvs
-                                        SPApar_box& exclude_region = *(SPApar_box*) NULL_REF,   // exclude region
-                                        SPApar_box& extension_box = *(SPApar_box*) NULL_REF);   // extension_box
+                                      net_spl_sur const &,
+                                      SPAinterval const &,                                           // u parameter range
+                                      SPAinterval const &,                                           // v parameter range
+                                      double &,                                                      // tol returned
+                                      logical self_int_test	= FALSE,							 
+                                      VOID_LIST& bad_uvs = SpaAcis::NullObj::get_void_list(),        // bad_uvs
+                                      SPApar_box& exclude_region = SpaAcis::NullObj::get_par_box(),  // exclude region
+                                      SPApar_box& extension_box	= SpaAcis::NullObj::get_par_box() ); // extension_box
 
 DECL_KERN double  surface_error(
                                 net_spl_sur const& origin_surf,
@@ -494,20 +494,20 @@ DECL_KERN double  surface_error(
                                 double *u_knots = NULL,
                                 int nv = 0,
                                 double *v_knots = NULL,
-                                double& = *(double *) NULL_REF,
-                                double& = *(double *) NULL_REF);
+                                double& = SpaAcis::NullObj::get_double(),
+                                double& = SpaAcis::NullObj::get_double());
 
 DECL_KERN void remap_and_eval( 
 			evaluate_curve_side curve_side,
-			curve *, 		// Curve to evaluated.
-			double,			// u SPAparameter
-			SPAposition &, 	// SPAposition returned.
-			SPAvector &, 		// First derivative returned
-			SPAvector &, 		// Second derivative returned
-			SPAvector & = *( SPAvector *)NULL_REF,	// 3'rd derivative , Used for 
-         SPAvector & = *( SPAvector *)NULL_REF	// 4'rd derivative 
-										// computing second partials on a 
-										// loft surface.
+			curve *, 										// Curve to evaluated.
+			double,											// u parameter
+			SPAposition &, 									// SPAposition returned.
+			SPAvector &, 									// First derivative returned
+			SPAvector &, 									// Second derivative returned
+			SPAvector & = SpaAcis::NullObj::get_vector(),	// 3'rd derivative , Used for 
+			SPAvector & = SpaAcis::NullObj::get_vector()	// 4'rd derivative 
+															// computing second partials on a 
+															// loft surface.
 		);
 
 // allocate memory for the corner data
@@ -526,10 +526,15 @@ DECL_KERN void  sg_create_corner_data ( netspl_corner **corners,
 							ENTITY_LIST *v_curves, ENTITY_LIST *u_curves );
 
 // Create the twist corner data
-DECL_KERN void sg_calculate_twist_vectors ( netspl_corner **corners, logical closed_in_v, logical closed_in_u, 
-						    int no_crv_v, int no_crv_u, double *v_knot, double *u_knot);
+DECL_KERN void sg_calculate_twist_vectors ( netspl_corner **corners, 
+											int closed_in_v, 
+											int closed_in_u, 
+											int no_crv_v, 
+											int no_crv_u, 
+											double *v_knot, 
+											double *u_knot );
 
-// Calculate the surface SPAparameter derivatives at each corner
+// Calculate the surface parameter derivatives at each corner
 DECL_KERN void sg_calculate_surface_parameter_derivatives ( 
 															netspl_corner **corners,
 															int no_crv_v, 
@@ -543,8 +548,11 @@ DECL_KERN void sg_calculate_surface_parameter_derivatives (
 															curve **u_curves = NULL															
 														 );
 
-DECL_KERN void sg_net_determine_periodicity(int no_v, curve** v_crv_array, int no_u, curve** u_crv_array,	  
-							                logical& closed_in_v, logical& closed_in_u , logical laterial_degeneracy = FALSE);
+DECL_KERN void sg_net_determine_periodicity(int no_v, curve** v_crv_array, 
+											int no_u, curve** u_crv_array,	  
+							                int& closed_in_v, int& closed_in_u, 
+											logical laterial_degeneracy = FALSE);
+
 DECL_KERN void get_net_boundary_degenerate_info(
 											const curve* const * grid_v,
 											const curve* const * grid_u,

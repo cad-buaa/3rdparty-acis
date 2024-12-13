@@ -97,8 +97,11 @@ private:
 		// called ONLY by deep_copy.
 
 public:
-    BDY_GEOM_PCURVE( logical = FALSE, double = 1, logical = 1,
-		    logical = 1, const SPAunit_vector& = *(const class SPAunit_vector*)NULL_REF );
+    BDY_GEOM_PCURVE ( logical = FALSE, 
+                      double = 1, 
+                      logical = 1,
+		              logical = 1, 
+                      const SPAunit_vector& = SpaAcis::NullObj::get_unit_vector() );
     ~BDY_GEOM_PCURVE();
     BDY_GEOM_PCURVE( const BDY_GEOM_PCURVE& );
 
@@ -131,8 +134,10 @@ public:
 
     // There may or may not be a 3-space curve - it is not required.
 
-    virtual void	set_geometry( const pcurve&,
-				     const curve& = *(curve*)NULL_REF );
+	virtual void set_geometry(
+        const pcurve&,
+		const curve & = SpaAcis::NullObj::get_curve()
+	);
 
     virtual const SPAposition&	P();
 
@@ -210,8 +215,11 @@ private:
 		// called ONLY by deep_copy.
 public:
 
-    BDY_GEOM_PLANE( logical = FALSE, double = 1, logical = 1,
-		   logical = 1, const SPAunit_vector& = *(const class SPAunit_vector*)NULL_REF );
+    BDY_GEOM_PLANE( logical = FALSE, 
+                    double = 1, 
+                    logical = 1,
+		            logical = 1, 
+                    const SPAunit_vector& = SpaAcis::NullObj::get_unit_vector() );
     ~BDY_GEOM_PLANE();
     BDY_GEOM_PLANE( const BDY_GEOM_PLANE& );
 
@@ -342,8 +350,11 @@ private:
 
 public:
 
-    BDY_GEOM_CIRCLE( logical = FALSE, double = 1, logical = 1,
-		    logical = 1, const SPAunit_vector& = *(const class SPAunit_vector*)NULL_REF );
+    BDY_GEOM_CIRCLE( logical = FALSE, 
+                    double = 1, 
+                    logical = 1,
+		            logical = 1, 
+                    const SPAunit_vector& = SpaAcis::NullObj::get_unit_vector() );
     ~BDY_GEOM_CIRCLE();
     BDY_GEOM_CIRCLE( const BDY_GEOM_CIRCLE& );
 
@@ -472,8 +483,11 @@ private:
 
 public:
 
-    BDY_GEOM_DEG( logical = FALSE, double = 1, logical = 1, logical = 1,
-		 const SPAunit_vector& = *(const class SPAunit_vector*)NULL_REF );
+    BDY_GEOM_DEG (  logical = FALSE, 
+                    double = 1, 
+                    logical = 1, 
+                    logical = 1,
+		            const SPAunit_vector& = SpaAcis::NullObj::get_unit_vector() );
     ~BDY_GEOM_DEG();
     BDY_GEOM_DEG( const BDY_GEOM_DEG& );
 

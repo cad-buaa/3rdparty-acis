@@ -162,11 +162,10 @@ public:
 	virtual v_bl_contacts *int_spring( curve const &sfcrv,
 										 logical left_srf,
 										 int n_derivs,
-										 v_bl_contacts *guess = NULL,
-										 logical approx_ok    = FALSE,
-										 logical repeat_order = FALSE,
-                                         SPAparameter &incpt_t =
-                                            * ( SPAparameter * ) NULL_REF
+										 v_bl_contacts *guess	= NULL,
+										 logical approx_ok		= FALSE,
+										 logical repeat_order	= FALSE,
+                                         SPAparameter &incpt_t	= SpaAcis::NullObj::get_parameter()
 									) const;
 
 

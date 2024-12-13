@@ -78,6 +78,14 @@ MESHGEMS_METHOD meshgems_surfopt_session_t
 MESHGEMS_METHOD void
 meshgems_surfopt_session_delete(meshgems_surfopt_session_t * prs);
 
+
+/**
+ * Unlock MeshGems-Hybrid with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_surfopt_unlock_product(const char * unlock_str);
+
+
 /* (----- meshgems_separator -----) */
 
 /*@}*/

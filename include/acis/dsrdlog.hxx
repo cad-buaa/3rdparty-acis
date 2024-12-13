@@ -61,10 +61,9 @@ class DS_reduce_event : public ACIS_OBJECT
 #undef  DS_GENBLK_CONTAINER
 
 // add push function
-void Push_onto(DS_reduce_log & log,
-                          const DS_reduce_event event);
+void Push_onto(DS_reduce_log &, const DS_reduce_event );
 
-inline void Erase(DS_reduce_log & log)
- {log.Need(0);}
+inline void Erase(DS_reduce_log & reduceLog)
+ {reduceLog.Need(0);}
 
 #endif // DS_RDLOG_H

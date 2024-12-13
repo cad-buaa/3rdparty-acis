@@ -22,6 +22,7 @@
 #include "dcl_query.h"
 #include "logical.h"
 #include "faceqry.hxx"
+#include "spa_null_base.hxx"
 
 class SPAposition;
 class SPAunit_vector;
@@ -36,8 +37,8 @@ DECL_QUERY logical
 find_interior_point(
 			FACE *,
 			SPAposition &,		// set to the required point
-			SPApar_pos & = *(SPApar_pos *)NULL_REF
-							// set to the SPAparameter value of the point
+			SPApar_pos & = SpaAcis::NullObj::get_par_pos()
+							// set to the parameter value of the point
 							// on the face's surface.
 		);
 

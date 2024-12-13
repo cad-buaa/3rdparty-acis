@@ -93,6 +93,8 @@ public:
 
 //	TRANSFORM_FUNCTION
 
+//  TRANSFORM_PTR_FUNCTION
+
 	// Generic constructor.
 
 	ELEM1D():ELEM(){
@@ -188,7 +190,7 @@ public:
 
 	// Comparison operator.  Default version compares node coordinates.
 
-	virtual logical operator==(const ELEM *) const;
+	virtual bool operator==(const ELEM *) const;
 
 	// Const SPAbox computation.  Handy for the intersectors.
 

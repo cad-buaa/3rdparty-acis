@@ -86,5 +86,11 @@ is_zero_length_edge( const EDGE* edge );
 DECL_KERN logical
 is_closed_edge_on_open_curve( const EDGE* edge );
 
+/**
+* @nodoc
+*/
+DECL_KERN logical
+is_special_case_zle( const EDGE* edge );
+
 /** @} */
 #endif

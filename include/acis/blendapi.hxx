@@ -33,6 +33,8 @@ class detect_feature_options;
 #include "api.hxx"
 #include "bl_enum.hxx"
 #include "vbl_enum.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 /**
  * \defgroup BLNDAPI Blending
  *
@@ -226,7 +228,7 @@ DECL_BLND outcome api_delete_blends(
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
- * <b>Journal: </b> Available
+ * <b>Journal: </b> Not Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
@@ -826,10 +828,10 @@ DECL_BLND outcome api_set_exp_const_chamfer(
 			FACE * bl_face,										// blend face
 			FACE * left_face = NULL,							// left support face
 			FACE * right_face = NULL,							// right support face
-			double const & left_range = *(double *)NULL_REF,		// left range
-			double const & right_range = *(double *)NULL_REF,		// right range
-			logical const & convexity = *(logical *)NULL_REF,		// convexity
-			plane const &mid_plane = *(plane *)NULL_REF,			// mid-plane
+			double const & left_range = SpaAcis::NullObj::get_double(),		// left range
+			double const & right_range = SpaAcis::NullObj::get_double(),	// right range
+			logical const & convexity = SpaAcis::NullObj::get_logical(),		// convexity
+			plane const &mid_plane = SpaAcis::NullObj::get_plane(),			// mid-plane
 			AcisOptions *ao = NULL // options, version, journal
 		);
 
@@ -881,11 +883,11 @@ DECL_BLND outcome api_set_exp_const_round(
 			FACE * bl_face,										// blend face
 			FACE * left_face = NULL,								// left support face
 			FACE * right_face = NULL,								// right support face
-			double const &radius = *(double *)NULL_REF,		// radius
-			logical const &convexity = *(logical *)NULL_REF,		// convexity
-			plane const &mid_plane = *(plane *)NULL_REF,			// mid-plane
-			logical const &start_cdt = *(logical *)NULL_REF,		// start & end condits.
-			logical const &end_cdt = *(logical *)NULL_REF,		// (true if open)
+			double const &radius = SpaAcis::NullObj::get_double(),		// radius
+			logical const &convexity = SpaAcis::NullObj::get_logical(),		// convexity
+			plane const &mid_plane = SpaAcis::NullObj::get_plane(),			// mid-plane
+			logical const &start_cdt = SpaAcis::NullObj::get_logical(),		// start & end condits.
+			logical const &end_cdt = SpaAcis::NullObj::get_logical(),		// (true if open)
 			AcisOptions *ao = NULL // options, version, journal
  		);
 /**
@@ -928,9 +930,9 @@ DECL_BLND outcome api_set_exp_co_ro_ffbl_att(		// set face-face blend att.
 			ENTITY_LIST const &end_cross_coedges,					// end_cross_coedges
 			ENTITY_LIST const &left_spring_coedges,					// left_spring_coedges
 			ENTITY_LIST const &right_spring_coedges,					// right_spring_coedges
-			double const &bl_radius = *(double *)NULL_REF,	// bl_radius
-			double const &len_tol = *(double *)NULL_REF,	// len_tol
-			ENTITY_LIST &bl_faces_noted = *(ENTITY_LIST *)NULL_REF, // blend face(s) noted
+			double const &bl_radius = SpaAcis::NullObj::get_double(),	// bl_radius
+			double const &len_tol = SpaAcis::NullObj::get_double(),	// len_tol
+			ENTITY_LIST &bl_faces_noted = SpaAcis::NullObj::get_ENTITY_LIST(), // blend face(s) noted
 			AcisOptions *ao = NULL // options, version, journal
 		);
 
@@ -974,9 +976,9 @@ DECL_BLND outcome api_set_exp_co_ro_fbl_att(		// set face blend att.
 			ENTITY_LIST const & end_cross_coedges,					// end_cross_coedges
 			ENTITY_LIST const & spring_coedges,					// spring_coedges
 			logical const & support_on_left,						// support on left
-			double const &bl_radius = *(double *)NULL_REF,	// bl_radius
-			double const & len_tol = *(double *)NULL_REF,	// len_tol
-			ENTITY_LIST &bl_faces_noted = *(ENTITY_LIST *)NULL_REF, // blend face(s) noted
+			double const &bl_radius = SpaAcis::NullObj::get_double(),	// bl_radius
+			double const &len_tol = SpaAcis::NullObj::get_double(),	// len_tol
+			ENTITY_LIST &bl_faces_noted = SpaAcis::NullObj::get_ENTITY_LIST(), // blend face(s) noted
 			AcisOptions *ao = NULL // options, version, journal
 		);
 /**
@@ -1732,9 +1734,9 @@ DECL_BLND outcome api_chamfer_vertex(
  * check_outcome( result = api_apply_transf( t, translate_transf( vector( 1.5*M_PI, 1.5*M_PI, -1.5*h ))) );
  * check_outcome( result = api_subtract( t, b) ); <br>
  * // Put flats on the mountains (negative offset => convex)
- * check_outcome( result = api_make_flat_on_faces( SPAposition(2.5*M_PI, 2.5*M_PI, h+2), -1.95, (SPAunit_vector*)NULL_REF, (FACE**)NULL_REF, 0, b ) );
+ * check_outcome( result = api_make_flat_on_faces( SPAposition(2.5*M_PI, 2.5*M_PI, h+2), -1.95, (SPAunit_vector*)NULL, (FACE**)NULL, 0, b ) );
  * SPAunit_vector uv1(-.5,-.5,1);
- * check_outcome( result = api_make_flat_on_faces( SPAposition(0.5*M_PI, 0.5*M_PI, h+2), -0.25, &uv1, (FACE**)NULL_REF, 0, b ) ); <br>
+ * check_outcome( result = api_make_flat_on_faces( SPAposition(0.5*M_PI, 0.5*M_PI, h+2), -0.25, &uv1, (FACE**)NULL, 0, b ) ); <br>
  * double* ray_params = NULL; ENTITY_LIST faces;
  * check_outcome( result = api_get_ents( SPAposition(0,0,(h-2)/2),SPAunit_vector(0,0,1),0.01, FACE_TYPE, b, faces, ray_params ) );
  * ACIS_DELETE [] ray_params;
@@ -1744,7 +1746,7 @@ DECL_BLND outcome api_chamfer_vertex(
  * // This last call creates a pseudo-chamfer at one of the side
  * // waves. There are no vertices--we can't use api_chamfer_vertex.
  * SPAunit_vector uv3(0.3,-2, 1);
- * check_outcome( result = api_make_flat_on_faces( SPAposition(M_PI/2, -M_PI/2, h), -0.3, &uv3, (FACE**)NULL_REF, 1, b ) );
+ * check_outcome( result = api_make_flat_on_faces( SPAposition(M_PI/2, -M_PI/2, h), -0.3, &uv3, (FACE**)NULL, 1, b ) );
  * </pre>
  * <b>Errors:</b> When a slant flat is placed at the (concave) center of a vortex torus,
  * the erroneous situation of too large an offset and/or tilt is not caught and a
@@ -1929,11 +1931,11 @@ DECL_BLND outcome api_set_var_blends(
  * <br><br>
  * <b>Effect:</b> Read-only
  * <br><br>
- * <b>Journal: </b> Available
+ * <b>Journal: </b> Not Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param blank_body
+ * @param blank_body
  * existing body which is being blended.
  * @param sheet_body
  * existing sheet body to dump the preview faces into, or if <tt>NULL</tt>, a new body is made up and returned.

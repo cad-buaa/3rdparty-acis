@@ -27,8 +27,8 @@ class surface;
 
 #include "acis.hxx"
 #include "dcl_blnd.h"
-
 #include "position.hxx"
+#include "spa_null_base.hxx"
 
 class DECL_BLND spring_curve_info : public ACIS_OBJECT {
 
@@ -45,7 +45,7 @@ public:
 	spring_curve_info	*next;
 
 	spring_curve_info(		// constructor
-		SPAposition const & = *(const class SPAposition *)NULL_REF,
+		SPAposition const & = SpaAcis::NullObj::get_position(),
 		curve * = NULL,
 		ENTITY * = NULL
 	  );

@@ -30,12 +30,7 @@
 #include "position.hxx"
 #include "curdef.hxx"
 
-#if defined D3_STANDALONE || defined D3_DEBUG
-#include "cusfint_io.hxx"
-#endif
-
 class curve;
-enum evaluate_curve_side;
 
 extern option_header csi_init_sym_rel;
 /**
@@ -166,8 +161,8 @@ public:
  */
  	curve_bounds(
 				curve const &cur,
-				SPAposition const &s_posi = *(const class SPAposition *)NULL_REF,
-				SPAposition const &e_posi = *(const class SPAposition *)NULL_REF,
+				SPAposition const &s_posi = SpaAcis::NullObj::get_position(),
+				SPAposition const &e_posi = SpaAcis::NullObj::get_position(), 
                 double stol = 0.0, double etol = 0.0
 			);
 /**

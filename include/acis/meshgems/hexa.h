@@ -53,7 +53,6 @@ MESHGEMS_METHOD meshgems_integer meshgems_hexa_get_version_patch(void);
  */
 MESHGEMS_METHOD const char *meshgems_hexa_get_version_string(void);
 
-
 /**
  * \weakgroup hexa Module HEXA
  *@{*/
@@ -81,6 +80,12 @@ MESHGEMS_METHOD meshgems_hexa_session_t *meshgems_hexa_session_new(
  * @param[in]	hxs	: the hexa session (is freed and \b unusable afterwards).
  */
 MESHGEMS_METHOD void meshgems_hexa_session_delete(meshgems_hexa_session_t *hxs);
+
+/**
+ * Unlock MeshGems-Hexa with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_hexa_unlock_product(const char * unlock_str);
 
 /*@}*/
 

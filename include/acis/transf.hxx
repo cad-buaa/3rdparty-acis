@@ -43,6 +43,10 @@ DECL_BASE SPAtransf restore_transf(SPAmatrix const&, SPAvector const&, double, l
  * @nodoc
  */
 DECL_BASE SPAtransf restore_transf(SPAmatrix const&, SPAvector const&, const double = 1.0);
+/**
+ * @nodoc
+ */
+DECL_BASE SPAtransf restore_transf_preR33(SPAmatrix const&, SPAvector const&, const double = 1.0);
 
 /**
 * Constructs a transformation retrieving the needed information
@@ -538,12 +542,12 @@ public:
  * Compares two transformations.
  * <br><br>
  * <b>Role:</b> This method does not allow any tolerance. It is therefore not a general
- * equality operator, but returns <tt>TRUE</tt> if one transform is a copy of the other.
+ * equality operator, but returns <tt>true</tt> if one transform is a copy of the other.
  * <br><br>
  * @param t
  * transformation with which to compare.
  */
-	logical operator==(
+	bool operator==(
 		SPAtransf const &t
 		) const;
 
@@ -551,12 +555,12 @@ public:
 	 * Compares two transformations.
 	 * <br><br>
 	 * <b>Role:</b> This method does not allow any tolerance. It is therefore not a general
-	 * equality operator, but returns <tt>FALSE</tt> if one transform is a copy of the other.
+	 * equality operator, but returns <tt>false</tt> if one transform is a copy of the other.
 	 * <br><br>
 	 * @param rhs
 	 * transformation with which to compare.
 	 */
-	logical operator!=(
+	bool operator!=(
 		SPAtransf const &rhs
 		) const
 	{

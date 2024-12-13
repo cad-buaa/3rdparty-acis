@@ -22,6 +22,8 @@
 #include "unitvec.hxx"
 #include "api.hxx"
 #include "cur_sur.hxx" //for enums
+#include "param.hxx"
+#include "spa_null_base.hxx"
 /**
 * @file sp3crtn.hxx
  * @CAA2Level L1
@@ -137,10 +139,10 @@ bs3_synchronize_tolerance();
 DECL_SPLINE bs3_curve
 bs3_curve_make_cur(
 			curve const &cur,			// given curve
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
+			double start_param,			// start parameter
+			double end_param,			// end parameter
+			double requested_tol = 0,	// required fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -169,10 +171,10 @@ bs3_curve_make_cur(
 DECL_SPLINE bs3_curve
 bs3_curve_make_str(
 			straight const &str,		// given straight line
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
+			double start_param,			// start parameter
+			double end_param,			// end parameter
+			double requested_tol = 0,	// required fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 /**
@@ -199,8 +201,8 @@ DECL_SPLINE bs3_curve bs3_curve_make_ell_nubs(
 			ellipse const &ell,
 			double start_param,
 			double end_param,
-			double req_tol = SPAresfit,				// requested fit tolerance
-			double &actual_tol = *(double *)NULL_REF			// actual fit tolerance achieved
+			double req_tol = SPAresfit,							// requested fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()	// actual fit tolerance achieved
 			);
 
 // Construct a spline curve from an elliptical arc.
@@ -226,11 +228,11 @@ DECL_SPLINE bs3_curve bs3_curve_make_ell_nubs(
  **/
 DECL_SPLINE bs3_curve
 bs3_curve_make_ell(
-			ellipse const &ell,		// given ellipse
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
+			ellipse const &ell,			// given ellipse
+			double start_param,			// start parameter
+			double end_param,			// end parameter
+			double requested_tol = 0,	// required fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -257,11 +259,11 @@ bs3_curve_make_ell(
  **/
 DECL_SPLINE bs3_curve
 bs3_curve_make_hel(
-			helix const &hel,		// given helix
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
+			helix const &hel,			// given helix
+			double start_param,			// start parameter
+			double end_param,			// end parameter
+			double requested_tol = 0,	// required fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -289,10 +291,10 @@ bs3_curve_make_hel(
 DECL_SPLINE bs3_curve
 bs3_curve_make_int(
 			intcurve const &cur,		// given curve
-			double start_param,					// start SPAparameter
-			double end_param,					// end SPAparameter
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_tol = *(double *)NULL_REF
+			double start_param,			// start parameter
+			double end_param,			// end parameter
+			double requested_tol = 0,	// required fit tolerance
+			double &actual_tol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -300,7 +302,7 @@ bs3_curve_make_int(
 // Construct a conic curve.  Given are the start and end points of the
 // segment to be represented, the intersection point of the tangents
 // at the start and end, and the "rho" value.  This last determines the
-// SPAposition of the mid-SPAparameter point along the line joining the
+// SPAposition of the mid-parameter point along the line joining the
 // mid-point of the chord and the intersection of the tangents, and is
 // simply the ratio of its distance from the chord mid-point to the
 // total distance.  A value of 0.5 gives a parabola, more gives a
@@ -346,7 +348,7 @@ bs3_curve_make_rho_conic(
 			SPAposition const &end,		// end point
 			double rho = 0.5,			// "rho" value
 			double actual_tol = 0,				// required fit tolerance
-			double &actual_fittol = *(double *)NULL_REF
+			double &actual_fittol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -401,7 +403,7 @@ bs3_curve_interp(
 			SPAunit_vector const &start_dir,	// start direction
 			SPAunit_vector const &end_dir,	// end direction
 			double fitol,					// fit tolerance, 0 for interpolate
-			double &actual_tol = *(double *)NULL_REF,
+			double &actual_tol = SpaAcis::NullObj::get_double(),
 									// set to actual fit tolerance
 		    logical periodic = FALSE
 		                            // Periodic if closed and no end conds
@@ -482,8 +484,8 @@ bs3_curve_from_bs2(
 
 
 // Construct a curve which is a subset of a given one, being the
-// overlap in SPAparameter space of the given curve and a given SPAinterval.
-// A curve periodic in one or both SPAparameter directions is rolled
+// overlap in parameter space of the given curve and a given SPAinterval.
+// A curve periodic in one or both parameter directions is rolled
 // around if need be to cover the required range. It is very unlikely
 // that the tolerance arguments will be needed, but they are included
 // for completeness.
@@ -514,9 +516,9 @@ bs3_curve_from_bs2(
 DECL_SPLINE bs3_curve
 bs3_curve_subset(
 			bs3_curve old_bs,				// given curve
-			SPAinterval const &new_range,		// required bounds
-			double requested_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF, // returns actual fit tolerance
+			SPAinterval const &new_range,	// required bounds
+			double requested_tol = 0,		// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double(), // returns actual fit tolerance
 			logical shift_seam = FALSE
 		);
 
@@ -544,9 +546,9 @@ bs3_curve_subset(
  **/
 DECL_SPLINE void
 bs3_curve_reparam(
-			double start,				// start SPAparameter desired
-			double end,				// end SPAparameter desired
-			bs3_curve cur			// given curve
+			double start,		// start parameter desired
+			double end,			// end parameter desired
+			bs3_curve cur		// given curve
 		);
 
 
@@ -563,7 +565,7 @@ bs3_curve_reparam(
  **/
 DECL_SPLINE void
 bs3_curve_shift(
-			double delta,				// SPAparameter shift desired
+			double delta,			// parameter shift desired
 			bs3_curve cur			// given curve
 		);
 
@@ -656,10 +658,10 @@ bs3_curve_reverse(
 DECL_SPLINE bs3_curve
 bs3_curve_split(
 			bs3_curve &cur,			// given curve
-			double param,					// given SPAparameter value
-			SPAposition const &split_pt = *(SPAposition *)NULL_REF, // given SPAposition
-			SPAunit_vector const &vec1 = *(SPAunit_vector *)NULL_REF, // given direction
-		    SPAunit_vector const &vec2 = *(SPAunit_vector *)NULL_REF  // ditto, on "high" side
+			double param,			// given parameter value
+			SPAposition const &split_pt = SpaAcis::NullObj::get_position(),		// given SPAposition
+			SPAunit_vector const &vec1	= SpaAcis::NullObj::get_unit_vector(),  // given direction
+		    SPAunit_vector const &vec2	= SpaAcis::NullObj::get_unit_vector()   // ditto, on "high" side
 		);
 
 
@@ -805,7 +807,7 @@ bs3_curve_make_rational(bs3_curve bs);
 
 // Transform a curve. This involves transforming the control
 // points, and scaling the knot values, in order to maintain the
-// SPAparameter as a distance measure.
+// parameter as a distance measure.
 /**
  * Transforms the given B-spline %curve in place.
  * <br><br>
@@ -930,7 +932,7 @@ bs3_curve_range(
 		);
 
 
-// Return the SPAparameter period of a 3D B-spline curve.
+// Return the parameter period of a 3D B-spline curve.
 // Returns zero if curve is not closed or periodic.
 
 /**
@@ -1023,7 +1025,7 @@ bs3_curve_span(
 
 
 // On the assumption that a bs3_curve is a piecewise rational
-// polynomial SPAvector function of its SPAparameter, convert the nth
+// polynomial SPAvector function of its parameter, convert the nth
 // span into a rational polynomial SPAvector, with a normalised [ 0, 1 ]
 // parametrisation.
 /**
@@ -1069,7 +1071,7 @@ bs3_curve_accurate_derivs(
 		);
 
 // Return the parametric criterion used to decide whether a given
-// SPAparameter is a knot (for the purposes of choosing between
+// parameter is a knot (for the purposes of choosing between
 // discontinuous "sided" derivatives).
 
 /**
@@ -1124,7 +1126,7 @@ bs3_curve_knottol();
  **/
 DECL_SPLINE int
 bs3_curve_evaluate(
-			double param,					// given SPAparameter t
+			double param,					// given parameter t
 			bs3_curve cur,				// given curve
 			SPAposition &pos,				// SPAposition returned
 			SPAvector * const *vec = NULL,
@@ -1173,15 +1175,15 @@ bs3_curve_evaluate(
  **/
 DECL_SPLINE void
 bs3_curve_eval(
-			double param,						// given SPAparameter value
+			double param,						// given parameter value
 			bs3_curve cur,					// given curve
 			SPAposition &x,					// SPAposition returned
-			SPAvector &xdot = *(SPAvector *)NULL_REF,	// first derivative returned
-			SPAvector &xdotdot = *(SPAvector *)NULL_REF	// second derivative returned
+			SPAvector &xdot = SpaAcis::NullObj::get_vector(),	// first derivative returned
+			SPAvector &xdotdot = SpaAcis::NullObj::get_vector()	// second derivative returned
 		);
 
 
-// Evaluate a SPAposition on a given 3D B-spline curve at given SPAparameter
+// Evaluate a SPAposition on a given 3D B-spline curve at given parameter
 // value.
 
 /**
@@ -1198,7 +1200,7 @@ bs3_curve_eval(
  **/
 DECL_SPLINE SPAposition
 bs3_curve_position(
-			double param,				// given SPAparameter value
+			double param,				// given parameter value
 			bs3_curve cur			// given curve
 		);
 
@@ -1219,13 +1221,13 @@ bs3_curve_position(
  **/
 DECL_SPLINE SPAvector
 bs3_curve_deriv(
-			double param,				// given SPAparameter value
+			double param,				// given parameter value
 			bs3_curve cur			// given curve
 		);
 
 
 // Evaluate the tangent direction to a given 3D B-spline curve at a
-// given SPAparameter value.
+// given parameter value.
 /**
  * Determines the B-spline %curve direction at the given parameter value.
  * <br><br>
@@ -1240,13 +1242,13 @@ bs3_curve_deriv(
  **/
 DECL_SPLINE SPAunit_vector
 bs3_curve_tangent(
-			double param,				// given SPAparameter value
+			double param,				// given parameter value
 			bs3_curve cur			// given curve
 		);
 
 
 // Evaluate the curvature of a 3D B-spline curve at a
-// given SPAparameter value.
+// given parameter value.
 /**
  * Evaluates the curvature of the B-spline %curve at the given parameter value.
  * <br><br>
@@ -1263,14 +1265,14 @@ bs3_curve_tangent(
  **/
 DECL_SPLINE SPAvector
 bs3_curve_curvature(
-			double param,				// given SPAparameter value
+			double param,				// given parameter value
 			bs3_curve cur			// given curve
 		);
 
 // STI mnl begin: moved prototype for ACIS2.0
 // New Code for more accurate second partials on derived surface types.
 // Evaluate the n'th derivative of a given bs3_curve at a given
-// SPAparameter value.  The derivative is returned.  This routine is
+// parameter value.  The derivative is returned.  This routine is
 // mostly used for computing the 3rd derivative of a bs3_curve or up.
 /**
  * Evaluates the <i>n</i>th derivative of a given <tt>bs3_curve</tt> at a given parameter value.
@@ -1331,7 +1333,7 @@ bs3_curve_invert(
 			SPAposition const &pos,	// given point
 			double given_tol,				// given tolerance
 			bs3_curve cur,			// given curve
-			SPAparameter const &param_guess = *(SPAparameter *)NULL_REF	// SPAparameter guess
+			SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter()	// SPAparameter guess
 		);
 
 
@@ -1379,9 +1381,9 @@ bs3_curve_perp(
 			bs3_curve cur,			// curve
 			SPAposition &foot,			// (returned) foot of perpendicular
 			SPAunit_vector &tan,		// (returned) curve tangent
-			SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
+			SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
 								// supplied approximate SPAparameter
-			SPAparameter &param_actual = *(SPAparameter *)NULL_REF,
+			SPAparameter &param_actual = SpaAcis::NullObj::get_parameter(),
 								// (returned) actual SPAparameter
             double quick_exit_dist_tol = 0.0        // distance to curve stopping tolerance
 		);
@@ -1398,9 +1400,9 @@ bs3_curve_closest_point(
 			SPAposition const &,	// given point
 			bs3_curve,			// curve
 			SPAposition &,			// (returned) foot of perpendicular
-			SPAparameter const & = *(SPAparameter *)NULL_REF,
+			SPAparameter const & = SpaAcis::NullObj::get_parameter(),
 								// supplied approximate SPAparameter
-			SPAparameter & = *(SPAparameter *)NULL_REF,
+			SPAparameter & = SpaAcis::NullObj::get_parameter(),
 								// (returned) actual SPAparameter
             double = 0.0        // distance to curve stopping tolerance
 		);
@@ -1428,14 +1430,14 @@ bs3_curve_testpt(
 			SPAposition const &pos,	// given point
 			double tol,				// given tolerance
 			bs3_curve cur,			// given curve
-			SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
+			SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
 								// approximation to SPAparameter value
-			SPAparameter &param_exact = *(SPAparameter *)NULL_REF
+			SPAparameter &param_exact = SpaAcis::NullObj::get_parameter()
 								// set to exact SPAparameter value
 		);
 
 
-// Find the length of a 3D B-spline curve between given SPAparameter
+// Find the length of a 3D B-spline curve between given parameter
 // bounds.
 /**
  * Determines the arc length of a three-dimensional B-spline %curve between given parameter bounds.
@@ -1452,16 +1454,16 @@ bs3_curve_testpt(
 DECL_SPLINE double
 bs3_curve_length(
 			bs3_curve cur,			// Given curve
-			SPAinterval const &cur_range = *(SPAinterval *)NULL_REF,
-								// Optional parametric bounds
-			logical appr_len = FALSE		// TRUE to get approximate length
-								// quickly (e.g. length of control
-								// polygon)
+			SPAinterval const &cur_range = SpaAcis::NullObj::get_interval(),
+									// Optional parametric bounds
+			logical appr_len = FALSE// TRUE to get approximate length
+									// quickly (e.g. length of control
+									// polygon)
 		);
 
 
-// Find the signed arc length of the curve between two SPAparameter
-// values. The length will be positive if the second SPAparameter
+// Find the signed arc length of the curve between two parameter
+// values. The length will be positive if the second parameter
 // is greater than the first, and negative if it is less, provided
 // both parameters are valid for the curve.
 
@@ -1484,13 +1486,13 @@ bs3_curve_length(
 DECL_SPLINE double
 bs3_curve_param_length(
 			bs3_curve cur,			// Given curve
-			double start,				// SPAparameter of start point
-			double end				// SPAparameter of end point
+			double start,			// parameter of start point
+			double end				// parameter of end point
 		);
 
 
-// Find the SPAparameter value of the point at a given arc length from
-// the given SPAparameter value. Acts as an inverse to
+// Find the parameter value of the point at a given arc length from
+// the given parameter value. Acts as an inverse to
 // bs3_curve_param_length.
 /**
  * Determines the parameter value of the point at a given arc length from the given parameter value.
@@ -1509,9 +1511,9 @@ bs3_curve_param_length(
 DECL_SPLINE double
 bs3_curve_length_param(
 			bs3_curve cur,			// Given curve
-			double start,				// SPAparameter of datum point
-			double length 				// arc length (possibly negative) of
-								// desired point
+			double start,			// parameter of datum point
+			double length 			// arc length (possibly negative) of
+									// desired point
 		);
 
 

@@ -303,17 +303,17 @@ public:
     * @nodoc
     * Always returns FALSE.
     */
-    logical operator== (project_options const&) const
+    bool operator== (project_options const&) const
     {
-        return FALSE;
+        return false;
     };
     /**
     * @nodoc
     * Always returns TRUE.
     */
-    logical operator!= (project_options const& ) const
+    bool operator!= (project_options const& ) const
     {
-        return TRUE;
+        return true;
     };
 };
 

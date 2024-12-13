@@ -18,6 +18,7 @@
 #include "dcl_base.h"
 #include "logical.h"
 #include "debugmsc.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file interval.hxx
  * @CAA2Level L1
@@ -269,7 +270,7 @@ DECL_BASE logical operator>=( SPAinterval const &i1, SPAinterval const &i2 );
  * @param i2
  * second interval.
  */
-DECL_BASE logical operator==( SPAinterval const &i1, SPAinterval const & i2);
+DECL_BASE bool operator==( SPAinterval const &i1, SPAinterval const & i2);
 
 /**
  * Inequality operator for determining whether two intervals are not identical.
@@ -279,7 +280,7 @@ DECL_BASE logical operator==( SPAinterval const &i1, SPAinterval const & i2);
  * @param i2
  * second interval.
  */
-DECL_BASE logical operator!=( SPAinterval const &i1, SPAinterval const &i2 );
+DECL_BASE bool operator!=( SPAinterval const &i1, SPAinterval const &i2 );
 
 /**
  * Constructs an interval containing two intervals.
@@ -426,8 +427,8 @@ class DECL_BASE SPAinterval : public ACIS_OBJECT {
 	friend DECL_BASE logical operator>=( SPAinterval const &i, double d );
 	friend DECL_BASE logical operator>=( double d, SPAinterval const &i );
 	friend DECL_BASE logical operator>=( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE logical operator==( SPAinterval const &i1, SPAinterval const &i2 );
-	friend DECL_BASE logical operator!=( SPAinterval const &i1, SPAinterval const &i2 );
+	friend DECL_BASE bool operator==( SPAinterval const &i1, SPAinterval const &i2 );
+	friend DECL_BASE bool operator!=( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE SPAinterval operator|( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE logical operator&&( SPAinterval const &i1, SPAinterval const &i2 );
 	friend DECL_BASE logical operator<<( double r, SPAinterval const & i );
@@ -495,8 +496,8 @@ public:
 	 */
 	SPAinterval(
 			interval_type type,
-			double const & d1 = *(double *)NULL_REF,
-			double const & d2 = *(double *)NULL_REF
+			double const & d1 = SpaAcis::NullObj::get_double(),
+			double const & d2 = SpaAcis::NullObj::get_double()
 		);
 
 
@@ -829,7 +830,7 @@ inline logical operator>=( SPAinterval const &i1, SPAinterval const &i2 )
 /**
  * @nodoc
  */
-inline logical operator!=( SPAinterval const &i1, SPAinterval const &i2 )
+inline bool operator!=( SPAinterval const &i1, SPAinterval const &i2 )
 	{ return !(i1 == i2); }
 /**
  * @nodoc

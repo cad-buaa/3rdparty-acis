@@ -93,7 +93,7 @@ DECL_SKIN int create_virtual_guide_curves(
 	int           ncrv,			// number of user guide curves to be added
 	curve       **crvs,			// user guide curves
 	guide_curve *&guides,		// return guide_curve classes
-	int          &nproblems = *(int *) NULL_REF,	// (optional) number of
+	int          &nproblems = SpaAcis::NullObj::get_int(),	// (optional) number of
 	curve      ***problem_crvs=NULL					// user guide curves that have problem
 );
 

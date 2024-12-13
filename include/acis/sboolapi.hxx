@@ -397,7 +397,7 @@ public:
 	/**
 	 * Returns the current <tt>only_from</tt> option value.
 	 */
-	logical			get_only_from();
+	int				get_only_from();
 	/**
 	 * Returns the current <tt>connected</tt> option value.
 	 */

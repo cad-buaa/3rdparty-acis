@@ -26,6 +26,8 @@ class FACE;
 #include "api.hxx"
 #include "dcl_blnd.h"
 #include "logical_state.hxx"
+#include "lists.hxx"
+#include "spa_null_blnd.hxx"
 
 class DECL_BLND SPA_blend_face_info : public ACIS_OBJECT
 {
@@ -51,12 +53,12 @@ public:
 /**
  * @nodoc
  */
-DECL_BLND outcome api_is_blend_face(FACE *face, logical &return_val, SPA_blend_face_info &bld_f_info = *(SPA_blend_face_info *)NULL_REF, AcisOptions *ao = NULL);
+DECL_BLND outcome api_is_blend_face(FACE *face, logical &return_val, SPA_blend_face_info &bld_f_info = SpaAcis::NullObj::get_SPA_blend_face_info(), AcisOptions* ao = NULL);
 
 /**
  * @nodoc
  */
-DECL_BLND outcome api_set_blend_face(FACE *face, SPA_blend_face_info &bld_f_info = *(SPA_blend_face_info *)NULL_REF, AcisOptions *ao = NULL);
+DECL_BLND outcome api_set_blend_face(FACE *face, SPA_blend_face_info &bld_f_info = SpaAcis::NullObj::get_SPA_blend_face_info(), AcisOptions *ao = NULL);
 
 /**
  * @nodoc

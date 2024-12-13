@@ -33,12 +33,16 @@
 #ifndef SPA_NO_AUTO_LINK
 # ifndef BUILDING_LOCAL_FILE
 #  if defined(_MSC_VER)
-#   if defined( SPA_INTERNAL_BUILD ) || defined( NOBIGLIB )
+#   if (defined( SPA_INTERNAL_BUILD ) && !defined ( SPAACISDS )) || defined( NOBIGLIB )
 #    define spa_lib_name "blend"
 #   else
-#    define spa_lib_name "SpaACIS"
+#    if defined( SPAACISDS )
+#     define spa_lib_name "SPAAcisDs"
+#    else
+#     define spa_lib_name "SpaACIS"
+#    endif
 #   endif
-#   if defined( _DEBUG ) && !defined( SPA_INTERNAL_BUILD )
+#   if defined( SPA_DEBUG ) && !defined( SPA_INTERNAL_BUILD ) && !defined( SPAACISDS )
 #    pragma comment( lib, CONCAT( spa_lib_name, "d.lib" ))
 #   else
 #    pragma comment( lib, CONCAT( spa_lib_name, ".lib" ))

@@ -341,6 +341,8 @@ DECL_GA outcome api_add_generic_named_attribute(
 * The attribute's behavior when its owner is transformed (default: <tt>TransApply</tt>).
 * @param copy_opt
 * The attribute's behavior when its owner is copied (default: <tt>CopyCopy</tt>).
+* @param delete_value_on_lose
+* The attribute's behavior when its owner is lost, value will be lost or not. (default: <tt>FALSE</tt>)
 * @param ao
 * acis options.
 * <br><br>
@@ -354,6 +356,7 @@ DECL_GA outcome api_add_generic_named_attribute(
 	merge_action merge_opt = MergeKeepKept,
 	trans_action trans_opt = TransApply,
 	copy_action copy_opt = CopyCopy,
+	bool delete_value_on_lose = false,
     AcisOptions *ao = NULL);
 
 /**

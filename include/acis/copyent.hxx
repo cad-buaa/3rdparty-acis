@@ -21,6 +21,7 @@
 #include "dcl_kern.h"
 #include "api.hxx"
 #include "acis_options.hxx"
+#include "transf.hxx"
 
 //======================================================================
 
@@ -31,18 +32,17 @@ class EDGE;
 class FACE;
 class WIRE;
 class ENTITY;
-class SPAtransf;
 class outcome;
 
 //======================================================================
 
-DECL_KERN VERTEX* copy_vertex( VERTEX* v, const SPAtransf& tform = *( const SPAtransf *) NULL_REF );
-DECL_KERN CURVE* copy_curve( CURVE *the_curve, const SPAtransf& tform = *( const SPAtransf *) NULL_REF );
-DECL_KERN SURFACE* copy_surface( SURFACE *the_surface, const SPAtransf& tform = *( const SPAtransf *) NULL_REF );
-DECL_KERN EDGE* copy_edge( EDGE* edge, const SPAtransf& tform = *( const SPAtransf *) NULL_REF );
-DECL_KERN FACE* copy_face( FACE* the_face, const SPAtransf& tform = *( const SPAtransf *) NULL_REF);
-DECL_KERN WIRE* copy_wire( WIRE* the_wire, const SPAtransf& tform = *( const SPAtransf *) NULL_REF);
-DECL_KERN outcome copy_single_entity(ENTITY*, ENTITY*&, AcisOptions* ao=NULL);
+DECL_KERN VERTEX* copy_vertex( VERTEX* v, const SPAtransf& tform = SPAtransf() );
+DECL_KERN CURVE* copy_curve( CURVE *the_curve, const SPAtransf& tform = SPAtransf() );
+DECL_KERN SURFACE* copy_surface( SURFACE *the_surface, const SPAtransf& tform = SPAtransf() );
+DECL_KERN EDGE* copy_edge( EDGE* edge, const SPAtransf& tform = SPAtransf() );
+DECL_KERN FACE* copy_face( FACE* the_face, const SPAtransf& tform = SPAtransf() );
+DECL_KERN WIRE* copy_wire( WIRE* the_wire, const SPAtransf& tform = SPAtransf() );
+DECL_KERN outcome copy_single_entity( ENTITY*, ENTITY*&, AcisOptions* ao = nullptr );
 
 //======================================================================
 #endif

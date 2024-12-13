@@ -8,8 +8,9 @@
 /*******************************************************************/
 // Header for Kernel api routines.
 /*******************************************************************/
-#if !defined( KERNAPI_HXX )
+#ifndef KERNAPI_HXX
 #define KERNAPI_HXX
+
 #include "acis.hxx"
 #include "api.hxx"
 #include "bs3surf.hxx"
@@ -18,6 +19,10 @@
 #include "pattern_enum.hxx"
 #include "ptfcenum.hxx"
 #include "bullsmal.hxx"
+#include "transf.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 class AcisVersion;
 class BODY;
 class BULLETIN_BOARD;
@@ -36,7 +41,6 @@ class LOOP;
 class outcome;
 class SPAinterval;
 class SPAposition;
-class SPAtransf;
 class SPAunit_vector;
 class SPAvector;
 class StreamFinder;
@@ -131,7 +135,7 @@ DECL_KERN outcome api_terminate_kernel();
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param on_off
+ * @param on_off
  * <tt>TRUE</tt> for on.
  **/
 DECL_KERN outcome api_checking(
@@ -167,7 +171,7 @@ DECL_KERN outcome api_checking(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param on_off
+ * @param on_off
  * <tt>TRUE</tt> for on.
  **/
 DECL_KERN outcome api_logging(
@@ -193,7 +197,7 @@ DECL_KERN outcome api_logging(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param sl
+ * @param sl
  * stream_logging value.
  * @param hs
  * <tt>HISTORY_STREAM</tt> to use, default is the current stream.
@@ -211,7 +215,7 @@ DECL_KERN outcome api_set_stream_logging( stream_logging sl, HISTORY_STREAM* hs 
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param sl
+ * @param sl
  * the current stream_logging value.
  * @param hs
  * HISTORY_STREAM to use, default is current stream.
@@ -230,14 +234,12 @@ DECL_KERN outcome api_get_stream_logging( stream_logging& sl, HISTORY_STREAM* hs
  * Starts the modeler.
  * <br><br>
  * <b>Role:</b> This API starts the modeler. This API must be called before calling any
- * other ACIS API, function, or method, with one exception: <tt>initialize_base</tt>. If you
- * need to configure the ACIS base component to meet your specific application needs, you
+ * other ACIS API, function, or method, with exceptions like <tt>initialize_base</tt>, <tt>is_modeler_started</tt>. 
+ * If you need to configure the ACIS base component to meet your specific application needs, you
  * must call <tt>initialize_base</tt> prior to calling <tt>api_start_modeller</tt>. (Calling 
  * <tt>initialize_base</tt> is optional.)
  * <br><br>
- * Care should be taken to call this API only once; this API is not use-counted and implicit 
- * calls to internal initialization routines could adversely affect applications if called 
- * more than once.
+ * api_start_modeller and api_stop_modeller are ref-counted and can be used in nested way.
  * <br><br>
  * ACIS does not currently support stopping and restarting the modeler. However, it is 
  * possible for applications to dynamically unload and reload the ACIS dll's, which would 
@@ -251,7 +253,7 @@ DECL_KERN outcome api_get_stream_logging( stream_logging& sl, HISTORY_STREAM* hs
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param n
+ * @param n
  * not used.
  * <br><br>
  * @see api_stop_modeller, is_modeler_started, initialize_base, terminate_base
@@ -276,12 +278,15 @@ DECL_KERN outcome api_start_modeller(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @see api_start_modeller, is_modeler_started, initialize_base, terminate_base
+ * @see api_start_modeller, is_modeler_started, initialize_base, terminate_base
  */
 DECL_KERN outcome api_stop_modeller();
 
 /**
- * Returns <tt>TRUE</tt> if the modeler is already started, otherwise <tt>FALSE</tt>.
+ * Returns <tt>TRUE</tt> if the modeler is already started i.e. if <tt>api_start_modeller</tt> (more specifically initialize_kernel) has been invoked, 
+ * otherwise <tt>FALSE</tt>. If only initialize_base is invoked, then also is_modeller_started will return FALSE.
+ * <br><br>
+ * Note : initialize_base can be invoked before starting ACIS modeler. 
  * <br><br>
  * @see api_start_modeller, api_stop_modeller
  */
@@ -308,7 +313,7 @@ DECL_KERN logical is_modeler_started();
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param name
+ * @param name
  * name of option.
  * @param value
  * integer or logical value to set.
@@ -334,7 +339,7 @@ DECL_KERN outcome api_set_int_option(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param name
+ * @param name
  * name of option.
  * @param value
  * double value to set.
@@ -358,7 +363,7 @@ DECL_KERN outcome api_set_dbl_option(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param name
+ * @param name
  * name of option.
  * @param value
  * string value to set.
@@ -394,7 +399,7 @@ DECL_KERN outcome api_set_str_option(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds
+ * @param ds
  * state to add.
  * @param hs
  * stream to add.
@@ -453,7 +458,7 @@ DECL_KERN outcome api_change_state(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds1
+ * @param ds1
  * state defining one end of range to be merged.
  * @param ds2
  * other end of range to be merged.
@@ -490,7 +495,7 @@ DECL_KERN outcome api_merge_states(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds
+ * @param ds
  * delta state to be deleted.
  **/
 DECL_KERN outcome api_delete_ds(
@@ -522,7 +527,7 @@ DECL_KERN outcome api_delete_ds(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds
+ * @param ds
  * state change returned.
  * @param hs
  * history stream to check.
@@ -570,7 +575,7 @@ DECL_KERN outcome api_note_state(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param info
+ * @param info
  * file information returned.
  **/
 DECL_KERN outcome api_get_file_info(FileInfo &info);
@@ -628,7 +633,7 @@ DECL_KERN outcome api_get_file_info(FileInfo &info);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param mask
+ * @param mask
  * mask indicating fields to set.
  * @param info
  * info to be set.
@@ -783,7 +788,7 @@ DECL_KERN outcome api_save_entity_list(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * pointer to custom FileInterface object.
  * @param entities
  * returns restored top-level entities.
@@ -871,7 +876,7 @@ DECL_KERN outcome api_save_entity_list_file(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param major_version
+ * @param major_version
  * major version.<br><br>
  * Valid major and minor versions are:<br>
  * 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8<br>
@@ -897,7 +902,7 @@ DECL_KERN outcome api_save_version(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param major_version
+ * @param major_version
  * major version returned, for example, 21.
  * @param minor_version
  * minor version returned, for example, 0.
@@ -1245,7 +1250,7 @@ DECL_KERN outcome api_get_history_size(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param hs
+ * @param hs
  * history stream.
  * <br><br>
  * @see api_prune_history
@@ -1684,9 +1689,9 @@ DECL_KERN outcome api_make_root_state(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * open file descriptor.
  * @param text_mode
  * <tt>TRUE</tt> if file is text, <tt>FALSE</tt> if binary.
@@ -1787,9 +1792,9 @@ DECL_KERN outcome api_restore_entity_list_with_history(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * open file descriptor.
  * @param entities
  * returns entities made.
@@ -2095,7 +2100,7 @@ DECL_KERN outcome api_save_entity_list_with_history(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
  * <br><br>
  * @param file_ptr
  * open file descriptor.
@@ -2229,7 +2234,7 @@ DECL_KERN outcome api_save_history(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * open file descriptor.
  * @param hs
  * stream to save.
@@ -2303,7 +2308,7 @@ DECL_KERN outcome api_save_history_file(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param entity
+ * @param entity
  * entity that recieves the new transform.
  * @param trans
  * new transform.
@@ -2351,9 +2356,9 @@ DECL_KERN outcome api_apply_transf(
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param body
+ * @param body
  * body to get new transform.
  * @param new_transform
  * new transform.
@@ -2382,9 +2387,9 @@ DECL_KERN outcome api_change_body_trans(
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
  * <br><br>
-* @param entity
+ * @param entity
  * entity of interest.
  * @param ao
  * ACIS options.
@@ -2419,7 +2424,7 @@ DECL_KERN outcome api_remove_transf(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param body
+ * @param body
  * body to be copied.
  * @param new_body
  * copy returned.
@@ -2458,7 +2463,7 @@ DECL_KERN outcome api_copy_body(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param entity
+ * @param entity
  * entity to be copied.
  * @param new_entity
  * copy returned.
@@ -2496,7 +2501,7 @@ DECL_KERN outcome api_copy_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param entity_list
+ * @param entity_list
  * list to copy.
  * @param copied_entity_list
  * copy returned.
@@ -2536,7 +2541,7 @@ DECL_KERN outcome api_copy_entity_list(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param entity
+ * @param entity
  * entity to copy.
  * @param new_entity
  * deep copy returned.
@@ -2595,7 +2600,7 @@ DECL_KERN outcome api_deep_copy_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param entity
+ * @param entity
  * entity to copy.
  * @param new_entity
  * deep copy returned.
@@ -2642,7 +2647,7 @@ DECL_KERN outcome api_deep_down_copy_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param entity_list
+ * @param entity_list
  * entities to copy.
  * @param new_entity_list
  * copies returned.
@@ -2680,7 +2685,7 @@ DECL_KERN outcome api_deep_copy_entity_list(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param entity_list
+ * @param entity_list
  * list of entities to be deep copied.
  * @param numerical_tolerance
  * tolerance for real value comparisons.
@@ -2723,7 +2728,7 @@ DECL_KERN outcome api_test_deep_copy(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param entity_list
+ * @param entity_list
  * list of entities to be deep copied.
  * @param return_list
  * copied entity list to return
@@ -2776,7 +2781,7 @@ DECL_KERN outcome api_test_deep_down_copy(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param in_ent
+ * @param in_ent
  * entity to be copied.
  * @param copy
  * copy returned.
@@ -2815,7 +2820,7 @@ DECL_KERN outcome api_down_copy_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param given_entity
+ * @param given_entity
  * entity to be deleted.
  * @param ao
  * ACIS options.
@@ -2847,7 +2852,7 @@ DECL_KERN outcome api_delent(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
-* @param given_entity
+ * @param given_entity
  * entity to be deleted.
  * @param ao
  * ACIS options.
@@ -2881,7 +2886,7 @@ DECL_KERN outcome api_del_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param given_list
+ * @param given_list
  * entities to be deleted.
  * @param ao
  * ACIS options.
@@ -2912,7 +2917,7 @@ DECL_KERN outcome api_del_entity_list(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param origin
+ * @param origin
  * origin of WCS.
  * @param xpt
  * position on x-axis.
@@ -2939,7 +2944,7 @@ DECL_KERN outcome api_wcs_create(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param new_active
+ * @param new_active
  * WCS to make active or NULL (model space).
  * @param ao
  * ACIS options.
@@ -2957,7 +2962,7 @@ DECL_KERN outcome api_wcs_set_active(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param active_wcs
+ * @param active_wcs
  * returns active WCS or NULL.
  * @param ao
  * ACIS options.
@@ -2998,7 +3003,7 @@ DECL_KERN outcome api_wcs_get_active(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent
+ * @param ent
  * entity to determine owner.
  * @param owner
  * top level owner of entity returned.
@@ -3023,7 +3028,7 @@ DECL_KERN outcome api_get_owner(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param crv
+ * @param crv
  * the given edge.
  * @param pt1
  * start position returned.
@@ -3712,7 +3717,7 @@ class law_data;
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param str
+ * @param str
  * string of the law to be created.
  * @param answer
  * returns the created law.
@@ -3739,7 +3744,7 @@ DECL_KERN outcome api_str_to_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * the law to be integrated.
  * @param start
  * start of the domain of integration.
@@ -3773,7 +3778,7 @@ DECL_KERN outcome api_integrate_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * the law to be integrated.
  * @param start
  * start of the domain of integration.
@@ -3818,7 +3823,7 @@ DECL_KERN outcome api_integrate_law_wrt(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * the law to be integrated.
  * @param start
  * start of the domain of integration.
@@ -3868,7 +3873,7 @@ DECL_KERN outcome api_integrate_law_wrt_and_splits(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * the law to differentiate.
  * @param where
  * where to take the derivative.
@@ -3912,7 +3917,7 @@ DECL_KERN outcome api_ndifferentiate_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * law whose roots are desired.
  * @param start
  * start of the domain.
@@ -3940,7 +3945,7 @@ DECL_KERN outcome api_nroots_of_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * law whose maximum is desired.
  * @param start
  * start of the domain.
@@ -3965,7 +3970,7 @@ DECL_KERN outcome api_nmax_of_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * law whose minimum is desired.
  * @param start
  * start of the domain.
@@ -4005,7 +4010,7 @@ DECL_KERN outcome api_nmin_of_law(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law1
+ * @param input_law1
  * first law.
  * @param input_law2
  * second law.
@@ -4085,7 +4090,7 @@ DECL_KERN outcome api_nsolve_laws(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param path
+ * @param path
  * a WIRE or EDGE.
  * @param rails
  * array of rail laws returned.
@@ -4111,7 +4116,7 @@ DECL_KERN outcome api_make_rails(
 	law    **user_rails = NULL,
 	law    *twist_law = NULL,
 	AcisOptions *ao = NULL,
-   SPAunit_vector const &in_rigid_tangent = *(const class SPAunit_vector *)NULL_REF);
+    SPAunit_vector const &in_rigid_tangent = SpaAcis::NullObj::get_unit_vector());
 
 /**
  * Converts a law mathematic function into an entity for the purposes of saving to and restoring from a SAT file.
@@ -4129,7 +4134,7 @@ DECL_KERN outcome api_make_rails(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param input_law
+ * @param input_law
  * the law function to be converted.
  * @param out_ent
  * the resulted entity into which the law is converted.
@@ -4208,7 +4213,7 @@ DECL_KERN outcome api_transform_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param coedge
+ * @param coedge
  * coedge of face.
  * @param forward
  * forward direction of evaluation.
@@ -4296,7 +4301,7 @@ DECL_KERN outcome api_extract_coed_info(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param vbl_sf
+ * @param vbl_sf
  * surface with underlying VBL_SURF.
  * @param interior_fit
  * achieved interior fit tolerance.
@@ -4339,7 +4344,7 @@ DECL_KERN outcome api_make_VBL_output_surfaces(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param limit
+ * @param limit
  * bytes of stack memory.
  **/
 DECL_KERN outcome api_stackmon_limit(
@@ -4376,7 +4381,7 @@ DECL_KERN outcome api_stackmon_limit(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param in_face
+ * @param in_face
  * face to test.
  * @param ai_info
  * where test results stored.
@@ -4418,7 +4423,7 @@ DECL_KERN outcome api_check_face_loops(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param in_loop
+ * @param in_loop
  * Loop to test.
  * @param type
  * Type of loop. Refer to @href loop_type for more details about loop types.
@@ -4464,7 +4469,7 @@ DECL_KERN outcome api_loop_type(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param edge
+ * @param edge
  * edge to test.
  * @param tol
  * resulting tolerance.
@@ -4489,7 +4494,7 @@ DECL_KERN outcome api_calculate_edge_tolerance(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param vertex
+ * @param vertex
  * input vertex / tvertex.
  * @param tol
  * resulting tolerance.
@@ -4513,7 +4518,7 @@ DECL_KERN outcome api_calculate_vertex_tolerance(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param this_entity
+ * @param this_entity
  * entity with tolerance.
  * @param updated
  * result <tt>TRUE</tt> is a tolerant entity updated.
@@ -4579,7 +4584,7 @@ DECL_KERN logical is_ANNOTATION(const ENTITY* ent);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param list_annotation
+ * @param list_annotation
  * list of annotation entities.
  * @param annno
  * test for specific type of annotation.
@@ -4608,7 +4613,7 @@ DECL_KERN outcome api_find_annotations(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param anno
+ * @param anno
  * type of annotation.
  * @param bb
  * obsolete, ignored.
@@ -4667,7 +4672,7 @@ DECL_KERN outcome api_unhook_annotations(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ao
+ * @param ao
  * ACIS options.
  **/
 DECL_KERN outcome api_clear_annotations(
@@ -4694,7 +4699,7 @@ DECL_KERN outcome api_clear_annotations(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param aval
+ * @param aval
  * a value.
  * @param bval
  * b value.
@@ -4733,7 +4738,7 @@ DECL_KERN outcome api_make_linear(double aval,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param aval
+ * @param aval
  * a value.
  * @param bval
  * b value.
@@ -4781,7 +4786,7 @@ DECL_KERN outcome api_make_cubic(double aval,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param aval
+ * @param aval
  * a value.
  * @param bval
  * b value.
@@ -4823,7 +4828,7 @@ DECL_KERN outcome api_make_quintic(	double aval,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
-* @param coeff
+ * @param coeff
  * array of coefficients.
  * @param degree
  * maximum degree of polynomial.
@@ -4855,65 +4860,12 @@ DECL_KERN outcome api_make_polynomial_law(double* coeff,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent
+ * @param ent
  * entity of interest.
  * @param ao
  * ACIS options.
  **/
 DECL_KERN outcome api_reset_boxes(ENTITY *ent, AcisOptions *ao = NULL);
-
-/** @} */
-
-/**
- * \addtogroup ACISENTITYOPS
- *
- * @{
- */
-
-/**
- * Creates a copy of an <tt>ENTITY</tt> all its associated subentities.
- * <br><br>
- * <b>Role:</b> This API copies the given <tt>ENTITY</tt> and all its associated
- * subentities, if any. Subentities are those that are <i>below</i> the given
- * <tt>ENTITY</tt> in the topological hierarchy. It <i>does not</i> copy entities
- * that are above the given <tt>ENTITY</tt>. The optional transformation is applied
- * to the copied entity, if applicable.
- * <br><br>
- * <b>Note:</b> This special-case function only operates on <tt>VERTEX</tt>, <tt>EDGE</tt>, <tt>COEDGE</tt>, <tt>WIRE</tt>,
- * <tt>LOOP</tt>, <tt>FACE</tt>, <tt>SHELL</tt>, and <tt>LUMP</tt> entities; for all other entity types, it calls
- * <tt>api_copy_entity</tt>.
- * <br><br>
- * <b>Note:</b> @href api_copy_entity copies all entities <b>above</b> and <b>below</b>
- * the input entity, while <tt>api_copy_entity_contents</tt> only copies all entities <b>below</b>
- * the input entity. If @href api_copy_entity is incorrectly used where <tt>api_copy_entity_contents</tt>
- * is intended, memory requirements could become unnecessarily and  adversely large.
- * <br><br>
- * <b>Important: This function was deprecated in R16. The API has been replaced by @href api_down_copy_entity.</b>
- * <br><br>
- * <b>Errors:</b> The pointer to an original entity is <tt>NULL</tt>.
- * <br><br>
- * <b>Effect:</b> Changes model
- * <br><br>
- * <b>Journal: </b> Available
- * <br><br>
- * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
- * <br><br>
-* @param in_ent
- * entity to be copied.
- * @param copy
- * copy returned.
- * @param tr
- * optional transformation.
- * @param ao
- * ACIS options.
- * <br><br>
- * @see api_copy_entity, api_deep_copy_entity
- **/
-DECL_KERN outcome api_copy_entity_contents(
-	ENTITY*       in_ent,
-	ENTITY*       &copy,
-	const SPAtransf     &tr = *(const SPAtransf *) NULL_REF,
-	AcisOptions*  ao  = NULL);
 
 /** @} */
 
@@ -4958,7 +4910,7 @@ DECL_KERN outcome api_copy_entity_contents(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param in_curve
+ * @param in_curve
  * curve to project.
  * @param in_range
  * parameter range over which to project <tt>in_curve</tt>.
@@ -5006,7 +4958,7 @@ DECL_KERN outcome api_project_curve_to_surface(const curve & in_curve,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param in_curve
+ * @param in_curve
  * curve to project.
  * @param in_range
  * parameter range over which to project in_curve.
@@ -5045,7 +4997,7 @@ DECL_KERN outcome api_project_curve_to_surface(const curve        &in_curve,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * file descriptor.
  * @param ao
  * ACIS options.
@@ -5068,7 +5020,7 @@ DECL_KERN outcome api_save_state(FILE *file_ptr, AcisOptions *ao = NULL);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param file_ptr
+ * @param file_ptr
  * file descriptor.
  * @param ao
  * ACIS options.
@@ -5093,7 +5045,7 @@ DECL_KERN outcome api_load_state(FILE *file_ptr, AcisOptions *ao = NULL);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param hs
+ * @param hs
  * created history stream.
  **/
 DECL_KERN outcome api_create_history(HISTORY_STREAM*& hs);
@@ -5107,7 +5059,7 @@ DECL_KERN outcome api_create_history(HISTORY_STREAM*& hs);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param hs
+ * @param hs
  * input history stream.
  **/
 DECL_KERN outcome api_set_default_history(HISTORY_STREAM* hs);
@@ -5121,7 +5073,7 @@ DECL_KERN outcome api_set_default_history(HISTORY_STREAM* hs);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param default_hs
+ * @param default_hs
  * default history stream.
  **/
 DECL_KERN outcome api_get_default_history(HISTORY_STREAM*& default_hs);
@@ -5143,7 +5095,7 @@ DECL_KERN outcome api_get_default_history(HISTORY_STREAM*& default_hs);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param hs
+ * @param hs
  * input history stream.
  **/
 DECL_KERN outcome api_delete_history(HISTORY_STREAM* hs = NULL);
@@ -5159,7 +5111,7 @@ DECL_KERN outcome api_delete_history(HISTORY_STREAM* hs = NULL);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent
+ * @param ent
  * input entity.
  * @param hs
  * returned history stream.
@@ -5182,7 +5134,7 @@ DECL_KERN outcome api_get_history_from_entity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param active_ds
+ * @param active_ds
  * returned delta state.
  * @param hs
  * input history stream.
@@ -5203,7 +5155,7 @@ DECL_KERN outcome api_get_active_state(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds
+ * @param ds
  * input to test.
  * @param change_state_possible
  * <tt>TRUE</tt> if state is valid.
@@ -5231,7 +5183,7 @@ DECL_KERN outcome api_query_state_validity(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param id
+ * @param id
  * ID of the <tt>DELTA_STATE</tt>.
  * @param returned_ds
  * returned <tt>DELTA_STATE</tt>.
@@ -5256,7 +5208,7 @@ DECL_KERN outcome api_get_state_from_id(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ds
+ * @param ds
  * <tt>DELTA_STATE</tt> for which id tag is requested.
  * @param id
  * returned ID.
@@ -5281,7 +5233,7 @@ DECL_KERN outcome api_get_state_id(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param id
+ * @param id
  * ID of the <tt>ENTITY</tt>.
  * @param returned_ent
  * returned <tt>ENTITY</tt>.
@@ -5307,7 +5259,7 @@ DECL_KERN outcome api_get_entity_from_id(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent
+ * @param ent
  * <tt>ENTITY</tt> for which id tag is requested.
  * @param id
  * returned ID.
@@ -5330,7 +5282,7 @@ DECL_KERN outcome api_get_entity_id(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param insane_list
+ * @param insane_list
  * list of questionable streams.
  * @param fptr
  * file for check output.
@@ -5354,7 +5306,7 @@ DECL_KERN outcome api_check_histories(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param hs
+ * @param hs
  * use default stream if NULL.
  **/
 DECL_KERN outcome api_abort_state( HISTORY_STREAM* hs = NULL);
@@ -5384,7 +5336,7 @@ DECL_KERN outcome api_abort_state( HISTORY_STREAM* hs = NULL);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param av
+ * @param av
  * ACIS version object.
  * @param tag
  * tag of ACIS version object.
@@ -5404,7 +5356,7 @@ DECL_KERN outcome api_get_version_tag(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param major
+ * @param major
  * major version number.
  * @param minor
  * minor version number.
@@ -5430,7 +5382,7 @@ DECL_KERN outcome api_get_version_tag(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param tag
+ * @param tag
  * tag of current ACIS executable.
  **/
 DECL_KERN outcome api_get_version_tag(int& tag);
@@ -5444,7 +5396,7 @@ DECL_KERN outcome api_get_version_tag(int& tag);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param av
+ * @param av
  * ACIS version object from following input.
  * @param tag
  * input tag.
@@ -5462,7 +5414,7 @@ DECL_KERN outcome api_make_version_object(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param av
+ * @param av
  * ACIS version object from following input.
  * @param major
  * major version number.
@@ -5486,7 +5438,7 @@ DECL_KERN outcome api_make_version_object(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param av
+ * @param av
  * ACIS version object of current executable.
  **/
 DECL_KERN outcome api_make_version_object(
@@ -5570,7 +5522,7 @@ public:
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param list
+ * @param list
  * input entities
  * @param mo
  * minimization options
@@ -5601,7 +5553,7 @@ DECL_KERN outcome api_minimize_entities(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param mo
+ * @param mo
  * minimization options
  * @see api_minimize_entities, minimize_options, initialize_page_system, get_page_statistics
  **/
@@ -5628,7 +5580,7 @@ DECL_KERN outcome api_set_default_minimize_options( minimize_options *mo);
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param from_surface
+ * @param from_surface
  * pointer to a surface. The caller retains ownership of <tt>from_surface</tt>, and must ensure it's destruction.
  * @param face_from_surface
  * returned pointer to newly constructed <tt>FACE</tt> that contains a (deep) copy of <tt>from_surface</tt>.
@@ -5646,7 +5598,7 @@ DECL_KERN outcome api_make_face_from_surface(surface     *  from_surface,
  * <b>Role:</b> Constructs a single face which is the whole of a given %spline
  * %surface. This handles %spline surfaces closed in one or both directions.
  * For periodic surfaces seam edges are created at the boundaries, if the global
- * option <tt>split_periodic_splines</tt> is <tt>TRUE</tt>. They will be suppressed 
+ * option <tt>split_periodic_splines</tt> is <tt>TRUE</tt>. They will be suppressed
  * if <tt>split_periodic_splines</tt> is <tt>FALSE</tt>.
  * <br><br>
  * In all cases, the resulting face has one loop. The number of coedges is 4 minus
@@ -5667,6 +5619,8 @@ DECL_KERN outcome api_make_face_from_surface(surface     *  from_surface,
  * <br><br>
  * @param this_surface
  * The given %surface.
+ * @param face_from_surface
+ * returned pointer to newly constructed <tt>FACE</tt>.
  * @param lv
  * The low v %curve.
  * @param hv
@@ -5678,14 +5632,16 @@ DECL_KERN outcome api_make_face_from_surface(surface     *  from_surface,
  * @param pb
  * Par_box to use.
  **/
-DECL_KERN FACE* make_face_spline(
-		 surface const &this_surface,		// spline geometry supporting face
-		 curve const &lv = *(curve const*)NULL_REF,		// low v curve
-		 curve const &hv = *(curve const*)NULL_REF,		// high v curve
-		 curve const &lu = *(curve const*)NULL_REF,		// low u curve
-		 curve const &hu = *(curve const*)NULL_REF,		// high u curve
-		 SPApar_box const &pb = *(SPApar_box const *)NULL_REF  // uv bound to use
-		);
+DECL_KERN outcome api_make_face_spline(
+	surface const* this_surface,		// spline geometry supporting face
+	FACE*& face_from_surface,       // output FACE created from surface
+	curve const* lv = nullptr,		// low v curve
+	curve const* hv = nullptr,		// high v curve
+	curve const* lu = nullptr,		// low u curve
+	curve const* hu = nullptr,		// high u curve
+	SPApar_box const* pb = nullptr,  // uv bound to use
+	AcisOptions* ao = nullptr
+);
 
 /** @} */
 
@@ -5706,7 +5662,7 @@ DECL_KERN FACE* make_face_spline(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param col
+ * @param col
  * collection to be examined.
  * @param list
  * returned entities in the collection.
@@ -5731,7 +5687,7 @@ DECL_KERN outcome api_return_collection_ents(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent
+ * @param ent
  * entity of interest.
  * @param list
  * returned collections containing the entity.
@@ -5758,7 +5714,7 @@ DECL_KERN outcome api_return_collections(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent_list
+ * @param ent_list
  * entities to be added.
  * @param col
  * collection containing entities.
@@ -5786,7 +5742,7 @@ DECL_KERN outcome api_add_to_collection(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ent_list
+ * @param ent_list
  * entities to be removed.
  * @param col
  * collection containing entities.
@@ -5815,7 +5771,7 @@ DECL_KERN outcome api_remove_from_collection(
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param col
+ * @param col
  * collection containing entities
  * @param ao
  * ACIS options
@@ -5854,7 +5810,7 @@ DECL_KERN outcome api_delete_collection_entities( SPACOLLECTION *col, AcisOption
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param to_be_replaced
+ * @param to_be_replaced
  * surface whose geometry it to be replaced
  * @param existing
  * surface whose geometry is to be the replacement
@@ -5885,7 +5841,7 @@ DECL_KERN outcome api_share_geometry(surface* to_be_replaced, surface* existing,
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param to_be_replaced
+ * @param to_be_replaced
  * curve whose geometry it to be replaced
  * @param existing
  * curve whose geometry is to be the replacement
@@ -5910,7 +5866,7 @@ DECL_KERN outcome api_share_geometry(curve* to_be_replaced, curve* existing, Aci
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param ao
+ * @param ao
  * ACIS options
  **/
 DECL_KERN outcome api_clear_geometry_sharing_info(AcisOptions* ao = NULL);
@@ -5932,7 +5888,6 @@ DECL_KERN outcome api_get_entity_from_spaentity_id(
 	ENTITY*         &returned_ent,
 	AcisOptions* ao = NULL
 );
-
 
 /** @} */
 

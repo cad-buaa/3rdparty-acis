@@ -27,16 +27,21 @@ class SPAtransf;
  * Gets the top level owner of an entity.
  */
 DECL_KERN ENTITY* get_owner( ENTITY* );
+
 /**
- * @nodoc
- * Get a copy of the SPAtransf from the owner of an ENTITY.
+ * Get a copy of the transform from the owner of the given <tt>ENTITY</tt>.
+ * @param entity
+ * Given entity
  */
-DECL_KERN SPAtransf get_owner_transf( const ENTITY* );
+DECL_KERN SPAtransf get_owner_transf( const ENTITY* entity );
+
 /**
- * @nodoc
- * Gets the pointer to the SPAtransf from the owner of an ENTITY.
+ * Gets the transform pointer from the owner of the given <tt>ENTITY</tt>.
+ * @param entity
+ * Given entity
  */
-DECL_KERN SPAtransf const *get_owner_transf_ptr( const ENTITY* );
+DECL_KERN SPAtransf const* get_owner_transf_ptr( const ENTITY* entity );
+
 /**
 * Determines if an <tt>ENTITY</tt> is top level. This means there is no owner
 * for this <tt>ENTITY</tt>.

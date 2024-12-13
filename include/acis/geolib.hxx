@@ -16,6 +16,7 @@
 #include "vector.hxx"
 #include "position.hxx"
 #include "logical.h"
+#include "spa_null_base.hxx"
 
 class FACE;
 class LOOP;
@@ -34,7 +35,7 @@ DECL_KERN logical segment_hit_triangle( SPAposition const &a,
 									    SPAposition const &seg_end,
 									    SPAposition &hit,
 									    double   &param,
-                                        logical  &coincident = *(logical *)NULL_REF);
+                                        logical  &coincident = SpaAcis::NullObj::get_logical());
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -52,7 +53,7 @@ DECL_KERN logical ray_hit_triangle( SPAposition const &a,
 									SPAvector   const &ray_dir,
 									SPAposition &hit,
 									double   &param,
-                                    logical  &coincident = *(logical *)NULL_REF);
+                                    logical  &coincident = SpaAcis::NullObj::get_logical());
 
 DECL_KERN logical plane_ray_intersect( SPAposition const &plane_root,
 									   SPAvector   const &plane_norm,

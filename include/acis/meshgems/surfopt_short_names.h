@@ -30,5 +30,6 @@
 #define surfopt_set_surface_mesh meshgems_surfopt_set_surface_mesh
 #define surfopt_write_extra_data meshgems_surfopt_write_extra_data
 #define surfopt_session_t meshgems_surfopt_session_t
+#define surfopt_unlock_product meshgems_surfopt_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_SURFOPT_SHORT_NAMES__ */

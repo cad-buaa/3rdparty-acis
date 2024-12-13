@@ -388,7 +388,7 @@ public:
         (
         logical        &oSmoothDone,
         const double   iSmoothAngle,
-        double &oTol = *(double *)NULL_REF
+        double &oTol = SpaAcis::NullObj::get_double()
         );
 
     /*

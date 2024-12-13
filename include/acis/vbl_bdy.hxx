@@ -234,8 +234,12 @@ protected:
 
 public:
 
-    BDY_GEOM( logical = FALSE, double = 0, logical = 1, logical = 1,
-	     const SPAunit_vector& = *(const class SPAunit_vector*)NULL_REF );
+    BDY_GEOM( logical = FALSE, 
+              double = 0, 
+              logical = 1, 
+              logical = 1,
+	          const SPAunit_vector& = SpaAcis::NullObj::get_unit_vector());
+
     BDY_GEOM( const BDY_GEOM& );
     virtual ~BDY_GEOM();
 
@@ -366,11 +370,15 @@ public:
     void		Dt_field( BDY_GEOM&, SPAvector&, SPAvector* = NULL,
 				 SPAvector* = NULL );
 
-    void		Ds( BDY_GEOM&, SPAvector&, SPAvector& = *(SPAvector*)NULL_REF,
-			   SPAvector& = *(SPAvector*)NULL_REF );
+    void		Ds( BDY_GEOM&, 
+                    SPAvector&, 
+                    SPAvector& = SpaAcis::NullObj::get_vector(), 
+                    SPAvector& = SpaAcis::NullObj::get_vector() );
 
-    void		Dt( BDY_GEOM&, SPAvector&, SPAvector& = *(SPAvector*)NULL_REF,
-			   SPAvector& = *(SPAvector*)NULL_REF );
+    void		Dt( BDY_GEOM&, 
+                    SPAvector&, 
+                    SPAvector& = SpaAcis::NullObj::get_vector(), 
+                    SPAvector& = SpaAcis::NullObj::get_vector() );
 
     // Return the 'fullness'.
 

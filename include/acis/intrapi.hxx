@@ -36,7 +36,8 @@
 #include "acis.hxx"
 #include "box_opts.hxx"
 #include "sil_opts.hxx"
-
+#include "spa_null_base.hxx"
+#include "spa_null_intr.hxx"
 /**
  * \defgroup INTRMAIN Intersectors
  *      \brief Details of Intersector functionality, supporting classes and enums
@@ -216,7 +217,7 @@ DECL_INTR outcome api_point_in_face(
                                                         // point_outside_face, point_boundary_face,
                                                         // and  point_unkown_face)
             SPApar_pos const        &test_uv_guess =    // spline face case, guess of uv-coordinates of the testpoint
-                 *(SPApar_pos *)NULL_REF,
+                SpaAcis::NullObj::get_par_pos(),
             logical                 use_cache   = FALSE,// use cached entries
             int                     cache_size  = 10,   // use cached entries
             AcisOptions             *ao         = NULL  // options such as journaling and versioning
@@ -240,8 +241,8 @@ DECL_INTR outcome api_point_in_face(
  * If a previous position is specified, a containment description must be provided
  * (<tt>point_inside_face</tt>, <tt>point_outside_face</tt>, <tt>point_boundary_face</tt> or
  * <tt>point_unkown_face</tt>). This position can help find the position containment on the
- * face at a faster rate. It is recomended to use a position that was previously
- * found using this function. If the previous position passed in is a <tt>NULL</tt> <tt>REF</tt> it
+ * face at a faster rate. It is recommended to use a position that was previously
+ * found using this function. If the previous position passed in is <tt>SpaAcis::NullObj::get_position()</tt> it
  * will call the other <tt>api_point_in_face</tt> function.
  * <br><br>
  * If <tt>api_point_in_face</tt> is called often on the same face, then setting <tt>use_cache</tt> to
@@ -1844,7 +1845,7 @@ DECL_INTR outcome api_entity_extrema(
             int         nvec,
             SPAvector   *in_vec,
             SPAposition &on_pos,
-            param_info  &info = *(param_info *) NULL_REF,
+            param_info  &info = SpaAcis::NullObj::get_param_info(),
             AcisOptions *ao = NULL);
 
 /**
@@ -1883,7 +1884,7 @@ DECL_INTR outcome api_entity_extrema(
             int         nvec,
             SPAvector   *in_vec,
             SPAposition &max_pos,
-            param_info  &out_info = *(param_info *) NULL_REF,
+            param_info  &out_info = SpaAcis::NullObj::get_param_info(),
             AcisOptions *ao = NULL);
 
 
@@ -1945,7 +1946,7 @@ DECL_INTR outcome api_entity_extrema(
  * @param draft
  * draft angle from face, may be zero.
  * @param uniform_vec
- * reference vector to use (may be NULL_REF).
+ * reference vector to use (may be NULL object).
  * @param cons_eds
  * constraint edges to setup coedge field.
  * @param global
@@ -2018,7 +2019,7 @@ DECL_INTR outcome api_create_boundary_field(
  * @param draft
  * draft angle from the face (may be 0).
  * @param uniform_vec
- * reference vector to use (may be NULL_REF).
+ * reference vector to use (may be NULL object).
  * @param cons_eds
  * constraint edges to setup coedge field.
  * @param global
@@ -2094,7 +2095,7 @@ DECL_INTR outcome api_create_boundary_field(
  * @param draft
  * draft angle from face, may be zero.
  * @param uniform_vec
- * reference vector to use (may be NULL_REF).
+ * reference vector to use (may be NULL object).
  * @param cons_eds
  * constraint edges to setup coedge field.
  * @param global

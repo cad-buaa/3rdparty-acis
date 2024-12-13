@@ -14,7 +14,10 @@
 #include "dcl_law.h"
 #include "logical.h"
 #include "option.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_law.hxx"
 #include <float.h>
+
 /**
  * @file law_base.hxx
  * @CAA2Level L1
@@ -700,7 +703,11 @@ public:
  * @param guess
  * best guess (optional).
  */
-	double eval(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+	double eval(
+		double x, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates this law at an array of real inputs and returns a real result.
  * <br><br>
@@ -720,6 +727,7 @@ public:
  * best guess (optional).
  */
 	double evaluateM_R(const double* x, const int* side = NULL, const double* guess = NULL) const;
+
 /**
  * Evaluates the <i>n</i>th derivative of this law at a real input and returns a real result.
  * <br><br>
@@ -740,7 +748,12 @@ public:
  * @param guess
  * best guess (optional).
  */
-	double evaluateDR_R(double x, int n, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+	double evaluateDR_R(
+		double x, 
+		int n, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates the <i>n</i>th derivative of this law at an array of real inputs and returns a real result.
  * <br><br>
@@ -762,6 +775,7 @@ public:
  * best guess (optional).
  */
 	double evaluateDM_R(const double* x, int n, const int* side = NULL, const double* guess = NULL) const;
+
 /**
  * Evaluates this law at a complex-number input and returns a real result.
  * <br><br>
@@ -781,6 +795,7 @@ public:
  * best guess (optional).
  */
 	double evaluateC_R(complex_number c, const int* side = NULL, const double* guess = NULL) const;
+
 /**
  * Evaluates this law at an input of type <tt>SPAnvector</tt> and returns a real result.
  * <br><br>
@@ -800,6 +815,7 @@ public:
  * best guess (optional).
  */
 	double evaluateNV_R(const SPAnvector& nv, const int* side = NULL, const double* guess = NULL) const;
+
 /**
  * Evaluates this law at a real input and returns an <tt>SPAvector</tt> result.
  * <br><br>
@@ -818,7 +834,11 @@ public:
  * @param guess
  * best guess (optional).
  */
-	SPAvector evaluateR_V(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+	SPAvector evaluateR_V(
+		double x, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates this law at a real input and returns an <tt>SPAunit_vector</tt> result.
  * <br><br>
@@ -837,7 +857,11 @@ public:
  * @param guess
  * best guess (optional).
  */
-    SPAunit_vector evaluateR_UV(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+    SPAunit_vector evaluateR_UV(
+		double x, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates the <i>n</i>th derivative of this law at a real input and returns an <tt>SPAvector</tt> result.
  * <br><br>
@@ -858,7 +882,12 @@ public:
  * @param guess
  * best guess (optional).
  */
-	SPAvector evaluateDR_V(double x, int n, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+	SPAvector evaluateDR_V(
+		double x, 
+		int n, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates this law at an array of real inputs and returns an <tt>SPAvector</tt> result.
  * <br><br>
@@ -989,7 +1018,11 @@ public:
  * @param guess
  * best guess (optional).
  */
-	SPAposition evaluateR_P(double x, const int& side = *(int*)NULL_REF, const double& guess = *(double*)NULL_REF) const;
+	SPAposition evaluateR_P(
+		double x, 
+		const int& side = SpaAcis::NullObj::get_int(),
+		const double& guess = SpaAcis::NullObj::get_double() ) const;
+
 /**
  * Evaluates this law at an SPApar_pos input and returns an <tt>SPAposition</tt> result.
  * <br><br>
@@ -1153,7 +1186,7 @@ public:
  * @param inlaw
  * law to compare this to.
  */
-	logical operator==(law& inlaw) const;
+	bool operator==(law& inlaw) const;
 /**
  * Determines whether or not this law is not equivalent to the input law.
  * <br><br>
@@ -1163,7 +1196,7 @@ public:
  * @param inlaw
  * law to compare this to.
  */
-	logical operator!=(law& inlaw) const;
+	bool operator!=(law& inlaw) const;
 /**
  * Determines whether or not two specified laws are the same.
  * <br><br>
@@ -1226,8 +1259,8 @@ public:
  */
 	virtual char* string(
             law_symbol_type type    = DEFAULT,
-            int&            count   = *(int*) NULL_REF,
-            law_data_node*& ldn     = *(law_data_node**) NULL_REF) const;
+            int&            count   = SpaAcis::NullObj::get_int(),
+            law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const;
 /**
  * Returns a string representing this law and its data.
  * <br><br>
@@ -1351,19 +1384,23 @@ public:
 /**
  * Specifies where in this law there might be discontinuities.
  * <br><br>
- * <b>Role:</b> The array <tt>where</tt> notes where the discontinuity occurs. The <tt>type</tt>
- * indicates 0 if there is a discontinuity, 1 if the discontinuity in the 1st
- * derivative, and any integer <i>n</i> if the discontinuity is in the <i>n</i>th derivative.
- * The value -1 means that the type is not defined.
+ * <b>Role:</b> The array <tt>where</tt> notes where the discontinuity occurs. The array <tt>type</tt>
+ * specifies the order of the derivative of the law in which the discontinuity exists.  For instance,
+ * 0 indicates there is a discontinuity in the law itself, 1 indicates the discontinuity is in the 1st
+ * derivative, and any integer <i>n</i> indicates the discontinuity is in the <i>n</i>th derivative.
+ * The value -1 means that the type is not defined. This function returns the number of discontinuities.
+ * <br><br>
+ * The arguments <tt>start</tt> and <tt>end</tt> limit the domain of the discontinuities returned.
+ * Discontinuities before <tt>start</tt> or after <tt>end</tt> are not returned.
  * <br><br>
  * @param where
  * where discontinuities exist.
  * @param type
  * discontinuity types.
  * @param start
- * start.
+ * start parameter value. 
  * @param end
- * end.
+ * end parameter value.
  * @param period
  * period.
  */
@@ -1437,7 +1474,7 @@ public:
  * @param what
  * text string that describes the simplified law.
  */
-	virtual law* sub_simplify(int level = 0, const char*& what = *(const char**)NULL_REF) const;
+	virtual law* sub_simplify(int level = 0, const char*& what = SpaAcis::NullObj::get_const_char_ptr()) const;
 /**
  * Returns a law that is a mathematical simplification of this law.
  * <br><br>

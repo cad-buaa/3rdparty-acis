@@ -20,14 +20,26 @@
 #include "getowner.hxx"
 #include "history.hxx"
 #include "kernapi.hxx"
-#include "mutex.hxx"
+#include "generic_progress_info.hxx"
 #include "thmgr.hxx"
-
-// TODO: Add doc comments
+#include <memory>
+#include <unordered_map>
 
 /**
  * @file process_mt.hxx
  */
+
+/**
+* @nodoc. Internal use only.
+**/
+class DECL_KERN process_mt_progress_info : public generic_progress_info {
+	std::unordered_map<SPA_progress_info_type_id, SPA_progress_callback> active_progress_callbacks;
+public:
+	process_mt_progress_info();
+
+	void disable_active_progress_callbacks(SPA_progress_info_type_id progress_info_type);
+	void enable_progress_callbacks();
+};
 
 /**
 * The struct <tt>work_packet</tt> serves as a base class for user-defined
@@ -84,11 +96,6 @@ struct DECL_KERN work_packet : public ACIS_OBJECT
 
 
 /**
-* @nodoc Internal use
-**/
-static mutex_resource mutex_for_work_packet_queue;
-
-/**
 * The class <tt>work_packet_queue</tt> provides a high-level producer-consumer work queue
 * for user-defined and application-specific work packets.
 * <br>
@@ -143,6 +150,11 @@ public:
 	 */
 	void wait_for_work_to_complete(void);
 
+	/**
+	 * Internal list of work packets used by the queue
+	 */ 
+	const std::vector<work_packet*>& work_packet_list(void) const;
+	
 public:
 	/**
 	 * @nodoc The destructor must be public, because class work_packet_queue is 
@@ -150,11 +162,27 @@ public:
 	 */
 	~work_packet_queue();
 
+	/**
+	 * @nodoc
+	 */
+	void initialize_progress_info(size_t num_work_packets);
+	/**
+	 * @nodoc
+	 */
+	void terminate_progress_info();
+	
 private:
 	/**
 	 * @nodoc
 	 */
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4251)
+#endif
 	std::vector<work_packet*> wps;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 	/**
 	 * @nodoc
@@ -169,6 +197,16 @@ private:
 	/**
 	 * @nodoc
 	 */
+	std::unique_ptr<process_mt_progress_info> progress_info;
+
+	/**
+	 * @nodoc
+	 */
+	void set_progress_increment_val(double val);
+
+	/**
+	 * @nodoc
+	 */
 	void initialize_thread_management(const int num_threads_to_create, thread_method init_method, thread_method term_method);
 
 	/**
@@ -179,7 +217,7 @@ private:
 	/**
 	 * @nodoc
 	 */
-	void process(void* arg) noexcept final override;
+	void process(void* arg) final override;
 };
 
 
@@ -208,19 +246,23 @@ private:
  * Called by worker threads after exiting work queue
 **/
 template <typename T>
-outcome api_process_mt(std::vector<T>& work_packet_list, const int num_threads_to_create = 0, thread_method init_method = nullptr, thread_method term_method = nullptr) noexcept {
+outcome api_process_mt(std::vector<T>& work_packet_list, const int num_threads_to_create = 0, thread_method init_method = nullptr, thread_method term_method = nullptr) {
 	API_BEGIN;
 
 	try
 	{
 		work_packet_queue wpq(work_packet_list.size(), num_threads_to_create, init_method, term_method);
+		wpq.initialize_progress_info(work_packet_list.size());
+
 		for (T& twp : work_packet_list)
 			wpq.add_and_process_work_packet(&twp);
 		wpq.wait_for_work_to_complete();
+
+		wpq.terminate_progress_info();
 	}
-	catch (acis_exception& ex)
+	catch (acis_exception&)
 	{
-		throw(ex);
+		throw;
 	}
 	catch (...)
 	{
@@ -259,6 +301,6 @@ outcome api_process_mt(std::vector<T>& work_packet_list, const int num_threads_t
  * @param term_method
  * Called by worker threads after exiting work queue
 **/
-DECL_KERN outcome api_process_mt(work_packet** work_packet_list, const int num_work_packets, const int num_threads_to_create = 0, thread_method init_method = nullptr, thread_method term_method = nullptr) noexcept;
+DECL_KERN outcome api_process_mt(work_packet** work_packet_list, const int num_work_packets, const int num_threads_to_create = 0, thread_method init_method = nullptr, thread_method term_method = nullptr);
 
 #endif

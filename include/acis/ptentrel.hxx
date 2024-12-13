@@ -13,9 +13,8 @@
 #define POINT_ENTITY_REL_CLASS
 
 #include "dcl_query.h"
-// ywoo 08Jan01: added the header file.
 #include "base.hxx"
-// ywoo: end
+#include "transf.hxx"
 
 /**
 * @file ptentrel.hxx
@@ -61,30 +60,29 @@ class DECL_QUERY point_entity_rel : public ACIS_OBJECT {
 
 private:
 
-	point_entity_rel		*next_ptr;		// Next pointer used to represent
-											// relation between a point and a
-											// list of entities.
+	point_entity_rel *next_ptr;	// Next pointer used to represent
+								// relation between a point and a
+								// list of entities.
 
-	APOINT					*point_ptr;		// Current Edge
-	ENTITY					*entity_ptr;	// Current Entity
+	APOINT *point_ptr;	// Current Edge
+	ENTITY *entity_ptr;	// Current Entity
 
 public:
+
 /**
  * Indicates that there is no possible relation between the given point and the given entity.
  */
-	logical					no_relation;	// variable which indicates
-											// there is no possible relation
-											// between the given point and the
-											// given entity.
+	logical	no_relation; // variable which indicates
+						 // there is no possible relation
+						 // between the given point and the
+						 // given entity.
 
 /**
  * Determines the relation type from the union of the point and the entity.
  * See @href sg_point_ent_relation for more details.
  */
-	sg_point_ent_relation	rel_type;		// Relation type, from the union
+	sg_point_ent_relation rel_type;
 
-
-// Constructor
 /**
  * C++ constructor, creating a <tt>point_entity_rel</tt> using the specified parameters.
  * <br><br>
@@ -100,27 +98,27 @@ public:
  * @param ent_trans
  * transform.
  */
-	point_entity_rel( 	APOINT *ap,
-						ENTITY *ent,
-						point_entity_rel  *next = NULL,
-						SPAtransf &ent_trans = *(class SPAtransf *)NULL_REF
-			);
+	point_entity_rel(
+		APOINT* ap,
+		ENTITY* ent,
+		point_entity_rel* next = NULL,
+		const SPAtransf& ent_trans = SPAtransf() );
 
-// Enquiry
 /**
  * Determines the <tt>APOINT</tt> in the point-entity relationship.
  */
-	APOINT	*point()	{ return point_ptr; }
+	APOINT *point()	{ return point_ptr; }
+
 /**
  * Determines the <tt>ENTITY</tt> in the point-entity relationship.
  */
-	ENTITY	*entity() { return entity_ptr; }
+	ENTITY *entity() { return entity_ptr; }
+
 /**
  * Determines the next point-entity relationship.
  */
 	point_entity_rel *next() { return next_ptr; }
 
-// Usefull set function
 /**
  * Sets the next point-entity relationship.
  * <br><br>
@@ -132,7 +130,6 @@ public:
  */
 	void set_next( point_entity_rel *next ) { next_ptr =  next; }
 
-// Debug function
 /**
  * Writes the debug output for a point-entity relationship to standard output or to the specified file.
  * <br><br>
@@ -143,14 +140,12 @@ public:
  */
 	void debug( FILE *fp, char *head = NULL );
 
-// Lose function, destructor
 /**
  * Posts a delete bulletin to the bulletin board indicating the instance is no longer used in the active model.
  * <br><br>
  * <b>Role:</b> The lose methods for attached attributes are also called.
  */
 	void lose();
-
 };
 
 /** @} */

@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_MESHGEMS_SHORT_NAMES__
 #define __MESHGEMS_MESHGEMS_SHORT_NAMES__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * Short names. Allow the caller to omit the meshgems_ prefix.
  */
@@ -94,6 +99,8 @@
 #define cad_face_clone meshgems_cad_face_clone
 #define cad_face_clone_points meshgems_cad_face_clone_points
 #define cad_face_delete meshgems_cad_face_delete
+#define cad_face_discrete_get_geometry_mapping meshgems_cad_face_discrete_get_geometry_mapping
+#define cad_face_discrete_set_geometry_mapping meshgems_cad_face_discrete_set_geometry_mapping
 #define cad_face_geometry_is_imposed meshgems_cad_face_geometry_is_imposed
 #define cad_face_get_cad meshgems_cad_face_get_cad
 #define cad_face_get_discrete_definition meshgems_cad_face_get_discrete_definition
@@ -112,10 +119,12 @@
 #define cad_face_get_surface_parametric_range meshgems_cad_face_get_surface_parametric_range
 #define cad_face_get_surface_periodicity meshgems_cad_face_get_surface_periodicity
 #define cad_face_get_tag meshgems_cad_face_get_tag
+#define cad_face_get_tessellator meshgems_cad_face_get_tessellator
 #define cad_face_get_uid meshgems_cad_face_get_uid
 #define cad_face_has_discrete_definition meshgems_cad_face_has_discrete_definition
 #define cad_face_has_surface_parametric_range meshgems_cad_face_has_surface_parametric_range
 #define cad_face_has_surface_periodicity meshgems_cad_face_has_surface_periodicity
+#define cad_face_has_tessellator meshgems_cad_face_has_tessellator
 #define cad_face_impose_discrete_geometry meshgems_cad_face_impose_discrete_geometry
 #define cad_face_new meshgems_cad_face_new
 #define cad_face_new_copy meshgems_cad_face_new_copy
@@ -135,8 +144,10 @@
 #define cad_face_set_surface_parametric_range meshgems_cad_face_set_surface_parametric_range
 #define cad_face_set_surface_periodicity meshgems_cad_face_set_surface_periodicity
 #define cad_face_set_tag meshgems_cad_face_set_tag
+#define cad_face_set_tessellator meshgems_cad_face_set_tessellator
 #define cad_face_set_uid meshgems_cad_face_set_uid
 #define cad_face_surface meshgems_cad_face_surface
+#define cad_face_tessellator_t meshgems_cad_face_tessellator_t
 #define cad_face_unset_property meshgems_cad_face_unset_property
 #define cad_free_generic_buffer meshgems_cad_free_generic_buffer
 #define cad_get_composite_tag_definition meshgems_cad_get_composite_tag_definition
@@ -593,6 +604,7 @@
 #define mesh_new_extract_surface_mesh meshgems_mesh_new_extract_surface_mesh
 #define mesh_new_in_memory meshgems_mesh_new_in_memory
 #define mesh_new_in_memory_copy meshgems_mesh_new_in_memory_copy
+#define mesh_new_in_memory_independent_copy meshgems_mesh_new_in_memory_independent_copy
 #define mesh_new_read_bdf meshgems_mesh_new_read_bdf
 #define mesh_new_read_mesh meshgems_mesh_new_read_mesh
 #define mesh_new_read_mesh_extended meshgems_mesh_new_read_mesh_extended
@@ -1050,6 +1062,7 @@
 #define CAD_ORIENTATION_REVERSED MESHGEMS_CAD_ORIENTATION_REVERSED
 #define FACE_PROPERTY_PLANAR_SURFACE MESHGEMS_FACE_PROPERTY_PLANAR_SURFACE
 #define FACE_PROPERTY_SLIVER MESHGEMS_FACE_PROPERTY_SLIVER
+#define FACE_PROPERTY_VOLUMIC_BL_SEED MESHGEMS_FACE_PROPERTY_VOLUMIC_BL_SEED
 #define CODE_BASE MESHGEMS_CODE_BASE
 #define CODE_TETRA_BASE MESHGEMS_CODE_TETRA_BASE
 #define CODE_POINTCAD_BASE MESHGEMS_CODE_POINTCAD_BASE

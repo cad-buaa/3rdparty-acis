@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_ELEMENT_GENERATION_MAP_H__
 #define __MESHGEMS_ELEMENT_GENERATION_MAP_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/mdecl.h>
 #include <meshgems/basic_types.h>
 #include <meshgems/mesh.h>

@@ -211,7 +211,7 @@ private:
 	// in the clockwise sense (ie. going clockwise as you look on it
 	// with the edge direction there pointing up towards you).
 
-	logical _edge_stat_cw;
+	int _edge_stat_cw;
 
 	// The curve underlying the edge, corrected to have the same sense
 	// as the edge.

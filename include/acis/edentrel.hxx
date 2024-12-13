@@ -9,14 +9,13 @@
 /*    Protected by Hong Kong Patent 1008101A                       */
 /*******************************************************************/
 
-#if !defined( EDGE_ENTITY_REL_CLASS )
+#ifndef EDGE_ENTITY_REL_CLASS
 #define EDGE_ENTITY_REL_CLASS
 
 #include "dcl_query.h"
-// ywoo 08Jan01: added the header file.
 #include "base.hxx"
 #include "sgquertn.hxx"
-// ywoo: end
+
 
 /**
 * @file edentrel.hxx
@@ -29,7 +28,6 @@
  *  @{
  */
 
-// dummy class declarations to satify the compiler temporarily.
 class EDGE;
 class ENTITY;
 class curve_curve_int;
@@ -37,11 +35,10 @@ class curve_surf_int;
 class EDGE_EDGE_INT;
 class EDGE_FACE_INT;
 class EDGE_BODY_INT;
-
 class SPAtransf;
 
 
-// various enumerations to portray the relation between the given
+// Various enumerations to portray the relation between the given
 // edge and the given entity
 
 
@@ -106,139 +103,135 @@ sg_edge_body_relation {
  */
 union
 sg_edge_ent_rel_union {
+	
 	/**
-	* Relation between an edge and a point.
-	*/
-	sg_edge_point_relation	edge_point_var;
+	 * Relation between an edge and a point.
+	 */
+	sg_edge_point_relation edge_point_var;
 
 	/**
-	* Relation between two edges.
-	*/
-	sg_edge_edge_relation	edge_edge_var;
+	 * Relation between two edges.
+	 */
+	sg_edge_edge_relation edge_edge_var;
 
 	/**
-	* Relation between an edge and a face.
-	*/
-	sg_edge_face_relation	edge_face_var;
+	 * Relation between an edge and a face.
+	 */
+	sg_edge_face_relation edge_face_var;
 
 	/**
-	* Relation between an edge and a body.
-	*/
-	sg_edge_body_relation	edge_body_var;
+	 * Relation between an edge and a body.
+	 */
+	sg_edge_body_relation edge_body_var;
 };
 
 /**
  * Represents the relationship between an EDGE and an ENTITY.
  * <br>
- * <b>Role:</b> This class represents the relationship between an edge and an
- * entity. The entity must be of the type <tt>BODY</tt>, <tt>FACE</tt>, <tt>EDGE</tt>, or <tt>POINT</tt> only.
+ * <b>Role:</b> This class represents the relationship between an edge and
+ * an entity. The entity must be of the type <tt>BODY</tt>, <tt>FACE</tt>,
+ * <tt>EDGE</tt>, or <tt>POINT</tt> only.
  * @see EDGE, ENTITY, curve_curve_int, curve_surf_int
  */
 class DECL_QUERY edge_entity_rel : public ACIS_OBJECT {
 
 private:
 
-	edge_entity_rel		*next_ptr;		// Next pointer used to represent
-											// relation between a edge and a
-											// list of entities.
+	edge_entity_rel	*next_ptr;		// Next pointer used to represent
+									// relation between a edge and a
+									// list of entities.
 
-	EDGE					*edge_ptr;		// Current Edge
-	ENTITY					*entity_ptr;	// Current Entity
+	EDGE *edge_ptr;		            // Current Edge
+	ENTITY *entity_ptr;	            // Current Entity
 
-	//STI let: add four private methods to help the constructor
+	// STI let: add four private methods to help the constructor
 	// Determine the edge-body, edge-face, edge-edge, & edge-point relations
-	void edge_b_rel( EDGE *, const SPAtransf &, const SPAtransf &);
-	void edge_f_rel( EDGE *, const SPAtransf &, const SPAtransf &);
-	void edge_e_rel( EDGE *, const SPAtransf &, const SPAtransf &);
-	void edge_p_rel( EDGE *, const SPAtransf &, const SPAtransf &);
-	//STI let: end
-
+	void edge_b_rel( EDGE*, const SPAtransf&, const SPAtransf& );
+	void edge_f_rel( EDGE*, const SPAtransf&, const SPAtransf& );
+	void edge_e_rel( EDGE*, const SPAtransf&, const SPAtransf& );
+	void edge_p_rel( EDGE*, const SPAtransf&, const SPAtransf& );
 
 public:
-/**
- * The variable that indicates that there is no possible relation between the given edge and the given entity.
- */
-	logical					no_relation;	// variable which indicates
-											// there is no possible relation
-											// between the given edge and the
-											// given entity.
-/**
- * The relationship type, which is determined from the union.
- */
-	sg_edge_ent_rel_union	rel_type;		// Relation type, from the union
 
+	/**
+	 * The variable that indicates that there is no possible relation
+	 * between the given edge and the given entity.
+	 */
+	logical	no_relation;	
+											
+	/**
+	 * The relationship type, which is determined from the union.
+	 */
+	sg_edge_ent_rel_union rel_type;
 
-	// More appropriate information
-/**
- * The edge-edge intersection data.
- */
-	EDGE_EDGE_INT			*edrel_data;	// edge-edge intersection data
-/**
- * The edge-face intersection data.
- */
-	EDGE_FACE_INT			*efrel_data;	// edge-face intersection data
-/**
- * The edge-body intersection data.
- */
-	EDGE_BODY_INT			*ebrel_data;	// edge-body intersection data
+	/**
+	 * The edge-edge intersection data.
+	 */
+	EDGE_EDGE_INT *edrel_data;
 
+	/**
+	 * The edge-face intersection data.
+	 */
+	EDGE_FACE_INT *efrel_data;
 
-	// This information is rather obsolete,  This is still calculated
-	// shall be removed in future releases.
-/**
- * The curve-curve intersection data.
- */
-	curve_curve_int			*ccrel_data;	// Curve curve intersection data.
-/**
- * The curve-surface intersection data.
- */
-	curve_surf_int			*csrel_data;	// Curve surface intersection data.
+	/**
+	 * The edge-body intersection data.
+	 */
+	EDGE_BODY_INT *ebrel_data;
 
+	// This information is rather obsolete, it is still calculated
+	// but shall be removed in future releases.
 
+   /**
+    * The curve-curve intersection data.
+    */
+	curve_curve_int	*ccrel_data;
 
-	// Constructors
+	/**
+	 * The curve-surface intersection data.
+	 */
+	curve_surf_int *csrel_data;	
 
-	// Default constructor
+	/**
+	 * C++ allocation constructor requests memory for this object but does not populate it.
+	 */
+	edge_entity_rel() 
+	{
+		edge_ptr = NULL;
+		entity_ptr = NULL;
+		no_relation = TRUE;
+		ccrel_data = NULL;
+		csrel_data = NULL;
+		edrel_data = NULL;
+		efrel_data = NULL;
+		ebrel_data = NULL;
+		next_ptr = NULL;
+	}
 
-/**
- * C++ allocation constructor requests memory for this object but does not populate it.
- */
-	edge_entity_rel() {
-			edge_ptr = NULL;
-			entity_ptr = NULL;
-			no_relation = TRUE;
-			ccrel_data = NULL;
-			csrel_data = NULL;
-			edrel_data = NULL;
-			efrel_data = NULL;
-			ebrel_data = NULL;
-			next_ptr = NULL;
-		}
-
-/**
- * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
- * <br><br>
- * @param ed
- * edge.
- * @param ent
- * entity.
- * @param next
- * next pointer.
- * @param edge_trans
- * edge transform.
- * @param ent_trans
- * entity transform.
- * @param process_later
- * process relation later. It is recommended to set it TRUE and process the relation using process()
- * instead of processing it in constructor.
- */
-	edge_entity_rel( 	EDGE * ed,
-						ENTITY * ent,
-						edge_entity_rel  *next = NULL,
-						const SPAtransf &edge_trans = *(const class SPAtransf *)NULL_REF,
-						const SPAtransf &ent_trans = *(const class SPAtransf *)NULL_REF,
-						logical process_later = FALSE
-			);
+	/**
+	 * C++ initialize constructor requests memory for this object and populates it with the data supplied as arguments.
+	 * <br><br>
+	 * @param ed
+	 * edge.
+	 * @param ent
+	 * entity.
+	 * @param next
+	 * next pointer.
+	 * @param edge_trans
+	 * edge transform.
+	 * @param ent_trans
+	 * entity transform.
+	 * @param process_later
+	 * process relation later. It is recommended to set it TRUE and process the relation using process()
+	 * instead of processing it in constructor.
+	 */
+	edge_entity_rel( 	
+		EDGE* ed,
+		ENTITY* ent,
+		edge_entity_rel* next = NULL,
+		const SPAtransf& edge_trans = SPAtransf(),
+		const SPAtransf& ent_trans = SPAtransf(),
+		logical process_later = FALSE );
 
 	/**
 	* Determines the relation between the given edge and the given entity.
@@ -252,72 +245,67 @@ public:
 	* @param ent_trans
 	* entity transform.
 	*/
-	void process(const SPAtransf &edge_trans = *(const class SPAtransf *)NULL_REF,
-		const SPAtransf &ent_trans = *(const class SPAtransf *)NULL_REF
-	);
+	void process(
+		const SPAtransf &edge_trans = SPAtransf(),
+		const SPAtransf &ent_trans = SPAtransf() );
 	
+	/**
+	 * Returns the edge in the edge-entity relationship.
+	 */
+	EDGE *edge() { return edge_ptr; }
 
-	// Enquiry functions.
-/**
- * Returns the edge in the edge-entity relationship.
- */
-	EDGE	*edge()	{ return edge_ptr; }
-/**
- * Returns the entity in the edge-entity relationship.
- */
-	ENTITY	*entity() { return entity_ptr; }
+	/**
+     * Returns the entity in the edge-entity relationship.
+     */
+	ENTITY *entity() { return entity_ptr; }
 
-/**
- * Returns the next pointer in the edge-entity relationship.
- */
+	/**
+	 * Returns the next pointer in the edge-entity relationship.
+	 */
 	edge_entity_rel *next() { return next_ptr; }
 
-
-	// Usefull set functions
-/**
- * Sets the next pointer in the edge-entity relationship.
- * <br><br>
- * @param next
- * next pointer.
- */
+	/**
+	 * Sets the next pointer in the edge-entity relationship.
+	 * <br><br>
+	 * @param next
+	 * next pointer.
+	 */
 	void set_next( edge_entity_rel *next ) { next_ptr =  next; }
-/**
- * Sets the edge in the edge-entity relationship.
- * <br><br>
- * @param edge
- * edge.
- */
-	void set_edge( EDGE *edge ) { edge_ptr = edge ; }
-/**
- * Sets the entity in the edge-entity relationship.
- * <br><br>
- * @param ent
- * entity.
- */
+
+	/**
+	 * Sets the edge in the edge-entity relationship.
+	 * <br><br>
+	 * @param edge
+	 * edge.
+	 */
+	void set_edge( EDGE *edge ) { edge_ptr = edge; }
+
+	/**
+     * Sets the entity in the edge-entity relationship.
+     * <br><br>
+     * @param ent
+     * entity.
+     */
 	void set_entity( ENTITY *ent ) { entity_ptr = ent; }
 
-
-	// Debug function
-/**
- * Writes debug information about <tt>edge_entity_rel</tt> to standard output or the specified file.
- * <br><br>
- * @param fp
- * file name.
- * @param head
- * heading text.
- */
+	/**
+	 * Writes debug information about <tt>edge_entity_rel</tt> to standard output or the specified file.
+	 * <br><br>
+	 * @param fp
+	 * file name.
+	 * @param head
+	 * heading text.
+	 */
 	void debug( FILE *fp, const char *head = NULL );
 
-
-	// Lose function, destructor
-/**
- * Posts a delete bulletin to the bulletin board indicating the instance is no longer used in the active model.
- * <br><br>
- * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
- * This is required because it has underlying entities associated with it.
- */
+	/**
+	 * Posts a delete bulletin to the bulletin board indicating the instance
+	 * is no longer used in the active model.
+	 * <br><br>
+	 * <b>Role:</b> The <tt>lose</tt> methods for attached attributes are also called.
+	 * This is required because it has underlying entities associated with it.
+	 */
 	void lose();
-
 };
 
 /** @} */

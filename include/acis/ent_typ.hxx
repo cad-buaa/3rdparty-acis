@@ -112,6 +112,16 @@ _EXPORT_MACRO logical is_Scm_Entity(ScmObject o, entity_test_proc test);
  */
 _EXPORT_MACRO logical is_Scm_Entity_List(ScmObject);
 /**
+* Determines if a scheme object is an ENTITY_LIST*
+* <br><br>
+* <b>Role:<b> This function is used for checking the Entity List Array.
+* <br><br>
+* @param o
+* Scheme object
+*/
+_EXPORT_MACRO logical is_Scm_Entity_List_Array(ScmObject);
+
+/**
 * Creates a C++ <tt>ENTITY</tt> from a Scheme entity.
 * <br><br>
 * <b>Role:</b> type is a character string describing type of ENTITY filter is
@@ -213,6 +223,17 @@ _EXPORT_MACRO void get_Scm_Entity_List(int, ScmObject*, ENTITY_LIST&);
 
 _EXPORT_MACRO void get_Scm_Entity_List(ScmObject, const entity_filter&,
 						 const char*, ENTITY_LIST&);
+/**
+* Creates a  C++ ENTITY_LIST* from a Scheme Entity List Array.
+* <br><br>
+* int
+* num_body_groups
+* param o
+* Scheme object
+* param list
+* ENTITY_LIST*
+*/
+_EXPORT_MACRO void get_Scm_Entity_List_Array(int, ScmObject, ENTITY_LIST*);
 /**
  * @nodoc
  */

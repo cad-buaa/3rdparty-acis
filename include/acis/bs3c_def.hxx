@@ -29,7 +29,7 @@
 #include "bs3curve.hxx"
 #include "dcl_spl.h"
 #include "base.hxx"
-
+#include "spa_null_base.hxx"
 // Now the object to which it points.
 
 struct ag_spline;
@@ -73,7 +73,7 @@ public:
 	int paged() { return state != 0; }
 
     void set_initial_seam_multiplicity(int seam_knot_mult, int start_mult);
-    int  initial_seam_multiplicity(int &start_mult = *(int*)NULL_REF);
+    int  initial_seam_multiplicity(int &start_mult = SpaAcis::NullObj::get_int());
     
 };
 

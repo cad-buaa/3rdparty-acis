@@ -252,16 +252,21 @@ public:
     // the index of this boundary use the index() boundary member function. 
 
     int number_of_geometric_boundaries();
-
+    
+    [[deprecated("Deprecated Interface, \"GEOMETRIC_BOUNDARY& geometric_boundary( int )\" will be removed in 2025 1.0 release")]]
     GEOMETRIC_BOUNDARY& geometric_boundary( int );
+
+    GEOMETRIC_BOUNDARY* get_geometric_boundary(int);
 
     // Similarly, the degenerate boundaries are accessed in order using these
     // functions: 
 
     int number_of_degenerate_boundaries();
 
+    [[deprecated("Deprecated Interface, \"DEGENERATE_BOUNDARY& degenerate_boundary( int )\" will be removed in 2025 1.0 release")]]
     DEGENERATE_BOUNDARY& degenerate_boundary( int );
 
+    DEGENERATE_BOUNDARY* get_degenerate_boundary(int);
 
     // Now internal boundaries.  The default versions of these functions
     // claim no internal boundaries. 
@@ -269,9 +274,15 @@ public:
     virtual int number_of_internal_u_boundaries( int order );
     virtual int number_of_internal_v_boundaries( int order );
 
+    [[deprecated("Deprecated Interface, \"virtual INTERNAL_BOUNDARY& internal_u_boundary( int index, int order )\" will be removed in 2025 1.0 release")]]
     virtual INTERNAL_BOUNDARY& internal_u_boundary( int index, int order );
-    virtual INTERNAL_BOUNDARY& internal_v_boundary( int index, int order );
 
+    virtual INTERNAL_BOUNDARY* get_internal_u_boundary(int index, int order);
+    
+    [[deprecated("Deprecated Interface, \"virtual INTERNAL_BOUNDARY& internal_v_boundary( int index, int order )\" will be removed in 2025 1.0 release")]]
+    virtual INTERNAL_BOUNDARY& internal_v_boundary(int index, int order);
+
+    virtual INTERNAL_BOUNDARY* get_internal_v_boundary(int index, int order);
 
     // Return a curve plus its SPAinterval which corresponds to a SPAparameter line
     // shfted from the SPAparameter line corresponding to the given boundary  (
@@ -465,9 +476,15 @@ public:
     virtual int number_of_internal_u_boundaries( int order );
     virtual int number_of_internal_v_boundaries( int order );
 
+    [[deprecated("Deprecated Interface, \"virtual INTERNAL_BOUNDARY& internal_u_boundary( int index, int order )\" will be removed in 2025 1.0 release")]]
     virtual INTERNAL_BOUNDARY& internal_u_boundary( int index, int order );
+
+    virtual INTERNAL_BOUNDARY* get_internal_u_boundary(int index, int order);
+
+    [[deprecated("Deprecated Interface, \"virtual INTERNAL_BOUNDARY& internal_v_boundary( int index, int order )\" will be removed in 2025 1.0 release")]]
     virtual INTERNAL_BOUNDARY& internal_v_boundary( int index, int order );
 
+    virtual INTERNAL_BOUNDARY* get_internal_v_boundary(int index, int order);
 
     };
 

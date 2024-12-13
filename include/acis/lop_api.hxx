@@ -338,13 +338,13 @@ DECL_LOP outcome api_tweak_faces(
  * @param edge
  * edges being tweaked.
  * @param tool_curve
- * new curves.
+ * new curves in the model space (transform applied).
  * @param nvertex
  * number of vertices.
  * @param vertex
  * vertices being tweaked.
  * @param tool_point
- * new points.
+ * new points in the model space (transform applied).
  * @param box_low
  * start of intersection box to be used.
  * @param box_high
@@ -1668,7 +1668,7 @@ DECL_LOP outcome api_shadow_taper_faces(
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
 * @param nface
  * number of faces.
@@ -1733,7 +1733,7 @@ DECL_LOP outcome api_move_faces(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
 * @param nface
  * number of faces.
@@ -1816,7 +1816,7 @@ DECL_LOP outcome api_move_faces(
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
 * @param nface
  * number of faces.
@@ -1891,7 +1891,7 @@ DECL_LOP outcome api_offset_faces(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
 * @param nface
  * number of faces.
@@ -2171,6 +2171,8 @@ DECL_LOP outcome api_offset_faces_specific(
  * local operations options. NULL argument will set the default values.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low, box_high and pLopts are ignored.
  **/
  DECL_LOP outcome api_offset_body(
 									BODY*        body,
@@ -2240,6 +2242,8 @@ DECL_LOP outcome api_offset_faces_specific(
  * end of intersection box to be used.
  * @param ao
  * ACIS options.
+ * <br><br>
+ * Note - Incase of polyhedral input body box_low and box_high are ignored.
  **/
  DECL_LOP outcome api_offset_body(
 									BODY *body,
@@ -2645,7 +2649,7 @@ DECL_LOP outcome api_tweak_extend_faces( int const nface,
  * @param edge
  * edges for which the new geometry is know.
  * @param tool_curve
- * new curves.
+ * new curves in the model space (transform applied).
  * @param box_low
  * start of intersection box to be used.
  * @param box_high

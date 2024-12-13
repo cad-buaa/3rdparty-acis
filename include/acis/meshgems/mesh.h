@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_MESH_H__
 #define __MESHGEMS_MESH_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
 \defgroup mesh meshgems_mesh_t
 
@@ -4614,6 +4619,8 @@ MESHGEMS_METHOD meshgems_status_t meshgems_mesh_set_set_pyramid_required_status(
 
 
 MESHGEMS_METHOD meshgems_status_t meshgems_mesh_get_context(meshgems_mesh_t *mesh, meshgems_context_t **ctx);
+
+MESHGEMS_METHOD meshgems_mesh_t *meshgems_mesh_new_in_memory_independent_copy(meshgems_mesh_t *msh);
 
 MESHGEMS_METHOD meshgems_mesh_t *meshgems_mesh_new_read_msh2(meshgems_context_t *ctx, const char *name);
 MESHGEMS_METHOD meshgems_status_t meshgems_mesh_check_consistency(meshgems_mesh_t *msh);

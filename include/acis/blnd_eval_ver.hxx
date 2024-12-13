@@ -111,11 +111,11 @@ public:
 	// Make blend surface class a friend of this
 	friend class blend_spl_sur;
 
-	friend logical operator==( blend_eval_version const& v1, blend_eval_version const& v2 );
+	friend bool operator==( blend_eval_version const& v1, blend_eval_version const& v2 );
 };
 
-// STI let 10 Oct 2018: Added an operator==
-inline logical operator==( blend_eval_version const& v1, blend_eval_version const& v2 )
+
+inline bool operator==( blend_eval_version const& v1, blend_eval_version const& v2 )
 {
 	return ( (v1.m_ver_val == v2.m_ver_val) && 
 			 (v1.m_is_constrain_eval_version == v2.m_is_constrain_eval_version) );

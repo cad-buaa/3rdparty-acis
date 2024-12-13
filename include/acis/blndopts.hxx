@@ -27,6 +27,8 @@ extern DECL_BLND option_header blend_concurrent;
 // SESSION_GLOBAL_VAR option_header blend_mix_convexity("blend_mix_convexity", TRUE);
 extern DECL_BLND option_header blend_mix_convexity;
 
+
+
 // blnd\blend\kernbool\blend1\bl_scor.cxx:
 // SESSION_GLOBAL_VAR option_header force_capping( "force_cap#ping", FALSE );
 extern DECL_BLND option_header force_capping;

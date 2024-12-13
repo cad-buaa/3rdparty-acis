@@ -425,13 +425,13 @@ DECL_SPLINE int bs2_curve_add_knot(
 						   int mult_req,		  // Multiplicity of new knot
 						   double knot_tol,		  // Knot tolerance
 						   const SPApar_pos &new_knot_uv =
-						                          *( SPApar_pos * ) NULL_REF,
+													SpaAcis::NullObj::get_par_pos(),
 						                          // New knot surface SPApar_pos
 						   const SPApar_vec &new_knot_deriv_below =
-						                          *( SPApar_vec * ) NULL_REF,
+													SpaAcis::NullObj::get_par_vec(),
 						                          // Derivative below new knot
 						   const SPApar_vec &new_knot_deriv_above =
-						                          *( SPApar_vec * ) NULL_REF
+													SpaAcis::NullObj::get_par_vec()
 						                          // Derivative above new knot
 						   );
 

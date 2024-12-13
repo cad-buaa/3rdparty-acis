@@ -48,9 +48,6 @@ bhl_split_edge_at_vertex_and_keep_pcurve(	EDGE* ,	VERTEX* ,	EDGE*&,
 DECL_STITCH int
 bhl_split_edge_at_discontinuity(EDGE*,logical& crash_status ,double =0.0 );
 
-logical
-bhl_split_edge_at_midpoint (EDGE* , EDGE*& , VERTEX *& = *(VERTEX **)NULL_REF);
-
 DECL_STITCH logical
 bhl_split_closed_edge (EDGE* , EDGE*&,double);
 

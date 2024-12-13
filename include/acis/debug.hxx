@@ -92,7 +92,7 @@ public:
  * @param type
  * type name.
  */
- 	DEBUG_LIST( char const *type );
+ 	explicit DEBUG_LIST( char const *type );
 
 	// Destructor clears the list, and sets the owning pointer to NULL.
 /**
@@ -169,10 +169,11 @@ public:
  */
  	char const *entity_name() { return title; }
 
-	// Assignment operator could not be generated warning
-	// is taken care of by adding a private one.  PRS
-private:
-	DEBUG_LIST& operator=(const DEBUG_LIST&) {return *(DEBUG_LIST *)NULL_REF;}
+// Class should be non-copyable. Deleting copy constructor and operator=.
+
+	DEBUG_LIST (DEBUG_LIST &) = delete;
+
+	DEBUG_LIST& operator=(const DEBUG_LIST&) = delete;
 };
 
 

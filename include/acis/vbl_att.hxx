@@ -20,6 +20,8 @@ class vsegend;
 #include "bl_att.hxx"
 #include "at_sys.hxx"
 #include "vbl_enum.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * @file vbl_att.hxx
  * @CAA2Level L1
@@ -244,7 +246,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==( ATTRIB_BLEND const& blnd ) const;
+	virtual bool operator==( ATTRIB_BLEND const& blnd ) const;
 
 	// Return a measure of continuity at blend boundary.
 /**
@@ -268,8 +270,7 @@ public:
 		vblend_geom *blnd_geo,
 		COEDGE *coedge1 = NULL,	// rb_vbl_spr_coedge
 		COEDGE * coedge2= NULL,		// rb_vbl_sh_coedge
-        ENTITY_LIST const &ents
-          = * ( ENTITY_LIST * ) NULL_REF
+        ENTITY_LIST const &ents = SpaAcis::NullObj::get_ENTITY_LIST()
 	  );
 
 	// Find details of blend boundary and return it as a chain of
@@ -306,8 +307,7 @@ public:
         vblend_geom *blnd_geo,
         COEDGE * coedge1 = NULL,	// rb_vbl_spr_coedge
         COEDGE * coedge2 = NULL,	// rb_vbl_sh_coedge
-        ENTITY_LIST const &ents
-           = * ( ENTITY_LIST * ) NULL_REF
+        ENTITY_LIST const &ents = SpaAcis::NullObj::get_ENTITY_LIST()
         );
 
 	// This is the entry point to the blend stage 1 processing that
@@ -440,8 +440,7 @@ DECL_BLND vblend_geom *make_vbl_surface
 	vblend_geom *,		// chain of vsegends giving boundary
 	COEDGE * = NULL,	// coedge of blend body face on which spring curve lies
 	COEDGE * = NULL,    // coedge of adjacent sheet face
-    ENTITY_LIST const &ents =
-        * ( ENTITY_LIST * ) NULL_REF
+    ENTITY_LIST const &ents = SpaAcis::NullObj::get_ENTITY_LIST()
 );
 
 /** @} */

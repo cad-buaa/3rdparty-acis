@@ -13,7 +13,7 @@
 	#include "importexport.h"
 
 	#ifdef	_WINDOWS_SOURCE
-		#ifdef	__SPA3dPmAcis
+		#if defined(__SPA3dPmAcis) || defined(__SPA3dPmAcisDs)
 			#define	DECL_SPA3dpm  __declspec(dllexport)
 		#else
 			#define DECL_SPA3dpm __declspec(dllimport)

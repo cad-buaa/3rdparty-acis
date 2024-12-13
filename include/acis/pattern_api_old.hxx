@@ -19,6 +19,7 @@
 #include "api.hxx"
 #include "interval.hxx"
 #include "vector.hxx"
+#include "spa_null_base.hxx"
 
 class pattern;
 class law;
@@ -47,9 +48,9 @@ DECL_KERN outcome api_curve_pattern
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
     law*                rail_law        = NULL,
-    const SPAvector&    rail_dir        = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
-    const SPAtransf&    in_trans        = *(SPAtransf*)NULL_REF,
+    const SPAvector&    rail_dir        = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
+    const SPAtransf&    in_trans        = SPAtransf(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -89,8 +90,8 @@ DECL_KERN outcome api_edge_pattern
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    rail_dir        = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    rail_dir        = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -104,8 +105,8 @@ DECL_KERN outcome api_edge_pattern
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    normal_dir      = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    normal_dir      = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -118,8 +119,8 @@ DECL_KERN outcome api_edge_pattern
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    normal_dir      = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    normal_dir      = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -132,10 +133,10 @@ DECL_KERN outcome api_elliptical_pattern
     const SPAvector&    normal,
     int                 num_elements,
     logical             not_rotate      = FALSE,
-    const SPAposition&  root            = *(SPAposition*)NULL_REF,
+    const SPAposition&  root            = SpaAcis::NullObj::get_position(),
     double              angle           = 2.0 * M_PI,
     double              ratio           = 1.0,
-    const SPAvector&    major_axis      = *(SPAvector*)NULL_REF,
+    const SPAvector&    major_axis      = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -184,9 +185,9 @@ DECL_KERN outcome api_linear_pattern
     pattern*&           pat,
     const SPAvector&    x_vec,
     int                 num_x,
-    const SPAvector&    y_vec           = *(SPAvector*)NULL_REF,
+    const SPAvector&    y_vec           = SpaAcis::NullObj::get_vector(),
     int                 num_y           = 1,
-    const SPAvector&    z_vec           = *(SPAvector*)NULL_REF,
+    const SPAvector&    z_vec           = SpaAcis::NullObj::get_vector(),
     int                 num_z           = 1,
     logical             y_staggered     = FALSE,
     logical             z_staggered     = FALSE,
@@ -203,7 +204,7 @@ DECL_KERN outcome api_polar_grid_pattern
 	const SPAvector&    normal,
 	int					num_rings,
 	double				distance,
-	const SPAvector&    start           = *(SPAvector*)NULL_REF,
+	const SPAvector&    start           = SpaAcis::NullObj::get_vector(),
 	logical				not_rotate      = FALSE,
 	logical				hex_symmetry    = FALSE,
 	double				start_angle     = 0.0,
@@ -222,7 +223,7 @@ DECL_KERN outcome api_radial_pattern
 	int					num_radial,
 	int					num_angular,
 	double				spacing,
-	const SPAvector&    start           = *(SPAvector*)NULL_REF,
+	const SPAvector&    start           = SpaAcis::NullObj::get_vector(),
 	logical				not_rotate      = FALSE,
 	double				start_angle     = 0.0,
 	double				end_angle       = 2.0 * M_PI,
@@ -265,8 +266,8 @@ DECL_KERN outcome api_surface_pattern
     int                 num_v,
     const SPAposition&  root,
     logical             on_boundary     = FALSE,
-    const SPAvector&    u_dir           = *(SPAvector*)NULL_REF,
-    const SPAvector&    v_dir           = *(SPAvector*)NULL_REF,
+    const SPAvector&    u_dir           = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    v_dir           = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -280,11 +281,11 @@ DECL_KERN outcome api_surface_pattern
     int                 num_u,
     int                 num_v,
     const SPAposition&  root,
-    logical             on_boundary     = FALSE,
-    const SPAvector&    u_dir           = *(SPAvector*)NULL_REF,
-    const SPAvector&    v_dir           = *(SPAvector*)NULL_REF,
-    const SPAtransf&    in_trans        = *(SPAtransf*)NULL_REF,
-	AcisOptions*        ao              = NULL);
+    logical             on_boundary = FALSE,
+    const SPAvector&    u_dir       = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    v_dir       = SpaAcis::NullObj::get_vector(),
+    const SPAtransf&    in_trans    = SPAtransf(),
+	AcisOptions*        ao          = NULL);
 
 
 /**
@@ -427,9 +428,9 @@ DECL_KERN outcome api_random_orient_pattern
     const pattern&      in_pattern,
     const SPAposition&  root            = SPAposition(0, 0, 0),
     const SPAinterval&  axial_range     = SPAinterval(0.0, 2.0 * M_PI),
-    const SPAvector&    axial_dir       = *(SPAvector*)NULL_REF,
+    const SPAvector&    axial_dir       = SpaAcis::NullObj::get_vector(),
     const SPAinterval&  tilt_range      = SPAinterval(0, M_PI),
-    const SPAvector&    tilt_dir        = *(SPAvector*)NULL_REF,
+    const SPAvector&    tilt_dir        = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**

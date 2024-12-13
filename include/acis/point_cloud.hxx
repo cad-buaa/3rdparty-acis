@@ -243,8 +243,8 @@ class DECL_KERN SPApoint_cloud : public ACIS_OBJECT
 	friend class SPApoint_cloud_iterator;
 
 	// make the copy constructor and operator= private for now
-	SPApoint_cloud(SPApoint_cloud const&) {};
-	SPApoint_cloud& operator = (SPApoint_cloud const&) {return *((SPApoint_cloud*)NULL_REF);}
+	SPApoint_cloud(SPApoint_cloud const&) = delete;
+	SPApoint_cloud& operator = (SPApoint_cloud const&) = delete;
 
 protected:
 	/**

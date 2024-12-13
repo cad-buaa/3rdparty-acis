@@ -63,7 +63,7 @@ class DECL_FCT PAR_POS {
 	
 	MMGR_FREELIST_THIS
 };
-logical operator==( PAR_POS const &uv1, PAR_POS const &uv2 );
+bool operator==( PAR_POS const &uv1, PAR_POS const &uv2 );
 
 double lensq(const PAR_POS& p1, const PAR_POS& p2);
 

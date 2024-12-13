@@ -25,6 +25,7 @@
 #include "guidecrv.hxx"
 #include "skin_opts.hxx"
 #include "acis_journal.hxx"
+#include "spa_null_base.hxx"
 class spline;
 class Mcurve_data;
 class AcisJournal;
@@ -290,6 +291,14 @@ public:
     */
     logical removeMappingCurve(int index);
 
+    /**
+     * Returns a list of positions for the specified mapping %curve.
+     * <br><br>
+     * @param num
+     * index into list of mapping curves.
+     */
+    logical getMappingCurve(int num);
+
    /**
     * Returns a list of positions for the specified mapping %curve.
     * <br><br>
@@ -298,7 +307,7 @@ public:
     * @param pos_list
     * returned list of positions.
     */
-    logical getMappingCurve(int num, SPAposition*& pos_list = *(SPAposition**)NULL_REF);
+    logical getMappingCurve(int num, SPAposition*& pos_list);
 
    /**
     * Returns a B-spline approximation of the i<sup>th</sup> mapping %curve.
@@ -538,16 +547,17 @@ protected:
    /**
     * @nodoc
     */
-    int guideIntersectsProfile(curve*&       guide, 
-        int&          out_index        = *(int*)NULL_REF, 
-        SPAposition&  out_intersection = *(SPAposition*)NULL_REF,
+    int guideIntersectsProfile(
+        curve*&       guide, 
+        int&          out_index        = SpaAcis::NullObj::get_int(),
+        SPAposition&  out_intersection = SpaAcis::NullObj::get_position(),
         int           profile_index    = -1, 
-        logical&      interior         = *(logical*)NULL_REF, 
-        SPAparameter& guide_par        = *(SPAparameter*)NULL_REF,
-        SPAparameter& coedge_par       = *(SPAparameter*)NULL_REF,
+        logical&      interior         = SpaAcis::NullObj::get_logical(),
+        SPAparameter& guide_par        = SpaAcis::NullObj::get_parameter(),
+        SPAparameter& coedge_par       = SpaAcis::NullObj::get_parameter(),
         logical       snap             = FALSE, 
-        double&       snap_param       = *(double*) NULL_REF, 
-        SPAposition&                   = *(SPAposition*) NULL_REF);
+        double&       snap_param       = SpaAcis::NullObj::get_double(), 
+        SPAposition&                   = SpaAcis::NullObj::get_position());
    /**
     * @nodoc
     */
@@ -752,6 +762,8 @@ protected:
  * This function should be used with extreme caution if the user understands the
  * algorithm and its purpose.
  */
-DECL_SKIN double get_minimum_radius_of_curvature_skin(ENTITY_LIST &face_list, int &face_number = *(int *)NULL_REF );
+DECL_SKIN double get_minimum_radius_of_curvature_skin(
+                ENTITY_LIST &face_list, 
+                int &face_number = SpaAcis::NullObj::get_int() );
 /** @} */
 #endif

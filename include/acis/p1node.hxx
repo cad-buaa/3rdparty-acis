@@ -63,6 +63,14 @@ public:
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+
 	// Constructor...
 
 	// No arguments.
@@ -101,7 +109,7 @@ public:
 	// Comparison function.  Intended to compare nodes of (exactly)
 	// alike class, and must be defined in each new node class.
 
-	virtual logical operator== (const NODE *) const;
+	virtual bool operator== (const NODE *) const;
 
 	// Specialized fix, save and copy.
 

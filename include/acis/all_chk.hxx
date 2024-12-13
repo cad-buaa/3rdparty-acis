@@ -114,6 +114,6 @@ hh_check_vertices_across_shells(ENTITY* ent);
 // RNC 19th Feb 2002. Function added for specific checks on curve.
 DECL_STITCH logical 
 hh_specific_check_curve(bs3_curve, check_status, 
-						const intcurve& = *(intcurve*)NULL_REF );
+						const intcurve& = SpaAcis::NullObj::get_intcurve());
 
 #endif

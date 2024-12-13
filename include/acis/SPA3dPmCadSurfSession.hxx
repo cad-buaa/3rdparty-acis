@@ -496,6 +496,13 @@ public:
 	meshgems_cad_t *GetMeshgemsCadPtr();
 
 	/**
+	* Returns the native Distene dcad pointer belonging to the session referred to by this object.
+	* If this <tt>CadSurfSession</tt> was created from a <tt>Mesh</tt> object, there is no underlying dcad object,
+	* therefore the function returns NULL.
+	*/
+	meshgems_dcad_t *GetMeshgemsDCadPtr();
+
+	/**
 	* Convert a FACE* to faceId (tag and uid of the corresponding cad face and the corresponding mesh triangles/quadrangles).
 	* Returns 0 if f is not found.
 	*/

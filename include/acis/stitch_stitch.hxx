@@ -57,7 +57,7 @@ bhl_stitch_1_entity (ENTITY* , double,bhl_stitch_results * =NULL,bhl_stitch_opti
 logical
 bhl_make_partners(COEDGE*, COEDGE*,double ,logical direct, const bhl_stitch_options *, 
 				  EDGE *&stitched_edge, logical=TRUE, ENTITY_LIST * = NULL, ENTITY_LIST * = NULL, 
-				  tolerant_stitch_options* = NULL, logical& = *(logical *)NULL_REF,
+				  tolerant_stitch_options* = NULL, logical& = SpaAcis::NullObj::get_logical(),
 				  logical eliminate_fix_stage=TRUE);
 
 

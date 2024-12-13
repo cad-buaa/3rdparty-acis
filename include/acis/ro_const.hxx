@@ -9,6 +9,7 @@
 // Header file defining the blend attribute for constant radius rounds.
 #if !defined( BLEND_CONST_ROUND )
 #define BLEND_CONST_ROUND
+
 /**
  * @file ro_const.hxx
  * @CAA2Level L1
@@ -17,10 +18,13 @@
  *
  * @{
  */
+
 #include "acis.hxx"
 #include "dcl_blnd.h"
 #include "bl_att.hxx"
 #include "at_sys.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * @nodoc
  */
@@ -83,11 +87,9 @@ public:
  * @nodoc
  */
 	virtual logical is_constant_offset( 
-						double &left_offset 
-							= *( double *)NULL_REF, 
-						double &right_offset 
-							= *( double *)NULL_REF 
-						) const;
+					double &left_offset = SpaAcis::NullObj::get_double(),
+					double &right_offset = SpaAcis::NullObj::get_double()
+				) const;
 
 	// Returns TRUE if chamfer is flat
 /**
@@ -210,7 +212,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==( ATTRIB_BLEND const& blend ) const;
+	virtual bool operator==( ATTRIB_BLEND const& blend ) const;
 
 /**
  * @nodoc
@@ -257,13 +259,13 @@ public:
  * @nodoc
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        left_reorder(logical &convex = *(logical*)NULL_REF);
+		        left_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 
 /**
  * @nodoc
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        right_reorder(logical &convex = *(logical*)NULL_REF);
+		        right_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 
 	// Inquiry functions concerning size and shape.
 
@@ -288,8 +290,7 @@ public:
 									logical end,				// open at end
 									segend *start_seg,			// start segend if any
 									segend *end_seg,			// end segend if any
-									SPAbox const &bound_box = 
-										* (SPAbox const *) NULL_REF
+									SPAbox const &bound_box = SpaAcis::NullObj::get_box()
 									);
 
 	// Find the spring curves.  The curves returned have the same
@@ -304,8 +305,7 @@ public:
 										logical end,				// open at end
 										segend *start_seg,			// start segend if any
 										segend *end_seg,			// end segend if any
-										SPAbox const &bound_box = 
-											* (SPAbox const *) NULL_REF
+										SPAbox const &bound_box = SpaAcis::NullObj::get_box()
 										);
 
 	// Find the cross curve in a given plane (normal to the spine and
@@ -319,9 +319,9 @@ public:
 										ffblend_geom *spine,
 										plane const &pln,
 										SPAbox const &bound_box,
-										SPAposition &pt1 = *(SPAposition *)NULL_REF,
-										SPAposition &pt2 = *(SPAposition *)NULL_REF,
-										SPAposition &pt3 = *(SPAposition *)NULL_REF
+										SPAposition &pt1 = SpaAcis::NullObj::get_position(),
+										SPAposition &pt2 = SpaAcis::NullObj::get_position(),
+										SPAposition &pt3 = SpaAcis::NullObj::get_position()
 										);
 
 	// Given blend boundary details in a ffblend_geom, find the
@@ -344,10 +344,9 @@ public:
 									logical end = FALSE,			// open at end
 									segend *start_seg = NULL,		// start segend if any
 									segend *end_seg = NULL,			// end segend if any
-									SPAbox const &bound_box = 
-										* (SPAbox const *) NULL_REF,
-									double & reduced_resabs = 
-										* (double*) NULL_REF		// To pass back (only 
+									SPAbox const &bound_box = SpaAcis::NullObj::get_box(),
+									double & reduced_resabs = SpaAcis::NullObj::get_double()
+																	// To pass back (only 
 																	// set for analytic blends)
 									);
 
@@ -426,15 +425,15 @@ set_exp_const_round(
 			FACE *left_face = NULL,	
 			FACE *right_face = NULL,
 			double const &radius = 
-				* (double *) NULL_REF,
+				SpaAcis::NullObj::get_double(),
 			logical const &cvxty = 
-				* (logical *) NULL_REF,
+				SpaAcis::NullObj::get_logical(),
 			plane const &mid_plane = 
-				* (plane *) NULL_REF,
+				SpaAcis::NullObj::get_plane(),
 			logical const &start_cond =		// start and end conditions
-				* (logical *) NULL_REF,		// (true means open)
+				SpaAcis::NullObj::get_logical(),		// (true means open)
 			logical const &end_cond = 
-				* (logical *) NULL_REF	
+				SpaAcis::NullObj::get_logical()
 			);
 
 // Attach an explicit constant round face-face blend attribute to the face
@@ -453,9 +452,9 @@ set_exp_co_ro_ffbl_att(
 			ENTITY_LIST const &end_cross_coedges,		
 			ENTITY_LIST const &left_spring_coedges,		
 			ENTITY_LIST const &right_spring_coedges,	
-			double const &bl_radius = *(double *)NULL_REF,
-			double const &len_tol = *(double *)NULL_REF,
-			ENTITY_LIST &bl_atts = *(ENTITY_LIST *)NULL_REF // blend attribute(s) made
+			double const &bl_radius = SpaAcis::NullObj::get_double(),
+			double const &len_tol = SpaAcis::NullObj::get_double(),
+			ENTITY_LIST & blend_faces_found = SpaAcis::NullObj::get_ENTITY_LIST() // blend face(s) noted
 			);
 
 // Make a constant round fblend attribute and set it on an existing face that
@@ -475,12 +474,12 @@ DECL_BLND logical
 set_exp_co_ro_fbl(
 			FACE *bl_face,		
 			FACE *support_face = NULL,
-			logical = *(logical *)NULL_REF,			// support_on_left
-			double const &radius = *(double *)NULL_REF,	
-			logical const &cvxty = *(logical *)NULL_REF,
-			plane const &mid_plane = *(plane *)NULL_REF,
-			logical const &start_cond = *(logical *)NULL_REF,	// start and end conditions
-			logical const &end_cond = *(logical *)NULL_REF		// (true means open)
+			logical = TRUE,			// support_on_left
+			double const &radius = SpaAcis::NullObj::get_double(),	
+			logical const &cvxty = SpaAcis::NullObj::get_logical(),
+			plane const &mid_plane = SpaAcis::NullObj::get_plane(),
+			logical const &start_cond = SpaAcis::NullObj::get_logical(),	// start and end conditions
+			logical const &end_cond = SpaAcis::NullObj::get_logical()		// (true means open)
 			);
 
 // Attach an explicit constant round face blend attribute to the face
@@ -499,9 +498,9 @@ set_exp_co_ro_fbl_att(
 				ENTITY_LIST const &end_cross_coedges,	
 				ENTITY_LIST const &spring_coedges,		
 				logical const &support_on_left,			
-				double const &bl_radius = *(double *)NULL_REF,	
-				double const &len_tol = *(double *)NULL_REF,	
-				ENTITY_LIST &bl_att = *(ENTITY_LIST *)NULL_REF // blend attribute(s) made
+				double const &bl_radius = SpaAcis::NullObj::get_double(),	
+				double const &len_tol = SpaAcis::NullObj::get_double(),	
+				ENTITY_LIST & blend_faces_found = SpaAcis::NullObj::get_ENTITY_LIST() // blend face(s) noted
 				);
 
 /*
@@ -556,7 +555,7 @@ public:
 				FACE * = NULL,				// support face
 				logical = TRUE,				// true if support is on the left
 				bl_ed_convexity = bl_ed_undefined_cvxty,
-				plane const & = *(plane const *)NULL_REF,	// def-plane
+				plane const & = SpaAcis::NullObj::get_plane(),	// def-plane
 				double = 0,					// radius of round
 				blend_status = bl_stat_unset
 			);
@@ -588,7 +587,7 @@ public:
 									// to be deleted in the merge.
 
 	// Test two blends for equality.
-	virtual logical operator==( ATTRIB_BLEND const& ) const;
+	virtual bool operator==( ATTRIB_BLEND const& ) const;
 
 	virtual void trans_owner( SPAtransf const & );
 
@@ -609,7 +608,7 @@ public:
 		logical,			// open at end
 		segend *,			// start segend if any
 		segend *,			// end segend if any
-		SPAbox const & = *(SPAbox const *)NULL_REF
+		SPAbox const & = SpaAcis::NullObj::get_box()
 	  );
 
 	// Given blend boundary details in a ffblend_geom, find the
@@ -626,7 +625,7 @@ public:
 		logical = FALSE,			// open at end
 		segend * = NULL,			// start segend if any
 		segend * = NULL,			// end segend if any
-		SPAbox const & = *(SPAbox const *)NULL_REF
+		SPAbox const & = SpaAcis::NullObj::get_box()
 	  );
 
 	/**

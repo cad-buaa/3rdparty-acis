@@ -52,7 +52,7 @@ DECL_BLND void smooth_edges_to_curve(
     EDGE   **edge_array      = NULL,
     logical *edge_reversed   = NULL,
 	logical must_be_smooth   = TRUE,
-	logical &all_edges_sorted= *(logical *)NULL_REF
+	logical &all_edges_sorted= SpaAcis::NullObj::get_logical()
 );
 
 #endif

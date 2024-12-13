@@ -25,6 +25,7 @@
 #include "logical.h"
 
 #include "ptfcenum.hxx"
+#include "spa_null_base.hxx"
 
 class SPAposition;
 class SPApar_pos;
@@ -43,7 +44,7 @@ DECL_INTR point_face_containment point_in_surface_loop(
 		  SPAtransf const &,
 		  surface const *,
 		  logical = FALSE,
-		  SPApar_pos const & = *(SPApar_pos *)NULL_REF
+		  SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 	  );
 
 DECL_INTR void points_in_surface_loop(
@@ -62,15 +63,15 @@ DECL_INTR point_face_containment point_in_plane_loop(
 			LOOP *,
 			SPAtransf const &,
 			plane const &,
-			logical = FALSE,
-			logical = FALSE,
-			logical = FALSE,
-			SPAposition *& = (SPAposition *&) NULL_REF,
-			int & = *(int *) NULL_REF,
-			SPAposition * = NULL,
-			int = 0,
-			logical * = NULL ,
-			SPAposition * = NULL
+			logical			= FALSE,
+			logical			= FALSE,
+			logical			= FALSE,
+			SPAposition *&	= SpaAcis::NullObj::get_position_ptr(),
+			int &			= SpaAcis::NullObj::get_int(),
+			SPAposition *	= NULL,
+			int				= 0,
+			logical *		= NULL ,
+			SPAposition *	= NULL
 		);
 DECL_INTR point_face_containment point_in_cone_loop(
 			SPAposition const &,
@@ -84,13 +85,13 @@ DECL_INTR point_face_containment point_in_sphere_loop(
 			LOOP *,
 			SPAtransf const &,
 			sphere const &,
-			logical = FALSE,
-			logical = FALSE,
-			SPAposition *&  = (SPAposition *&) NULL_REF,
-			int & = *(int *) NULL_REF,
-			SPAposition * = NULL,
-			int = 0,
-			logical * = NULL
+			logical			= FALSE,
+			logical			= FALSE,
+			SPAposition *&  = SpaAcis::NullObj::get_position_ptr(),
+			int &			= SpaAcis::NullObj::get_int(),
+			SPAposition *	= NULL,
+			int				= 0,
+			logical *		= NULL
 		);
 DECL_INTR point_face_containment point_in_torus_loop(
 			SPAposition const &,

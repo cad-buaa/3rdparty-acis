@@ -33,6 +33,7 @@
 #include "acis.hxx"
 #include "dcl_asm.h"
 #include "asm_list_opts.hxx"
+#include "spa_null_base.hxx"
 
 /**
 * @file comp_ent_handle_list.hxx
@@ -412,8 +413,8 @@ public:
   *  add tombstones to array.
   */
 	component_entity_handle** array( component_entity_handle ** handle_array = NULL,
-					   int &array_count = *(int *)NULL_REF,
-					   logical tombstones = FALSE );
+									 int &array_count = SpaAcis::NullObj::get_int(),
+									 logical tombstones = FALSE );
 
  /**
   * Returns the size in bytes of this class.

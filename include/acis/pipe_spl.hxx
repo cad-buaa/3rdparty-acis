@@ -151,19 +151,19 @@ protected:
 	virtual subtrans_object *copy() const;
 
 
-	// Make or remake the approximating surface.  The force flag forces the 
-	// approximating surface to be made even if it is illegal.  This can be 
+	// Make or remake the approximating surface. The force flag forces the 
+	// approximating surface to be made even if it is illegal. This can be 
 	// used to restore old parts that were not checked properly before being 
-	// saved.  The spline argument 'spl' may be null but if it is supplied the
-	// function may be a little faster.  The function stores the approximating 
+	// saved. The spline argument 'spl' may be null but if it is supplied the
+	// function may be a little faster. The function stores the approximating 
     // surface and the actual fit error that was achieved in the spl_sur, 
     // overriding the declared const-ness of the function to do this. 
 
-    virtual void	make_approx( 
+    virtual void make_approx( 
 							 double fit, 
-							 const spline& spl = *(spline*) NULL_REF, 
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const; 
+							) const; 
 
 
 	// Test for equality. This does not guarantee that all
@@ -171,7 +171,7 @@ protected:
 	// does guarantee that different surfaces are correctly
 	// identified as such.
 
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 
 
 	// Transform this pipe by the given SPAtransf.
@@ -225,7 +225,7 @@ protected:
 
 //	virtual SPAunit_vector point_normal(
 //				SPAposition const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
@@ -239,7 +239,7 @@ protected:
 //				double &,			// curvature in first direction
 //				SPAunit_vector &,		// second axis direction
 //				double &,			// curvature in second direction
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
 //              evaluate_surface_quadrant = evaluate_surface_unknown
 //			) const;
 
@@ -253,7 +253,7 @@ protected:
 //	virtual double point_cross(
 //				SPAposition const &,
 //				SPAunit_vector const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
@@ -267,10 +267,10 @@ protected:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos(),
+				logical f_weak		= FALSE,
+			    SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 			) const;
 
 
@@ -282,7 +282,7 @@ protected:
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the change in surface SPAparameter corresponding to a unit
@@ -426,7 +426,7 @@ protected:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs( 
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -458,8 +458,8 @@ protected:
 //	virtual logical test_point_tol(
 //				SPAposition const &,
 //				double,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-//				SPApar_pos & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+//				SPApar_pos &		= SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 

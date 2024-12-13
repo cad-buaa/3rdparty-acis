@@ -153,7 +153,8 @@ public:
 
 	// STI rr 5862 (08/08/2003) begin: Return the progenitor curve and the extension type to caller. Now used by
 	// LOP code rep_rb.cpp and sweep extension code swp_sext.cpp.
-	void get_progen_curve(curve *&prog_curve, CURVE_EXTENSION_TYPE &ext_type = *(CURVE_EXTENSION_TYPE*)NULL_REF);
+	void get_progen_curve(curve*& prog_curve);
+	void get_progen_curve(curve *&prog_curve, CURVE_EXTENSION_TYPE &ext_type);
 	// STI rr end.
 private:
 
@@ -171,7 +172,7 @@ private:
 	// Test for equality - not guaranteed to find all cases of curve
 	// superimposition, but reliably flagging cases of inequality.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 
 	// Perform a linear transformation on the parametrisation, so
@@ -212,7 +213,7 @@ private:
 
 	virtual SPAunit_vector point_direction(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -230,8 +231,8 @@ private:
 				SPAposition &,
 				SPAunit_vector &,
 				SPAvector &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF,
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter(),
 				logical f_weak = FALSE
 
 		) const;
@@ -243,7 +244,7 @@ private:
 
     virtual double param(
                 SPAposition const &,
-                SPAparameter const & = *(SPAparameter *)NULL_REF
+                SPAparameter const & = SpaAcis::NullObj::get_parameter()
             ) const;
 
 	// Find SPAposition, first and second derivative on curve at given
@@ -252,8 +253,8 @@ private:
 	virtual void eval(
 				double,
 				SPAposition &,
-				SPAvector & = *(SPAvector *)NULL_REF,
-				SPAvector & = *(SPAvector *)NULL_REF,
+				SPAvector & = SpaAcis::NullObj::get_vector(),
+				SPAvector & = SpaAcis::NullObj::get_vector(),
 				logical = FALSE
 			) const;
 

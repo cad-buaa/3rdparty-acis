@@ -12,6 +12,7 @@
 #define TOLERIZE_ENT_APIS_HXX
 
 #include "kernapi.hxx"
+#include "spa_null_kern.hxx"
 
 /*******************************************************************/
 /**
@@ -224,7 +225,7 @@ DECL_KERN outcome api_check_edge_errors(
 					  double            &worst_error,
 					  double            tol              = SPAresabs,
 					  logical           stop_immediately = FALSE,
-					  ENTITY_LIST       &new_edges       = *(ENTITY_LIST *) NULL_REF,
+					  ENTITY_LIST       &new_edges       = SpaAcis::NullObj::get_ENTITY_LIST(),
 					  AcisOptions*      ao               = NULL);
 
 
@@ -301,7 +302,7 @@ DECL_KERN outcome api_check_vertex_errors(
 					  double            &worst_error,
 					  double            tol              = SPAresabs,
 					  logical           stop_immediately = FALSE,
-					  ENTITY_LIST       &new_vertices    = *(ENTITY_LIST *) NULL_REF,
+					  ENTITY_LIST       &new_vertices    = SpaAcis::NullObj::get_ENTITY_LIST(),
 					  AcisOptions*      ao               = NULL);
 
 

@@ -1,4 +1,4 @@
-﻿/* ORIGINAL: acis2.1/kerndata/geom/spline.hxx */
+/* ORIGINAL: acis2.1/kerndata/geom/spline.hxx */
 /* $Id: spline.hxx,v 1.12 2002/08/09 17:15:17 jeff Exp $ */
 /*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
@@ -18,15 +18,17 @@
 // (as does the SURFACE) and a pointer to the detailed parametric
 // surface description.
 
+
 #ifndef SPLINE_CLASS
 #define SPLINE_CLASS
 
 #include "dcl_kern.h"
-#include "spldef.hxx"
 #include "surface.hxx"
 
+#include "spldef.hxx"
+
 /**
- * @file spline.hxx
+* @file spline.hxx
  * @CAA2Level L1
  * @CAA2Usage U1
  * \addtogroup ACISGEOMETRICENTITIES
@@ -40,10 +42,11 @@ class SPAbox;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE(SPLINE, KERN)
+ENTITY_IS_PROTOTYPE( SPLINE, KERN )
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
+
 
 // Identifier used to find out (via identity() defined below) to what
 // an entity pointer refers.
@@ -79,63 +82,60 @@ extern DECL_KERN int SPLINE_TYPE;
  * use count, and after the use count returns to 0, the entity is deleted.
  * @see spline
  */
-class DECL_KERN SPLINE : public SURFACE {
-    // SHEVO
-    friend spline* shevo_get_spline(SPLINE* sp);
+class DECL_KERN SPLINE: public SURFACE {
 
-    // Record a SPLINE as a spline.
+	// Record a SPLINE as a spline.
 
-    spline def;
+	spline def;
 
-    // STI ROLL begin - added virtual compare function for api_get_modified_faces
-
-  protected:
-    /**
-     * @nodoc
-     */
+// STI ROLL begin - added virtual compare function for api_get_modified_faces
+protected:
+/**
+ * @nodoc
+ */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-    // STI ROLL end
+// STI ROLL end
 
-    // Include the standard member functions for all entities.
+	// Include the standard member functions for all entities.
 
-    /**
-     * @nodoc
-     */
-    ENTITY_FUNCTIONS(SPLINE, KERN)
+	/**
+	 * @nodoc
+	 */
+	ENTITY_FUNCTIONS( SPLINE , KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
-    // explicitly here:
+// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
+// explicitly here:
+public:
 
-  public:
-    // Now the functions specific to SPLINE.
+	// Now the functions specific to SPLINE.
 
-    // Make a bare SPLINE to be filled in later.
-    /**
-     * Constructs a <tt>SPLINE</tt> (default constructor).
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object but does not populate it. The
-     * allocation constructor is used primarily by restore. Applications should call
-     * this constructor only with the overloaded <tt>new</tt> operator, because this
-     * reserves the memory on the heap, a requirement to support roll back and history
-     * management.
-     */
-    SPLINE();
+	// Make a bare SPLINE to be filled in later.
+/**
+ * Constructs a <tt>SPLINE</tt> (default constructor).
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object but does not populate it. The
+ * allocation constructor is used primarily by restore. Applications should call
+ * this constructor only with the overloaded <tt>new</tt> operator, because this
+ * reserves the memory on the heap, a requirement to support roll back and history
+ * management.
+ */
+	SPLINE();
 
-    // Create a SPLINE from a spline.
-    /**
-     * Constructs a <tt>SPLINE</tt> from the specified spline.
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object and populates it with the data
-     * supplied as the argument. Applications should call this constructor only with
-     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
-     * a requirement to support roll back and history management.
-     * <br><br>
-     * @param spl
-     * spline to be wrapped by the constructed SPLINE.
-     */
-    SPLINE(const spline& spl);
+	// Create a SPLINE from a spline.
+/**
+ * Constructs a <tt>SPLINE</tt> from the specified spline.
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object and populates it with the data
+ * supplied as the argument. Applications should call this constructor only with
+ * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+ * a requirement to support roll back and history management.
+ * <br><br>
+ * @param spl
+ * spline to be wrapped by the constructed SPLINE.
+ */
+	SPLINE( const spline &spl );
 
 // These function are hidden from mkman in the ENTITY_FUNCTIONS macro; to have them documented,
 // we include them here:
@@ -187,109 +187,110 @@ class DECL_KERN SPLINE : public SURFACE {
     void restore_common();
 #endif
 
-    // Data changing routine.  This routine checks
-    // that the record has been posted on the bulletin-board before
-    // performing the change.  If not, the routine provokes an error,
-    // so that the omission (forgetting to call backup() first) can
-    // be rectified in the program.  In production versions of the
-    // program, these checks may be disabled, to improve efficiency.
-    /**
-     * Sets this <tt>SPLINE</tt>'s definition spline to the given spline.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure
-     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
-     * to put an entry on the bulletin board.
-     * <br><br>
-     * @param spl
-     * the new spline.
-     */
-    void set_def(const spline& spl);
+	// Data changing routine.  This routine checks
+	// that the record has been posted on the bulletin-board before
+	// performing the change.  If not, the routine provokes an error,
+	// so that the omission (forgetting to call backup() first) can
+	// be rectified in the program.  In production versions of the
+	// program, these checks may be disabled, to improve efficiency.
+/**
+ * Sets this <tt>SPLINE</tt>'s definition spline to the given spline.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure
+ * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+ * to put an entry on the bulletin board.
+ * <br><br>
+ * @param spl
+ * the new spline.
+ */
+	void set_def( const spline &spl );
 
-    // Return the surface equation for reading only.
-    /**
-     * Returns the <tt>surface</tt> equation of this <tt>SPLINE</tt>, for reading only.
-     */
-    const surface& equation() const;
+	// Return the surface equation for reading only.
+/**
+ * Returns the <tt>surface</tt> equation of this <tt>SPLINE</tt>, for reading only.
+ */
+	const surface &equation() const;
 
-    // Return the surface equation for reading only.
-    /**
-     * Returns the <tt>surface</tt> equation for update operations.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure
-     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
-     * to put an entry on the bulletin board.
-     */
-    surface& equation_for_update();
+	// Return the surface equation for reading only.
+/**
+ * Returns the <tt>surface</tt> equation for update operations.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure
+ * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+ * to put an entry on the bulletin board.
+ */
+	surface &equation_for_update();
 
-    // Get a new (lower-case) surface being the spline of the
-    // SPLINE, transformed if the given SPAtransf is non-null and
-    // reversed in sense if the logical is true.
-    /**
-     * Returns the transformed spline equation of this <tt>SPLINE</tt>.
-     * <br><br>
-     * <b>Role:</b> If the transform <i>t</i> is non-<tt>NULL</tt>, the surface is transformed. If
-     * the logical <tt>negate</tt> is <tt>TRUE</tt>, the surface is reversed in <tt>sense</tt>.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     * @param negate
-     * flag to reverse the surface.
-     */
-    surface* trans_surface(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
+	// Get a new (lower-case) surface being the spline of the
+	// SPLINE, transformed if the given SPAtransf is non-null and
+	// reversed in sense if the logical is true.
+/**
+ * Returns the transformed spline equation of this <tt>SPLINE</tt>.
+ * <br><br>
+ * <b>Role:</b> If the transform <i>t</i> is non-<tt>NULL</tt>, the surface is transformed. If
+ * the logical <tt>negate</tt> is <tt>TRUE</tt>, the surface is reversed in <tt>sense</tt>.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ * @param negate
+ * flag to reverse the surface.
+ */
+	surface *trans_surface(
+						const SPAtransf &t = SPAtransf(),
+						logical negate = FALSE
+					) const;
 
-    // Transform the stored spline in place.
-    /**
-     * Transforms this <tt>SPLINE</tt> in place.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure
-     * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
-     * to put an entry on the bulletin board.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     */
-    void operator*=(const SPAtransf& t);
+	// Transform the stored spline in place.
+/**
+ * Transforms this <tt>SPLINE</tt> in place.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure
+ * is posted on the bulletin board. If not, the method calls <tt>backup</tt>
+ * to put an entry on the bulletin board.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ */
+	void operator*=( const SPAtransf &t );
 
-    // Make a bounding SPAbox for this surface, surrounded by a set of loops
-    // of edges. For the present we merely find the SPAbox containing the
-    // whole underlying surface, ignoring the bounding edges. Provided
-    // we keep the surface minimal, this is probably sufficient as a
-    // long-term solution.
+	// Make a bounding SPAbox for this surface, surrounded by a set of loops
+	// of edges. For the present we merely find the SPAbox containing the
+	// whole underlying surface, ignoring the bounding edges. Provided
+	// we keep the surface minimal, this is probably sufficient as a
+	// long-term solution.
 
-    // wseibold (Feb`02) added arguments to compute tighter bounding boxes
-    /**
-     * Returns a bounding box for this <tt>SPLINE</tt>.
-     * <br><br>
-     * <b>Role:</b> Returns a <tt>SPAbox</tt> bounding the complete <tt>surface</tt>
-     * and the supplied <tt>LOOP</tt> list. If tight_box is TRUE, then a tighter box
-     * bounding only the supplied <tt>LOOP</tt> list is computed. If untransformed_box
-     * is supplied, it will be expanded to include the untransformed box just computed.
-     * <br><br>
-     * @param loop
-     * list of <tt>LOOP</tt>s on the surface
-     * @param t
-     * transform to apply to the box
-     * @param tight_box
-     * flag to compute a tighter box
-     * @param untransformed_box
-     * accumulating box
-     */
-    SPAbox make_box(LOOP* loop = NULL,  // STL amt 26Jun03: default value added
-                    const SPAtransf* t = NULL, logical tight_box = FALSE, SPAbox* untransformed_box = NULL) const;
+	// wseibold (Feb`02) added arguments to compute tighter bounding boxes
+/**
+ * Returns a bounding box for this <tt>SPLINE</tt>.
+ * <br><br>
+ * <b>Role:</b> Returns a <tt>SPAbox</tt> bounding the complete <tt>surface</tt> 
+ * and the supplied <tt>LOOP</tt> list. If tight_box is TRUE, then a tighter box 
+ * bounding only the supplied <tt>LOOP</tt> list is computed. If untransformed_box 
+ * is supplied, it will be expanded to include the untransformed box just computed.
+ * <br><br>
+ * @param loop
+ * list of <tt>LOOP</tt>s on the surface
+ * @param t
+ * transform to apply to the box
+ * @param tight_box
+ * flag to compute a tighter box
+ * @param untransformed_box
+ * accumulating box
+ */
+	SPAbox make_box( LOOP *loop = NULL, // STL amt 26Jun03: default value added
+				  const SPAtransf *t = NULL,
+				  logical tight_box = FALSE,
+				  SPAbox *untransformed_box = NULL ) const;
 
-    // lookup is done using SURFACE::lookup()
-    // int lookup( logical ) const;
+	// lookup is done using SURFACE::lookup()
+	// int lookup( logical ) const;
 
-    // STI ROLL
-    /**
-     * @nodoc
-     */
-    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
-    // STI ROLL
-
-  public:
-    // SHIVELINO: acisadaptor module add.
-    spline get_def();
+	// STI ROLL
+/**
+ * @nodoc
+ */
+	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
+	// STI ROLL
 };
 /** @} */
 #endif

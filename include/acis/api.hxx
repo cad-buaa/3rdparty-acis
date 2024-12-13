@@ -237,7 +237,7 @@ public:
  */
 #define __ERROR_BEGIN_INTERNAL__(object) \
 	outcome result(0); /* Was in API_SYS_BEGIN */ \
-	err_mess_type error_no = 0; \
+	err_mess_type error_num = 0; \
 	problems_list_prop problems_prop; \
 	EXCEPTION_BEGIN \
 	object; \
@@ -254,7 +254,7 @@ public:
 		 */ \
 		result = outcome(error_no, ERROR_INFO_PTR); \
 	EXCEPTION_END_NO_RESIGNAL \
-	error_no = result.error_number(); error_no = error_no;
+	error_num = result.error_number(); error_num = error_num;
 
 // Start and close off bulletin boards, not used directly, but in the following
 // system macros. (The delete function doesn't seem to be used anywhere.)
@@ -480,10 +480,8 @@ public:
 	set_logging(was_logging);
   }
 
-// Assignment operator could not be generated warning
-// is taken care of by adding a private one.  PRS
-private:
-	api_bb_save& operator=(const api_bb_save&) {return *(api_bb_save *)NULL_REF;}
+	// Deleting assignment operator
+	api_bb_save& operator=(const api_bb_save&) = delete;
 };
 
 /**

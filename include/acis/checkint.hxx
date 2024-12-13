@@ -25,6 +25,7 @@ class insanity_list;
 #include "logical.h"
 #include "base.hxx"
 #include "intcucu.hxx"
+#include "spa_null_intr.hxx"
 
 // ywoo 08Jan01: added the header file.
 // ywoo: end.
@@ -33,7 +34,7 @@ extern DECL_BOOL logical improper_ints_cont( ENTITY_LIST& face_list0,
 					     ENTITY_LIST& face_list1,
 					     ENTITY_LIST* insane_ents,
 					     FILE *file_ptr = NULL,
-						 insanity_list*& list = *(insanity_list **)NULL_REF );
+						 insanity_list*& list = SpaAcis::NullObj::get_insanity_list_ptr());
 
 extern DECL_BOOL BODY* make_error_body( ENTITY_LIST *insane_ents );
 
@@ -54,6 +55,6 @@ extern DECL_BOOL logical improper_el_el_ints( ENTITY_LIST& edge_list0,
 					      ENTITY_LIST* insane_ents,
 					      FILE *file_ptr,
 					      logical check_abort,
-					      insanity_list *list = *(insanity_list **)NULL_REF );
+					      insanity_list *list = nullptr );
 
 #endif

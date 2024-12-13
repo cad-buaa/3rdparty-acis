@@ -313,7 +313,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether two variable radii are not equal.
@@ -321,7 +321,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 	{ return !( *this == other ); }
 
 /**
@@ -688,7 +688,7 @@ public:
  * @param other
  * variable radius.
  */
-    virtual logical operator==( var_radius const &other ) const;
+    virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Transforms the <tt>var_rad_const</tt> by the given transformation.
@@ -931,7 +931,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether a <tt>var_rad_two_ends</tt> and a <tt>var_radius</tt> are not equal.
@@ -939,7 +939,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -1256,7 +1256,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether a <tt>var_rad_functional</tt> and a <tt>var_radius</tt> are not equal.
@@ -1264,7 +1264,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -1770,7 +1770,7 @@ public:
  * @param other
  * other var_radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether a <tt>var_rad_rot_ellipse</tt> is equal.
@@ -1778,7 +1778,7 @@ public:
  * @param other
  * other var_radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -2058,7 +2058,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Tests the two <tt>var_rad_fixed_widths</tt> to see if they are not equal.
@@ -2066,7 +2066,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -2276,7 +2276,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether two variable radii are not equal.
@@ -2284,7 +2284,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -2476,7 +2476,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether two variable radii are not equal.
@@ -2484,7 +2484,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**
@@ -2689,7 +2689,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator==( var_radius const &other ) const;
+	virtual bool operator==( var_radius const &other ) const;
 
 /**
  * Determines whether two variable radii are not equal.
@@ -2697,7 +2697,7 @@ public:
  * @param other
  * variable radius.
  */
-	virtual logical operator!=( var_radius const &other ) const
+	virtual bool operator!=( var_radius const &other ) const
 		{ return !( *this == other ); }
 
 /**

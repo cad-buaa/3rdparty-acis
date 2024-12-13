@@ -167,11 +167,11 @@ public:
 /**
  * @nodoc
  */
-	logical operator== (SPA_spring_back_options const& in_opts) const;
+	bool operator== (SPA_spring_back_options const& in_opts) const;
 /**
  * @nodoc
  */
-	logical operator!= (SPA_spring_back_options const& in_opts) const;
+	bool operator!= (SPA_spring_back_options const& in_opts) const;
 };
 
 class surface;
@@ -219,6 +219,11 @@ public:
 	* <b>Role:</b> This is a vector which models the press direction in a springback stamping.
 	*/
 	SPAunit_vector const& get_press_direction() const;
+
+	/**
+	* @nodoc
+	*/
+	void set_press_direction(SPAunit_vector dir);
 
 	/**
 	* Returns the springback domain of definition. Note that the domain of defintion automatically encompasses all of the constraints.
@@ -284,7 +289,12 @@ public:
 	 *  Optional weights, either NULL, or one for each before-after point pair. Use a larger number to emphasize a particular before-after point pair.
 	 */
 	int add_shaping_constraint(SPAposition const* before_pts, SPAposition const* after_pts, int npts, double const* pt_weights);
-
+	
+	/**
+	* @nodoc
+	*/
+	int update_shaping_constraint(ENTITY_LIST const& before_ents, ENTITY_LIST const& after_ents, SPAposition const* before_pts, SPAposition const* after_pts, int npts);
+	
 	/**
 	 * Construct a boundary plane and return a tag which can be used for gap queries.
 	 * <br><br>
@@ -361,6 +371,25 @@ public:
 	 **/
 	 void set_do_FEA(logical do_FEA);
 	 /**
+	 * Tells whether convergence algorithm for use with finite element data is on.
+	 **/
+	 logical get_do_FEA_convergence() const;
+	 /**
+	 * Toggles convergence algorithm for use with finite element data.
+	 **/
+	 void set_do_FEA_convergence(logical do_FEA_conv);
+	 /**
+	 * Tells what the target fit accuracy for convergence algorithm is.
+	 **/
+	 double get_FEA_convergence_fit() const;
+	 /**
+	 * Sets target fit accuracy for convergence algorithm.
+	 **/
+	 void set_FEA_convergence_fit(double fit);
+
+
+
+	 /**
 	* Map points according to the spring back mapping.
 	* Returns TRUE if all input points were inside the SPAbox returned by the method get_def_domain().
 	* If FALSE is returned, then some of the results are unreliable; specifically, the user needs to exclude 
@@ -382,11 +411,11 @@ public:
 /**
  * @nodoc
  */
-	logical operator== (SPA_spring_back_def const& in_def) const;
+	bool operator== (SPA_spring_back_def const& in_def) const;
 /**
  * @nodoc
  */
-	logical operator!= (SPA_spring_back_def const& in_def) const;
+	bool operator!= (SPA_spring_back_def const& in_def) const;
 
 };
 

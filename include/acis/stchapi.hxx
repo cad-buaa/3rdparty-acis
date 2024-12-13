@@ -492,6 +492,32 @@ public:
 	 */
 	void get_coincident_faces(ENTITY_LIST & partner_faces) const;
 
+	/**
+	 * Accepts either <tt>TRUE</tt> or <tt>FALSE</tt> to indicate to <tt>api_stitch</tt> to give preference to pairing of edges
+	 * without splitting the edges. Users can enable the stitching of multi body in mated scenarios by using this interface. 
+	 * <br><br>
+	 * <b>Role:</b> A value of <tt>TRUE</tt> indicates that <tt>api_stitch</tt> in <tt>TOLERANT_STITCH</tt> or <tt>EDGE_TOLERANT_STITCH</tt> mode will
+	 * wherever possible attempt to pair edges without splitting the edges. Users desirous of stitching of multi body in mated scenarios needs to pass
+	 * the value of <tt>TRUE</tt>. A value of <tt>FALSE</tt> will result in switching OFF this behavior.
+	 * <br><br>
+	 * The default value for <tt>prefer_edge_pairing_without_splits</tt> is <tt>FALSE</tt>.
+	 * <br><br>
+	 * NOTE: <tt>api_stitch</tt> will always treat <tt>prefer_edge_pairing_without_splits</tt> as <tt>FALSE</tt> when either @href NM_PROCESSING_MODE
+	 * is set to mode other than <tt>NM_IGNORE</tt> or when @href STITCH_COIN_MODES is set to mode other than <tt>SPASTITCH_COIN_SKIP</tt>.
+	 */
+	void set_prefer_edge_pairing_without_splits(logical flag);
+
+	/**
+	 * Returns the current value of the <tt>prefer_edge_pairing_without_splits</tt> option.
+	 * <br><br>
+	 * <b>Role:</b> A value of <tt>TRUE</tt> indicates that <tt>api_stitch</tt> in <tt>TOLERANT_STITCH</tt> or <tt>EDGE_TOLERANT_STITCH</tt> mode will
+	 * wherever possible attempt to pair edges without splitting the edges.
+	 * If <tt>FALSE</tt> is returned, this behavior is switched OFF.
+	 * <br><br>
+	 * The default value of <tt>prefer_edge_pairing_without_splits</tt> is <tt>FALSE</tt>.
+	 */
+	logical get_prefer_edge_pairing_without_splits() const;
+
 	friend class tolerant_stitch_options_internal;
 
 	protected:
@@ -506,9 +532,11 @@ public:
 		ENTITY_LIST m_all_coin_faces;
 
 		logical m_allow_void_shells;
-
+		
+		logical m_prefer_edge_pairing_without_splits;
+		
 		NM_PROCESSING_MODE m_nonmanifold_processing_mode;
-
+		
 		VOID_LIST m_nm_edge_cluster_list;
 
 		bool m_output_nm_sheet_bodies;

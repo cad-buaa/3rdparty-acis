@@ -229,7 +229,6 @@ extern DECL_BASE const SPAunit_vector x_axis, y_axis, z_axis;
 extern GLOBAL_CONST DECL_BASE SPAunit_vector null_unitvec;
 
 
-
 /** @} */
 #endif
 

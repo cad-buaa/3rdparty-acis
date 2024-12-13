@@ -1,4 +1,18 @@
-                   /* local functions header file */
+/*********************************************************************
+ *                                                                   *
+ *                          DevTools 1.8.0                           *
+ *                                                                   *
+ *  These coded instructions, statements and computer programs       *
+ *  contain unpublished proprietary information of Tech Soft 3D,     *
+ *  and are protected by Federal copyright law.  They may not be     *
+ *  disclosed to third parties or copied or duplicated in any form,  *
+ *  in whole or in part, without the prior written consent of        *
+ *  Tech Soft 3D.                                                    *
+ *                                                                   *
+ *                 Copyright (C) 2023, Tech Soft 3D                  *
+ *                                                                   *
+ *********************************************************************/
+/* local functions header file */
 /*
  * jdct.h
  *
@@ -9,7 +23,7 @@
  * This include file contains common declarations for the forward and
  * inverse DCT modules.  These declarations are private to the DCT managers
  * (jcdctmgr.c, jddctmgr.c) and the individual DCT algorithms.
- * The individual DCT algorithms are kept in separate files to ease 
+ * The individual DCT algorithms are kept in separate files to ease
  * machine-dependent tuning (e.g., assembly coding).
  */
 
@@ -26,15 +40,14 @@
  * Quantization of the output coefficients is done by jcdctmgr.c.
  */
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef int DCTELEM;		/* 16 or 32 bits is fine */
+typedef int DCTELEM; /* 16 or 32 bits is fine */
 
 typedef JMETHOD(void, forward_DCT_method_ptr, (DCTELEM * data));
 typedef JMETHOD(void, float_DCT_method_ptr, (FAST_FLOAT * data));
-
 
 /*
  * An inverse DCT routine is given a pointer to the input JBLOCK and a pointer
@@ -55,9 +68,8 @@ typedef JMETHOD(void, float_DCT_method_ptr, (FAST_FLOAT * data));
 
 typedef MULTIPLIER ISLOW_MULT_TYPE; /* short or int, whichever is faster */
 typedef MULTIPLIER IFAST_MULT_TYPE; /* 16 bits is OK, use short if faster */
-#define IFAST_SCALE_BITS  2	/* fractional bits in scale factors */
+#define IFAST_SCALE_BITS 2          /* fractional bits in scale factors */
 typedef FAST_FLOAT FLOAT_MULT_TYPE; /* preferred floating type */
-
 
 /*
  * Each IDCT routine is responsible for range-limiting its results and
@@ -68,10 +80,9 @@ typedef FAST_FLOAT FLOAT_MULT_TYPE; /* preferred floating type */
  * prepare_range_limit_table (in jdmaster.c) for more info.
  */
 
-#define IDCT_range_limit(cinfo)  ((cinfo)->sample_range_limit + CENTERJSAMPLE)
+#define IDCT_range_limit(cinfo) ((cinfo)->sample_range_limit + CENTERJSAMPLE)
 
-#define RANGE_MASK  (MAXJSAMPLE * 4 + 3) /* 2 bits wider than legal samples */
-
+#define RANGE_MASK (MAXJSAMPLE * 4 + 3) /* 2 bits wider than legal samples */
 
 /* Extern declarations for the forward and inverse DCT routines. */
 
@@ -89,7 +100,7 @@ EXTERN(void) vgl_jpg_fdct_float JPP((FAST_FLOAT * data));
  * and may differ from one module to the next.
  */
 
-#define ONE	((JINT32) 1)
+#define ONE         ((JINT32)1)
 #define CONST_SCALE (ONE << CONST_BITS)
 
 /* Convert a positive real constant to an integer scaled by CONST_SCALE.
@@ -97,14 +108,14 @@ EXTERN(void) vgl_jpg_fdct_float JPP((FAST_FLOAT * data));
  * thus causing a lot of useless floating-point operations at run time.
  */
 
-#define FIX(x)	((JINT32) ((x) * CONST_SCALE + 0.5))
+#define FIX(x) ((JINT32)((x)*CONST_SCALE + 0.5))
 
 /* Descale and correctly round an JINT32 value that's scaled by N bits.
  * We assume RIGHT_SHIFT rounds towards minus infinity, so adding
  * the fudge factor is correct for either sign of X.
  */
 
-#define DESCALE(x,n)  RIGHT_SHIFT((x) + (ONE << ((n)-1)), n)
+#define DESCALE(x, n) RIGHT_SHIFT((x) + (ONE << ((n)-1)), n)
 
 /* Multiply an JINT32 variable by an JINT32 constant to yield an JINT32 result.
  * This macro is used only when the two inputs will actually be no more than
@@ -115,27 +126,27 @@ EXTERN(void) vgl_jpg_fdct_float JPP((FAST_FLOAT * data));
  * correct combination of casts.
  */
 
-#ifdef SHORTxSHORT_32		/* may work if 'int' is 32 bits */
-#define MULTIPLY16C16(var,const)  (((JINT16) (var)) * ((JINT16) (const)))
+#ifdef SHORTxSHORT_32 /* may work if 'int' is 32 bits */
+#define MULTIPLY16C16(var, const) (((JINT16)(var)) * ((JINT16)(const)))
 #endif
-#ifdef SHORTxLCONST_32		/* known to work with Microsoft C 6.0 */
-#define MULTIPLY16C16(var,const)  (((JINT16) (var)) * ((JINT32) (const)))
+#ifdef SHORTxLCONST_32 /* known to work with Microsoft C 6.0 */
+#define MULTIPLY16C16(var, const) (((JINT16)(var)) * ((JINT32)(const)))
 #endif
 
-#ifndef MULTIPLY16C16		/* default definition */
-#define MULTIPLY16C16(var,const)  ((var) * (const))
+#ifndef MULTIPLY16C16 /* default definition */
+#define MULTIPLY16C16(var, const) ((var) * (const))
 #endif
 
 /* Same except both inputs are variables. */
 
-#ifdef SHORTxSHORT_32		/* may work if 'int' is 32 bits */
-#define MULTIPLY16V16(var1,var2)  (((JINT16) (var1)) * ((JINT16) (var2)))
+#ifdef SHORTxSHORT_32 /* may work if 'int' is 32 bits */
+#define MULTIPLY16V16(var1, var2) (((JINT16)(var1)) * ((JINT16)(var2)))
 #endif
 
-#ifndef MULTIPLY16V16		/* default definition */
-#define MULTIPLY16V16(var1,var2)  ((var1) * (var2))
+#ifndef MULTIPLY16V16 /* default definition */
+#define MULTIPLY16V16(var1, var2) ((var1) * (var2))
 #endif
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif

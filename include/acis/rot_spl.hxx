@@ -24,6 +24,7 @@
 #include "spldef.hxx"
 #include "position.hxx"
 #include "unitvec.hxx"
+#include "spa_null_kern.hxx"
 class straight;
 class SizeAccumulator;
 /**
@@ -90,8 +91,8 @@ public:
 				curve const &cur,
 				SPAposition const &axis_pt,
 				SPAunit_vector const &axis_dir,
-				SPAinterval const &uparam = *(const class SPAinterval *)NULL_REF,
-				SPAinterval const &vparam = *(const class SPAinterval *)NULL_REF
+				SPAinterval const &uparam = SpaAcis::NullObj::get_interval(),
+				SPAinterval const &vparam = SpaAcis::NullObj::get_interval()
 			);
 
    /**
@@ -181,18 +182,18 @@ protected:
 	 * Makes or remakes the approximating surface.
 	 * <br><br>
 	 * <b>Role:</b> The force flag forces the
-	 * approximating surface to be made even if it is illegal.  This can be
+	 * approximating surface to be made even if it is illegal. This can be
 	 * used to restore old parts that were not checked properly before being
-	 * saved.  The spline argument 'spl' may be null but if it is supplied the
-	 * function may be a little faster.  The function stores the approximating
+	 * saved. The spline argument 'spl' may be null but if it is supplied the
+	 * function may be a little faster. The function stores the approximating
      * surface and the actual fit error that was achieved in the <tt>spl_sur</tt>,
 	 * overriding the declared const-ness of the function to do this.
 	 */
-    virtual void	make_approx(
+    virtual void make_approx(
 							 double fit,
-							 const spline& spl  = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const;
+							) const;
 
 	// For internal use only.
 /**
@@ -233,7 +234,7 @@ private:
 	 * does guarantee that different surfaces are correctly
 	 * identified as such.
 	 */
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 	/**
      * Transformation. The base class transforms the spline and fit
 	 * tolerance: we must handle the curve and sweep vector.
@@ -280,10 +281,10 @@ private:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos(),
+				logical f_weak		= FALSE,
+			    SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 			) const;
 
 	void local_eval_norm_curv(
@@ -291,19 +292,19 @@ private:
 				SPApar_pos const &uv,
 				SPAposition &foot,
 				SPApar_pos &uv_actual,
-				SPAunit_vector &norm = *(SPAunit_vector *)NULL_REF,
-				surf_princurv &curv = *(surf_princurv *)NULL_REF
+				SPAunit_vector &norm	= SpaAcis::NullObj::get_unit_vector(),
+				surf_princurv &curv		= SpaAcis::NullObj::get_surf_princurv()
 		)const ;
 	/**
 	 * Find the parameter values of a point on the surface.
 	 */
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	virtual SPAbox bound(
-			  SPApar_box const & = *(SPApar_box *)NULL_REF
+			  SPApar_box const & = SpaAcis::NullObj::get_par_box()
 			  );
 
 	/**
@@ -311,7 +312,7 @@ private:
 	 */
 
 	virtual surf_normcone normal_cone(
-							  SPApar_box const & = *(SPApar_box *)NULL_REF,
+							  SPApar_box const & = SpaAcis::NullObj::get_par_box(),
 							  logical = FALSE
 							  );
 
@@ -419,7 +420,7 @@ private:
 	*/
 
 	virtual int accurate_derivs(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -475,13 +476,13 @@ private:
 	// them on the defining curve.
 
 	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
+  		        const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 						 // supplies a set of flags which say which fixes
 						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
+				check_fix& result = SpaAcis::NullObj::get_check_fix(),
 						 // returns a set of flags which say which fixes
 						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
+				const check_status_list* = nullptr
 						 // list of checks that are to be made.  If the
 						 // list is null, then every possible check will
 						 // be made; otherwise, the function will only

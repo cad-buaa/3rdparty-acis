@@ -124,14 +124,14 @@ public:
 	* @param in_glue_opt
 	* object to compare.
 	*/
-	logical operator== (glue_options const& in_glue_opt) const;
+	bool operator== (glue_options const& in_glue_opt) const;
 	/**
 	* Returns <tt>TRUE</tt> if the input object is not same as this object or <tt>FALSE</tt> otherwise.
 	* <br><br>
 	* @param in_glue_opt
 	* object to compare.
 	*/
-	logical operator!= (glue_options const& in_glue_opt) const;
+	bool operator!= (glue_options const& in_glue_opt) const;
 	/**
 	* Returns a copy of this object.
 	*/

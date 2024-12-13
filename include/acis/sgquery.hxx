@@ -44,7 +44,7 @@ class SPAtransf;
  */
 
 /**
-* Returns the transformation of the parent body of the the provided entity.
+* Returns the transformation of the parent body of the provided entity.
 * <br><br>
 * <b>Role:</b> Routine which obtains the transformation of the parent body of
 * the following entities: BODY, LUMP, SHELL, SUBSHELL, FACE, LOOP, COEDGE, EDGE,
@@ -54,7 +54,7 @@ class SPAtransf;
 * @param entity
 * entity starting point.
 **/
-
+[[deprecated("Deprecated Interface, \"sg_get_transform\" will be removed in 2025 1.0 release")]]
 DECL_QUERY SPAtransf &
 sg_get_transform(
 	ENTITY *entity

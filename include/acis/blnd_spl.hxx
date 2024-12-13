@@ -25,6 +25,7 @@
 #include "bs3curve.hxx"
 #include "blnd_eval_ver.hxx"
 #include "bl_cntct_sec.hxx"
+#include "spa_null_kern.hxx"
 /**
  * @file blnd_spl.hxx
  * @CAA2Level L1
@@ -140,7 +141,7 @@ private:
 
     // This is where the results of the last evaluation are cached.
 
-	double _t;				// SPAparameter of last evaluation
+	double _t;				// parameter of last evaluation
 	int _side;				// side of last evaluation
 	int _nderivs;			// no. of derivs cached
 	SPAposition _P2;		// cached SPAposition
@@ -180,13 +181,13 @@ public:
     SPAposition pt;
 
 	// A bs2_curve will be present if the blend support is a parametric surface.
-	// It represents the spring curve in the SPAparameter space of the surface.
+	// It represents the spring curve in the parameter space of the surface.
 	// The bs2_curve may be left null when the blend_support is first made, and
 	// inserted later.
 
 	// NOTE: in future, we may decide to use the bs2_curve when the support
 	// entity is a curve, to reparametrise the curve in the blend surface
-	// SPAparameter.
+	// parameter.
 
     bs2_curve bs2;
 
@@ -204,10 +205,8 @@ public:
 		    curve const &cu,
 		    SPAposition const &p,
 		    bs2_curve b,
-			SPApar_box const &pbx =
-				*(SPApar_box const *)NULL_REF,
-			SPAinterval const &r =
-				*(SPAinterval const *)NULL_REF
+			SPApar_box const &pbx = SpaAcis::NullObj::get_par_box(),
+			SPAinterval const &r  = SpaAcis::NullObj::get_interval()
 		    );
 
     // Destructor to delete the surface, curve, bs2_curve, BOUNDED_CURVE and cvec.
@@ -216,13 +215,13 @@ public:
 
     // Evaluator function, called from the blend_spl_sur evaluator. A cvec on
     // the reference curve is provided. The evaluator evaluates the spring curve
-    // SPAposition and nd derivatives, wrt the blend surface SPAparameter. If
+    // SPAposition and nd derivatives, wrt the blend surface parameter. If
     // the support is a curve then 'evaluate' also sets the cvec; if a surface,
     // it sets the svec.
 
     // The evaluator is non-virtual because it provides a caching mechanism so
-    // that repeat evaluations at the same spine SPAparameter (but for different
-    // transverse SPAparameter on the surface) will be quick.
+    // that repeat evaluations at the same spine parameter (but for different
+    // transverse parameter on the surface) will be quick.
 
     int evaluate( 
             CVEC &def_cvec,
@@ -246,7 +245,10 @@ public:
 public:
 
     CVEC &cvec() const { return *_cvec; }
+	CVEC * get_cvec() const { return _cvec; }
     SVEC &svec() const { return *_svec; }
+	SVEC * get_svec() const { return _svec; }
+
 
     // Member-setting functions.
 
@@ -257,16 +259,14 @@ public:
 
 	void set_surface( 
 				surface *sf, 
-				SPApar_box const &pbx = 
-					*(SPApar_box const *)NULL_REF 
+				SPApar_box const &pbx = SpaAcis::NullObj::get_par_box()
 				);
 
     // Replace the curve.
 
 	void set_curve( 
 				curve *cu, 
-				SPAinterval const &r = 
-					*(SPAinterval const *)NULL_REF  
+				SPAinterval const &r = SpaAcis::NullObj::get_interval()
 				);
 
     // Now the administrative functions that are required to support their
@@ -284,7 +284,7 @@ public:
 	// blend_supports are determined to be equal, but does guarantee that
 	// different blend_supports are correctly identified as such.
 
-    virtual logical operator==( blend_support const &rhs ) const;
+    virtual bool operator==( blend_support const &rhs ) const;
 
     // Transform this blend_support by the given SPAtransf.
 
@@ -304,10 +304,8 @@ public:
 
 	virtual void update( 
 					blend_spl_sur const &spl,
-					SPApar_box const &pbx = 
-						*(SPApar_box const *)NULL_REF, 
-					SPAinterval const &r = 
-						*(SPAinterval const *)NULL_REF    
+					SPApar_box const &pbx = SpaAcis::NullObj::get_par_box(),
+					SPAinterval const &r  = SpaAcis::NullObj::get_interval()
 					);
 
 	// *NNN* Another overloaded extend used by var_radius blend supports
@@ -398,8 +396,7 @@ public:
     blend_support_surface( 
 					surface const &sf, 
 					bs2_curve b = NULL,
-					SPApar_box const &pbx =
-						*(SPApar_box const *)NULL_REF
+					SPApar_box const &pbx = SpaAcis::NullObj::get_par_box()
 					);
 
     virtual	~blend_support_surface();
@@ -480,8 +477,7 @@ public:
     blend_support_curve( 
 			curve const &cu, 
 			bs2_curve = NULL,
-			SPAinterval const &r =
-				*(SPAinterval const *)NULL_REF 
+			SPAinterval const &r = SpaAcis::NullObj::get_interval()
 			);
 
     // Do-nothing destructor.
@@ -547,8 +543,7 @@ public:
 
 	blend_support_zero_curve( 
 					curve const &cu,
-					SPAinterval const &r =
-						*(SPAinterval const *)NULL_REF
+					SPAinterval const &r = SpaAcis::NullObj::get_interval()
 					);
 
     // Do-nothing destructor.
@@ -680,10 +675,8 @@ public:
                 surface const &sf,
 				curve const &cu,
 				bs2_curve b = NULL,
-				SPApar_box const &pbx =
-					*(SPApar_box const *)NULL_REF,
-				SPAinterval const &r =
-					*(SPAinterval const *)NULL_REF
+				SPApar_box const &pbx = SpaAcis::NullObj::get_par_box(),
+				SPAinterval const &r  = SpaAcis::NullObj::get_interval()
 				);
 
     // Do-nothing destructor.
@@ -1244,9 +1237,9 @@ public:
  * flag for forcing.
  */
 
-    virtual void	make_approx(
+    virtual void make_approx(
 							 double fit,
-							 const spline& spl = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 							 logical force = FALSE ) const;
 
 
@@ -1268,7 +1261,7 @@ public:
 	// surface either side of the start as is legal. If the start lies
 	// in an illegal region of the surface, it will make nothing at all.
 	// For periodic defining curves, it is possible for the final
-	// surface range to cross the curve's join SPAparameter.
+	// surface range to cross the curve's join parameter.
 
 	// If the range and start are both given, makes up to the given
 	// range, starting where indicated, and watching out for illegal
@@ -1329,31 +1322,26 @@ public:
  */
 
     logical make_approximating_surface(
-							   double requested_tol = -1.0,
-							   SPAinterval const &range = 
-                                * (SPAinterval const *) NULL_REF,
-							   double const &start = 
-                                * (double const *) NULL_REF,
-							   SPAbox const &region = 
-                                * (SPAbox const *) NULL_REF,
-                               list_of_contacts const &slice_list =
-                                * (list_of_contacts const *) NULL_REF,
-							   logical stop_if_illegal = TRUE,
-							   logical & found_sf_illegal =
-							    * (logical *)NULL_REF
+							   double requested_tol					= -1.0,
+							   SPAinterval const &range				= SpaAcis::NullObj::get_interval(),
+							   double const &start					= SpaAcis::NullObj::get_double(),
+							   SPAbox const &region					= SpaAcis::NullObj::get_box(),
+                               list_of_contacts const &slice_list	= SpaAcis::NullObj::get_list_of_contacts(),
+							   logical stop_if_illegal				= TRUE,
+							   logical & found_sf_illegal			= SpaAcis::NullObj::get_logical()
 							   );
 
 	// This is the new way to manufacture the approximating surface,
 	// capable of extending an existing one. It extends the bs3_surface
-	// from spine SPAparameter start to end, or makes it initially if no
+	// from spine parameter start to end, or makes it initially if no
 	// approx surface is yet there. It makes it to the requested
 	// tolerance, or better. If the requested tolerance is < 0, it
 	// chooses its own default "sensible" tolerance.
 
 	// Note that start may be bigger than end and the surface is
-	// constructed in decreasing SPAparameter order. One of start or end
+	// constructed in decreasing parameter order. One of start or end
 	// should match an end of the existing approx sf (if there is one),
-	// and the other SPAparameter should clearly continue on from there. If
+	// and the other parameter should clearly continue on from there. If
 	// the logical flag is set the approximating surface is terminated
 	// if it is found to self intersect or scrunch up. It still makes
 	// what it legally could, however.
@@ -1407,12 +1395,9 @@ public:
 					 double requested_tol,
 					 logical stop_if_illegal,
 					 logical & found_sf_illegal,
-					 SPAbox const &region =
-                        * (SPAbox const *) NULL_REF,
-					 int const &num_u = 
-                        * (int const*) NULL_REF,
-                     list_of_contacts const &slice_list =
-                        * (list_of_contacts const *) NULL_REF					 
+					 SPAbox const &region	= SpaAcis::NullObj::get_box(),
+					 int const &num_u		= SpaAcis::NullObj::get_int(),
+                     list_of_contacts const &slice_list = SpaAcis::NullObj::get_list_of_contacts()
 					 );
 
 /**
@@ -1437,13 +1422,12 @@ public:
 	logical extend_approx_sf_u(
 					 SPAinterval const &u_r,
 					 logical stop_if_illegal,
-					 SPAbox const &region =
-                        * (SPAbox const *) NULL_REF
+					 SPAbox const &region = SpaAcis::NullObj::get_box()
 					 );
 
 	// Function to find stationary points. Only does anything if one of
 	// both blend_supports are on curves. Searchs from the given start
-	// SPAparameter for stationary points, in the given direction as far as
+	// parameter for stationary points, in the given direction as far as
 	// the defining curve allows and if it finds one adds that
 	// information to the legal_range. The first logical flag indicates
 	// to search up the range, the second whether the start point is to
@@ -1486,7 +1470,7 @@ public:
 					   double start,
 					   logical search_fwd,
 					   logical ignore_start_root,
-					   double &end = *(double *)NULL_REF
+					   double &end = SpaAcis::NullObj::get_double()
 					   );
 
     // This is the old make_approximating_surface function. It is
@@ -1657,7 +1641,7 @@ public:
 
     void set_fitol( double tol );
 
-// Set the u-SPAparameter range.
+// Set the u-parameter range.
 // Don't allow start > end.  If so, makes an empty SPAinterval.
 /**
  * Sets the <i>u</i>-parameter range.
@@ -1672,7 +1656,7 @@ public:
 
     void set_u_range( double start, double end );
 
-// Set the v-SPAparameter range.
+// Set the v-parameter range.
 // Don't allow start > end.  If so, makes an empty SPAinterval.
 /**
  * Set the <i>v</i>-parameter range.
@@ -1718,7 +1702,7 @@ public:
      void	determine_singularity();
 
 
-// Update the legal_range of the blend surface, given the SPAparameter at
+// Update the legal_range of the blend surface, given the parameter at
 // which the surface must stop, and whether the bound is an upper bound
 // or not. Does the correct thing for periodic def_curves.
 /**
@@ -1760,7 +1744,7 @@ public:
 
 	void check_safe_range( int which_end = 0 );
 
-// A query function to check whether a given v-SPAparameter value
+// A query function to check whether a given v-parameter value
 // is within the legal range.
 /**
  * A query function to check whether a given <i>v</i>-parameter value is within the legal range.
@@ -1774,7 +1758,7 @@ public:
 
 // A function to extend the blend surface in place, including all the supporting
 // data. Not sure exactly how this should be specified - how about giving a
-// v-SPAparameter range which is bigger than the current range.
+// v-parameter range which is bigger than the current range.
 /**
  * Extends the blend surface in place, including all the supporting data.
  * <br><br>
@@ -1807,7 +1791,7 @@ public:
  * subtype object.
  */
 
-    logical operator==( subtype_object const &obj ) const;
+    bool operator==( subtype_object const &obj ) const;
 
 
     // Transform this blend by the given SPAtransf.
@@ -1821,7 +1805,7 @@ public:
     virtual void operator*=( SPAtransf const &trans	);
 
 
-    // Parameter shift: adjust the spline surface to have a SPAparameter
+    // Parameter shift: adjust the spline surface to have a parameter
     // range increased by the argument value (which may be negative).
     // This is only used to move portions of a periodic surface by
     // integral multiples of the period.
@@ -1849,10 +1833,10 @@ public:
     virtual void shift_v( double shift );
 
 
-    // Divide a surface into two pieces at a given SPAparameter value.
-    // If the split is at the end of the SPAparameter range, the spl_sur
+    // Divide a surface into two pieces at a given parameter value.
+    // If the split is at the end of the parameter range, the spl_sur
     // is just returned as the appropriate half (in increasing
-    // SPAparameter order), and the other is NULL. Otherwise a new spl_sur
+    // parameter order), and the other is NULL. Otherwise a new spl_sur
     // is used for one part, and the old one is modified for the other.
 /**
  * Divides a surface into two pieces at the <i>u</i>-parameter value.
@@ -1891,8 +1875,8 @@ public:
 
     // Concatenate the contents of two surfaces into one. The surfaces
     // are guaranteed to be the same base or derived type, and to have
-    // contiguous SPAparameter ranges ("this" is the beginning part of
-    // the combined surface (i.e. lower SPAparameter values), the
+    // contiguous parameter ranges ("this" is the beginning part of
+    // the combined surface (i.e. lower parameter values), the
     // argument gives the end part).
 
 /**
@@ -1934,7 +1918,7 @@ public:
 
 //	virtual SPAunit_vector
 //	point_normal(	SPAposition const &,
-//					SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//					SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
@@ -1947,7 +1931,7 @@ public:
 //					double &,			// curvature in first direction
 //					SPAunit_vector &,		// second axis direction
 //					double &,			// curvature in second direction
-//					SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+//					SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
 //                  evaluate_surface_quadrant = evaluate_surface_unknown
 //			) const;
 
@@ -1961,7 +1945,7 @@ public:
 //	virtual double point_cross(
 //				SPAposition const &,
 //				SPAunit_vector const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
@@ -1989,8 +1973,8 @@ public:
                                   SPAunit_vector &Tan,
 			                      SPAvector const &R0,
                                   SPAvector const &R1,
-			                      double &rr_sina = *(double*) NULL_REF,
-                                  double &rr_cosa = *(double*) NULL_REF,
+			                      double &rr_sina = SpaAcis::NullObj::get_double(),
+                                  double &rr_cosa = SpaAcis::NullObj::get_double(),
                                   double v_value  = 0.0
                                 ) const;
 
@@ -2015,16 +1999,16 @@ public:
 	virtual double blend_angle( SPAunit_vector &Tan,
 			                SPAvector const &R0,
                             SPAvector const &R1,
-			                double &rr_sina = *(double*) NULL_REF,
-                            double &rr_cosa = *(double*) NULL_REF,
+			                double &rr_sina = SpaAcis::NullObj::get_double(),
+                            double &rr_cosa = SpaAcis::NullObj::get_double(),
                             double v_value  = 0.0
                           ) const;
 
 
 	// Find the point on the surface nearest to the given point,
-	// iterating from the given SPAparameter values (if supplied).
+	// iterating from the given parameter values (if supplied).
 	// Return the found point, the normal to the surface at that
-	// point and the SPAparameter values at the found point.
+	// point and the parameter values at the found point.
 
 /**
  * @nodoc
@@ -2034,16 +2018,16 @@ public:
 			    SPAposition &point2,
 			    SPAunit_vector &unit_vec,
 			    surf_princurv &curv,
-			    SPApar_pos const &par_pos1 = *(SPApar_pos *)NULL_REF,
-			    SPApar_pos &par_pos2 = *(SPApar_pos *)NULL_REF,
-				logical f_weak=FALSE,
-			    SPApar_box const &par_box = *(SPApar_box *)NULL_REF
+			    SPApar_pos const &par_pos1	= SpaAcis::NullObj::get_par_pos(),
+			    SPApar_pos &par_pos2		= SpaAcis::NullObj::get_par_pos(),
+				logical f_weak				= FALSE,
+			    SPApar_box const &par_box	= SpaAcis::NullObj::get_par_box()
 			    ) const;
 
 
-    // Find the SPAparameter values of a point on the surface. We use
+    // Find the parameter values of a point on the surface. We use
     // a slightly different parametrisation from standard, to speed
-    // up evaluation: the SPAparameter value is that for the intersection
+    // up evaluation: the parameter value is that for the intersection
     // of the approximating surface with the true surface normal at
     // the given point.
     // This one must be defined, it's "pure virtual".
@@ -2052,10 +2036,10 @@ public:
  */
     virtual SPApar_pos param(
 			  SPAposition const &pt,
-			  SPApar_pos const &result = *(SPApar_pos *)NULL_REF
+			  SPApar_pos const &result = SpaAcis::NullObj::get_par_pos()
 			  ) const;
 
-    // Find the change in surface SPAparameter corresponding to a unit
+    // Find the change in surface parameter corresponding to a unit
     // offset in a given direction at a given uv, the direction
     // lying in the surface.
 
@@ -2076,7 +2060,7 @@ public:
 // 								// length 3 in order xuu, xuv, xvv
 // 			) const;
 //
-	// Find the point on the surface with given SPAparameter values.
+	// Find the point on the surface with given parameter values.
 	// The default uses eval().
 
 //	virtual SPAposition eval_position(
@@ -2084,8 +2068,7 @@ public:
 //			) const;
 
 
- 	// Find the normal to the surface at the point with given
-	// SPAparameter values.
+// Find the normal to the surface at the point with given parameter values.
 
 //		virtual SPAunit_vector eval_normal(
 //					SPApar_pos const &
@@ -2103,7 +2086,7 @@ public:
 
 
 	// Find the principal axes of curvature of the surface at a
-	// point with given SPAparameter values, and the curvatures in those
+	// point with given parameter values, and the curvatures in those
 	// directions.
 
 //		virtual void eval_prin_curv(
@@ -2116,7 +2099,7 @@ public:
 //				) const;
 
 	// Find the curvature of a cross-section curve of the surface at
-	// the point on the surface with given SPAparameter values.
+	// the point on the surface with given parameter values.
 	// The cross-section curve is defined as the intersection of
 	// the surface with a plane passing through the point on the
 	// surface and normal to the given direction, which must lie in
@@ -2144,13 +2127,13 @@ public:
 						SPApar_pos const &para, // Parameter
 						SPAposition &pt,		// Point on surface at given parameter
 						SPAvector** arr = NULL, // Array of pointers to arrays of vectors, of size nd.
-                                              // Any of the pointers may be null, in which case the corresponding
-                                              // derivatives will not be returned. Otherwise they must point to
-                                              // arrays long enough for all the derivatives oft hat order - i.e.
-                                              // 2 for the first derivatives, 3 for the second, etc.
-						int num = 0, // Number of derivatives required (nd)
+												// Any of the pointers may be null, in which case the corresponding
+												// derivatives will not be returned. Otherwise they must point to
+												// arrays long enough for all the derivatives oft hat order - i.e.
+												// 2 for the first derivatives, 3 for the second, etc.
+						int num = 0,			// Number of derivatives required (nd)
 						evaluate_surface_quadrant quad = evaluate_surface_unknown // the evaluation location - above,
-                                              // below for each SPAparameter direction, or don't care.
+												// below for each parameter direction, or don't care.
 						) const = 0;
 
 
@@ -2164,7 +2147,7 @@ public:
  * @nodoc
  */
     virtual int accurate_derivs(
-				 SPApar_box const &box = *(SPApar_box *)NULL_REF
+				 SPApar_box const &box = SpaAcis::NullObj::get_par_box()
 				 // Defaults to the whole surface
 				 ) const =0;
 
@@ -2172,7 +2155,7 @@ public:
     // A form of evaluation specific to blend_spl_surs (certain
     // numerical algorithms used by blending need this function).
 	// Evaluates spine, defining curve, contact points and their
-	// derivatives at the given v SPAparameter, according to the
+	// derivatives at the given v parameter, according to the
 	// blend_section class declaration as above. We may specify exactly
 	// how may spine and spring curve derivatives we require. As the two
 	// are typically connected you may get more than you asked for, but
@@ -2211,13 +2194,13 @@ public:
  */
 
     virtual void compute_section(
-						 double v,		// v SPAparameter
-						 int spine_nder,	// number of required spine derivs
-						 int spring_nder,	// no. of req'd spring derivs
-						 logical xcrv_norm,	// whether to fill in xcurve normal
+						 double v,					// v parameter
+						 int spine_nder,			// number of required spine derivs
+						 int spring_nder,			// no. of req'd spring derivs
+						 logical xcrv_norm,			// whether to fill in xcurve normal
 						 blend_section &section,	// all output in here
-						 int eval= 0	 // the evaluation location - 1 => above,
-						             // -1 => below, 0 => don't care.
+						 int eval= 0				// the evaluation location - 1 => above,
+													// -1 => below, 0 => don't care.
 						 ) const = 0;
 
 
@@ -2226,13 +2209,13 @@ public:
 //		virtual logical test_point_tol(
 //					SPAposition const &,
 //					double,
-//					SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-//					SPApar_pos & = *(SPApar_pos *)NULL_REF
+//					SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+//					SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 //				) const;
 //
-// Construct an iso-SPAparameter line on the surface. A u SPAparameter line
-// runs in the direction of increasing u SPAparameter, at constant v.
-// A v SPAparameter line runs in the direction of increasing v, at
+// Construct an iso-parameter line on the surface. A u parameter line
+// runs in the direction of increasing u parameter, at constant v.
+// A v parameter line runs in the direction of increasing v, at
 // constant u. The parametrisation in the non-constant direction
 // matches that of the surface, and has the range obtained by
 // use of param_range_u() or param_range_v() appropriately.
@@ -2310,11 +2293,11 @@ public:
 	void 	generate_new_evaluator_curve_approximation(
                 curve *curve_in,
                 bs3_curve &bs3_out,
-		        const SPAinterval &range = * (SPAinterval*) NULL_REF,
-                int num_seeds = 0,
-		        int *cont = NULL,
-                double *seeds = NULL,
-                logical check_derivs = FALSE
+		        const SPAinterval &range	= SpaAcis::NullObj::get_interval(),
+                int num_seeds				= 0,
+		        int *cont					= NULL,
+                double *seeds				= NULL,
+                logical check_derivs		= FALSE
                 ) const;
 
 	void 	generate_curvature_curve_approximation(

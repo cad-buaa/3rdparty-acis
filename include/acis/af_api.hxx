@@ -1016,9 +1016,61 @@ DECL_FCT outcome api_fast_find_face(
 			SPAunit_vector const &ray_dir,					// ray_direction
 			BODY *in_body,									// target body
 			int &in_count,									// the number of hits
+			ENTITY   ***in_faces = nullptr,					// entities_hit
+			SPAposition *&in_hits = SpaAcis::NullObj::get_position_ptr(),	// positions hit
+			double   *&in_params = SpaAcis::NullObj::get_double_ptr(),		// ray parameters of the hits
+			AcisOptions* ao = NULL
+		);
+
+/**
+* @nodoc
+* Fires a %ray through a body and returns the hits.
+* <br><br>
+* <b>Role:</b> <tt>ray_pos</tt> defines the start point of the %ray, and <tt>ray_dir</tt> defines
+* the direction of the %ray.
+* <br><br>
+* The number of hits (the intersections between the %ray and a face) is retuned in <tt>in_count</tt>. 
+* For each %hit, the API returns the face intersected in <tt>in_faces</tt>, the position of the %hit 
+* in <tt>in_hits</tt>, and the distance along the %ray of the %hit in <tt>in_params</tt>.
+* <br><br>
+* The body must be faceted prior to calling this function.
+* <br><br>
+* The results of this function are accurate only to within the facet tolerance. If
+* more accurate results are needed @href api_raytest_body or @href api_raytest_ents should be
+* used; these two functions may also be faster for analytic surfaces.
+* <br><br>
+* <b>Effect:</b> Read-only
+* <br><br>
+* <b>Journal: </b> Available
+* <br><br>
+* <b>Product(s):</b> 3D Viz Exchange, 3D ACIS Modeler 
+ * <br><br>
+* @param ray_pos
+* %ray start point.
+* @param ray_dir
+* %ray direction.
+* @param in_body
+* target body.
+* @param in_count
+* number of hits.
+* @param in_faces
+* entities %hit; default is none.
+* @param in_hits
+* positions %hit; default is none.
+* @param in_params
+* %ray parameters of the %hit.
+* @param ao
+* acis options.
+**/
+[[deprecated("Deprecated Interface for \"api_fast_find_face\"; it will be removed in upcoming Release 2025 1.0.0")]]
+DECL_FCT outcome api_fast_find_face(
+			SPAposition const &ray_pos,						// ray_point
+			SPAunit_vector const &ray_dir,					// ray_direction
+			BODY *in_body,									// target body
+			int &in_count,									// the number of hits
 			ENTITY   **&in_faces = *(ENTITY ***)NULL_REF,		// entities_hit
-			SPAposition *&in_hits = *(SPAposition **)NULL_REF,	// positions hit
-			double   *&in_params = *(double **)NULL_REF,		// ray parameters of the hits
+			SPAposition *&in_hits = SpaAcis::NullObj::get_position_ptr(),	// positions hit
+			double   *&in_params = SpaAcis::NullObj::get_double_ptr(),		// ray parameters of the hits
 			AcisOptions* ao = NULL
 		);
 

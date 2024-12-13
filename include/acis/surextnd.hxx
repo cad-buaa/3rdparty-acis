@@ -18,6 +18,7 @@
 #include "param.hxx"
 
 #include "acis_options.hxx"
+#include "spa_null_kern.hxx"
 
 /**
 * @file surextnd.hxx
@@ -88,8 +89,8 @@ extend_surface(
 		surface & sur,
 		SPApar_box const & requested_parameter_box,
 		logical partial_ok = TRUE,
-		extension_info & eiu = *(extension_info*)NULL_REF,
-		extension_info & eiv = *(extension_info*)NULL_REF	);
+		extension_info & eiu = SpaAcis::NullObj::get_extension_info(),
+		extension_info & eiv = SpaAcis::NullObj::get_extension_info());
 
 
 

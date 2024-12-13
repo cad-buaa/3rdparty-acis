@@ -28,6 +28,7 @@
 
 #include "param.hxx"
 #include "position.hxx"
+#include "spa_null_base.hxx"
 /**
 * @file off_spl.hxx
  * @CAA2Level L1
@@ -281,7 +282,7 @@ private:
 	// does guarantee that different surfaces are correctly
 	// identified as such.
 
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 
 
 	// Transformation. The base class transforms the spline and fit
@@ -289,7 +290,7 @@ private:
 
 	virtual void operator*=( SPAtransf const & );
 
-	// Parameter shift: adjust the spline surface to have a SPAparameter
+	// Parameter shift: adjust the spline surface to have a parameter
 	// range increased by the argument value (which may be negative).
 	// This is only used to move portions of a periodic surface by
 	// integral multiples of the period, so "shift_v" will never be
@@ -299,10 +300,10 @@ private:
 	virtual void shift_v( double );
 
 
-	// Divide a surface into two pieces at a given SPAparameter value.
-	// If the split is at the end of the SPAparameter range, the spl_sur
+	// Divide a surface into two pieces at a given parameter value.
+	// If the split is at the end of the parameter range, the spl_sur
 	// is just returned as the appropriate half (in increasing
-	// SPAparameter order), and the other is NULL. Otherwise a new spl_sur
+	// parameter order), and the other is NULL. Otherwise a new spl_sur
 	// is used for one part, and the old one is modified for the other.
 
 	virtual void split_u(
@@ -341,13 +342,13 @@ private:
 // STI let (r4217): Added member function
 	virtual SPAunit_vector point_normal(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
 	// Find the principal axes of curvature of the surface at a
 	// given point, and the curvatures in those directions. The base
-	// class finds the SPAparameter value, and then uses eval_prin_curv.
+	// class finds the parameter value, and then uses eval_prin_curv.
 
 //	virtual void point_prin_curv(
 //				SPAposition const &,
@@ -355,14 +356,14 @@ private:
 //				double &,			// curvature in first direction
 //				SPAunit_vector &,		// second axis direction
 //				double &,			// curvature in second direction
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
 //              evaluate_surface_quadrant = evaluate_surface_unknown
 //			) const;
 
 
 	// Find the curvature of a cross-section curve of the surface at
 	// the point on the surface closest to the given point, iterating
-	// from the given SPAparameter values (if supplied). The cross-
+	// from the given parameter values (if supplied). The cross-
 	// section curve is determined by the intersection of the surface
 	// with a plane passing through the point on the surface and with
 	// given normal. The default uses the principal curvatures from
@@ -371,14 +372,14 @@ private:
 //	virtual double point_cross(
 //				SPAposition const &,
 //				SPAunit_vector const &,
-//				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 //			) const;
 
 
 	// Find the point on the surface nearest to the given point,
-	// iterating from the given SPAparameter values (if supplied).
+	// iterating from the given parameter values (if supplied).
 	// Return the found point, the normal to the surface at that
-	// point and the SPAparameter values at the found point.
+	// point and the parameter values at the found point.
 
 // STI let (r4217): Added member function
 	virtual void point_perp(
@@ -386,10 +387,10 @@ private:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				logical f_weak = FALSE,
-			    SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos(),
+				logical f_weak		= FALSE,
+			    SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 			) const;
 
 
@@ -407,7 +408,7 @@ private:
 
 // STI let (r4217): Added member function
 	virtual surf_normcone normal_cone(
-				SPApar_box const & = *(SPApar_box *)NULL_REF,
+				SPApar_box const & = SpaAcis::NullObj::get_par_box(),
 				logical = FALSE
 			);
 
@@ -420,15 +421,15 @@ private:
 				SPApar_pos const &
 			) const;
 
-	// Find the SPAparameter values of a point on the surface.
+	// Find the parameter values of a point on the surface.
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
-	// Find the change in surface SPAparameter corresponding to a unit
+	// Find the change in surface parameter corresponding to a unit
 	// offset in a given direction at a given SPAposition, the SPAposition
 	// and direction both lying in the surface. The default evaluates
 	// the first derivatives, and inverts.
@@ -452,7 +453,7 @@ private:
 // 			) const;
 //
 
-	// Find the point on the surface with given SPAparameter values.
+	// Find the point on the surface with given parameter values.
 	// The default uses eval().
 
 //	virtual SPAposition eval_position(
@@ -461,7 +462,7 @@ private:
 
 
  	// Find the normal to the surface at the point with given
-	// SPAparameter values.  We need to take the left-handedness
+	// parameter values.  We need to take the left-handedness
 	// into account.
 
 	virtual SPAunit_vector eval_normal(
@@ -470,7 +471,7 @@ private:
 
 
 	// Find the principal axes of curvature of the surface at a
-	// point with given SPAparameter values, and the curvatures in those
+	// point with given parameter values, and the curvatures in those
 	// directions.
 
 	virtual void eval_prin_curv(
@@ -484,7 +485,7 @@ private:
 
 
 	// Find the curvature of a cross-section curve of the surface at
-	// the point on the surface with given SPAparameter values.
+	// the point on the surface with given parameter values.
 	// The cross-section curve is defined as the intersection of
 	// the surface with a plane passing through the point on the
 	// surface and normal to the given direction, which must lie in
@@ -509,8 +510,8 @@ private:
 
 	virtual int evaluate(
                 SPApar_pos const &,	// Parameter
-                SPAposition &,			// Point on surface at given SPAparameter
-                SPAvector ** = NULL, 	// Array of pointers to arrays of
+                SPAposition &,		// Point on surface at given parameter
+                SPAvector ** = NULL,// Array of pointers to arrays of
 									// vectors, of size nd. Any of the
 									// pointers may be null, in which
 									// case the corresponding derivatives
@@ -522,7 +523,7 @@ private:
                 int = 0,       		// Number of derivatives required (nd)
 				evaluate_surface_quadrant = evaluate_surface_unknown
 									// the evaluation location - above,
-									// below for each SPAparameter direction,
+									// below for each parameter direction,
 									// or don't care.
             ) const;
 
@@ -535,7 +536,7 @@ private:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -543,7 +544,7 @@ private:
 private:
 
 	int evaluate_linear_extension(
-                SPAposition &pos,		// Point on surface at given SPAparameter
+                SPAposition &pos,		// Point on surface at given parameter
                 SPAvector derivs[4][8],  	// Array of pointers to arrays of
 									// vectors, of size nd. Any of the
 									// pointers may be null, in which
@@ -560,7 +561,7 @@ private:
 				double delta_v
 			    ) const;
 
-	// Indicate whether the SPAparameter coordinate system of the surface
+	// Indicate whether the parameter coordinate system of the surface
 	// is right- or left-handed. With a right-handed system, at any
 	// point the outward normal is given by the cross product of the
 	// increasing u direction with the increasing v direction, in that
@@ -585,8 +586,8 @@ private:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos()
 			) const;
 
 
@@ -628,7 +629,7 @@ public:
 				  logical full_surf, logical keep_approx, 
                   logical illegal_bispan_check, logical abort_on_illegal = TRUE,
 				  logical proceed_on_failure = FALSE, 
-                  logical& failure_ignored = *(logical*)NULL_REF ) const;
+                  logical& failure_ignored = SpaAcis::NullObj::get_logical()) const;
 	/**
       * @nodoc
      */
@@ -641,32 +642,32 @@ public:
 
 protected:
 
-	// Make or remake the approximating surface.  The force flag forces the
-	// approximating surface to be made even if it is illegal.  This can be
+	// Make or remake the approximating surface. The force flag forces the
+	// approximating surface to be made even if it is illegal. This can be
 	// used to restore old parts that were not checked properly before being
-	// saved.  The spline argument 'spl' may be null but if it is supplied the
-	// function may be a little faster.  The function stores the approximating
+	// saved. The spline argument 'spl' may be null but if it is supplied the
+	// function may be a little faster. The function stores the approximating
     // surface and the actual fit error that was achieved in the spl_sur,
 	// overriding the declared const-ness of the function to do this.
 	// The argument keep_approx allows the approximation to be made and passed
 	// out even when it is not valid. Should only be used for adaptive offsetting.
 
-    void	local_make_approx(
-							 double fit,
-							 const spline& spl  = *(spline*) NULL_REF,
-						     logical force = FALSE,
-							 logical keep_approx = FALSE,
-							 logical illegal_bispan_check = FALSE,
-                             logical abort_on_illegal = TRUE,
-							 logical proceed_on_failure = FALSE,
-							 logical& failure_ignored = *(logical*)NULL_REF
-							 ) const;
+    void local_make_approx(
+						   double fit,
+						   const spline& spl = SpaAcis::NullObj::get_spline(),
+						   logical force = FALSE,
+						   logical keep_approx = FALSE,
+						   logical illegal_bispan_check = FALSE,
+                           logical abort_on_illegal = TRUE,
+						   logical proceed_on_failure = FALSE,
+						   logical& failure_ignored = SpaAcis::NullObj::get_logical()
+						  ) const;
 
-	virtual void	make_approx(
+	virtual void make_approx(
 							 double fit,
-							 const spline& spl  = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const;
+							) const;
 
 
 private:
@@ -753,7 +754,7 @@ extern DECL_KERN SPApar_box reduce_range_if_surface_not_G1(
 							const surface& sf,
 							const SPApar_box& range,
 							double offset,
-							const SPApar_pos& must_have = *(const SPApar_pos*)NULL_REF );
+							const SPApar_pos& must_have = SpaAcis::NullObj::get_par_pos() );
 
 
 // This function tests whether a surface (presumably the progenitor) is smooth. (the marked discontinuities are real or not.  
@@ -769,8 +770,8 @@ extern DECL_KERN logical real_G1_discs(const surface& sf,
 					  double offset,
 					  int &nu_real,
 					  int &nv_real,
-					  double*& real_udisc = *(double **)NULL_REF,
-					  double*& real_vdisc = *(double **)NULL_REF
+					  double*& real_udisc = SpaAcis::NullObj::get_double_ptr(),
+					  double*& real_vdisc = SpaAcis::NullObj::get_double_ptr()
 						  );
 
 

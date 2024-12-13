@@ -438,7 +438,14 @@
 /**
  * @nodoc
  */
-extern DECL_BASE void *const NULL_REF;
+#if defined(__cplusplus)
+    #define SPA_ACIS_DEPRECATE(message) [[deprecated(message)]]
+#else
+    #define SPA_ACIS_DEPRECATE(message)
+#endif
+#define SPA_ACIS_NULL_REF_WARN_STRING "Please replace NULL_REFs as soon as possible! Refer to the online ACIS documentation for more details."
+SPA_ACIS_DEPRECATE(SPA_ACIS_NULL_REF_WARN_STRING) extern DECL_BASE void* const NULL_REF;
+
 #include "static_types.hxx"
 /* Define M_PI and M_PI_2 for Pcs and the MAC */
 #if defined( _MSC_VER ) || (defined( mac ) && !defined (MacX))
@@ -490,14 +497,17 @@ typedef unsigned __int64 uint64_t;
 /* These macros are used at the beginning of every function
 // and are defined to whatever we need at the moment.
 */
-#if defined(ENABLE_ACIS_TIMERS) && defined(__cplusplus)
-    #include "timsystem.hxx"
-#else
+// Disabling ACIS_timing_System in order to resolve bad dependency
+//#if defined(ENABLE_ACIS_TIMERS) && defined(__cplusplus)
+//    #include "timsystem.hxx"
+//#else
     /**
      * @nodoc
      */
-    #define ACIS_FUNCTION(name)
-#endif
+
+#define ACIS_FUNCTION(name)
+
+//#endif
 
 /* MS header rpcndr.h redefines "small" to "char" causing all kinds of issues */
 #ifdef __RPCNDR_H__

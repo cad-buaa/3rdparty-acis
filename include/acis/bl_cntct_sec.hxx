@@ -70,7 +70,7 @@ public:
 			double rad = 0.,				// Radius value and
 			double const *rad_deriv = NULL,	// derivatives.
 			SPApar_pos const &uv =			// Support parameter space point.
-				* ( SPApar_pos const * ) NULL_REF,
+				SpaAcis::NullObj::get_par_pos(),
 			blend_contact *n = NULL			// Next contact point.
 			);
 
@@ -151,9 +151,9 @@ public:
 
 	blend_contact *copy_chain( 
 						blend_section const &this_sec =
-							*(blend_section const *)NULL_REF,
+								SpaAcis::NullObj::get_blend_section(),
 						blend_section &new_sec = 
-							*(blend_section *) NULL_REF 
+								SpaAcis::NullObj::get_blend_section()
 						) const;
 
 	// Delete the contact list, starting from this contact point.

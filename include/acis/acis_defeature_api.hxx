@@ -33,7 +33,7 @@ class defeature_options;
 * <br><br>
 * The behavior of this API function is controlled using the defeature_options object. The defeature_options object 
 * controls the actions of the API function. If a call is made
-* with <tt>pause_after_recognize</tt> as <tt>FALSE</tt>, feature recognition is done but feature removal is not done. 
+* with <tt>pause_after_recognize</tt> as <tt>TRUE</tt>, feature recognition is done but feature removal is not done. 
 * The defeature_options object controls the type of features removed as well as specify parameters about the features.
 * The types of features that can be removed are:
 * <ul>
@@ -81,7 +81,7 @@ DECL_DEFEATURE outcome api_find_and_remove_features( BODY* input_body,
 * <br><br>
 * The behavior of this API function is controlled using the defeature_options object. The defeature_options
 * object controls the actions of the API function. If a call is made
-* with <tt>pause_after_recognize</tt> as <tt>FALSE</tt>, feature recognition is done but feature removal is not done. 
+* with <tt>pause_after_recognize</tt> as <tt>TRUE</tt>, feature recognition is done but feature removal is not done. 
 * The defeature_options object controls the type of features removed as well as specify parameters about the features.
 * The types of features that can be removed are:
 * <ul>

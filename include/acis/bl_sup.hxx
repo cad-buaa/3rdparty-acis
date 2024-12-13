@@ -25,7 +25,6 @@
 //	24-Jan-97 DAP	New attribute based blend stage 2.
 //	1 Apr 96  nvp 	Add function to set_spring_cur_sense
 //	08-Mar-96 bd	Add acis.hxx include.
-//	25-Jan-96 aed	Change null refs to NULL_REF.
 //	29-Dec-95 dap	Declared class v_bl_contacts instead of including
 //			header file, removed include of cvc.hxx.
 //	20-Dec-95 nvp	add on_support()
@@ -226,13 +225,11 @@ public:
 	// preceding and following are found even if NULL is returned to
 	// indicate the two either side of the given SPAparameter value.
 
-	blend_int *lookup(
-				  double par,
-				  blend_int *&before = 
-					*(blend_int **)NULL_REF,
-				  blend_int *&after = 
-					*(blend_int **)NULL_REF
-				  ) const;
+	blend_int* lookup(double par) const;
+
+	blend_int* lookup(double par, blend_int*& before) const;
+
+	blend_int *lookup(double par, blend_int *&before, blend_int *&after) const;
 
 	// Request a blend_int at the given SPAparameter. If one exists it will
 	// be returned, otherwise a new one made. This is the kosher way to
@@ -438,7 +435,7 @@ logical closed_blend( support_entity *sup );
 logical
 periodic_blend( 
     FACE *blend_face,
-    logical &v_par = *(logical *)NULL_REF // Whether periodic in the v.
+    logical &v_par = SpaAcis::NullObj::get_logical() // Whether periodic in the v.
     );
 
 #if defined D3_DEBUG || defined D3_STANDALONE

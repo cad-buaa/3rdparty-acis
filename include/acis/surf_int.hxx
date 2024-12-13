@@ -23,6 +23,8 @@
 
 #include "debugmsc.hxx"
 
+#include "spa_null_kern.hxx"
+
 class surface;
 
 class SPAposition;
@@ -88,7 +90,7 @@ private:
     // Sets the extension parameters.  Assumes that the current param
     // range is the unextended range unless the input argument is given.
     logical set_extension_data(
-        const SPAinterval& unextended_range = *(SPAinterval*)NULL_REF);
+        const SPAinterval& unextended_range = SpaAcis::NullObj::get_interval());
 
     // Extends the bs3 curve.
     logical extend_cur_data(
@@ -132,17 +134,15 @@ public:
  * safe range for curve.
  */
 	surf_int_cur(
-			bs3_curve splcur,			// spline curve
+			bs3_curve splcur,		// spline curve
 			double tol,				// fit tolerance
-			surface const &surf = *(surface *)NULL_REF,
-								// surface on which curve lies
-			bs2_curve cur= NULL,	// curve in SPAparameter space of the
-								// surface
-			logical trcur= TRUE,		// TRUE to make surf1
-								// define the true curve, FALSE for
-								// surf2
-			const SPAinterval& range = *(const class SPAinterval*) NULL_REF
-				                // safe_range for the curve
+			surface const &surf = SpaAcis::NullObj::get_surface(),
+									// surface on which curve lies
+			bs2_curve cur= NULL,	// curve in SPAparameter space of the surface
+			logical trcur= TRUE,	// TRUE to make surf1
+									// define the true curve, FALSE for surf2
+			const SPAinterval& range = SpaAcis::NullObj::get_interval()
+									// safe_range for the curve
 		);
 
 	// Construct a general surface curve, with an additional surface
@@ -173,14 +173,14 @@ public:
 			surface const &surf1,	// first surface on which curve lies
 			surface const &surf2,	// second surface on which curve lies
 			bs2_curve cur1,			// curve in SPAparameter space of the
-								// first surface
+									// first surface
 			bs2_curve cur2,			// curve in SPAparameter space of the
-								// second surface
-			logical trcur= TRUE,		// TRUE to make surf1
-								// define the true curve, FALSE for
-								// surf2
-			const SPAinterval& range= *(const class SPAinterval*) NULL_REF
-				                // safe_range for the curve
+									// second surface
+			logical trcur= TRUE,	// TRUE to make surf1
+									// define the true curve, FALSE for
+									// surf2
+			const SPAinterval& range = SpaAcis::NullObj::get_interval()
+									// safe_range for the curve
 		);
 
 	// Copy constructor
@@ -239,7 +239,7 @@ private:
 	// superimposition, but reliably flagging cases of inequality.
 	// The base class int_cur version is sufficient.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 
 	// Parameter shift: the base class version is fine.
@@ -364,7 +364,7 @@ private:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 
@@ -419,13 +419,13 @@ private:
 	// See chk_stat.hxx for information on the argument types used here.
 
 	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
+  		        const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 						 // supplies a set of flags which say which fixes
 						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
+				check_fix& result = SpaAcis::NullObj::get_check_fix(),
 						 // returns a set of flags which say which fixes
 						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
+				const check_status_list* = nullptr
 						 // list of checks that are to be made.  If the
 						 // list is null, then every possible check will
 						 // be made; otherwise, the function will only

@@ -16,13 +16,12 @@
 #include "bs3curve.hxx" // defines bs3_curve_form and bs3_curve // defines bs3_curve_form and bs3_curve
 #include "bs2curve.hxx" // defines bs2_curve
 #include "bs3surf.hxx" // defines bs3_surf_form and bs3_surface // defines bs3_surf_form and bs3_surface
-// ywoo 08Jan01: added the header file.
 #include "base.hxx"
-// ywoo 08Jan01: added the classes.
+#include "spa_null_kern.hxx"
+
 class SPAvector;
 class SPAposition;
 class SPAinterval;
-// ywoo: end
 class law;
 class curve;
 class surface;
@@ -36,9 +35,9 @@ DECL_KERN curve *sg_curve_law(
 	double tol,
     int    law_number=0,
 	law    **other_laws=NULL,
-	discontinuity_info& disc_info = *(discontinuity_info*) NULL_REF,
-	surface const & surf1 = *(const surface *)NULL_REF,
-	surface const & surf2 = *(const surface *)NULL_REF,
+	discontinuity_info& disc_info = SpaAcis::NullObj::get_discontinuity_info(),
+	surface const & surf1 =  SpaAcis::NullObj::get_surface(),
+	surface const & surf2 =  SpaAcis::NullObj::get_surface(),
 	bs2_curve pcurve1 = NULL,
 	bs2_curve pcurve2 = NULL,
 	logical simplify = TRUE);

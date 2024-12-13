@@ -151,17 +151,17 @@ public:
 
 	off_int_cur(
 			bs3_curve inter_curv,			// interpolating curve
-			double tol,				// fitol
+			double tol,						// fitol
 			surface const & first_offset,	// first surface to offset
-			surface const & sec_offset,	// second surface to offset
+			surface const & sec_offset,		// second surface to offset
 			double first_dist,				// offset from first surface
 			double sec_dist,				// offset from second surface
-			bs2_curve first_spl = NULL,	// spine perp. projn. to (spline) surf1
-			bs2_curve sec_spl = NULL,	// spine perp. projn. to (spline) surf2
-            const SPAinterval& range = *(const class SPAinterval*) NULL_REF,   // safe_range for the curve
-            const SPAinterval& fir_curv= *(const class SPAinterval*) NULL_REF,   // SPAinterval for which curve
+			bs2_curve first_spl = NULL,		// spine perp. projn. to (spline) surf1
+			bs2_curve sec_spl = NULL,		// spine perp. projn. to (spline) surf2
+            const SPAinterval& range	= SpaAcis::NullObj::get_interval(),   // safe_range for the curve
+            const SPAinterval& fir_curv	= SpaAcis::NullObj::get_interval(),   // SPAinterval for which curve
                                                 // is over surf1
-            const SPAinterval& sec_curv= *(const class SPAinterval*) NULL_REF    // SPAinterval for which curve
+            const SPAinterval& sec_curv	= SpaAcis::NullObj::get_interval()   // SPAinterval for which curve
                                                 // is over surf2
 		);
 
@@ -260,7 +260,7 @@ private:
 	// Test for equality - not guaranteed to find all cases of curve
 	// superimposition, but reliably flagging cases of inequality.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 
     // The following virtual functions have to be supplied so that the 'over
@@ -535,17 +535,17 @@ public:
 				evaluate_curve_side eval = evaluate_curve_unknown,
 									// the evaluation location - above,
 									// below or don't care.
-                SPAposition & pt_1 = *(SPAposition*) NULL_REF,	// Point on support surface 1
+                SPAposition & pt_1 = SpaAcis::NullObj::get_position(),	// Point on support surface 1
                 SPAvector * vec_1= NULL, 	// Derivatives of the first support surface.
-                SPAposition & pt_2 = *(SPAposition*) NULL_REF,	// Point on support surface 2
+                SPAposition & pt_2 = SpaAcis::NullObj::get_position(),	// Point on support surface 2
                 SPAvector * vec_2 = NULL, 	// Derivatives of the second support surface.
-				SPApar_pos& par_1= *(SPApar_pos*) NULL_REF,  // Parameters on surface 1
+				SPApar_pos& par_1= SpaAcis::NullObj::get_par_pos(),  // Parameters on surface 1
 				SPApar_vec* der1= NULL,  	// Derivatives of parameters on surface 1
-				SPApar_pos&  par_2 = *(SPApar_pos*) NULL_REF,  // Parameters on surface 2
+				SPApar_pos&  par_2 = SpaAcis::NullObj::get_par_pos(),  // Parameters on surface 2
 				SPApar_vec* der2 = NULL, 	// Derivatives of parameters on surface 2
-				SPApar_pos const & guess1 = *(SPApar_pos *)NULL_REF,
+				SPApar_pos const & guess1 = SpaAcis::NullObj::get_par_pos(),
 					   // optional guess value for first SPApar_pos
-				SPApar_pos const & guess2 = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & guess2 = SpaAcis::NullObj::get_par_pos()
 					   // optional guess value for second SPApar_pos
             ) const;
 
@@ -558,7 +558,7 @@ protected:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 

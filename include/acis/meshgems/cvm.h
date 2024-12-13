@@ -1,6 +1,13 @@
 #ifndef MESHGEMS_CVM_H
 #define MESHGEMS_CVM_H
 
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
+
 #include <meshgems/mdecl.h>
 #include <meshgems/basic_types.h>
 #include <meshgems/status.h>
@@ -9,7 +16,6 @@
 #include <meshgems/message.h>
 #include <meshgems/mesh.h>
 #include <meshgems/sizemap.h>
-
 
 struct meshgems_cvm_size_specification_t_;
 
@@ -26,8 +32,8 @@ typedef struct meshgems_cvm_size_specification_t_ meshgems_cvm_size_specificatio
  * @return error code (STATUS_OK means that computation was correct).
  *
  */
-typedef meshgems_status_t (*meshgems_cvm_size_specification_boundary_layer_distribution_t)(meshgems_integer layer,
-        meshgems_real *h, void *user_data);
+typedef meshgems_status_t (*meshgems_cvm_size_specification_boundary_layer_distribution_t)(
+	meshgems_integer layer, meshgems_real *h, void *user_data);
 
 /**
  * Simple size specification constructor.
@@ -453,6 +459,12 @@ MESHGEMS_METHOD void meshgems_cvm_session_delete(
     meshgems_cvm_session_t *cvms);
 
 /**
+ * Unlock MeshGems-CVM with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_unlock_product(const char * unlock_str);
+
+/**
  * Sets the message callback function.
  *
  * This is where the user should detect and print phase changes,
@@ -585,6 +597,15 @@ MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_set_param(
  * @retval STATUS_OK in case of success
  */
 MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_compute_mesh(
+    meshgems_cvm_session_t *cvms);
+/**
+ *  update a volume mesh from an existing volume mesh typically created by a previous mesh adaption step. 
+ *
+ * @param[in] cvms : the cvm session.
+ *
+ * @retval STATUS_OK in case of success
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_update_mesh(
     meshgems_cvm_session_t *cvms);
 
 /**
@@ -748,5 +769,230 @@ MESHGEMS_METHOD meshgems_integer meshgems_cvm_get_version_minor(void);
 MESHGEMS_METHOD meshgems_integer meshgems_cvm_get_version_patch(void);
 MESHGEMS_METHOD const char *meshgems_cvm_get_version_string(void);
 MESHGEMS_METHOD const char *meshgems_cvm_get_version_ident_string(void);
+
+
+
+
+/*
+ * PRIVATE PART
+ * Should not be used directly
+ */
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_polybody(
+    meshgems_cvm_session_t* cvms, void** polybody, void* cellToTagMap);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_catimshmesh_all(
+	meshgems_cvm_session_t* cvms, void** catimshmesh);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_catimshmesh_domain_constraint(
+	meshgems_cvm_session_t* cvms, void** catimshmesh, meshgems_integer domain_constraint_index);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_catimshmesh_face(
+	meshgems_cvm_session_t* cvms, void** catimshmesh, meshgems_integer face);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_catimshmesh_edge(
+	meshgems_cvm_session_t* cvms, void** catimshmesh, meshgems_integer edge);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_get_catimshmesh_vertex(
+	meshgems_cvm_session_t* cvms, void** catimshmesh, meshgems_integer vertex);
+
+meshgems_status_t meshgems_cvm_size_specification_add_growth_constraint_at_legacy_subdomain(
+    meshgems_cvm_size_specification_t *s,
+    meshgems_real gradation,
+    meshgems_real hmin,
+    meshgems_real hmax,
+    meshgems_integer seed_type,
+    meshgems_integer seed_idx,
+    meshgems_integer seed_orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_uniform_constraint_at_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h, meshgems_integer n,
+        meshgems_integer relative, meshgems_integer tag);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_uniform_constraint_at_oriented_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h, meshgems_integer n,
+        meshgems_integer relative, meshgems_integer tag, meshgems_integer orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_uniform_constraint_at_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h, meshgems_integer n,
+        meshgems_integer relative, meshgems_integer domain_constraint_index);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_uniform_constraint_at_legacy_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h, meshgems_integer n,
+        meshgems_integer relative, meshgems_integer seed_type,
+        meshgems_integer seed_idx, meshgems_integer seed_orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_arithmetic_constraint_at_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0,
+        meshgems_real difference, meshgems_real blending, meshgems_integer n_min,
+        meshgems_integer n_max, meshgems_integer relative, meshgems_integer tag);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_arithmetic_constraint_at_oriented_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real difference,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer tag, meshgems_integer orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_arithmetic_constraint_at_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real difference,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer domain_constraint_index);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_arithmetic_constraint_at_legacy_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real difference,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer seed_type, meshgems_integer seed_idx, meshgems_integer seed_orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_geometric_constraint_at_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0,
+        meshgems_real progression, meshgems_real blending, meshgems_integer n_min,
+        meshgems_integer n_max, meshgems_integer relative, meshgems_integer tag);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_geometric_constraint_at_oriented_face(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real progression,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer tag, meshgems_integer orientation);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_geometric_constraint_at_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real progression,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer domain_constraint_index);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_size_specification_add_boundary_layer_geometric_constraint_at_legacy_domain(
+        meshgems_cvm_size_specification_t *s, meshgems_real h0, meshgems_real progression,
+        meshgems_real blending, meshgems_integer n_min, meshgems_integer n_max, meshgems_integer relative,
+        meshgems_integer seed_type, meshgems_integer seed_idx, meshgems_integer seed_orientation);
+
+struct meshgems_cvm_domain_specification_t_;
+typedef struct meshgems_cvm_domain_specification_t_ meshgems_cvm_domain_specification_t;
+
+MESHGEMS_METHOD void meshgems_cvm_domain_specification_delete(
+		meshgems_cvm_domain_specification_t *sp);
+MESHGEMS_METHOD meshgems_cvm_domain_specification_t* meshgems_cvm_domain_specification_new(
+		meshgems_context_t *ctx);
+
+MESHGEMS_METHOD meshgems_integer meshgems_cvm_domain_specification_find_domain_constraint(
+		meshgems_cvm_domain_specification_t *sp,
+		meshgems_integer *l_tag, meshgems_integer *l_orientation, meshgems_integer n_tag);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_domain_specification_add_explicit_constraint(
+		meshgems_cvm_domain_specification_t *sp,
+		meshgems_integer *l_tag, meshgems_integer *l_orientation, meshgems_integer n_tag,
+		meshgems_integer to_keep, meshgems_integer to_wrap);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_domain_specification_add_implicit_constraint(
+		meshgems_cvm_domain_specification_t *sp,
+		meshgems_integer *l_tag, meshgems_integer *l_orientation, meshgems_integer n_tag,
+		meshgems_integer to_keep, meshgems_integer to_wrap);
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_domain_specification_add_artificial_constraint(
+		meshgems_cvm_domain_specification_t *sp,
+		meshgems_integer *l_tag, meshgems_integer *l_orientation, meshgems_integer n_tag, meshgems_integer to_keep);
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_set_domain_specification(
+		meshgems_cvm_session_t *cvms, meshgems_cvm_domain_specification_t *sc);
+
+/* Support for mesh moprphing */
+struct meshgems_cvm_morphing_specification_t_;
+typedef struct meshgems_cvm_morphing_specification_t_ meshgems_cvm_morphing_specification_t;
+
+/**
+ * Sets the s_specification structure.
+ *
+ * @param[in] cvms : the cvm session.
+ * @param[in] iSpec : the morphing_specifiction.
+ *
+ * @retval STATUS_OK in case of success
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_session_set_morphing_specification(
+    meshgems_cvm_session_t *cvms, meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+ * Simple morphing constructor
+ * @param iCtx (in) : the parent context.
+ * @return a new size specification object or NULL.
+ */
+MESHGEMS_METHOD meshgems_cvm_morphing_specification_t *meshgems_cvm_morphing_specification_new(meshgems_context_t *iCtx);
+
+/**
+ * Morphing specification destructor.
+ */
+MESHGEMS_METHOD void meshgems_cvm_morphing_specification_delete(meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+  * Add a new position for a mesh vertex
+  * @param iSpecs (in) : the mesh morphing specification object.
+  * @param iVertexIndex (in) : the index of the mesh vertex whose location is morphed
+  * @param iNewCoord (in) : the new position of teh given mesh veretx
+  * @return error code.
+  */
+
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_morphing_specification_set_target_coordinates_for_vertex(
+        meshgems_cvm_morphing_specification_t * iSpec, 
+        meshgems_integer iVertexIndex,
+        meshgems_real iNewCoord[3]);
+
+/**
+  * Reset the morphing specification to it inital state
+  * @param iSpec (in) : the mesh morphing specification object.
+  * @return error code.
+  */
+MESHGEMS_METHOD void meshgems_cvm_morphing_specification_reset(meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+  *  Add a tag used to identify the triangles on side1 of a seam crack
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_morphing_specification_add_seam_surf1_tag(meshgems_cvm_morphing_specification_t *iSpec, meshgems_integer iTag);
+
+/**
+ *  Add a tag used to identify the triangles on side2 of a seam crack
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_morphing_specification_add_seam_surf2_tag(meshgems_cvm_morphing_specification_t *iSpec, meshgems_integer iTag);
+
+/**
+  *  Check if the given tag is included in side2 tags
+*/
+MESHGEMS_METHOD meshgems_integer meshgems_cvm_morphing_specification_has_seam_surf2_tag(meshgems_cvm_morphing_specification_t *iSpec, meshgems_integer iTag);
+
+/**
+  *  flip the surface tags on side1 and 2
+*/
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_morphing_specification_flip_seam_surf_tags(meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+  *  Return 1 if the morphing specification has tags associated with BOTH sides of the cracks
+*/
+MESHGEMS_METHOD meshgems_integer meshgems_cvm_morphing_specification_has_seam_surf_tags(meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+  *  Add a tag used to identify the crack front edges
+*/
+MESHGEMS_METHOD meshgems_status_t meshgems_cvm_morphing_specification_add_crack_front_edges_tag(meshgems_cvm_morphing_specification_t *iSpec, meshgems_integer iTag);
+
+/**
+  *  Return 1 if the morphing specification has tags associated the crack front edges
+*/
+MESHGEMS_METHOD meshgems_integer meshgems_cvm_morphing_specification_has_crack_front_edges_tags(meshgems_cvm_morphing_specification_t *iSpec);
+
+/**
+  * Read morphing data from a file and create morphing specificatioks
+  * @param iCtx (in) : the parent context.
+  ^ @param iFileName : file name containg the mesh morphing data
+  * @return error code.
+  */
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_specification_set_from_file(meshgems_context_t *iCtx,  meshgems_cvm_session_t *cvms, char * iFileName);
+
+/**
+ * set the local mesh size near the crack front
+ */
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_specification_set_normalize_local_size(meshgems_cvm_morphing_specification_t * iSpec, meshgems_real iNormalizeSize);
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_spec_set_normalize_local_size_from_cvms(meshgems_cvm_session_t *cvms, meshgems_cvm_morphing_specification_t * iSpec);
+
+/**
+ * set the number of layers that are used to determine the maximum distance from the crack front where the local mesh size will be applied. 
+ * maximum distance=iNumberLocalLayers * average_element_size_along_crack_front
+ */
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_specification_set_num_layers_local_size(meshgems_cvm_morphing_specification_t * iSpec, meshgems_integer iNumberLocalLayers);
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_spec_set_num_layers_local_size_from_cvms(meshgems_cvm_session_t *cvms, meshgems_cvm_morphing_specification_t * iSpec);
+
+/**
+ * Set the number of layers that are used to determine the maximum distance from the crack front where the mesh size will transitionfrom local size to global size 
+ * maximum transition distance = iNumberTransitionLayers * average_element_size_along_crack_front
+ */
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_specification_set_num_layers_size_transition(meshgems_cvm_morphing_specification_t * iSpec, meshgems_integer iNumberTransitionLayers);
+MESHGEMS_METHOD  meshgems_status_t meshgems_cvm_morphing_spec_set_num_layers_size_transition_from_cvms(meshgems_cvm_session_t *cvms, meshgems_cvm_morphing_specification_t * iSpec);
+
 
 #endif

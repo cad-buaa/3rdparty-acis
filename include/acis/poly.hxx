@@ -35,7 +35,7 @@
 #include "logical.h"
 #include "mmgr.hxx"
 #include "base.hxx"
-
+#include "spa_null_base.hxx"
 /**
 * @file poly.hxx
  * @CAA2Level L1
@@ -83,7 +83,7 @@ DECL_KERN rat_poly operator/(polynomial const &,polynomial const &);
 /**
  * @nodoc
  */
-DECL_KERN logical operator==( double d, polynomial const &p );
+DECL_KERN bool operator==( double d, polynomial const &p );
 
 // tbrv
 
@@ -154,7 +154,7 @@ public:
 	// Query, obtain an array of doubles representing the coefficients
 	// The caller is responsible for deleting this array.  
 	// Also (optionally) return the size of the array, which is degree+1.
-	double *get_coeff_array(int &ncoeffs = *(int*)NULL_REF) const;
+	double *get_coeff_array(int &ncoeffs = SpaAcis::NullObj::get_int()) const;
 
 	// Indexing - treat a polynomial as an array of doubles, but
 	// special action for non-constant ones to allow resetting.
@@ -221,8 +221,8 @@ public:
 
 	// Comparison, really only used for testing for a constant zero.
 
-	logical operator==( double ) const;
-	friend DECL_KERN logical operator==( double d, polynomial const &p ) {
+	bool operator==( double ) const;
+	friend DECL_KERN bool operator==( double d, polynomial const &p ) {
 		return p == d;
 	}
 

@@ -398,10 +398,10 @@ public:
     * @param bmi
     * bool_match_info object.
     */
-    logical operator== (bool_match_info const& bmi) const
+    bool operator== (bool_match_info const& bmi) const
     {
         SPAUNUSED(bmi);
-        return FALSE;
+        return false;
     };
     /**
     * @nodoc
@@ -409,10 +409,10 @@ public:
     * @param bmi
     * bool_match_info object.
     */
-    logical operator!= (bool_match_info const& bmi) const
+    bool operator!= (bool_match_info const& bmi) const
     {
         SPAUNUSED(bmi);
-        return TRUE;
+        return true;
     };
 
 };
@@ -710,10 +710,10 @@ public:
     * @param in_bool_opt
     * BoolOptions object.
     */
-    logical operator== (BoolOptions const& in_bool_opt) const
+    bool operator== (BoolOptions const& in_bool_opt) const
     {
         SPAUNUSED(in_bool_opt);
-        return FALSE;
+        return false;
     };
     /**
     * @nodoc
@@ -721,10 +721,10 @@ public:
     * @param in_bool_opt
     * BoolOptions object.
     */
-    logical operator!= (BoolOptions const& in_bool_opt) const
+    bool operator!= (BoolOptions const& in_bool_opt) const
     {
         SPAUNUSED(in_bool_opt);
-        return TRUE;
+        return true;
     };
 
 	/**

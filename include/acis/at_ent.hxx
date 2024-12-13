@@ -53,7 +53,7 @@ extern DECL_GA int ATTRIB_GEN_ENTITY_TYPE;
  * <b>Role:</b> <tt>ATTRIB_GEN_ENTITY</tt> maintains a strong relationship
  * with the entity it "owns":
  * <ul>
- * <li>If an <tt>ATTRIB_GEN_ENTITY</tt> is lost, it will lose the entity it "owns".
+ * <li>If an <tt>ATTRIB_GEN_ENTITY</tt> is lost, it will lose the entity it "owns" only if "delete_value_on_lose" is true. 
  * <li>If an <tt>ATTRIB_GEN_ENTITY</tt> is transformed, it will transform the entity it "owns".
  * <li>If an <tt>ATTRIB_GEN_ENTITY</tt> is saved, it will save the entity it "owns".
  * <li>If an <tt>ATTRIB_GEN_ENTITY</tt> is copied, it will copy the entity it "owns".
@@ -63,7 +63,7 @@ extern DECL_GA int ATTRIB_GEN_ENTITY_TYPE;
 class DECL_GA ATTRIB_GEN_ENTITY: public ATTRIB_GEN_NAME 
 {
 	ENTITY *Value;
-
+	bool delete_value_on_lose = false;
 protected:
  /**
   * Transforms the entity owned by this attribute in response to the <tt>trans_owner</tt> method.
@@ -98,6 +98,8 @@ public:
 	 * transformation action.
 	 * @param cop_act
 	 * copy action.
+	 * @param del_value_on_lose
+	 * boolean that governs delete behaviour of value on attrib lose.
 	 */
 	ATTRIB_GEN_ENTITY(
 			ENTITY *owner,
@@ -106,7 +108,8 @@ public:
 			split_action spl_act = SplitKeep,
 			merge_action mer_act = MergeKeepKept,
 			trans_action tran_act = TransIgnore,
-			copy_action cop_act = CopyCopy
+			copy_action cop_act = CopyCopy,
+			bool del_value_on_lose = false
 		);
 
 	/**
@@ -121,6 +124,18 @@ public:
 	 * entity value.
 	 */
 	void set_value(ENTITY *val);
+
+	/**
+	 * Changes the delete behaviour of value on attrib lose.
+	 * If set to true, value is lost when attrib is lost
+	 * if set to false (default), value is not lost. 
+	 */
+	void set_del_value_on_lose(bool);
+
+	/**
+	 * Returns the current delete behaviour of value.
+	 */
+	bool get_del_value_on_lose();
 
 	/**
 	 * Returns the attribute class identification.

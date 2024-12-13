@@ -23,6 +23,8 @@
 #include "api.hxx"
 #include "ptfcenum.hxx"
 #include "position.hxx"
+#include "transf.hxx"
+#include "spa_null_base.hxx"
 
 class LOOP;
 class ENTITY_LIST;
@@ -35,7 +37,6 @@ class pcurve;
 class curve;
 class SPAunit_vector;
 class SPAposition;
-class SPAtransf;
 class WIRE;
 class CONE;
 class SPApar_box;
@@ -61,7 +62,7 @@ DECL_KERN WIRE     *get_first_wire(BODY *a_body);
 DECL_KERN FACE     *get_first_face(BODY *a_body);
 DECL_KERN logical  sg_get_loop_par_box(LOOP *this_loop, SPApar_box& loop_range, logical &box_set_loop, logical test_old_uv_bound );
 
-DECL_KERN SPAposition  get_cone_apex(CONE* acone, double &u_param= *(double *) NULL_REF);
+DECL_KERN SPAposition  get_cone_apex(CONE* acone, double &u_param = SpaAcis::NullObj::get_double());
 
 DECL_KERN bool is_degenerate_loop(const LOOP* loop);
 
@@ -69,15 +70,15 @@ DECL_KERN bool is_degenerate_loop(const LOOP* loop);
 // DEBUG FUNCTIONS
 
 DECL_KERN void scheme_display_entity(FILE *out, const curve *a_curve, 
-								     SPAtransf &use_transf=*(SPAtransf *) NULL_REF,
+								     const SPAtransf &use_transf= SPAtransf(),
 								     int num_pt=4);
 
 DECL_KERN void scheme_display_entity(FILE *out, SPAposition &a_pos, double size=0.125);
 
 DECL_KERN void scheme_display_entity(FILE *out, ENTITY *start, logical=FALSE, int num=4);
 
-DECL_KERN void scheme_display_entity(FILE *out, const surface *a_surf, 
-								     SPAtransf &use_transf=*(SPAtransf *) NULL_REF, int num=4);
+DECL_KERN void scheme_display_entity(FILE *out, const surface *a_surf,
+	const SPAtransf &use_transf = SPAtransf(), int num = 4);
 
 //======================================================================
 

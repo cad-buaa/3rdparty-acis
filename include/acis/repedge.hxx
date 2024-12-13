@@ -13,15 +13,16 @@
 #define REPLACE_EDGE
 
 #include "dcl_kern.h"
-// ywoo 08Jan01: base.hxx include logical.h.
-#include "base.hxx"
-// ywoo: end
+#include "base.hxx"				// For logical
+#include "spa_null_base.hxx"	// For Null Objects
 
 class EDGE;
 class TEDGE;
+class TCOEDGE;
 class VERTEX;
 class TVERTEX;
 class tolerize_options;
+class ENTITY_LIST;
 
 
 // Replace the coedges of an [t]edge with tcoedges.
@@ -33,11 +34,11 @@ DECL_KERN void tm_replace_coedges_of_edge(
 // the optional final argument, so as to avoid recalculating it again.
 
 DECL_KERN logical replace_edge_with_tedge(
-	EDGE *this_edge,
+	EDGE *	this_edge,
 	logical add_tcoedges,
 	logical tangent,
 	TEDGE * &this_tedge,
-	double const &tol = *(double const *)NULL_REF,
+	double const &tol = SpaAcis::NullObj::get_double(),
 	tolerize_options* = NULL
 );
 
@@ -68,14 +69,30 @@ DECL_KERN logical replace_tvertex_with_vertex(
     logical check_tolerance = FALSE
 );
 
-// This function optimizes the tolerant on the tvertices of an edge or tedge.
+// This function optimizes the tolerance of the tvertices of an edge or tedge.
 DECL_KERN void optimize_tvertex_tolerance (
 	EDGE *edge 
 );
 
-// This function checksw the optimization the tvertices of an edge or tedge.
+// This function checks the optimization of the tvertices of an edge or tedge.
 DECL_KERN logical is_tvertices_optimized (
 	EDGE *edge 
 );
+
+// This function updates the parameter range of the tcoedges on a list of tedges.
+DECL_KERN void update_tcoedge_param_ranges (
+	ENTITY_LIST& tedges
+);
+
+// This function determines the start or end parameter value of the given tcoedge,
+// given the start or end vertex of its tedge and a guess parameter value. 
+// The guess parameter value is typically the corresponding parameter value of tedge, 
+// with an reversal thrown in when appropriate.
+DECL_KERN double determine_tcoedge_param (
+	TCOEDGE* this_tcoedge,
+	VERTEX* vertex,
+	double guess_param
+);
+
 
 #endif

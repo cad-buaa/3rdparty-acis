@@ -135,7 +135,7 @@ public:
  * portion of the curve.
  */
 	virtual int accurate_derivs(
-				SPAinterval const &cur = *(SPAinterval*)NULL_REF
+				SPAinterval const &cur = SpaAcis::NullObj::get_interval()
 			) const;
 
 /**
@@ -151,7 +151,7 @@ public:
 	virtual SPAbox bound(
 				SPAposition const &pos1,
 				SPAposition const &pos2,
-				SPAtransf const   &trans = *(SPAtransf *)NULL_REF
+				SPAtransf const &trans = SPAtransf()
 			) const;
 /**
  * Returns a box enclosing the two given points on the straight line.
@@ -163,7 +163,7 @@ public:
  */
 	virtual SPAbox bound(
 				SPAinterval const &inter,
-				SPAtransf   const &trans = *(SPAtransf *)NULL_REF
+				SPAtransf const &trans = SPAtransf()
 			) const;
 
 /**
@@ -176,7 +176,7 @@ public:
  */
 	virtual SPAbox bound(
 				SPAbox    const &box,
-				SPAtransf const &trans = *(SPAtransf *)NULL_REF
+				SPAtransf const &trans = SPAtransf()
 			) const;
 /**
  * Returns a box enclosing the two given points on the straight line.
@@ -193,7 +193,7 @@ public:
 	SPAbox bound(
 				double          start,
 				double          end,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
+				SPAtransf const &t = SPAtransf()
 			) const
 	{
 		return bound( SPAinterval( start, end ), t );
@@ -234,7 +234,7 @@ public:
  * interval.
  */
 	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval& inter =
-												    *(SPAinterval*)NULL_REF ) const;
+												    SpaAcis::NullObj::get_interval() ) const;
 /**
  * Evaluates the curve at a given parameter value, giving the position, and first and second derivatives, all of which are optional.
  * <br><br>
@@ -254,8 +254,8 @@ public:
 	virtual void eval(
 				double      val,
 				SPAposition &pos,
-				SPAvector   &der1 = *(SPAvector *)NULL_REF,
-				SPAvector   &der2 = *(SPAvector *)NULL_REF,
+				SPAvector   &der1 = SpaAcis::NullObj::get_vector(),
+				SPAvector   &der2 = SpaAcis::NullObj::get_vector(),
 				logical     flag= FALSE,
 				logical     approx= FALSE
 			) const;
@@ -417,7 +417,7 @@ public:
  * @param cur
  * curve.
  */
-	virtual logical operator==( curve const &cur ) const;
+	virtual bool operator==( curve const &cur ) const;
 
 /**
  * @nodoc
@@ -448,13 +448,13 @@ public:
  * to the line, and the parameter value for its intersection with the line returns.
  * <br><br>
  * @param pos
- * position.
- * @param guess
- * param guess.
+ * the position for which the parameter value is to be found.
+ * @param param_guess
+ * the guess parameter value.
  */
 	virtual double param(
 				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter()
 			) const;
 /**
  * Returns the parameter period, 0 in this case because a straight line is not periodic.
@@ -469,7 +469,7 @@ public:
  * box.
  */
 	virtual SPAinterval param_range(
-				SPAbox const &box = *(SPAbox *)NULL_REF
+				SPAbox const &box = SpaAcis::NullObj::get_box()
 			) const;
 /**
  * Indicates if the curve is periodic and joins itself smoothly at the ends of its principal parameter range, so that edges may span the seam.
@@ -482,13 +482,13 @@ public:
  * The <tt>SPAparameter</tt> argument is ignored.
  * <br><br>
  * @param pos
- * point.
- * @param guess
- * param guess.
+ * the position at which the curvature is to be found.
+ * @param param_guess
+ * the guess parameter value.
  */
 	virtual SPAvector point_curvature(
 				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter()
 			) const;
 /**
  * Returns the direction of the curve at a point on it.
@@ -497,112 +497,126 @@ public:
  * the given point is on or off the curve.
  * <br><br>
  * @param pos
- * position.
- * @param guess
- * param guess.
+ * the position at which the tangent direction is to be found.
+ * @param param_guess
+ * the guess parameter value.
  */
 	virtual SPAunit_vector point_direction(
 				SPAposition const &pos,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter()
 			) const;
 
 /**
  * Finds the foot of the perpendicular from the given point to the curve, and tangent to the curve at that point, and its parameter value.
  * <br><br>
- * <b>Role:</b> If an input parameter value is supplied (as argument 5), the
- * perpendicular found is the one nearest to the supplied parameter position,
- * otherwise it is the one at which the curve is nearest to the given point.
- * Any of the return value arguments may be a <tt>NULL</tt> reference, in which case it
- * is simply ignored.
+ * <b>Role:</b> If an input parameter value is supplied (as the <tt>param_guess</tt>
+ * argument), the perpendicular found is the one nearest to the position corresponding to
+ * the guess parameter value; otherwise, it is the one at which the curve is nearest to
+ * the given point. Any of the return value arguments may be a <tt>NULL</tt> reference,
+ * in which case it is ignored.
  * <br><br>
- * @param pos
- * position.
+ * @param point
+ * the input position.
  * @param foot
- * foot.
- * @param dir
- * curve direction at foot.
- * @param cur
- * curvature at foot.
- * @param guess
- * param guess.
- * @param actual
- * actual param.
+ * the position on the curve.
+ * @param tangent
+ * the tangent at the curve position.
+ * @param curvature
+ * the curvature at the curve position.
+ * @param param_guess
+ * the guess parameter value.
+ * @param param_actual
+ * the actual parameter value.
  * @param f_weak
  * weak flag.
  */
 	virtual void point_perp(
-				SPAposition const  &pos,
+				SPAposition const  &point,
 				SPAposition        &foot,
-				SPAunit_vector     &dir,
-				SPAvector          &cur,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
+				SPAunit_vector     &tangent,
+				SPAvector          &curvature,
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter       &param_actual = SpaAcis::NullObj::get_parameter(),
 				logical            f_weak  = FALSE
 			) const;
 
 /**
- * Drops a perpendicular from the given point to the line, returning the foot of the perpendicular, and the curve direction there.
+ * Finds the foot of the perpendicular from the given point to the curve, the tangent to the curve at that point, and its parameter value.
  * <br><br>
- * @param pos
- * position.
+ * <b>Role:</b> If an input parameter value is supplied (as the <tt>param_guess</tt>
+ * argument), the perpendicular found is the one nearest to the position corresponding to
+ * the guess parameter value; otherwise, it is the one at which the curve is nearest to
+ * the given point. Any of the return value arguments may be a <tt>NULL</tt> reference,
+ * in which case it is ignored.
+ * <br><br>
+ * @param point
+ * the input position.
  * @param foot
- * foot.
- * @param foot_dt
- * tangent to curve at foot.
- * @param guess
- * param guess.
- * @param actual
- * actual param.
+ * the position on the curve.
+ * @param tangent
+ * the tangent at the curve position.
+ * @param param_guess
+ * the guess parameter value.
+ * @param param_actual
+ * the actual parameter value.
  * @param f_weak
  * weak flag.
  */
 	void point_perp(
-				SPAposition const  &pos,
+				SPAposition const  &point,
 				SPAposition        &foot,
-				SPAunit_vector     &foot_dt,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
+				SPAunit_vector     &tangent,
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter       &param_actual = SpaAcis::NullObj::get_parameter(),
 				logical            f_weak  = FALSE
 			) const
 	{
 		point_perp(
-					pos,
+					point,
 					foot,
-					foot_dt,
-					*(SPAvector *)NULL_REF,
-					guess,
-					actual, f_weak
+					tangent,
+					SpaAcis::NullObj::get_vector(),
+					param_guess,
+					param_actual, 
+					f_weak
 				);
 	}
 /**
- * Finds the foot of the perpendicular from the given point to the curve, and tangent to the curve at that point, and its parameter value.
+ * Finds the foot of the perpendicular from the given point to the curve and its parameter value.
  * <br><br>
- * @param pos
- * position.
+ * <b>Role:</b> If an input parameter value is supplied (as the <tt>param_guess</tt>
+ * argument), the perpendicular found is the one nearest to the position corresponding to
+ * the guess parameter value; otherwise, it is the one at which the curve is nearest to
+ * the given point. Any of the return value arguments may be a <tt>NULL</tt> reference,
+ * in which case it is ignored.
+ * <br><br>
+ * @param point
+ * the input position.
  * @param foot
- * foot.
- * @param guess
- * param guess.
- * @param actual
- * actual param.
+ * the position on the curve.
+ * @param param_guess
+ * the guess parameter value.
+ * @param param_actual
+ * the actual parameter value.
  * @param f_weak
  * weak flag.
  */
 	void point_perp(
-				SPAposition const  &pos,
+				SPAposition const  &point,
 				SPAposition        &foot,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF,
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter       &param_actual = SpaAcis::NullObj::get_parameter(),
 				logical            f_weak  = FALSE
 			) const
 	{
 		point_perp(
-					pos,
+				point,
 					foot,
-					*(SPAunit_vector *)NULL_REF,
-					*(SPAvector *)NULL_REF,
-					guess,
-					actual, f_weak
+					SpaAcis::NullObj::get_unit_vector(),
+					SpaAcis::NullObj::get_vector(),
+					param_guess,
+					param_actual,
+					f_weak
 				);
 	}
 /**
@@ -648,25 +662,25 @@ public:
 	virtual curve_tancone tangent_cone(
 				SPAinterval const &inter,
 				logical           result,
-				SPAtransf const   &trans = *(SPAtransf *)NULL_REF
+				SPAtransf const   &trans = SPAtransf()
 			) const;
 /**
- * Tests a point on the curve, returning the parameter value if it is required.
+ * Tests point-on-curve to a given precision, optionally returning the actual parameter value if the point is on the <tt>curve</tt>.
  * <br><br>
  * @param pos
  * point.
  * @param tol
  * tolerance.
- * @param guess
- * param guess.
- * @param actual
- * actual param.
+ * @param param_guess
+ * the guess parameter value.
+ * @param param_actual
+ * the actual parameter value.
  */
 	virtual logical test_point_tol(
 				SPAposition const  &pos,
 				double             tol     = 0,
-				SPAparameter const &guess  = *(SPAparameter *)NULL_REF,
-				SPAparameter       &actual = *(SPAparameter *)NULL_REF
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter       &param_actual = SpaAcis::NullObj::get_parameter()
 			) const;
 /**
  * Returns the type of <tt>straight</tt>.

@@ -60,7 +60,7 @@ DECL_KERN void get_loops( ENTITY* ent, ENTITY_LIST& loop_list, PAT_NEXT_TYPE inc
  * For additional information regarding the arguments and behavior of this function 
  * refer to the documentation for the API function @href api_get_edges.
 */
-DECL_KERN void get_edges( ENTITY* ent, ENTITY_LIST& edge_list, PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE );
+DECL_KERN void get_edges(const ENTITY* const ent, ENTITY_LIST& edge_list, PAT_NEXT_TYPE include_pat = PAT_CAN_CREATE );
 /**
  * Get a list of <tt>COEDGE</tt>s from an <tt>ENTITY</tt>.
  * For additional information regarding the arguments and behavior of this function 

@@ -17,6 +17,8 @@
 #include	"nd_fclst.hxx"
 #include	"hh_bsslv.hxx"
 #include	"glb_arc.hxx"
+#include	"spa_null_kern.hxx"
+
 #define xor_heal(a,b) ((a && !b) || (b && !a))
 class FACE;
 class surface;
@@ -278,13 +280,13 @@ void print_surface_details(const surface& ,FILE*);
 
 void merge_face_geometry(FACE*,FACE*,logical);
 
-HH_GlobalNode* get_node_linked_with_node_arc(HH_GlobalNode*,HH_GlobalArc*);
+HH_GlobalNode* get_node_linked_with_node_arc(HH_GlobalNode*, HH_GlobalArc*);
 
-void get_node_constraint_list(HH_GlobalNode*,ENTITY_LIST&);
+void get_node_constraint_list(HH_GlobalNode*, ENTITY_LIST&);
 
-int get_face_neighbors(HH_GlobalNode*,ENTITY_LIST& = *(ENTITY_LIST*)NULL_REF);
+int get_face_neighbors(HH_GlobalNode*, ENTITY_LIST& = SpaAcis::NullObj::get_ENTITY_LIST());
 
-logical are_all_arcs_similar(HH_GlobalNode*,HH_ArcDir);
+logical are_all_arcs_similar(HH_GlobalNode*, HH_ArcDir);
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------

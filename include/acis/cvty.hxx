@@ -45,25 +45,25 @@ DECL_LOPT LOPT_EDGE_cvty lopt_calc_convexity(
 											 SPAunit_vector const &norm0, 
 											 SPAunit_vector const &norm1,
 											 SPAunit_vector const &dir, 
-											 double const tol = SPAresnor,
-											 double const &K1 = * ( double * ) NULL_REF, 
-											 double const &K2 = * ( double * ) NULL_REF,
-											 double const &loose_tol = * ( double * ) NULL_REF,
-											 logical & loose_tan = * ( logical * ) NULL_REF);
+											 double const tol		 = SPAresnor,
+											 double const &K1		 = SpaAcis::NullObj::get_double(), 
+											 double const &K2		 = SpaAcis::NullObj::get_double(),
+											 double const &loose_tol = SpaAcis::NullObj::get_double(),
+											 logical & loose_tan	 = SpaAcis::NullObj::get_logical());
 
 // convexity of edge
 DECL_LOPT LOPT_EDGE_cvty lopt_calc_convexity( EDGE *edge, 
 											 double const tol = SPAresnor,
-											 double const &loose_tol = *(double*)NULL_REF,
-											 logical &loose_tan = *(logical*)NULL_REF,
+											 double const &loose_tol = SpaAcis::NullObj::get_double(),
+											 logical &loose_tan		 = SpaAcis::NullObj::get_logical(),
 											 logical check_extra_points = FALSE,
 											 logical check_near_tangent_portion = FALSE);
 
 // convexity of edge at a VERTEX, at coedge start 
 DECL_LOPT LOPT_EDGE_cvty lopt_calc_convexity( COEDGE *coedge, 
 											 double const tol = SPAresnor,
-											 double const &loose_tol = *(double*)NULL_REF,
-											 logical &loose_tan = *(logical*)NULL_REF);
+											 double const &loose_tol = SpaAcis::NullObj::get_double(),
+											 logical &loose_tan		 = SpaAcis::NullObj::get_logical());
 
 // convexity of coedge at a SPAparameter
 DECL_LOPT LOPT_EDGE_cvty lopt_calc_convexity( double const &t, 

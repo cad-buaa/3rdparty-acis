@@ -45,5 +45,6 @@
 #define hybrid_set_volume_mesh meshgems_hybrid_set_volume_mesh
 #define boundary_layer_height_t meshgems_boundary_layer_height_t
 #define hybrid_session_t meshgems_hybrid_session_t
+#define hybrid_unlock_product meshgems_hybrid_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_HYBRID_SHORT_NAMES__ */

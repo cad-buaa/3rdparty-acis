@@ -52,16 +52,16 @@
 class /*DECL_RB*/ rgb_color : public ACIS_OBJECT
 {
 	// R,G,B values from 0.0 to 1.0
-	double Red;
-	double Green;
-	double Blue;
+	double Red = 0.0;
+	double Green = 0.0;
+	double Blue = 0.0;
 
 public:
 
 /**
  * C++ allocation constructor requests memory for this object but does not populate it.
  */
-	rgb_color() { Red = Green = Blue = 0.0; }
+	rgb_color() = default;
 
 	// Construct an rgb_color from three doubles.
 
@@ -116,14 +116,16 @@ public:
  */
 	rgb_color( int index )
 	{
-		LOCAL_CONST double rgb[8][3] = {	{0.0, 0.0, 0.0},	// 0 - Black
-									{1.0, 0.0, 0.0},	// 1 - Red
-									{0.0, 1.0, 0.0},	// 2 - Green
-									{0.0, 0.0, 1.0},	// 3 - Blue
-									{0.0, 1.0, 1.0},	// 4 - Cyan
-									{1.0, 1.0, 0.0},	// 5 - Yellow
-									{1.0, 0.0, 1.0},	// 6 - Magenta
-									{1.0, 1.0, 1.0}};	// 7 - White
+		LOCAL_CONST double rgb[8][3] = {
+			{0.0, 0.0, 0.0},	// 0 - Black
+			{1.0, 0.0, 0.0},	// 1 - Red
+			{0.0, 1.0, 0.0},	// 2 - Green
+			{0.0, 0.0, 1.0},	// 3 - Blue
+			{0.0, 1.0, 1.0},	// 4 - Cyan
+			{1.0, 1.0, 0.0},	// 5 - Yellow
+			{1.0, 0.0, 1.0},	// 6 - Magenta
+			{1.0, 1.0, 1.0} 	// 7 - White
+		};
 		// Force index into range just to be safe
 		int i = ((index < 0) ? -index : index) % 8;
 

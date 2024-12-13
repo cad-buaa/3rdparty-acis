@@ -19,6 +19,16 @@
 #include "mmgr.hxx"
 #include "mutex.hxx"
 
+// struct storing mismatch info
+struct mmgr_mismatch_block 
+{
+	mmgr_mismatch_block* next = NULL;
+	const char* alloc_file;
+	AcisMemCall alloc_call;
+	AcisMemCall dealloc_call;
+	size_t alloc_num;
+	unsigned int alloc_line;
+};
 
 struct mmgr_audit_block {
 	
@@ -71,7 +81,10 @@ struct mmgr_statistics {
 	FILE * mmgrfile;
 
 	mutex_resource mmgr_statistics_mutex;
+
+	mmgr_mismatch_block* mismatch_block_start = NULL;
 };
+
 
 DECL_BASE mmgr_statistics * mmgr_debug_stats();
 DECL_BASE void mmgr_dump_range( size_t range_begin, size_t range_end );

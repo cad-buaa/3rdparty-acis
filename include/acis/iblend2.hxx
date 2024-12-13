@@ -64,7 +64,7 @@ rb_vtx_blnd_possible(
 				COEDGE *this_coedge,
 				ENTITY_LIST const &ents,
 				logical &odd_bl_edge_at_rb_bl = 
-                    *(logical *) NULL_REF
+                    SpaAcis::NullObj::get_logical()
 				);
 
 // Utility to adjust for periodicity.

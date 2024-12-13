@@ -13,5 +13,9 @@ extern message_module scmext_scmext_errmod;
 #define NO_HISTORY scmext_scmext_errmod.message_code(2)
 #define PART_CLEAR_FAILED scmext_scmext_errmod.message_code(3)
 #define NO_VIEW scmext_scmext_errmod.message_code(4)
+#define HISTOGRAM_OUT_OF_RANGE scmext_scmext_errmod.message_code(5)
+#define HISTOGRAM_BIN_TO_COLOR_MISMATCH scmext_scmext_errmod.message_code(6)
+#define HISTOGRAM_COLOR_TO_BIN_MISMATCH scmext_scmext_errmod.message_code(7)
+#define NO_PART scmext_scmext_errmod.message_code(8)
 
 #endif /* SCMEXT_SCMEXT_ERRMOD_INCLUDED */

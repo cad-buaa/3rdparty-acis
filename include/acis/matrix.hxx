@@ -16,6 +16,7 @@
 #include "logical.h"
 #include "vector.hxx"
 #include "debugmsc.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file matrix.hxx
  * @CAA2Level L1
@@ -109,7 +110,7 @@ DECL_BASE SPAposition operator*( SPAposition const & pos, SPAmatrix const & m);
 * @param res
 * optional tolerance.
 **/
-DECL_BASE logical same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res = SPAresabs);
+DECL_BASE bool same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res = SPAresabs);
 
 /**
 * Creates the matrix for scaling.
@@ -375,7 +376,7 @@ public:
 	/**
 	 * @nodoc
 	 */
-    logical to_SR(SPAmatrix& s, SPAmatrix& r, int& s_dim = *(int*)NULL_REF) const;
+    logical to_SR(SPAmatrix& s, SPAmatrix& r, int& s_dim = SpaAcis::NullObj::get_int()) const;
 
 	/**
 	 * @nodoc
@@ -400,7 +401,7 @@ public:
 	/**
 	 * @nodoc
 	 */
-	friend DECL_BASE logical same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res);
+	friend DECL_BASE bool same_matrix( SPAmatrix const& m1, SPAmatrix const& m2, const double res);
 
 	// "Constructors" for particular types of transformation.
 	// These are not actually constructors because there is
@@ -472,7 +473,7 @@ public:
 * @param m2
 * second matrix.
 **/
-inline logical operator==( SPAmatrix const &m1, SPAmatrix const &m2 )
+inline bool operator==( SPAmatrix const &m1, SPAmatrix const &m2 )
 	{ return same_matrix( m1, m2, SPAresnor ); }
 
 /**
@@ -483,7 +484,7 @@ inline logical operator==( SPAmatrix const &m1, SPAmatrix const &m2 )
 * @param m2
 * second matrix.
 **/
-inline logical operator!=( SPAmatrix const &m1, SPAmatrix const &m2 )
+inline bool operator!=( SPAmatrix const &m1, SPAmatrix const &m2 )
 	{ return !same_matrix( m1, m2, SPAresnor ); }
 
 /** @} */

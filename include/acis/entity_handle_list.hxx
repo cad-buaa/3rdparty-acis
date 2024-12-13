@@ -33,7 +33,7 @@
 #include "acis.hxx"
 #include "dcl_asm.h"
 #include "asm_list_opts.hxx"
-
+#include "spa_null_base.hxx"
 /**
 * @file entity_handle_list.hxx
  * @CAA2Level L1
@@ -412,7 +412,7 @@ public:
   *  add tombstones to array.
   */
 	entity_handle** array( entity_handle ** handle_array = NULL,
-					   int &array_count = *(int *)NULL_REF,
+					   int &array_count = SpaAcis::NullObj::get_int(),
 					   logical tombstones = FALSE );
 
  /**

@@ -34,7 +34,8 @@ static inline int initialize_acis() {
     int level = 0;
     // 基础初始化将创建线程本地存储和线程ID。
 
-    if(initialize_base()) {  // 在初始化ACIS时传递该默认配置
+    // if(initialize_base()) {  // 在初始化ACIS时传递该默认配置
+    if(true) {
         ++level;
         outcome result = api_start_modeller(0);
         if(result.ok()) {

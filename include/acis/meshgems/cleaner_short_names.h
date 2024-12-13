@@ -52,5 +52,6 @@
 #define cleaner_set_sizemap meshgems_cleaner_set_sizemap
 #define cleaner_set_surface_mesh meshgems_cleaner_set_surface_mesh
 #define cleaner_session_t meshgems_cleaner_session_t
+#define cleaner_unlock_product meshgems_cleaner_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_CLEANER_SHORT_NAMES__ */

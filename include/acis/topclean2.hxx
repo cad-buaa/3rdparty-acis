@@ -17,6 +17,7 @@
 #include "pcurve.hxx"
 #include "curve.hxx"
 #include "point.hxx"
+#include "spa_null_base.hxx"
 
 #include "dcl_stitch.h"
 
@@ -80,8 +81,8 @@ DECL_STITCH logical stch_check_edge_tangency(
 											 EDGE* , 
 											 logical , 
 											 double , 
-											 double& = *(double*)NULL_REF, 
-											 double& = *(double*)NULL_REF,
+											 double& = SpaAcis::NullObj::get_double(),
+											 double& = SpaAcis::NullObj::get_double(),
 											 logical exclude_knife = FALSE
 											 );
 
@@ -109,7 +110,7 @@ DECL_STITCH void
 stch_check_and_fix_tedges_in_entity(ENTITY* ent);
 
 DECL_STITCH logical
-stch_check_and_fix_tedge(TEDGE* edge, logical& already_good = *(logical *)NULL_REF);
+stch_check_and_fix_tedge(TEDGE* edge, logical& already_good = SpaAcis::NullObj::get_logical());
 
 DECL_STITCH logical
 stch_chck_edge_cur_for_error(EDGE* edge, insanity_list& ilist, logical do_check_face_pcurve = TRUE);

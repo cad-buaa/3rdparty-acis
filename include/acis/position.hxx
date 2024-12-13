@@ -177,8 +177,8 @@ DECL_BASE SPAposition operator*( SPAposition const &p, SPAtransf const *t );
 DECL_BASE SPAposition interpolate( double param, SPAposition const &p1, SPAposition const &p2 );
 
 /**
- * Returns <tt>TRUE</tt> if the two positions are the same (i.e., they lie within the specified resolution or <tt>SPAresabs</tt>);
- * otherwise returns <tt>FALSE</tt>.
+ * Returns <tt>true</tt> if the two positions are the same (i.e., they lie within the specified resolution or <tt>SPAresabs</tt>);
+ * otherwise returns <tt>false</tt>.
  * <br><br>
  * @param p1
  * first position.
@@ -187,7 +187,7 @@ DECL_BASE SPAposition interpolate( double param, SPAposition const &p1, SPAposit
  * @param res
  * optional positional tolerance.
  */
-DECL_BASE logical same_point( SPAposition const&p1, SPAposition const&p2, const double res = SPAresabs);
+DECL_BASE bool same_point( SPAposition const&p1, SPAposition const&p2, const double res = SPAresabs);
 
 /** @} */
 /**
@@ -525,7 +525,7 @@ public:
 /**
  * @nodoc
  */
-	friend DECL_BASE logical same_point( SPAposition const &p1, SPAposition const &p2,
+	friend DECL_BASE bool same_point( SPAposition const &p1, SPAposition const &p2,
 		const double res );
 
 	// Output details of a SPAposition.
@@ -556,13 +556,13 @@ public:
 /**
  * @nodoc
  */
-inline logical same_point( SPAposition const &p1, SPAposition const &p2, const double res ) {
+inline bool same_point( SPAposition const &p1, SPAposition const &p2, const double res ) {
 	double res2=res*res;
 	double Len_SQ=0.0;
 	for (int i=0; i<3; i++)
 	{
 		double dv = (p1.coord[i] - p2.coord[i])*(p1.coord[i] - p2.coord[i]);
-		if( dv > res2 ) return FALSE;
+		if( dv > res2 ) return false;
 		Len_SQ+=dv;
 	}
 	return  Len_SQ < res2 ;
@@ -577,7 +577,7 @@ inline logical same_point( SPAposition const &p1, SPAposition const &p2, const d
  * @param p2
  * second position
  */
-inline logical operator==( SPAposition const &p1, SPAposition const &p2 )
+inline bool operator==( SPAposition const &p1, SPAposition const &p2 )
 	{ return same_point( p1, p2, SPAresabs ); }
 
 /**
@@ -587,7 +587,7 @@ inline logical operator==( SPAposition const &p1, SPAposition const &p2 )
  * @param p2
  * second position
  */
-inline logical operator!=( SPAposition const &p1, SPAposition const &p2 )
+inline bool operator!=( SPAposition const &p1, SPAposition const &p2 )
 	{ return !same_point( p1, p2, SPAresabs ); }
 // STI let: end
 

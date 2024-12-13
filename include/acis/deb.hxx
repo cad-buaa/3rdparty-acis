@@ -224,7 +224,6 @@
 #ifndef MSCDEBH
 #define MSCDEBH
 
-
 #include "dcl_kern.h"
 #include "logical.h"
 
@@ -233,7 +232,6 @@
 
 #ifdef D3_DEBUG
 #include "stream.hxx"
-#include "deb_md.hxx"
 
 #define DEB_module( name )	LOCAL_CONST char module[] = name;
 
@@ -349,24 +347,6 @@
 // Classes used only in D3_DEBUG
 
 #ifdef D3_DEBUG
-
-// This class is used to store data for the current debug function. An
-// entity of the class lives as long as the function does. 
-
-class DECL_KERN DEBUG_FN : public ACIS_OBJECT
-    {
-    int id;
-    int level;
-    DEB_MD_LINK module_traceback_head;    
-    const char* name;
-public:
-    DEBUG_FN( const char*, const char* );
-    ~DEBUG_FN();
-    const char* filename()	{ return name; }
-    int permission() 	{ return level; }
-    void call( int count );
-    };
-
 
 // This class defines a debug environment. 
 

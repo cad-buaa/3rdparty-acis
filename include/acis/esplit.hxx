@@ -13,9 +13,8 @@
 #define SG_ESPLIT
 
 #include "dcl_intr.h"
-// ywoo 08Jan01: added the header file.
 #include "base.hxx"
-// ywoo 08Jan01: added the classes.
+#include "spa_null_kern.hxx"
 
 /**
 * @file esplit.hxx
@@ -61,6 +60,8 @@ class ENTITY_LIST;
  * the parameter lies on a discontinuity, otherwise, the new edges share the same
  * curve.
  * <br><br>
+ * <b>Limitations:</b> The edge cannot be a stand-alone edge; that is, it must belong to a face or wire.
+ * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
  * @param old_edge
@@ -76,7 +77,7 @@ DECL_INTR void
 sg_split_edge_at_vertex(
     EDGE*        old_edge,                              // edge to split
     VERTEX*      new_vertex,                            // vertex known to lie in interior of edge
-    ENTITY_LIST& coedge_list = *(ENTITY_LIST*)NULL_REF, // returned list of coedges
+    ENTITY_LIST& coedge_list = SpaAcis::NullObj::get_ENTITY_LIST(), // returned list of coedges
     logical      split_geometry = FALSE                 // hard split on geometry
     );
 //STI let: end
@@ -98,6 +99,8 @@ sg_split_edge_at_vertex(
  * the parameter lies on a discontinuity, otherwise, the new edges share the same
  * curve.
  * <br><br>
+ * <b>Limitations:</b> The edge cannot be a stand-alone edge; that is, it must belong to a face or wire.
+ * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
  * @param old_edge
@@ -116,7 +119,7 @@ sg_split_edge_at_vertex(
     EDGE*         old_edge,                                 // edge to split
     VERTEX*       new_vertex,                               // vertex known to lie in interior of edge
     double        vert_param,                               // parameter at which the vertex lies
-    ENTITY_LIST&  coedge_list    = *(ENTITY_LIST*)NULL_REF, // returned list of coedges
+    ENTITY_LIST&  coedge_list    = SpaAcis::NullObj::get_ENTITY_LIST(), // returned list of coedges
     logical       split_geometry = FALSE                    // hard split on geometry
    );
 
@@ -185,10 +188,10 @@ sg_add_poles_to_boundary(
  **/
 DECL_INTR void
 sg_split_edge_at_convexity(
-EDGE *edge,
-logical split_edge=TRUE,
-ENTITY_LIST&  coedge_list    = *(ENTITY_LIST*)NULL_REF
-);
+    EDGE *edge,
+    logical split_edge=TRUE,
+    ENTITY_LIST&  coedge_list    = SpaAcis::NullObj::get_ENTITY_LIST()
+    );
 
 // this function checks if there is an existing vertex before calling sg_split_edge_at_vertex
 // also it splits multiple param values in a coedge
@@ -200,9 +203,13 @@ ENTITY_LIST&  coedge_list    = *(ENTITY_LIST*)NULL_REF
  * @nodoc
  */
 
-DECL_INTR COEDGE *split_coedge_at_params(COEDGE *, int, double *,
-									     ENTITY_LIST &out_coed = *(ENTITY_LIST *) NULL_REF,
-										 logical = FALSE);
+DECL_INTR COEDGE *split_coedge_at_params(
+    COEDGE *, 
+    int, 
+    double *,
+    ENTITY_LIST &out_coed = SpaAcis::NullObj::get_ENTITY_LIST(),								 
+    logical = FALSE
+    );
 
 /** @} */
 

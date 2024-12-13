@@ -15,6 +15,8 @@
 #include "option.hxx"
 #include "bs3surf.hxx" // defines bs3_surf_form and bs3_surface // defines bs3_surf_form and bs3_surface
 #include "sw_common.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 
 class sw_surface;
 class law;
@@ -98,9 +100,9 @@ DECL_KERN double bs_accuracy(const spl_sur &ss,
 // Tests for self intersections on the given bs3_surface and returns various results.
 // Returns TRUE if everything is OK.
 DECL_KERN logical bs3_self_int_test(bs3_surface res, 
-						  SPApar_box &exclude_region = *(SPApar_box*)NULL_REF,
-						  SPApar_box &extension_box = *(SPApar_box*)NULL_REF,
-						  VOID_LIST &bad_uvs = *(VOID_LIST*)NULL_REF,
-						  sf_clash_list*& clashes = *(sf_clash_list**)NULL_REF );
+						  SPApar_box &exclude_region	= SpaAcis::NullObj::get_par_box(),
+						  SPApar_box &extension_box		= SpaAcis::NullObj::get_par_box(),
+						  VOID_LIST &bad_uvs			= SpaAcis::NullObj::get_void_list(),
+						  sf_clash_list*& clashes		= SpaAcis::NullObj::get_sf_clash_list_ptr() );
 #endif
 

@@ -350,6 +350,12 @@ MESHGEMS_METHOD meshgems_tetra_session_t *meshgems_tetra_session_new(meshgems_co
 MESHGEMS_METHOD void meshgems_tetra_session_delete(meshgems_tetra_session_t *tms);
 
 /**
+ * Unlock MeshGems-Tetra with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_tetra_unlock_product(const char * unlock_str);
+
+/**
  * Sets the message callback function.
  *
  * This is where the user should detect and print phase changes,

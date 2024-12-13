@@ -159,7 +159,9 @@ class DECL_SKIN AcisLoftingInterface : public AcisSLInterface
 		 * @param iSmoothAngle
 		 *    Angle (in radians) for two tangent vectors to be consided nearly in the same direction.
 		 */
-		virtual outcome smoothWires(logical &oSmoothDone, const double iSmoothAngle, double &oTol = *(double *)NULL_REF );
+		virtual outcome smoothWires(logical &oSmoothDone, 
+									const double iSmoothAngle, 
+									double &oTol = SpaAcis::NullObj::get_double());
 
 		/**
 		 * Builds a list of edges that represent the extents of the surfaces if the wires were to be skinned at the present configuration.
@@ -317,8 +319,8 @@ class DECL_SKIN AcisLoftingInterface : public AcisSLInterface
 		 * @nodoc
 		 */
 		outcome estimateTanfacScale(SPAinterval &tan_range, 
-									double &optimum = *(double *)NULL_REF,
-									double &min_radius = *(double *)NULL_REF );
+									double &optimum		= SpaAcis::NullObj::get_double(),
+									double &min_radius	= SpaAcis::NullObj::get_double() );
 
 		/**
 		 * @nodoc

@@ -57,6 +57,8 @@ class vsegend;
 #include "position.hxx"
 #include "cusfint.hxx"
 
+#include "spa_null_kern.hxx"
+
 // Declare a class to hold a blend surface and details of spring 
 // curves (or points) for left and right and spine curve (or point).  
 // Record auxiliary surfaces (that contain the corresponding spring
@@ -103,25 +105,25 @@ public:
 
 	point_cur(SPAposition const &,
 			  double = 0,
-			  SPApar_pos const & = *(const class SPApar_pos *)NULL_REF
+			  SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 		);
 
 	point_cur(curve const &);
 
 	point_cur(curve const &,
 			  SPAbox const &,
-			  surface const & = *(surface const*)NULL_REF,	// aux surf
-			  surface const & = *(surface const*)NULL_REF,	// other surf
-			  pcurve const & = *(pcurve const*)NULL_REF,	// bl pcur
-			  pcurve const & = *(pcurve const*)NULL_REF		// other pcur
+			  surface const & = SpaAcis::NullObj::get_surface(),	// aux surf
+			  surface const & = SpaAcis::NullObj::get_surface(),	// other surf
+			  pcurve const & = SpaAcis::NullObj::get_pcurve(),		// bl pcur
+			  pcurve const & = SpaAcis::NullObj::get_pcurve()		// other pcur
 		);
 
 	point_cur(curve const &,
 			  SPAinterval,
-			  surface const & = *(surface const*)NULL_REF,	// aux surf
-			  surface const & = *(surface const*)NULL_REF,	// other surf
-			  pcurve const & = *(pcurve const*)NULL_REF,	// bl pcur
-			  pcurve const & = *(pcurve const*)NULL_REF		// other pcur
+			  surface const & = SpaAcis::NullObj::get_surface(),	// aux surf
+			  surface const & = SpaAcis::NullObj::get_surface(),	// other surf
+			  pcurve const & = SpaAcis::NullObj::get_pcurve(),		// bl pcur
+			  pcurve const & = SpaAcis::NullObj::get_pcurve()		// other pcur
 		);
 
 	point_cur(point_cur const &);
@@ -255,7 +257,7 @@ offset_surface(
 		surface const &,
 		double,
 		SPAbox const & =		// Bounds result when a curve
-			*(SPAbox *)NULL_REF	
+				SpaAcis::NullObj::get_box()
 		);
 
 // Project a point or curve on to a surface.
@@ -271,7 +273,7 @@ project_pc(
 	SPAbox const &,		// confine result to SPAbox
 	double,				// tol
 	SPAposition const & =  // choosing a solution from multiple projection
-			*(SPAposition const*)NULL_REF
+			SpaAcis::NullObj::get_position()
 	);
 
 // Record the point of intersection of one spring curve of an edge
@@ -301,7 +303,7 @@ public:
 		SPAposition const &,
 		SPAparameter,
 		SPAparameter,
-		SPApar_pos const & = *(SPApar_pos *)NULL_REF);
+		SPApar_pos const & = SpaAcis::NullObj::get_par_pos());
 
 	// Note that there is known to be no intersection.
 
@@ -463,7 +465,7 @@ find_spring_points(
 	SPAbox const &,
 	SPAposition &, 
 	SPAposition &, 
-	SPAposition & = *(SPAposition *)NULL_REF
+	SPAposition & = SpaAcis::NullObj::get_position()
 	);
 
 // Find overlap of two intervals (and deal with intervals of periodic

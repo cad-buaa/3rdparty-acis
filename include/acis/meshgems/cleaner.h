@@ -81,6 +81,13 @@ MESHGEMS_METHOD meshgems_cleaner_session_t
 MESHGEMS_METHOD void
 meshgems_cleaner_session_delete(meshgems_cleaner_session_t * this_ses);
 
+/**
+ * Unlock MeshGems-Cleaner with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_cleaner_unlock_product(const char * unlock_str);
+
+
 /*@}*/
 
 /**

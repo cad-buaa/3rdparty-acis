@@ -10,6 +10,8 @@
 #define SPA_PROGRESS_INFO_HXX
 #include "mmgr.hxx" // ACIS_OBJECT
 #include "dcl_base.h"
+#include <vector>
+
 /**
  * @file spa_progress_info.hxx
  * @CAA2Level L1
@@ -35,6 +37,12 @@
 * rendering.
 * @param SPA_progress_info_ENTITY_POINT_DISTANCE
 * entity point distance scanline
+* @param SPA_progress_info_N_BODY_UNITE
+* n-body unite
+* @param SPA_progress_info_N_BODY_CLASH
+* n-body clash
+* @param SPA_progress_info_N_BODY_UNITE_2D
+* n-body unite 2d
 **/
 
 enum SPA_progress_info_type_id 
@@ -54,11 +62,18 @@ enum SPA_progress_info_type_id
 	SPA_progress_info_POLY,
 	SPA_progress_info_N_BODY_UNITE,
 	SPA_progress_info_3DPM,
-	SPA_progress_info_MODEL_COMPARISON
+	SPA_progress_info_MODEL_COMPARISON,
+	SPA_progress_info_N_BODY_CLASH,
+	SPA_progress_info_N_BODY_UNITE_2D,
+	SPA_progress_info_PROCESS_MT
 //if you add another value here please add to end of list and 
 // update get_all_progress_info_types.
 };
 
+/**
+ * Populates the vector with all the progress info type IDs
+ */
+DECL_BASE void get_all_progress_info_types(std::vector<SPA_progress_info_type_id>& ids);
 
 /**
  * Abstract base class for providing progress information.<br>

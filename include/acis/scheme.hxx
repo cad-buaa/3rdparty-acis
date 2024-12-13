@@ -289,6 +289,10 @@ ScmObject make_Scm_Real_List(int, double*);
  */
 inline ScmObject make_Scm_Integer(int n) {return Make_Integer(n);}
 /**
+ * Creates scheme unsigned integer object from c++ integer
+ */
+inline ScmObject make_Scm_Unsigned(unsigned int n) {return Make_Unsigned(n);}
+/**
  * Creates scheme long object from c++ long
  */
 inline ScmObject make_Scm_Long(long l) {return Make_Long(l);}
@@ -308,6 +312,10 @@ inline ScmObject make_Scm_Hoops_Key(long l) {return Make_Long(l);}
  * Creates scheme integer list object from c++ integer array
  */
 ScmObject make_Scm_Integer_List(int, int*);
+/**
+ * Creates scheme unsigned integer list object from c++ unsigned integer array
+ */
+ScmObject make_Scm_Unsigned_List(int, const unsigned int* const);
 /**
  * Creates scheme long list from c++ long array
  */

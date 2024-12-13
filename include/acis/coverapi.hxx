@@ -506,6 +506,14 @@ DECL_COVR outcome api_cover_wires(
  * <br><br>
  * <b>Role:</b> <tt>api_cover_planar_edges</tt> organizes planar edges by covering them with
  * planar faces, which can then be used for solid construction operations, such as sweeping and lofting.
+ * <br>when nesting is on, this api expects co-planar edges. Non coplanar input edges with nesting on is not allowed.
+ * <br>Covering is supported for three or four-sided non-planar loops, and for <i>n</i>-sided loops if all the edges lie on the same plane.
+ * Loops with five or more non-planar edges are covered under the following conditions:
+ * <ul>
+ * <li>Degenerate edges are not allowed.</li>
+ * <li>Edges which meet at an angle &gt;= 180 or &lt;= 0 degrees are not allowed.</li>
+ * <li>Edges which turn 'excessively' are not allowed.</li>  
+ * </ul>
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
@@ -537,6 +545,14 @@ DECL_COVR outcome api_cover_planar_edges(
  * <br><br>
  * <b>Role:</b> <tt>api_cover_planar_wires</tt> orgainizes planar wires by covering them with
  * planar faces, which can then be used for solid construction operations, such as sweeping and lofting.
+ * <br>when nesting is on, this api expects co-planar wires. Non coplanar input wires with nesting on is not allowed.
+ * <br>Covering is supported for three or four-sided non-planar loops, and for <i>n</i>-sided loops if all the edges lie on the same plane.
+ * Loops with five or more non-planar edges are covered under the following conditions:
+ * <ul>
+ * <li>Degenerate edges are not allowed.</li>
+ * <li>Edges which meet at an angle &gt;= 180 or &lt;= 0 degrees are not allowed.</li>
+ * <li>Edges which turn 'excessively' are not allowed.</li>
+ * </ul>
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>

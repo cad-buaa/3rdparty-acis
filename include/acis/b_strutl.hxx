@@ -10,7 +10,7 @@
 // an architecture indepndent string
 // compare definition
 //
-#ifndef BAS_STR_UTILS_HXX
+#ifndef BAS_STRL_UTILS_HXX
 #define BAS_STRL_UTILS_HXX
 
 #include <string.h>

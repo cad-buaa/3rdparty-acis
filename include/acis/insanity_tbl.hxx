@@ -408,7 +408,7 @@ public:
      * @param other
      * Instance to compare this instance to.
 	 */
-	logical operator==(const insanity_sub_category& other) const
+	bool operator==(const insanity_sub_category& other) const
     {
 		return description==other.description;
     }
@@ -418,7 +418,7 @@ public:
      * @param other
      * Instance to compare this instance to.
 	 */
-	logical operator!=(const insanity_sub_category& other) const
+	bool operator!=(const insanity_sub_category& other) const
     {
     return description!=other.description;
     }

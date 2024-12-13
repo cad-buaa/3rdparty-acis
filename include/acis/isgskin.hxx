@@ -21,6 +21,9 @@
 #include "lists.hxx"
 #include "vers.hxx"
 #include "param.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 class spline;
 class curve;
 class intcurve;
@@ -45,7 +48,7 @@ sg_minimize_twist_wires(int no_wires,
 						logical start_degenerate_wire = FALSE,
 						logical end_degenerate_wire = FALSE,
 						logical no_new_twist_vertices = FALSE,
-						const ENTITY_LIST &vertices_to_skip = *(ENTITY_LIST *)NULL_REF,
+						const ENTITY_LIST &vertices_to_skip = SpaAcis::NullObj::get_ENTITY_LIST(),
 						BODY* inPath = NULL,
 						SPAposition* inCentroids = NULL,
 						double* inPathparams = NULL, 
@@ -501,6 +504,22 @@ sg_make_lofting_faces(
       logical use_loft_law = FALSE,
 	  logical self_int_test = TRUE);
 */
+[[deprecated("Deprecated Interface, \"sg_make_lofting_faces\" will be removed in upcoming Release 2025 1.0.0")]]
+void
+sg_make_lofting_faces(
+	int no_sets,				                // Number of sets
+	Loft_Connected_Coedge_List* coed_sets,	// Set of lists of coedges.
+	ENTITY_LIST& face_list,					// List of returned faces
+	BODY* path,								// Path
+	BODY** breakup_wires,						// wires corresponding to the coedge_lists after break-up
+	BODY** original_wires,					// wires corresponding to the coedge_lists before break-up
+	int& number_of_laws,						// total number of laws for all the wires
+	law**& laws,							// law list associated with the wires
+	const skin_options& opts,					// skin_options
+	sg_stitchingInfoSt& stitchInfo = *(sg_stitchingInfoSt*)NULL_REF, // Stitching info
+	logical draft_normal_path = FALSE,        // Flag to state if we are doing draft, normal, or path
+	logical use_loft_law = FALSE,
+	logical self_int_test = TRUE);
 
 void
 sg_make_lofting_faces(
@@ -513,7 +532,7 @@ sg_make_lofting_faces(
 	  int &number_of_laws,						// total number of laws for all the wires
 	  law**&	laws,							// law list associated with the wires
 	  const skin_options &opts,					// skin_options
-	  sg_stitchingInfoSt& stitchInfo = *(sg_stitchingInfoSt*)NULL_REF, // Stitching info
+	  sg_stitchingInfoSt* stitchInfo = nullptr, // Stitching info
 	  logical draft_normal_path = FALSE,        // Flag to state if we are doing draft, normal, or path
       logical use_loft_law = FALSE,
 	  logical self_int_test = TRUE);
@@ -551,7 +570,7 @@ logical make_skin_surface(int no_of_bodies,
 DECL_SKIN logical is_extreme_point(WIRE* wire, 
 					VERTEX* vertex, 
 					SPAunit_vector &extreme_dir,
-                    SPAposition& centroid = *(SPAposition*)NULL_REF);
+                    SPAposition& centroid = SpaAcis::NullObj::get_position());
 
 // Internal data type; do not doc ..... 
 enum loft_surface_type {
@@ -606,22 +625,22 @@ DECL_SKIN void sg_copy_wires_attribs(int no_wires,
 							         BODY* in_wires[], 
 							         BODY* out_wires[], 
 							         logical combine, 
-							         logical& all_closed = *(logical*)NULL_REF, 
-							         logical& degenerate_wire = *(logical*)NULL_REF);
+							         logical& all_closed = SpaAcis::NullObj::get_logical(),
+							         logical& degenerate_wire = SpaAcis::NullObj::get_logical());
 
 DECL_SKIN void sg_copy_wires(int no_wires, 
 							 BODY* in_wires[], 
 							 BODY* out_wires[], 
 							 logical combine, 
-							 logical& all_closed = *(logical*)NULL_REF, 
-							 logical& degenerate_wire = *(logical*)NULL_REF);
+							 logical& all_closed = SpaAcis::NullObj::get_logical(),
+							 logical& degenerate_wire = SpaAcis::NullObj::get_logical());
 
 DECL_SKIN void sg_copy_wires(int no_wires, 
 							 const ENTITY_LIST &in_wires, 
 							 BODY* out_wires[], 
 							 logical combine, 
-							 logical& all_closed = *(logical*)NULL_REF, 
-							 logical& degenerate_wire = *(logical*)NULL_REF);
+							 logical& all_closed = SpaAcis::NullObj::get_logical(),
+							 logical& degenerate_wire = SpaAcis::NullObj::get_logical());
 
 DECL_SKIN logical sg_align_wires(   int no_of_wires, 
 									BODY** in_wires, 
@@ -684,7 +703,7 @@ DECL_SKIN logical sg_make_skinning_wires(int no_of_incoming_wires,
 										 BODY* incoming_wires[],		 	
 										 int& no_of_outgoing_wires,	 
 										 BODY**& wires,					 
-										 logical& closed,				 
+										 int& closed,				 
 										 logical& all_closed,			 
 										 logical& degenerate_wire,
 										 logical& is_periodic,
@@ -741,8 +760,6 @@ logical reorder_coedges_in_wire ( WIRE *wire, int coedge_index );
 
 void make_wires_from_sections(Loft_Connected_Coedge_List *coed_sets, BODY ** bodies);
 
-logical* calculateG1Status(WIRE *wire, SPAunit_vector *&vert_dirs = *(SPAunit_vector **)NULL_REF,
-						   double dist_tol = -1.0, double direc_tol = -1.0);
 
 DECL_SKIN outcome
 sg_merge_coedges(
@@ -760,7 +777,7 @@ sg_smooth_skin_wires (
                 BODY **ioWires, 
                 const int iNumWires, 
                 const double iSmoothTolerance,
-                double & oTol = *( double * )NULL_REF
+                double & oTol = SpaAcis::NullObj::get_double()
                 );
 
 /*
@@ -808,16 +825,16 @@ logical skin_get_plane(BODY* wire_body,
 					   SPAunit_vector   &normal,
 					   logical  same_plane = FALSE,                // only get plane if all wire points are in the same plane
 					   logical  apply_transf = TRUE,
-					   double   &deviation = *(double*)NULL_REF,
-					   logical  &zero_area = *(logical*)NULL_REF);
+					   double   &deviation = SpaAcis::NullObj::get_double(),
+					   logical  &zero_area = SpaAcis::NullObj::get_logical());
 
 logical skin_get_plane(WIRE* wire,
 					   SPAposition &centroid, 
 					   SPAunit_vector   &normal,
 					   logical  same_plane = FALSE,                // only get plane if all wire points are in the same plane
 					   logical  apply_transf = TRUE,
-					   double   &deviation = *(double*)NULL_REF,
-					   logical  &zero_area = *(logical*)NULL_REF,
+					   double   &deviation = SpaAcis::NullObj::get_double(),
+					   logical  &zero_area = SpaAcis::NullObj::get_logical(),
                   const double   iMaxTolerance = SPAresabs);
 
 logical is_line(BODY* wire_body);
@@ -888,15 +905,15 @@ void skin_notify_merge_attrib_of_alignment(WIRE* wire);
 
 logical check_point_intersection(SPAposition const& pos, 
 								 BODY*         wire_body, 
-								 int&          coedge_index = *(int*)NULL_REF, 
-								 SPAparameter& par = *(SPAparameter*)NULL_REF,
-								 double        guide_tol = SPAresfit);
+								 int&          coedge_index = SpaAcis::NullObj::get_int(),
+								 SPAparameter& par			= SpaAcis::NullObj::get_parameter(),
+								 double        guide_tol	= SPAresfit);
 
 logical check_point_intersection(SPAposition const& pos, 
 								 WIRE*         wire, 
-								 int&          coedge_index = *(int*)NULL_REF, 
-								 SPAparameter& par = *(SPAparameter*)NULL_REF,
-								 double        guide_tol = SPAresfit);
+								 int&          coedge_index = SpaAcis::NullObj::get_int(),
+								 SPAparameter& par			= SpaAcis::NullObj::get_parameter(),
+								 double        guide_tol	= SPAresfit);
 
 logical find_skin_input_max_tolerance(ENTITY *ent, double &max_error);
 logical find_skin_input_max_tolerance(int num_ents, ENTITY **ents, double &max_error);

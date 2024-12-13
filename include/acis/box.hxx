@@ -91,7 +91,7 @@ DECL_BASE logical operator<<( SPAposition const & p, SPAbox const & b );
  * @param box2
  * second box.
  */
-DECL_BASE logical operator==( SPAbox const &box1, SPAbox const & box2);
+DECL_BASE bool operator==( SPAbox const &box1, SPAbox const & box2);
 
 /**
  * Inequality operator for determining whether two boxes are not identical.
@@ -101,7 +101,7 @@ DECL_BASE logical operator==( SPAbox const &box1, SPAbox const & box2);
  * @param box2
  * second box.
  */
-DECL_BASE logical operator!=( SPAbox const &box1, SPAbox const &box2 );
+DECL_BASE bool operator!=( SPAbox const &box1, SPAbox const &box2 );
 
 /**
  * Translates a box.
@@ -273,8 +273,8 @@ class DECL_BASE SPAbox : public ACIS_OBJECT {
 	friend DECL_BASE SPAinterval operator%( SPAunit_vector const &, SPAbox const & );
 	friend DECL_BASE SPAinterval operator%( SPAbox const &, SPAunit_vector const & );
 	friend DECL_BASE logical operator<<( SPAposition const & p, SPAbox const & b );
-	friend DECL_BASE logical operator==( SPAbox const &box1, SPAbox const & box2);
-	friend DECL_BASE logical operator!=( SPAbox const &box1, SPAbox const & box2);
+	friend DECL_BASE bool operator==( SPAbox const &box1, SPAbox const & box2);
+	friend DECL_BASE bool operator!=( SPAbox const &box1, SPAbox const & box2);
 	friend DECL_BASE SPAbox enlarge_box(SPAbox const& b, double delta);
 
 public:
@@ -540,6 +540,5 @@ public:
 inline logical operator<<( SPAposition const & p, SPAbox const & b )
 	{ return b >> p; }
 
-/** @} */
 #endif
 

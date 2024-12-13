@@ -231,7 +231,13 @@ public:
 	 * association between slice and its progenitors i.e. tool/blank.
 	 */
 
-	BODY* make_wire( association &assoc_map = *( association* )NULL_REF ) const;
+	BODY* make_wire( association &assoc_map ) const;
+
+	/**
+	 * Creates a wire-body that represents the slice output.
+	 */
+
+	BODY* make_wire() const;
 
 	/**
 	 * Creates a wire-body that represents the slice output. The user can request to provide the 
@@ -253,6 +259,8 @@ private:
 	// For internal use only!
 
 	slice_output_handle const *_hs;	
+
+	BODY* make_wire(association * assoc_map, geom_preference pref) const;
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -334,9 +342,9 @@ private:
 * <br><br>
 * <b>Effect:</b> Read-only on input. A new object representing the slice graph is created.
 * <br><br>
-* <b>Journal:</b> Available
+* <b>Journal:</b> Not Available
 * <br><br>
-* <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+* <b>Product(s):</b> 3D ACIS Modeler
 * <br><br>
 * @param blank
 * (in) Blank body to be sliced.
@@ -356,8 +364,49 @@ api_planar_slice( BODY* blank,
 				  SPAdouble_vector const &offsets,
 				  slice_output_handle *&hso,
 				  slice_options const *sopts );
-
-
+/**
+* Performs a slice operation between a given body and a set of uniformly seperated planes.
+* <br><br>
+* <b>Role:</b> This API function computes the slice graph between the given body and the set of
+* multiple planes. It returns a handle to the slice graph, that can be further queried to get
+* the wire-body that represents the slice graph.
+* <b><i>Note:</i></b> The handle to be slice output can not be directly consumed. To generate a
+* explicit wire body suitable for subsequent general use, an object of @href slice_output_legacy
+* need to be instantiated and queried. The slice output handle should be released by calling
+* <tt>remove_ref()</tt> after usage.
+* <br><br>
+* The slice options argument, <tt>sopts</tt>, allows the caller to pass additional information
+* to the slice operation. Refer to @href slice_options for more details.
+* <br><br>
+* <b>Errors:</b><br>
+* <tt>blank</tt> is a NULL pointer or does not point to a @href BODY.<br>
+* <br><br>
+* <b>Effect:</b> Read-only on input. A new object representing the slice graph is created.
+* <br><br>
+* <b>Journal:</b> Available
+* <br><br>
+* <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+* <br><br>
+* @param blank
+* (in) Blank body to be sliced.
+* @param datum
+* (in) Reference plane for the set of planes to be used as tool.
+* @param thickness
+* (in) the spacing between multiple planes.
+* @param num_planes
+* (in) Number of slicing planes.
+* @param hso
+* (out) Handle to the output of slice operation.
+* @param sopts
+* (in) Slice options including versioning and journaling. Refer to @href slice_options for details.
+*/
+DECL_BOOL outcome
+api_planar_slice( BODY* blank,
+				  plane const& datum, 
+             	  double const thickness,
+	              int const num_planes,
+	              slice_output_handle*& hso,
+	              slice_options const* sopts);
 
 /**
 * Represents a light weight query operator that can extract the output from slice_output_handle.

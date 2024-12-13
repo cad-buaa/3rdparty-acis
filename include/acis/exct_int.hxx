@@ -24,6 +24,8 @@
 
 #include "debugmsc.hxx"
 
+#include "spa_null_kern.hxx"
+
 /**
 * @file exct_int.hxx
  * @CAA2Level L1
@@ -126,9 +128,9 @@ public:
  */
  	exact_int_cur(
 			bs3_curve surf,			// spline curve
-			surface const &f_cur = *(surface *)NULL_REF,
+			surface const &f_cur = SpaAcis::NullObj::get_surface(),
 								// first surface on which curve lies
-			surface const &s_cur = *(surface *)NULL_REF,
+			surface const &s_cur =  SpaAcis::NullObj::get_surface(),
 								// second surface on which curve lies
 			bs2_curve f_surf  = NULL,	// curve in SPAparameter space of the
 								// first surface
@@ -197,7 +199,7 @@ private:
 	// superimposition, but reliably flagging cases of inequality.
 	// The base class int_cur version is sufficient.
 
-//	virtual logical operator==( subtype_object const & ) const;
+//	virtual bool operator==( subtype_object const & ) const;
 
 
 	// Parameter shift: the base class version is fine.
@@ -272,8 +274,8 @@ private:
 	virtual void closest_point(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPAparameter const &param_guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &param_actual = *(SPAparameter *)NULL_REF
+				SPAparameter const &param_guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter &param_actual = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -345,7 +347,7 @@ private:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 
@@ -398,13 +400,13 @@ private:
 	// See chk_stat.hxx for information on the argument types used here.
 
 	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
+  		        const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 						 // supplies a set of flags which say which fixes
 						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
+				check_fix& result = SpaAcis::NullObj::get_check_fix(),
 						 // returns a set of flags which say which fixes
 						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
+				const check_status_list* = nullptr
 						 // list of checks that are to be made.  If the
 						 // list is null, then every possible check will
 						 // be made; otherwise, the function will only

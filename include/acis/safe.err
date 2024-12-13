@@ -1,20 +1,21 @@
-// Error code definitions for module "spaacis/src"
+// Error code definitions for module "spaacisds/src"
 
-#ifndef SPAACIS_SAFE_ERRMOD_INCLUDED
-#define SPAACIS_SAFE_ERRMOD_INCLUDED
+#ifndef SPAACISDS_SAFE_ERRMOD_INCLUDED
+#define SPAACISDS_SAFE_ERRMOD_INCLUDED
 
 #include "errorbase.hxx"
 #include "errmsg.hxx"
 
 #include "importexport.h"
-#ifdef __SpaACIS
-extern EXPORT_SYMBOL message_module spaacis_safe_errmod;
+#ifdef __SPAAcisDs
+extern EXPORT_SYMBOL message_module spaacisds_safe_errmod;
 
 #else
-extern IMPORT_SYMBOL message_module spaacis_safe_errmod;
+extern IMPORT_SYMBOL message_module spaacisds_safe_errmod;
 
 #endif
-#define RUNTIME_SAFE_TYPE_CTOR spaacis_safe_errmod.message_code(0)
-#define RUNTIME_SAFE_TYPE_DTOR spaacis_safe_errmod.message_code(1)
+#define RUNTIME_SAFE_TYPE_CTOR spaacisds_safe_errmod.message_code(0)
+#define RUNTIME_SAFE_TYPE_DTOR spaacisds_safe_errmod.message_code(1)
+#define THREAD_CREATION_FAILED spaacisds_safe_errmod.message_code(2)
 
-#endif /* SPAACIS_SAFE_ERRMOD_INCLUDED */
+#endif /* SPAACISDS_SAFE_ERRMOD_INCLUDED */

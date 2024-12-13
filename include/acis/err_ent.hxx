@@ -140,6 +140,14 @@ public:
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
+
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
     /**
 	 * C++ allocation constructor requests memory for this object but does not populates it with the data. 
 	 * Applications should call this constructor only with the overloaded new operator inherited from the 
@@ -257,6 +265,11 @@ public:
 		 * @nodoc
 		 */
 		param_info * get_next() const;
+
+		/**
+		 * @nodoc
+		 */
+		ENTITY* get_error_ent() const;
 
 		/**
 		 * @nodoc

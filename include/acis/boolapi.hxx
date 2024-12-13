@@ -74,7 +74,8 @@ class glue_options;
 
 #include "api.hxx"
 #include "exchg_funcs.hxx"
-
+#include "spa_null_kern.hxx"
+#include "spa_null_intr.hxx"
 class BoolOptions;
 class AcisOptions;
 class unstitch_nm_options;
@@ -225,7 +226,7 @@ enum NDBOOL_KEEP {
  * <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
  * @param result_body
  * (out) Used to return the result body if performing a non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+ * Default value is a null BODY* reference if not required.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  **/
@@ -236,7 +237,7 @@ DECL_BOOL outcome api_boolean(
         NDBOOL_KEEP ndbool_keep =
           NDBOOL_KEEP_NEITHER,
         BODY *&result_body =
-          *(BODY**) NULL_REF,
+				SpaAcis::NullObj::get_body_ptr(),
 		AcisOptions* ao =
 				NULL
     );
@@ -297,7 +298,6 @@ DECL_BOOL outcome api_boolean(
  * <tt>NDBOOL_KEEP_BLANK</tt>, <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
  * @param result_body
  * (out) Used to return the result body if performing a non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
  * @param boolopts
  * (in) Boolean options. Refer to @href BoolOptions for details.
  * @param ao
@@ -387,17 +387,20 @@ DECL_BOOL outcome api_intersect(
  * <br><b>Technical Article:</b> <i>[Slice](http://doc.spatial.com/articles/s/l/i/Slice.html)</i>
  * <br><br>
  * <b>Role:</b> This API function computes the intersection graph between two bodies.
- * It returns a special wire body where each edge has two coedges.
  * A normal vector can be given in the special case when the tool body is a plane,
  * causing this operation to sequence the resultant wires into
  * non-overlapping loops of conventional sense. Generally, the normal should be set
- * to <tt>*(SPAunit_vector*)NULL_REF</tt>.
+ * to <tt>SpaAcis::NullObj::get_unit_vector()</tt>.
  * <br><br>
- * <b><i>Note:</i></b> The slice graph is not designed to be used as a general wire body. To
+ * <b><i>Note:</i></b> 
+ * <ul>
+ * <li>The slice graph is not designed to be used as a general wire body. To
  * generate a wire body suitable for subsequent general use, a call to @href api_clean_wire
  * is necessary after calling this API function.
  * However, if there are no intersections between the blank and tool bodies, then the returned wire 
- * body is <tt>NULL</tt> and subsequent calls to @href api_clean_wire are not necessary, nor recommended.
+ * body is <tt>NULL</tt> and subsequent calls to @href api_clean_wire are not necessary, nor recommended.</li>
+ * <li>When either or both of the input bodies are polyhedral, the resulting wire body has underlying edge geometry composed of linear bs3 curves which may not be optimal for certain downstream modeling operations.</li>
+ * </ul>
  * <br><br>
  * This function is optionally <i>Failsafe</i>. In <i>Failsafe</i> mode, the API function will return as 
  * much of the result as possible. If the result is incomplete, then the API function will return success, 
@@ -418,7 +421,7 @@ DECL_BOOL outcome api_intersect(
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
+ * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
  * @param tool
  * (in) Tool, or slicing body.
@@ -430,6 +433,8 @@ DECL_BOOL outcome api_intersect(
  * (out) Returned slice graph.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
+ * <br><br>
+ * Note - Incase of polyhedral input body normal is ignored.
  **/
 DECL_BOOL outcome api_slice(
 			BODY *tool,				// slicing body
@@ -446,17 +451,20 @@ DECL_BOOL outcome api_slice(
  * <br><b>Technical Article:</b> <i>[Slice](http://doc.spatial.com/articles/s/l/i/Slice.html)</i>
  * <br><br>
  * <b>Role:</b> This API function computes the intersection graph between two bodies.
- * It returns a special wire body where each edge has two coedges.
  * A normal vector can be given in the special case when the tool body is a plane,
  * causing this operation to sequence the resultant wires into
  * non-overlapping loops of conventional sense. Generally, the normal should be set
- * to <tt>*(SPAunit_vector*)NULL_REF</tt>.
+ * to <tt>SpaAcis::NullObj::get_unit_vector()</tt>.
  * <br><br>
- * <b><i>Note:</i></b> The slice graph is not designed to be used as a general wire body. To
+ * <b><i>Note:</i></b> 
+ * <ul>
+ * <li>The slice graph is not designed to be used as a general wire body. To
  * generate a wire body suitable for subsequent general use, a call to @href api_clean_wire
  * is necessary after calling this API function.
  * However, if there are no intersections between the blank and tool bodies, then the returned wire 
- * body is <tt>NULL</tt> and subsequent calls to @href api_clean_wire are not necessary, nor recommended.
+ * body is <tt>NULL</tt> and subsequent calls to @href api_clean_wire are not necessary, nor recommended.</li>
+ * <li>When either or both of the input bodies are polyhedral, the resulting wire body has underlying edge geometry composed of linear bs3 curves which may not be optimal for certain downstream modeling operations.</li>
+ * </ul>
  * <br><br>
  * The Boolean options argument, <tt>boolopts</tt>, allows the caller to pass
  * additional information to the slice operation. Refer to @href BoolOptions
@@ -482,7 +490,7 @@ DECL_BOOL outcome api_slice(
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
+ * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
  * @param tool
  * (in) Tool, or slicing body.
@@ -496,6 +504,8 @@ DECL_BOOL outcome api_slice(
  * (in) Boolean options. Refer to @href BoolOptions for details.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
+ * <br><br>
+ * Note - Incase of polyhedral input body normal and boolopts are ignored.
  **/
 
 DECL_BOOL outcome api_slice(
@@ -739,32 +749,32 @@ DECL_BOOL outcome api_unite(
 * @param outside
 * (out) Used to return the subtraction result.
 * @param leftovers
-* (out) Returns any unclassified lumps from the blank, or <tt>NULL</tt> if none.
+* (out) Returns any unclassified lumps from the blank. Use null BODY* reference if not required.
 * @param ndbool_keep
 * (in) Optional flag for non-destructive Booleans.
 * Valid values are <tt>NDBOOL_KEEP_NEITHER</tt> (default), <tt>NDBOOL_KEEP_BLANK</tt>,
 * <tt>NDBOOL_KEEP_TOOL</tt> and <tt>NDBOOL_KEEP_BOTH</tt>.
 * @param result_body
 * (out) Used to return the intersection body if performing a non-destructive Boolean.
-* Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+* Default value is a null BODY* reference if not required.
 * @param ao
 * (in) ACIS options such as versioning and journaling.
 **/
 DECL_BOOL outcome api_boolean_chop_body (
-    BODY* tool,					// consumed by the operation
-    BODY* blank,				// reused to return intersection of tool with blank
-    logical nonreg,				// TRUE when nonregularized results are required
-    BODY*& outside,				// created to return subtraction of tool from blank
-    BODY*& leftovers =			// (optional) created to return any
-      *(BODY**) NULL_REF,		// unclassified lumps from the blank,
-								// or NULL if there are none
-    NDBOOL_KEEP ndbool_keep=				// (optional) enum for non-destructive
-      NDBOOL_KEEP_NEITHER,		// Booleans
-    BODY*& result_body=					// (optional) resulting body, necessary
-        *(BODY**) NULL_REF,     // necessary for
-                                // non-destructive Booleans
-    AcisOptions* ao			// contains journal and version
-            = NULL              //  information
+    BODY* tool,								// consumed by the operation
+    BODY* blank,							// reused to return intersection of tool with blank
+    logical nonreg,							// TRUE when nonregularized results are required
+    BODY*& outside,							// created to return subtraction of tool from blank
+    BODY*& leftovers =						// (optional) created to return any
+		SpaAcis::NullObj::get_body_ptr(),	// unclassified lumps from the blank,
+											// or NULL if there are none
+    NDBOOL_KEEP ndbool_keep =				// (optional) enum for non-destructive
+      NDBOOL_KEEP_NEITHER,					// Booleans
+    BODY*& result_body =					// (optional) resulting body, necessary
+		SpaAcis::NullObj::get_body_ptr(),	// necessary for
+											// non-destructive Booleans
+    AcisOptions* ao	=						// contains journal and version
+         NULL								//  information
 );
 
 /**
@@ -803,14 +813,14 @@ DECL_BOOL outcome api_boolean_chop_body (
 * (out) Used to return the subtraction result.
 * @param leftovers
 * (out) Returns any unclassified lumps from the blank, or <tt>NULL</tt> if none.
-* Set it to <tt>*(BODY**)NULL_REF</tt> on input if not required.
+* Set it to null BODY* reference on input if not required.
 * @param ndbool_keep
 * (in) Flag for non-destructive Booleans.
 * Valid values are <tt>NDBOOL_KEEP_NEITHER</tt>, <tt>NDBOOL_KEEP_BLANK</tt>,
 * <tt>NDBOOL_KEEP_TOOL</tt> and <tt>NDBOOL_KEEP_BOTH</tt>.
 * @param result_body
 * (out) Used to return the intersection body if performing a non-destructive Boolean.
-* Set it to <tt>*(BODY**)NULL_REF</tt> on input if not required.
+* Set it to null BODY* reference on input if not required.
 * @param boolopts
 * (in) Boolean options. Refer to @href BoolOptions for details.
 * @param ao
@@ -1199,7 +1209,7 @@ DECL_BOOL outcome api_unhook_wire_edge(
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
  * @param given_face
  * (in) Face to be unhooked, deleted by the operation.
@@ -1230,13 +1240,19 @@ DECL_BOOL outcome api_unhook_face(
  * This behavior differs from that of @href api_uncover_face, which converts redundant
  * edges to wire edges.
  * <br><br>
+ * <b>Caveat:</b> In api_unhook_faces functionality when the input parameter 'copy' is TRUE, 
+ * the API doesn't consider input body Transform on copied unhooked bodies. <br>
+ * If user wants to transform copied unhooked bodies according to input body Transform, 
+ * then they have to turn ON the option header "transf_unhooked_bodies". 
+ * Option header 'transf_unhooked_bodies' is introduced in Release 2023 1.0.
+ * <br><br>
  * <b>Limitations:</b> This API function works only on faces that belong to the same owning body.
  * <br><br>
  * <b>Effect:</b> Changes model, unless <tt>copy</tt> is set to <tt>TRUE</tt>.
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
  * @param given_faces
  * (in) List of faces to be unhooked.
@@ -1311,7 +1327,7 @@ DECL_BOOL outcome api_fafa_int(
  * <br><br>
  * <b>Limitations:</b> Not Available
  * <br><br>
- * <b>Journal:</b> Not Available
+ * <b>Journal:</b> Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
@@ -1383,7 +1399,7 @@ DECL_BOOL outcome api_fafa_int(
  * <br><br>
  * <b>Limitations:</b> Not Available
  * <br><br>
- * <b>Journal:</b> Not Available
+ * <b>Journal:</b> Available
  * <br><br>
  * <b>Product(s):</b> 3D ACIS Modeler
  * <br><br>
@@ -1558,7 +1574,7 @@ DECL_BOOL outcome api_embed_wire_in_faces(
  * <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
  * @param result_body
  * (out) Used to return the result body if performing a non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+ * Default value is a null BODY* reference if not required.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  **/
@@ -1567,8 +1583,8 @@ DECL_BOOL outcome api_boolean_glue(
     BODY *blank,			// second argument body, returns result
 	BOOL_TYPE bool_type,	// UNION, SUBTRACTION or NONREG_UNION only
 	const glue_options *glue_opts,
-	NDBOOL_KEEP ndbool_keep = NDBOOL_KEEP_NEITHER,  // (optional) enum for non-destructive Booleans
-	BODY* &result_body = *(BODY**) NULL_REF,     // (optional) resulting body, necessary for non-destructive Booleans
+	NDBOOL_KEEP ndbool_keep = NDBOOL_KEEP_NEITHER,			// (optional) enum for non-destructive Booleans
+	BODY* &result_body = SpaAcis::NullObj::get_body_ptr(),	// (optional) resulting body, necessary for non-destructive Booleans
 	AcisOptions *ao = NULL);
 
 
@@ -1634,7 +1650,7 @@ DECL_BOOL outcome api_boolean_glue(
  * <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
  * @param result_body
  * (out) Used to return the result body if performing a non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+ * Default value is a null BODY* reference if not required.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  **/
@@ -1644,8 +1660,8 @@ DECL_BOOL outcome api_boolean_glue(
 	BOOL_TYPE bool_type,	// UNION, SUBTRACTION or NONREG_UNION only
 	const glue_options *glue_opts,
     BoolOptions *boolopts,
-	NDBOOL_KEEP ndbool_keep = NDBOOL_KEEP_NEITHER,  // (optional) enum for non-destructive Booleans
-	BODY* &result_body = *(BODY**) NULL_REF,     // (optional) resulting body, necessary for non-destructive Booleans
+	NDBOOL_KEEP ndbool_keep = NDBOOL_KEEP_NEITHER,			// (optional) enum for non-destructive Booleans
+	BODY* &result_body = SpaAcis::NullObj::get_body_ptr(),	// (optional) resulting body, necessary for non-destructive Booleans
 	AcisOptions *ao = NULL);
 
 
@@ -1690,7 +1706,7 @@ DECL_BOOL outcome api_boolean_glue(
  * @param outside
  * (out) Used to return the subtraction of the tool body from the blank body.
  * @param leftovers
- * (out) Used to return any unclassified lumps from the blank body, or <tt>NULL</tt> if none.
+ * (out) Used to return any unclassified lumps from the blank body, or null BODY* reference if none.
  * @param ndbool_keep
  * (in) Optional flag for non-destructive Booleans.
  * Valid values are <tt>NDBOOL_KEEP_NEITHER</tt> (default), <tt>NDBOOL_KEEP_BLANK</tt>,
@@ -1698,21 +1714,21 @@ DECL_BOOL outcome api_boolean_glue(
  * @param result_body
  * (out) Used to return the intersection of the tool body with the blank body if performing a
  * non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+ * Default value is a null BODY* reference if not required.
  * @param ao
  * (in) ACIS options such as versioning and journaling.
  **/
 
 DECL_BOOL outcome api_boolean_chop_complete (
-    logical nonreg,           // TRUE when nonregularized results are required
-    BODY*& outside,           // created to return subtraction of tool from blank
-    BODY*& leftovers          // (optional) created to return any
-        = *(BODY**) NULL_REF, //  unclassified lumps from the blank,
-                              //  or NULL if there are none
-    NDBOOL_KEEP ndbool_keep   // (optional) flag for non-destructive Booleans
+    logical nonreg,							// TRUE when nonregularized results are required
+    BODY*& outside,							// created to return subtraction of tool from blank
+    BODY*& leftovers						// (optional) created to return any
+        = SpaAcis::NullObj::get_body_ptr(), //  unclassified lumps from the blank,
+											//  or NULL if there are none
+    NDBOOL_KEEP ndbool_keep					// (optional) flag for non-destructive Booleans
 		= NDBOOL_KEEP_NEITHER,
-    BODY*& result_body        // (optional) result body, necessary for
-		= *(BODY**) NULL_REF, // non-destructive Booleans
+    BODY*& result_body						// (optional) result body, necessary for
+		= SpaAcis::NullObj::get_body_ptr(), // non-destructive Booleans
 	AcisOptions* ao = NULL
     );
 
@@ -1757,7 +1773,6 @@ DECL_BOOL outcome api_boolean_chop_complete (
  * @param result_body
  * (out) Used to return the intersection of the tool body with the blank body if performing a
  * non-destructive Boolean.
- * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
  * @param bool_opts
  * (in) Boolean options. Refer to @href BoolOptions for details.
  * @param ao
@@ -2029,6 +2044,11 @@ DECL_BOOL outcome api_selectively_intersect(
  * To generate a wire body suitable for subsequent general use, the APIs
  * @href api_slice and @href api_clean_wire are recommended.</li>
  * <li>If no intersections exist between the two bodies, then an empty body with internal Boolean attributes would be returned.</li>
+ * <li>When either or both of the input bodies are polyhedral:</li>
+ * <ul>
+ * <li>The resulting wire body has extra coedges but no Boolean attributes.</li>
+ * <li>The resulting wire body has underlying edge geometry composed of linear bs3 curves which may not be optimal for certain downstream modeling operations.</li>
+ * </ul>
  * </ul>
  * <br><br>
  * <b>Errors:</b> <tt>tool</tt> or <tt>blank</tt> is a NULL pointer or does not point to a @href BODY.
@@ -2037,7 +2057,7 @@ DECL_BOOL outcome api_selectively_intersect(
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
+ * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
  * @param tool
  * (in) Tool or slicing body.
@@ -2052,6 +2072,8 @@ DECL_BOOL outcome api_selectively_intersect(
  * (in) Glue info and options.
  * @param ao
  * (in) ACIS options such as versioning or journaling.
+ * <br><br>
+ * Note - Incase of polyhedral input body type and glue_opts are ignored.
  **/
 DECL_BOOL outcome api_bool_make_intersection_graph (
     BODY*				tool,
@@ -2081,7 +2103,12 @@ DECL_BOOL outcome api_bool_make_intersection_graph (
  * To generate a wire body suitable for subsequent general use, the APIs
  * @href api_slice and @href api_clean_wire are recommended.</li>
  * <li>If no intersections exist between the two bodies, then an empty body with internal Boolean attributes would be returned.</li>
-* </ul>
+ * <li>When either or both of the input bodies are polyhedral:</li>
+ * <ul>
+ * <li>The resulting wire body has extra coedges but no Boolean attributes.</li>
+ * <li>The resulting wire body has underlying edge geometry composed of linear bs3 curves which may not be optimal for certain downstream modeling operations.</li>
+ * </ul>
+ * </ul>
  * <br><br>
  * <b>Errors:</b> <tt>tool</tt> or <tt>blank</tt> is a NULL pointer or does not point to a @href BODY.
  * <br><br>
@@ -2089,7 +2116,7 @@ DECL_BOOL outcome api_bool_make_intersection_graph (
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
+ * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral
  * <br><br>
  * @param tool
  * (in) Tool or slicing body.
@@ -2106,6 +2133,8 @@ DECL_BOOL outcome api_bool_make_intersection_graph (
  * (in) Boolean options. Refer to @href BoolOptions for details.
  * @param ao
  * (in) ACIS options such as versioning or journaling.
+ * <br><br>
+ * Note - Incase of polyhedral input body type, glue_opts and bool_opts are ignored.
  **/
 DECL_BOOL outcome api_bool_make_intersection_graph (
     BODY*				tool,
@@ -2164,7 +2193,7 @@ DECL_BOOL outcome api_imprint_complete(
  * A normal vector can given in the special case when the tool body
  * is a plane, causing this operation to sequence the resultant wires into non-overlapping
  * loops of conventional sense. Generally, the normal vector should be set to
- * <tt>*(SPAunit_vector*)NULL_REF</tt>.
+ * <tt>SpaAcis::NullObj::get_unit_vector()</tt>.
  * <br><br>
  * <b><i>Notes:</i></b>
  * <ul>
@@ -2331,14 +2360,14 @@ DECL_BOOL outcome api_imprint_stitch_complete(
   * <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
   * @param result_body
   * (out) Used to return the result body if performing a non-destructive Boolean.
-  * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
+  * Default value is a null BODY* reference if not required.
   * @param ao
   * (in) ACIS options such as versioning and journaling.
   **/
 DECL_BOOL outcome api_boolean_complete(
 		BOOL_TYPE 			op,
 		NDBOOL_KEEP			ndbool_keep = NDBOOL_KEEP_NEITHER,
-		BODY*&				result_body = *(BODY**) NULL_REF,
+		BODY*&				result_body = SpaAcis::NullObj::get_body_ptr(),
 		AcisOptions*		opts = NULL
 		);
 
@@ -2376,7 +2405,6 @@ DECL_BOOL outcome api_boolean_complete(
   * <tt>NDBOOL_KEEP_TOOL</tt>, and <tt>NDBOOL_KEEP_BOTH</tt>.
   * @param result_body
   * (out) Used to return the result body if performing a non-destructive Boolean.
-  * Default value is <tt>*(BODY**)NULL_REF</tt> if not required.
   * @param bool_opts
   * (in) Boolean options. Refer to @href BoolOptions for details.
   * @param ao
@@ -2435,12 +2463,12 @@ DECL_BOOL outcome api_boolean_complete(
  * @param tool
  * (in/out) Tool body.
  * @param tool_faces
- * (in) Tool faces selected for imprinting. A NULL reference implies all faces should be used.
+ * (in) Tool faces selected for imprinting. A null object implies all faces should be used.
  * @param blank
  * (in/out) Blank body.
  * @param blank_faces
  * (in) Blank faces selected for imprinting and/or splitting. 
- * A NULL reference implies all faces should be used.
+ * A null object implies all faces should be used.
  * @param split_checking
  * (in) Set to <tt>TRUE</tt> to check if all edges and vertices created by the imprint contribute to the 
  * splitting of blank faces.
@@ -2452,17 +2480,17 @@ DECL_BOOL outcome api_boolean_complete(
 DECL_BOOL outcome api_selectively_imprint(
 	BODY*			tool,			// The tool body
 	ENTITY_LIST&	tool_faces,		// List of tool faces to be split
-									// A NULL reference implies all faces
+									// A null object implies all faces
 	BODY*			blank,			// The blank body
 	ENTITY_LIST&	blank_faces,	// List of blank faces to be split
-									// A NULL reference implies all faces
+									// A null object implies all faces
 	logical			split_checking = TRUE,
 									// Check if all edges and vertices
 									// created by the imprint contribute
 									// to face splitting.
-	ENTITY_LIST&	intgraph_edges	= *(ENTITY_LIST*)NULL_REF,
+	ENTITY_LIST&	intgraph_edges	= SpaAcis::NullObj::get_ENTITY_LIST(),
 									// List of intersection graph edges
-									// Default is a NULL reference.
+									// Default is a null object.
 	AcisOptions*   ao = NULL
 	);
 
@@ -2511,11 +2539,11 @@ DECL_BOOL outcome api_selectively_imprint(
  * @param tool
  * (in/out) Tool body.
  * @param tool_faces
- * (in) Tool faces selected for imprinting. A NULL reference implies all faces should be used.
+ * (in) Tool faces selected for imprinting. A null object implies all faces should be used.
  * @param blank
  * (in/out) Blank body.
  * @param blank_faces
- * (in) Blank faces selected for imprinting and/or splitting. A NULL reference implies all faces 
+ * (in) Blank faces selected for imprinting and/or splitting. A null object implies all faces 
  * should be used.
  * @param split_checking
  * (in) Set to <tt>TRUE</tt> to check if all edges and vertices created by the imprint contribute to the 
@@ -2551,7 +2579,7 @@ DECL_BOOL outcome api_selectively_imprint(
  * Removes faces, edges, and vertices that are not necessary to support
  * the topology of the entity.
  * <br><b>Technical Article:</b> <i>[Regularization and Merging Outside of Boolean Operations ]
-   (http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_-_Part_2_8c1f.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
+   (https://doc.spatial.com/get_doc_page/articles/a/d/d/Additional_Boolean_Operations_b537.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
  * <br><br>
  * <b>Role:</b> This API function removes all unnecessary faces, edges, and
  * vertices (and associated data). A face is unnecessary if it
@@ -2594,7 +2622,7 @@ DECL_BOOL outcome api_regularise_entity(
 /**
  * Removes edges and vertices that are not needed to support the topology of the entity.
  * <br><b>Technical Article:</b> <i>[Regularization and Merging Outside of Boolean Operations ]
-   (http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_-_Part_2_8c1f.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
+   (https://doc.spatial.com/get_doc_page/articles/a/d/d/Additional_Boolean_Operations_b537.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
  * <br><br>
  * <b>Role:</b> This API function removes all unnecessary edges, vertices, and associated data
  * from the entity. An edge is unnecessary if it is manifold and its
@@ -2636,7 +2664,7 @@ DECL_BOOL outcome api_clean_entity(
 /**
  * Removes any unnecessary edges and vertices contained in a list of entities.
  * <br><b>Technical Article:</b> <i>[Regularization and Merging Outside of Boolean Operations ]
-   (http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_-_Part_2_8c1f.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
+   (https://doc.spatial.com/get_doc_page/articles/a/d/d/Additional_Boolean_Operations_b537.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
  * <br><br>
  * <b>Role:</b> This API function builds a list of candidate edges and vertices from
  * the given list and then removes any unnecessary edges or vertices in that
@@ -2798,7 +2826,7 @@ DECL_BOOL outcome api_check_entity_ff_ints(
 				logical &bad_ints,         // TRUE if bad intersections
                                            // or containment
 				FILE *file_ptr = NULL,     // where to send output
-				insanity_list*& list = *(insanity_list **) NULL_REF,
+				insanity_list*& list = SpaAcis::NullObj::get_insanity_list_ptr(),
 				AcisOptions* ao   = NULL
 	);
 /**
@@ -2862,7 +2890,7 @@ DECL_BOOL outcome api_check_list_ff_ints(
 /**
  * Merges faces of a specified geometry type if they are not necessary to define the body.
  * <br><b>Technical Article:</b> <i>[Regularization and Merging Outside of Boolean Operations ]
- * (http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_-_Part_2_8c1f.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
+ * (https://doc.spatial.com/get_doc_page/articles/a/d/d/Additional_Boolean_Operations_b537.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
  * <br><br>
  * <b>Role:</b> This API function merges faces of a specified geometry type if
  * they are not neccessary to define the body.
@@ -2897,7 +2925,7 @@ DECL_BOOL outcome api_merge_faces(
 /**
  * Merges seam edges on a specified body.
  * <br><b>Technical Article:</b> <i>[Regularization and Merging Outside of Boolean Operations ]
- * (http://doc.spatial.com/articles/a/d/d/Additional_Boolean_Operations_-_Part_2_8c1f.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
+ * (https://doc.spatial.com/get_doc_page/articles/a/d/d/Additional_Boolean_Operations_b537.html#Regularization_and_Merging_Outside_of_Boolean_Operations)</i>
  * <br><br>
  * <b>Role:</b> This API function merges (removes) any seam edges found on the specified body.
  * <br><br>

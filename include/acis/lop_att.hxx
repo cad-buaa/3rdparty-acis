@@ -92,7 +92,14 @@ ENTITY_IS_PROTOTYPE(ATTRIB_LOP_FACE, LOP )
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
 DECL_LOP logical do_lop_csi(COEDGE *coed, void *data, const surface &sur );
-DECL_LOP logical do_lop_cci(EDGE *ed0, EDGE *ed1, void *data, logical &found_intersection = *(logical *)NULL_REF );
+
+#if 0
+DECL_LOP logical do_lop_cci(EDGE *ed0, EDGE *ed1, void *data, logical &found_intersection = SpaAcis::NullObj::get_logical());
+#else
+DECL_LOP logical do_lop_cci(EDGE* ed0, EDGE* ed1, void* data);
+DECL_LOP logical do_lop_cci(EDGE* ed0, EDGE* ed1, void* data, logical& found_intersection);
+#endif
+
 DECL_LOP logical lateral_intersect(COEDGE *coed, void *data, logical );
 DECL_LOP logical non_lat_tang_intersect(COEDGE *coed, void *data, logical );
 DECL_LOP logical prop_intersect(COEDGE *coed, void *data, logical );
@@ -149,7 +156,7 @@ private:
 
 	// results for splitting vertices
 	ENTITY_LIST _coedge_list; // coedge end
-	ENTITY_LIST _apoint_list; // new apoint
+	SPACOLLECTION *_apoint_list; // new apoint // Changed Entitylist to SPAcollection
 
 	SPACOLLECTION *_coedge_apt_list; //new list that combines the _coedge_list and _apoint_list
 	// STI rr 12/19/01 begin: When copying
@@ -282,7 +289,7 @@ public:
 	// for setting error info
 	error_info_list _err_info_list;
 	void set_error_info(error_info* error_info);
-	error_info_list& error_info_list() { return _err_info_list; }
+	error_info_list& err_info_list() { return _err_info_list; }
 
 //VPL 13Jan2003 : split the TWEAK intialization into two functions
 	void make_lop_csi_point_perp();
@@ -330,7 +337,7 @@ public:
     APOINT   *apoint()		      const { return _apoint; }
 
 	ENTITY_LIST &coedge_list() { return _coedge_list; }
-	ENTITY_LIST &apoint_list() { return _apoint_list; }
+	SPACOLLECTION * apoint_list();
 
 	SPACOLLECTION *coedge_apt_list() { return _coedge_apt_list; }
 
@@ -454,7 +461,7 @@ public:
 
 	// Test two LOP_ATTRIBUTES for equality.
 
-	virtual logical operator==( ATTRIB_LOP_VERTEX const& ) const;
+	virtual bool operator==( ATTRIB_LOP_VERTEX const& ) const;
 
 	/**
 	 * @nodoc
@@ -661,13 +668,15 @@ private:
 			);
 
 	// used in place of : curve constructor
-	logical init(
-                CURVE         *cu,		    // prespecified edge CURVE
-			    ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
-			    const SPAbox     &bx,       // intersection SPAbox,
-				VOID_LIST	const &convexity_points = *(VOID_LIST*)NULL_REF,
-                logical same_curve = FALSE
-   			);
+	logical init(CURVE* cu,		    // prespecified edge CURVE
+				 ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
+				 const SPAbox& bx);
+
+	logical init(CURVE* cu,		    // prespecified edge CURVE
+				 ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
+				 const SPAbox& bx,       // intersection SPAbox,
+				 VOID_LIST	const& convexity_points,
+				 logical same_curve);
 
 	// used in place of : cu and status constructor
 	logical init(
@@ -760,7 +769,7 @@ public:
 	// for setting error info
 	error_info_list _err_info_list;
 	void set_error_info(error_info* error_info);
-	error_info_list& error_info_list() { return _err_info_list; }
+	error_info_list& err_info_list() { return _err_info_list; }
 
     logical same_curve() { return _same_curve; }
 	// STI rr (12/19/01) begin: When two edges of the
@@ -814,14 +823,17 @@ public:
 			);
 
 	// cu
-	static ATTRIB_LOP_EDGE* Make_ATTRIB_LOP_EDGE(
-				ENTITY        *own,			// owner
-                CURVE         *cu,		    // prespecified edge CURVE
-			    ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
-			    const SPAbox     &bx,       // intersection SPAbox
-				VOID_LIST	const &convexity_points = *(VOID_LIST*)NULL_REF,
-                logical same_curve = FALSE
-   			);
+	static ATTRIB_LOP_EDGE* Make_ATTRIB_LOP_EDGE(ENTITY* own,			// owner
+												 CURVE* cu,		    // prespecified edge CURVE
+												 ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
+												 const SPAbox& bx);
+
+	static ATTRIB_LOP_EDGE* Make_ATTRIB_LOP_EDGE(ENTITY* own,			// owner
+												 CURVE* cu,		    // prespecified edge CURVE
+												 ATTRIB_LOP_EDGE_dir dir,    // prespecifed direction
+												 const SPAbox& bx,       // intersection SPAbox
+												 VOID_LIST	const& convexity_points,
+												 logical same_curve = FALSE);
 
 	// cu and status
 	static ATTRIB_LOP_EDGE* Make_ATTRIB_LOP_EDGE(
@@ -924,7 +936,7 @@ public:
 
 	// Test two LOP_EDGE_ATTRIBS for equality.
 
-	virtual logical operator==( ATTRIB_LOP_EDGE const& ) const;
+	virtual bool operator==( ATTRIB_LOP_EDGE const& ) const;
 
 	void merge_owner (ENTITY * entity,
 		logical delete_owner);
@@ -1058,7 +1070,7 @@ public:
 	logical reparameterized_exact_offset() const { return _reparam_exact_offset; }
 	logical need_par_int_curs() const { return _need_par_int_curs; }
 	const error_info* offset_error_info() const;
-	error_info_list& error_info_list() { return _err_info_list; }
+	error_info_list& err_info_list() { return _err_info_list; }
 	curve* neutral_curve() const;
 	EDGE* taper_edge() const { return _taper_edge; }
 	logical has_taper_edge_interval_override() const { return _has_interval_override; }
@@ -1100,7 +1112,7 @@ public:
 	virtual logical deletable() const { return TRUE; }
 	virtual logical savable() const { return FALSE; }
 
-	virtual logical operator==( const ATTRIB_LOP_FACE& att ) const;
+	virtual bool operator==( const ATTRIB_LOP_FACE& att ) const;
 
 	ATTRIB_FUNCTIONS( ATTRIB_LOP_FACE, LOP )
 
@@ -1167,7 +1179,7 @@ public:
 	virtual logical deletable() const { return TRUE; }
 	virtual logical savable() const { return FALSE; }
 
-	virtual logical operator==( const ATTRIB_LOP_EDGE_TOOL& att ) const;
+	virtual bool operator==( const ATTRIB_LOP_EDGE_TOOL& att ) const;
 
 	ATTRIB_FUNCTIONS( ATTRIB_LOP_EDGE_TOOL, LOP )
 
@@ -1229,7 +1241,7 @@ public:
 	virtual logical deletable() const { return TRUE; }
 	virtual logical savable() const { return FALSE; }
 
-	virtual logical operator==( const ATTRIB_LOP_VERTEX_TOOL& att ) const;
+	virtual bool operator==( const ATTRIB_LOP_VERTEX_TOOL& att ) const;
 
 	ATTRIB_FUNCTIONS( ATTRIB_LOP_VERTEX_TOOL, LOP )
 

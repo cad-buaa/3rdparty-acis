@@ -18,8 +18,7 @@ class unfold_options_impl;
 
 /**
 * @file unfold_options.hxx
-* \addtogroup hlc
-* \addtogroup
+* \addtogroup HLC
 * @{
 */
 
@@ -123,5 +122,7 @@ public:
 	// ********************************************************************
 
 };
+
+/** @} */
 
 #endif

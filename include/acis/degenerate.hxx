@@ -127,7 +127,7 @@ public:
 	// reversed in sense if the logical is true.
 
 	curve *trans_curve(
-					SPAtransf const & = *(SPAtransf *)NULL_REF,
+					SPAtransf const & = SPAtransf(),
 					logical = FALSE
 				) const;
 

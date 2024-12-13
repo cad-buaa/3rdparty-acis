@@ -26,9 +26,10 @@
 
 #include "dcl_blnd.h"
 #include "api.hxx"
-//#include "bl_att.hxx"	
 #include "bl_cxty.hxx"
 #include "edge.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 
 class outcome;
 
@@ -44,9 +45,9 @@ make_blend_cross_curve(
 	        ATTRIB_BLEND const *att,
 	        double v_param,
 	        curve * &ccrv,
-            SPAposition &spine_pt = *(SPAposition *) NULL_REF,
-            SPApar_pos &left_uv = *(SPApar_pos *) NULL_REF,
-            SPApar_pos &right_uv = *(SPApar_pos *) NULL_REF
+            SPAposition &spine_pt = SpaAcis::NullObj::get_position(),
+            SPApar_pos &left_uv   = SpaAcis::NullObj::get_par_pos(),
+            SPApar_pos &right_uv  = SpaAcis::NullObj::get_par_pos()
             );
 
 DECL_BLND outcome
@@ -62,7 +63,7 @@ vertex_blends(
 // unblended edges incident on the vertex.
 
 // Also returns, if required, 
-// - the list of mixed convexity vertices which have atleast one
+// - the list of mixed convexity vertices that have at least one
 // unblended edge and hence vertex blending cannot handle them.
 // - the list of mixed convexity vertices with no unblended edges
 // and hence rollon vertex blending can handle such vertices.
@@ -71,9 +72,9 @@ DECL_BLND logical
 mixed_convexity_blends(
             ENTITY_LIST const &eds, 
             ENTITY_LIST &mix_verts
-                = * (ENTITY_LIST *) NULL_REF,
+                = SpaAcis::NullObj::get_ENTITY_LIST(),
             ENTITY_LIST &rollon_verts
-                = * (ENTITY_LIST*) NULL_REF
+                = SpaAcis::NullObj::get_ENTITY_LIST()
             );
 
 DECL_BLND bl_convexity 
@@ -91,7 +92,7 @@ DECL_BLND void
 mark_blend_vertices(
             ENTITY_LIST const &, 
             ENTITY_LIST &out_verts
-                = *(ENTITY_LIST *) NULL_REF, 
+                = SpaAcis::NullObj::get_ENTITY_LIST(),
 			double bulge = 1.0, 
             double set_back = -1.0
             );
@@ -101,7 +102,7 @@ propogate_round_attribute(
             EDGE *base, 
             ENTITY_LIST &added, 
 			ENTITY_LIST &subset 
-                = * (ENTITY_LIST *) NULL_REF
+                = SpaAcis::NullObj::get_ENTITY_LIST()  // Unused
             );
 
 void 

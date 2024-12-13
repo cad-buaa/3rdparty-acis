@@ -9,6 +9,9 @@
 #ifndef SPA3dPm_hxx
 #define SPA3dPm_hxx
 
+#include <map>
+#include <vector>
+
 #include "acis_journal.hxx"
 #include "api.hxx"
 #include "spa_progress_info.hxx"
@@ -26,6 +29,8 @@
 #include "SPA3dPmTetraHpcSession.hxx"
 
 #include "SPA3dPmAcis.err"
+
+#include "param.hxx"
 
 /**
 * \defgroup ACIS3DPM 3D Precise Mesh
@@ -58,6 +63,77 @@
 */
 DECL_SPA3dpm
 outcome api_3dpm_create_cadsurf_session(const ENTITY_LIST &inEnts, Spa3dpm::CadSurfSession &outSession, AcisOptions *ao = nullptr);
+
+namespace Spa3dpm
+{
+	/**
+	* Specifies a point on an <tt>EDGE</tt> or a <tt>COEDGE</tt>.
+	*/
+	struct DiscretizationPoint
+	{
+		/**
+		* The edge or coedge parameter of the point.
+		*/
+		SPAparameter t;
+
+		/**
+		* The uv surface parameter of the point.
+		* Ignored if the discretized entity is an edge,
+		* or the discretized entity is a coedge belonging to a wire,
+		* or <tt>uv_valid</tt> is <tt>false</tt>.
+		*/
+		SPApar_pos uv;
+
+		/**
+		* The xyz 3D position of the point in world coordinates, (not body coordinates).
+		* This means that any body transformation must have already been applied to these coordinates.
+		* Ignored if <tt>xyz_valid</tt> is <tt>false</tt>.
+		*/
+		SPAposition xyz;
+
+		/**
+		* True if the uv parameters are valid.
+		* False if the uv parameters are to be computed internally.
+		*/
+		bool uv_valid : 1;
+
+		/**
+		* True if the xyz coordinates are valid.
+		* False if the xyz coordinates are to be computed internally.
+		*/
+		bool xyz_valid : 1;
+	};
+
+	/**
+	* This type is a map of edges/coedges with a list of discrete points on each edge/coedge.
+	* The key type, <tt>ENTITY*</tt>, should always be either an <tt>EDGE*</tt> or a <tt>COEDGE*</tt>.
+	* It is allowed to have a mixture of edges and coedges in the same map.
+	* The meaning of the <tt>t</tt> value in <tt>DiscretizationPoint</tt> depends on whether
+	* the given key in the map is an edge or a coedge: <tt>t</tt> is an edge parameter if
+	* the key is an edge, it is a coedge parameter if the key is a coedge.
+	*/
+	using DiscretizationInfo = std::map<ENTITY*, std::vector<DiscretizationPoint>>;
+}
+
+/**
+* Create a cadsurf session from a list of entities and edge/coedge discretization information.
+* <br><br>
+* <b>Role:</b> This API creates a cadsurf session from a list of entities and edge/coedge discretization information.
+* <br><br>
+* <b>Effect:</b> Read-only.
+* <br><br>
+* <b>Journal:</b> Unavailable
+* <br><br>
+* <b>Product(s):</b> 3D Precise Mesh CadSurf
+* <br><br>
+* @param[in] inEnts : list of entities to be converted to mesh
+* @param[in] di : discretization information for a selected set of edges and coedges
+* @param[out] outSession : a cadsurf session object that is created by the function and returned through this reference
+* @param[in] ao : (optional) ACIS options
+* @return The outcome object indicating success or failure.
+*/
+DECL_SPA3dpm
+outcome api_3dpm_create_cadsurf_session(const ENTITY_LIST &inEnts, const Spa3dpm::DiscretizationInfo &di, Spa3dpm::CadSurfSession &outSession, AcisOptions *ao = nullptr);
 
 /**
 * Create a cadsurf session from a mesh.

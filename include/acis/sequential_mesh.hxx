@@ -125,11 +125,11 @@ public:
 	MESH_NODE() { LM.m_VUNode = 0; }
 };
 
-DECL_FCT logical operator==(MESH_POLYGON const &pn1, MESH_POLYGON const &pn2);
-DECL_FCT logical operator!=(MESH_POLYGON const &pn1, MESH_POLYGON const &pn2);
+DECL_FCT bool operator==(MESH_POLYGON const &pn1, MESH_POLYGON const &pn2);
+DECL_FCT bool operator!=(MESH_POLYGON const &pn1, MESH_POLYGON const &pn2);
 
-DECL_FCT logical operator==(MESH_POLYNODE const &pn1, MESH_POLYNODE const &pn2);
-DECL_FCT logical operator!=(MESH_POLYNODE const &pn1, MESH_POLYNODE const &pn2);
+DECL_FCT bool operator==(MESH_POLYNODE const &pn1, MESH_POLYNODE const &pn2);
+DECL_FCT bool operator!=(MESH_POLYNODE const &pn1, MESH_POLYNODE const &pn2);
 
 /**
  * Specifies the derived class of the base class @href SEQUENTIAL_MESH.

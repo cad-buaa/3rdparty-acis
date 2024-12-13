@@ -13,6 +13,9 @@
 #include "dcl_kern.h"
 #include "logical.h"
 #include "tree.hxx"
+#include "spa_null_base.hxx" 
+#include "spa_null_kern.hxx"
+
 class P2NODE;
 class ELEM2D;
 class ENTITY;
@@ -230,12 +233,12 @@ public:
 	// its SPAbox by the fit tolerance. Note that this cannot be const,
 	// as it uses subset(), which is itself not const.
 
-	virtual SPAbox bound( SPApar_box const & = *(SPApar_box *)NULL_REF );
+	virtual SPAbox bound( SPApar_box const & = SpaAcis::NullObj::get_par_box() );
 
 	// Return a cone bounding the normal direction of the surface.
 
 	virtual surf_normcone normal_cone(
-				SPApar_box const & = *(SPApar_box *)NULL_REF,
+				SPApar_box const & = SpaAcis::NullObj::get_par_box(),
 				logical = FALSE
 			);
 
@@ -243,7 +246,7 @@ public:
 	// the many pointers to be converted to integers prior to
 	// fixing.
 
-	virtual msh_sur *copy(const ENTITY_LIST & = *(ENTITY_LIST *)NULL_REF) const = 0;
+	virtual msh_sur *copy( const ENTITY_LIST & = SpaAcis::NullObj::get_ENTITY_LIST() ) const = 0;
 
 	// Just copy pointers to nodes and elements.  Used in backup.
 
@@ -276,7 +279,7 @@ public:
 
 	// Zero tolerance equality check.
 
-	virtual logical operator==( msh_sur const & ) const;
+	virtual bool operator==( msh_sur const & ) const;
 
 	// Transformation operator.  Transforms mesh in place.
 
@@ -286,14 +289,14 @@ public:
 
 	virtual SPAunit_vector point_normal(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Return a direction which points outward from the surface.
 
 	virtual SPAunit_vector point_outdir(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the principal axes of curvature of the surface at a
@@ -302,10 +305,10 @@ public:
 	virtual void point_prin_curv(
 				SPAposition const &,
 				SPAunit_vector &,		// first axis direction
-				double &,			// curvature in first direction
+				double &,				// curvature in first direction
 				SPAunit_vector &,		// second axis direction
 				double &,			// curvature in second direction
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the curvature of a cross-section curve of the surface at
@@ -314,14 +317,14 @@ public:
 	virtual double point_cross(
 				SPAposition const &,
 				SPAunit_vector const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Return a (or one of the) elements near this point.
 
 	virtual ELEM2D *point_element(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Utility function to do some recursion on an par2_tree.  This
@@ -345,16 +348,16 @@ public:
 				SPAposition &,
 				SPAunit_vector &,
 				surf_princurv &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF,
-				ELEM2D *& = *(ELEM2D **)NULL_REF
+				SPApar_pos const &	= SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos &		= SpaAcis::NullObj::get_par_pos(),
+				ELEM2D *&			= SpaAcis::NullObj::get_ELEM2D_ptr()
 			) const;
 
 	// Find the parameter values of a point on the surface.
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the change in surface parameter corresponding to a unit
@@ -452,7 +455,7 @@ public:
 	// the value ALL_SURFACE_DERIVATIVES, which is large enough to be
 	// more than anyone could reasonably want.
 
-	virtual int accurate_derivs( SPApar_box const & = *(SPApar_box *)NULL_REF ) const;
+	virtual int accurate_derivs( SPApar_box const & = SpaAcis::NullObj::get_par_box() ) const;
 
 	// Report whether a parametric surface is periodic in either
 	// parameter direction (i.e. it is smoothly closed, so faces can
@@ -482,9 +485,9 @@ public:
 	// contain all portions of the surface which lie within the region
 	// of interest.
 
-	virtual SPApar_box param_range( SPAbox const & = *(SPAbox *)NULL_REF ) const;
-	virtual SPAinterval param_range_u( SPAbox const & = *(SPAbox *)NULL_REF ) const;
-	virtual SPAinterval param_range_v( SPAbox const & = *(SPAbox *)NULL_REF ) const;
+	virtual SPApar_box param_range( SPAbox const & = SpaAcis::NullObj::get_box()) const;
+	virtual SPAinterval param_range_u( SPAbox const & = SpaAcis::NullObj::get_box()) const;
+	virtual SPAinterval param_range_v( SPAbox const & = SpaAcis::NullObj::get_box()) const;
 
 	// Indicate whether the parameter coordinate system of the surface
 	// is right- or left-handed.
@@ -509,8 +512,8 @@ public:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-				SPApar_pos & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+				SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Save and restore.

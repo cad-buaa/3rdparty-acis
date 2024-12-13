@@ -18,6 +18,8 @@
 
 #include	"dcl_heal.h"
 #include	"entgmbld.hxx"
+#include "spa_null_base.hxx"
+
 /**
 * @file cegmbld.hxx
  * @CAA2Level L1
@@ -237,7 +239,7 @@ public:
  * @param maximum
  * flag to return after 1st problem.
  */
-		double deviation(logical& is_bad = *(logical*)NULL_REF,
+		double deviation(logical& is_bad = SpaAcis::NullObj::get_logical(),
 							logical maximum = TRUE);
 
 		// Returns TRUE if the pcurve deviation is more than SPAresabs

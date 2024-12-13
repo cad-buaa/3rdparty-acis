@@ -44,6 +44,11 @@ class DECL_INTR silhouette_options : public ACIS_OBJECT
 {
 protected:
 
+	/**
+	 * A tolerance value may be set between SPAresabs and SPAresfit for
+	 * ignoring small features of the silhouette curves, which could
+	 * potentially improve the performance of some APIs.
+	 */
 	double m_sil_tolerance;
 
 public:
@@ -61,10 +66,16 @@ public:
 	 */
 	double get_sil_tolerance() const;
 
-    /**
-	 * Sets the silhouette tolerance.
-	 */
-	void set_sil_tolerance(double tol);
+	/**
+     * Sets the silhouette tolerance.
+     * <br><br>
+     * <b>Role:</b> A tolerance value may be set between SPAresabs and SPAresfit
+     * for ignoring small features of the silhouette curves, which could potentially
+     * improve the performance of API @href api_silhouette_edges.
+     * @param tol
+	 * Tolerance value
+     */
+	void set_sil_tolerance( double tol );
 };
 
 /** @} */

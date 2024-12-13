@@ -294,14 +294,14 @@ public:
 	 * @param rRhs
 	 * lop_options to be compared.
 	 */
-	logical operator==(const lop_options& rRhs);
+	bool operator==(const lop_options& rRhs);
 
 	/**
 	 * Non-equals operator.
 	 * @param rRhs
 	 * lop_options to be compared.
 	 */
-	logical operator!=(const lop_options& rRhs);
+	bool operator!=(const lop_options& rRhs);
 	 /**
 	  * Sets the type of vent face addition behavior.
 	  * @param ventType

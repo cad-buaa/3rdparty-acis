@@ -1,4 +1,4 @@
-﻿/*******************************************************************/
+/*******************************************************************/
 /*    Copyright (c) 1989-2020 by Spatial Corp.                     */
 /*    All rights reserved.                                         */
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
@@ -26,10 +26,10 @@
  * @{
  */
 #include "dcl_kern.h"
-#include "en_macro.hxx"
 #include "logical.h"
-#include "param.hxx"
+#include "en_macro.hxx"
 #include "pcudef.hxx"
+#include "param.hxx"
 #include "usecount.hxx"
 class CURVE;
 class COEDGE;
@@ -39,7 +39,7 @@ class VOID_LIST;
 /**
  * @nodoc
  */
-ENTITY_IS_PROTOTYPE(PCURVE, KERN)
+ENTITY_IS_PROTOTYPE( PCURVE, KERN )
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing
 #endif
@@ -51,8 +51,9 @@ extern DECL_KERN int PCURVE_TYPE;
 /**
  * Identifier that gives number of levels of derivation of this class
  * from ENTITY
- */
+*/
 #define PCURVE_LEVEL 1
+
 
 // PCURVE declaration proper.
 
@@ -83,198 +84,213 @@ extern DECL_KERN int PCURVE_TYPE;
  * and after the use count returns to 0, the entity is deleted.
  * @see CURVE, ENTITY, pcurve, COEDGE, SPApar_vec
  */
-class DECL_KERN PCURVE : public ENTITY {
-  private:
-    // STI jmb: Handle save/restore of use counted histories
-    // 	unsigned int use_count_data;
-    // STI jmb: end
+class DECL_KERN PCURVE: public ENTITY {
 
-    // Details of the PCURVE are found in the pcurve def OR
-    // via the CURVE *cur (see below), according to the value of
-    // int def_type.
-    // A def_type of zero indicates a private definition,
-    // supplied by def (below).
-    // A positive value n indicates the nth pcurve associated with
-    // the CURVE cur, shifted in SPAparameter space by off.
-    // A negative value -n indicates the nth pcurve associated with
-    // cur, negated. shifted in SPAparameter space by off.
+private:
 
-    int def_type;
+// STI jmb: Handle save/restore of use counted histories
+// 	unsigned int use_count_data;
+// STI jmb: end
 
-    // Definition of an explicit pcurve.
 
-    pcurve def;  // ignored (null) if def_type is non-zero.
+	// Details of the PCURVE are found in the pcurve def OR
+	// via the CURVE *cur (see below), according to the value of
+	// int def_type.
+	// A def_type of zero indicates a private definition,
+	// supplied by def (below).
+	// A positive value n indicates the nth pcurve associated with
+	// the CURVE cur, shifted in SPAparameter space by off.
+	// A negative value -n indicates the nth pcurve associated with
+	// cur, negated. shifted in SPAparameter space by off.
 
-    // Definition of an implicit pcurve.
+	int def_type;
 
-    CURVE* cur;      // ignored (NULL) if def_type is zero.
-    SPApar_vec off;  // ignored (zero) if def_type is zero.
+	// Definition of an explicit pcurve.
+
+	pcurve def;			// ignored (null) if def_type is non-zero.
+
+	// Definition of an implicit pcurve.
+
+	CURVE *cur;			// ignored (NULL) if def_type is zero.
+	SPApar_vec off;		// ignored (zero) if def_type is zero.
 
     // Track the ENTITYs owning the PCURVE
-
-  private:
-    ENTITY** owners_ptr;
+private:
+	ENTITY** owners_ptr;
     int num_owners;
     int num_owners_alloc;
 
-  protected:
-    /**
-     * Returns TRUE if this entity can have a pattern_holder. For internal use only.
-     */
-    logical holds_pattern() const { return TRUE; }
-
-  public:
-    /**
-     * Adds the owner argument to the list of owners.
-     * <br><br>
-     * @param owner
-     * owner to be added.
-     * @param increment_use_count
-     * flag to increment use count or not.
-     */
-    void add_owner(ENTITY* owner, logical increment_use_count = TRUE);
-    /**
-     * Removes the owner argument from the list of owners.
-     * <br><br>
-     * @param owner
-     * owner to be removed.
-     * @param decrement_use_count
-     * flag to decrement the use count.
-     * @param zero_flag
-     * flag to lose if use count is zero.
-     */
-    void remove_owner(ENTITY* owner, logical decrement_use_count = TRUE, logical zero_flag = TRUE);
-    /**
-     * Copies the list of owners of <tt>this</tt> <tt>CURVE</tt> to the <tt>list</tt> argument.
-     * <br><br>
-     * <b>Role:</b> Returns the number of owners copied.
-     * <br><br>
-     * @param list
-     * list of owners.
-     */
+protected:
+/**
+ * Returns TRUE if this entity can have a pattern_holder. For internal use only.
+ */
+	logical holds_pattern() const {return TRUE;}
+public:
+/**
+ * Adds the owner argument to the list of owners.
+ * <br><br>
+ * @param owner
+ * owner to be added.
+ * @param increment_use_count
+ * flag to increment use count or not.
+ */
+    void add_owner(ENTITY* owner,logical increment_use_count = TRUE);
+/**
+ * Removes the owner argument from the list of owners.
+ * <br><br>
+ * @param owner
+ * owner to be removed.
+ * @param decrement_use_count
+ * flag to decrement the use count.
+ * @param zero_flag
+ * flag to lose if use count is zero.
+ */
+    void remove_owner(ENTITY* owner,logical decrement_use_count = TRUE, logical zero_flag = TRUE);
+/**
+ * Copies the list of owners of <tt>this</tt> <tt>CURVE</tt> to the <tt>list</tt> argument.
+ * <br><br>
+ * <b>Role:</b> Returns the number of owners copied.
+ * <br><br>
+ * @param list
+ * list of owners.
+ */
     int get_owners(ENTITY_LIST& list) const;
+	
+/**
+ * Returns the first owner of this <tt>PCURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> If there are no owners, NULL is returned.
+ */
+	ENTITY *owner() const;
 
-    /**
-     * Returns the first owner of this <tt>PCURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> If there are no owners, NULL is returned.
-     */
-    ENTITY* owner() const;
 
-    // STI ROLL begin - added virtual compare function for api_get_modified_faces
-
-  protected:
-    /**
-     * @nodoc
-     */
+// STI ROLL begin - added virtual compare function for api_get_modified_faces
+protected:
+/**
+ * @nodoc
+ */
     virtual logical bulletin_no_change_vf(ENTITY const* other, logical identical_comparator) const;
-    // STI ROLL end
+// STI ROLL end
 
-    // Include the standard member functions for all entities.
+	// Include the standard member functions for all entities.
 
-    /**
-     * @nodoc
-     */
-    ENTITY_FUNCTIONS(PCURVE, KERN)
+	/**
+	 * @nodoc
+	 */
+	ENTITY_FUNCTIONS( PCURVE , KERN)
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-    // Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
-    // explicitly here:
+// Because mkman isn't aware that ENTITY_FUNCTIONS changes access to "public", we do so
+// explicitly here:
+public:
 
-  public:
-    /**
-     * @nodoc
-     */
-    TRANSFORM_FUNCTION
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_FUNCTION
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
 
-    // Indicate whether this entity is normally destroyed by lose(),
-    // or whether it gets destroyed implicitly when every owner has
-    // been lost. Most entities are destroyed explicitly using lose(),
-    // and so the default returns TRUE.
-    /**
-     * Indicates whether <tt>this</tt> <tt>PCURVE</tt> is normally destroyed by <tt>lose</tt>.
-     * <br><br>
-     * <b>Role:</b> The method returns <tt>FALSE</tt>, indicating that <tt>PCURVE</tt>s are, by default,
-     * shared among multiple owners by means of use-count tracking, and so are destroyed
-     * implicitly when every owner has been lost.  Classes derived from <tt>PCURVE</tt> may of
-     * course override this behavior
-     */
-    virtual logical deletable() const;
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
 
-    // Now the functions specific to PCURVE.
+	// Indicate whether this entity is normally destroyed by lose(),
+	// or whether it gets destroyed implicitly when every owner has
+	// been lost. Most entities are destroyed explicitly using lose(),
+	// and so the default returns TRUE.
+/**
+ * Indicates whether <tt>this</tt> <tt>PCURVE</tt> is normally destroyed by <tt>lose</tt>.
+ * <br><br>
+ * <b>Role:</b> The method returns <tt>FALSE</tt>, indicating that <tt>PCURVE</tt>s are, by default,
+ * shared among multiple owners by means of use-count tracking, and so are destroyed
+ * implicitly when every owner has been lost.  Classes derived from <tt>PCURVE</tt> may of
+ * course override this behavior
+ */
+	virtual logical deletable() const;
 
-    // Make a bare pcurve.
-    /**
-     * Constructs a <tt>PCURVE</tt> (default constructor).
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object but does not populate it. The
-     * allocation constructor is used primarily by restore. Applications should call
-     * this constructor only with the overloaded <tt>new</tt> operator, because this
-     * reserves the memory on the heap, a requirement to support roll back and history
-     * management.
-     */
-    PCURVE();
 
-    // Make a PCURVE from a pcurve.
-    /**
-     * Constructs a <tt>PCURVE</tt> containing a specified pcurve.
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object and populates it with the data
-     * supplied as the argument. Applications should call this constructor only with
-     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
-     * a requirement to support roll back and history management.
-     * <br><br>
-     * @param pcur
-     * pcurve to be wrapped by the constructed PCURVE.
-     */
-    PCURVE(const pcurve& pcur);
+	// Now the functions specific to PCURVE.
 
-    // Make a PCURVE to point to an existing pcurve (via a CURVE).
-    // The given integer is positive; a logical value of true means
-    // the pcurve referenced via the CURVE, is considered negated.
-    /**
-     * Constructs a <tt>PCURVE</tt> that points to an existing <tt>PCURVE</tt>, via a <tt>CURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object and populates it with the data
-     * supplied as the argument. Applications should call this constructor only with
-     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
-     * a requirement to support roll back and history management.
-     * <br><br>
-     * Makes a <tt>PCURVE</tt> to that points to an existing <tt>PCURVE</tt> via the <tt>crv</tt> argument.
-     * The index <tt>def</tt> is positive 1 or 2, representing the two surfaces in order.
-     * Setting <tt>negate</tt> to <tt>TRUE</tt> means the <tt>PCURVE</tt> referenced via the <tt>CURVE</tt> is
-     * to be considered negated, and <tt>par_vec</tt> offsets the spline surface in parametric
-     * space.
-     * <br><br>
-     * @param crv
-     * CURVE relating the constructed PCURVE to an existing one.
-     * @param def
-     * definition type index.
-     * @param negate
-     * flag to consider the constructed PCURVE as negated.
-     * @param pv
-     * offset to the spline surface in parametric space.
-     */
-    PCURVE(CURVE* crv, int def, logical negate = FALSE, const SPApar_vec& pv = *(const class SPApar_vec*)NULL_REF);
+	// Make a bare pcurve.
+/**
+ * Constructs a <tt>PCURVE</tt> (default constructor).
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object but does not populate it. The
+ * allocation constructor is used primarily by restore. Applications should call
+ * this constructor only with the overloaded <tt>new</tt> operator, because this
+ * reserves the memory on the heap, a requirement to support roll back and history
+ * management.
+ */
+	PCURVE();
 
-    // Duplicate a PCURVE, usually used to unshare a shared PCURVE
-    // before transforming in some way.
-    /**
-     * Copy-constructs a <tt>PCURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> Requests memory for this object and populates it with the data
-     * supplied as the argument. Applications should call this constructor only with
-     * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
-     * a requirement to support roll back and history management.
-     * <br><br>
-     * @param pcrv
-     * PCURVE whose data is to be copied.
-     */
-    PCURVE(PCURVE* pcrv);
+	// Make a PCURVE from a pcurve.
+/**
+ * Constructs a <tt>PCURVE</tt> containing a specified pcurve.
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object and populates it with the data
+ * supplied as the argument. Applications should call this constructor only with
+ * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+ * a requirement to support roll back and history management.
+ * <br><br>
+ * @param pcur
+ * pcurve to be wrapped by the constructed PCURVE.
+ */
+	PCURVE( const pcurve &pcur );
+
+	// Make a PCURVE to point to an existing pcurve (via a CURVE).
+	// The given integer is positive; a logical value of true means
+	// the pcurve referenced via the CURVE, is considered negated.
+/**
+ * Constructs a <tt>PCURVE</tt> that points to an existing <tt>PCURVE</tt>, via a <tt>CURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object and populates it with the data
+ * supplied as the argument. Applications should call this constructor only with
+ * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+ * a requirement to support roll back and history management.
+ * <br><br>
+ * Makes a <tt>PCURVE</tt> to that points to an existing <tt>PCURVE</tt> via the <tt>crv</tt> argument.
+ * The index <tt>def</tt> is positive 1 or 2, representing the two surfaces in order.
+ * Setting <tt>negate</tt> to <tt>TRUE</tt> means the <tt>PCURVE</tt> referenced via the <tt>CURVE</tt> is
+ * to be considered negated, and <tt>par_vec</tt> offsets the spline surface in parametric
+ * space.
+ * <br><br>
+ * @param crv
+ * CURVE relating the constructed PCURVE to an existing one.
+ * @param def
+ * definition type index.
+ * @param negate
+ * flag to consider the constructed PCURVE as negated.
+ * @param pv
+ * offset to the spline surface in parametric space.
+ */
+	PCURVE(
+			CURVE *crv,
+			int def,
+			logical negate = FALSE,
+			const SPApar_vec &pv = SpaAcis::NullObj::get_par_vec()
+		);
+
+	// Duplicate a PCURVE, usually used to unshare a shared PCURVE
+	// before transforming in some way.
+/**
+ * Copy-constructs a <tt>PCURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> Requests memory for this object and populates it with the data
+ * supplied as the argument. Applications should call this constructor only with
+ * the overloaded <tt>new</tt> operator, because this reserves the memory on the heap,
+ * a requirement to support roll back and history management.
+ * <br><br>
+ * @param pcrv
+ * PCURVE whose data is to be copied.
+ */
+	PCURVE( PCURVE *pcrv );
 
 // This function is hidden from mkman in the RESTORE_DEF macro; to have it documented,
 // we include it here:
@@ -311,22 +327,22 @@ class DECL_KERN PCURVE : public ENTITY {
     void restore_common();
 #endif
 
-    // STI jmb: Handle save/restore of use counted histories
-    // 	// Use count manipulation, incrementing or decrementing.  If the
-    // 	// decrement leaves the use count at zero, the record is deleted
-    // 	// using lose().
-    //
-    // 	void add();
-    // 	void remove();
-    //
-    //
-    // 	// Data reading routines.
-    //
-    // 	int use_count() const { return use_count_data; }
-    /**
-     * @nodoc
-     */
-    USE_COUNTED_DECL
+// STI jmb: Handle save/restore of use counted histories
+// 	// Use count manipulation, incrementing or decrementing.  If the
+// 	// decrement leaves the use count at zero, the record is deleted
+// 	// using lose().
+//
+// 	void add();
+// 	void remove();
+//
+//
+// 	// Data reading routines.
+//
+// 	int use_count() const { return use_count_data; }
+	/**
+	 * @nodoc
+	 */
+	USE_COUNTED_DECL
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
@@ -403,166 +419,171 @@ class DECL_KERN PCURVE : public ENTITY {
 	virtual int use_count() const;
 #endif
 
-    /**
-     * Returns the definition type of <tt>this</tt> <tt>PCURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> A 0 value indicates a private pcurve. A positive 1 or 2 represents
-     * the first or second pcurve in an intcurve definition, while a negative 1 or 2
-     * represents the reverse of the corresponding pcurve.
-     */
-    int index() const { return def_type; }
-    /**
-     * Returns the definition pcurve, or <tt>NULL</tt> if the pcurve is not private.
-     */
-    const pcurve& def_pcur() const { return def; }
-    /**
-     * Returns the reference <tt>CURVE</tt>.
-     */
-    CURVE* ref_curve() const { return cur; }
-    /**
-     * Returns the <tt>SPApar_vec</tt> parameter space vector offset.
-     * <br><br>
-     * <b>Role:</b> The offset is the displacement in parameter space between the "fit"
-     * definition and <tt>this</tt> <tt>PCURVE</tt>. This allows the <tt>PCURVE</tt> to be positioned in the
-     * infinite parameter space of a periodic surface, so that continuous curve sequences in
-     * object space are continuous in parameter space. The components of this vector should
-     * always be integer multiples of the corresponding surface parameter period, zero if
-     * it is not periodic in that direction.
-     */
-    SPApar_vec offset() const { return off; }
+/**
+ * Returns the definition type of <tt>this</tt> <tt>PCURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> A 0 value indicates a private pcurve. A positive 1 or 2 represents
+ * the first or second pcurve in an intcurve definition, while a negative 1 or 2
+ * represents the reverse of the corresponding pcurve.
+ */
+	int index() const { return def_type; }
+/**
+ * Returns the definition pcurve, or <tt>NULL</tt> if the pcurve is not private.
+ */
+	const pcurve &def_pcur() const { return def; }
+/**
+ * Returns the reference <tt>CURVE</tt>.
+ */
+	CURVE *ref_curve() const { return cur; }
+/**
+ * Returns the <tt>SPApar_vec</tt> parameter space vector offset.
+ * <br><br>
+ * <b>Role:</b> The offset is the displacement in parameter space between the "fit"
+ * definition and <tt>this</tt> <tt>PCURVE</tt>. This allows the <tt>PCURVE</tt> to be positioned in the
+ * infinite parameter space of a periodic surface, so that continuous curve sequences in
+ * object space are continuous in parameter space. The components of this vector should
+ * always be integer multiples of the corresponding surface parameter period, zero if
+ * it is not periodic in that direction.
+ */
+	SPApar_vec offset() const { return off; }
 
-    // Checks this PCURVE has been backed up, then zeros def_type,
-    // removes any CURVE referred to by cur (which is set to NULL),
-    // sets def_type to zero, and puts given pcurve in def.
-    /**
-     * Puts the specified pcurve in <tt>def</tt>.
-     * <br><br>
-     * <b>Role:</b> Checks that <tt>this</tt> <tt>PCURVE</tt> has been backed up, then removes any
-     * curve referred to by <tt>cur</tt> (which is set to <tt>NULL</tt>), sets <tt>def_type</tt> to
-     * zero, and puts the given pcurve in <tt>def</tt>. Before performing the change, it checks
-     * if the data structure is posted on the bulletin board. If not, the method calls
-     * <tt>backup</tt> to put an entry on the bulletin board.
-     * <br><br>
-     * @param pcrv
-     * pcurve to which <tt>def</tt> is to be set.
-     */
-    void set_def(const pcurve& pcrv);
 
-    // Checks this PCURVE has been backed up,
-    // Set set_def to n-th pcurve of an existing CURVE.  n is given
-    // as a positive integer, and the logical is given as true if
-    // the reversed pcurve is wanted.  Removes any previous
-    // reference in cur to a CURVE, and increments use-count for
-    // given CURVE.
-    // Makes a null pcurve and sets it in def.
-    /**
-     * Sets <tt>def</tt> to the <i>n</i>th pcurve of an existing <tt>CURVE</tt>, where <i>n</i> as a
-     * positive integer.
-     * <br><br>
-     * <b>Role:</b> The logical <tt>negate</tt> is <tt>TRUE</tt> for a reversed pcurve. Removes any
-     * previous reference in <tt>cur</tt> to a <tt>CURVE</tt>, and increments the use count for the
-     * given <tt>CURVE</tt>. Makes a <tt>NULL</tt> pcurve and puts it in <tt>def</tt>. Before performing the
-     * change, it checks if the data structure is posted on the bulletin board. If not, the
-     * method calls <tt>backup</tt> to put an entry on the bulletin board.
-     * <br><br>
-     * @param crv
-     * curve to which <tt>cur</tt> is to be set.
-     * @param index
-     * pcurve index.
-     * @param negate
-     * flags a reversed pcurve.
-     * @param offset
-     * parameter space vector.
-     */
-    void set_def(CURVE* crv, int index, logical negate = FALSE, const SPApar_vec& offset = *(SPApar_vec*)NULL_REF);
+	// Checks this PCURVE has been backed up, then zeros def_type,
+	// removes any CURVE referred to by cur (which is set to NULL),
+	// sets def_type to zero, and puts given pcurve in def.
+/**
+ * Puts the specified pcurve in <tt>def</tt>.
+ * <br><br>
+ * <b>Role:</b> Checks that <tt>this</tt> <tt>PCURVE</tt> has been backed up, then removes any
+ * curve referred to by <tt>cur</tt> (which is set to <tt>NULL</tt>), sets <tt>def_type</tt> to
+ * zero, and puts the given pcurve in <tt>def</tt>. Before performing the change, it checks
+ * if the data structure is posted on the bulletin board. If not, the method calls
+ * <tt>backup</tt> to put an entry on the bulletin board.
+ * <br><br>
+ * @param pcrv
+ * pcurve to which <tt>def</tt> is to be set.
+ */
+	void set_def( const pcurve &pcrv );
 
-    // Return the curve equation, for reading only
+	// Checks this PCURVE has been backed up,
+	// Set set_def to n-th pcurve of an existing CURVE.  n is given
+	// as a positive integer, and the logical is given as true if
+	// the reversed pcurve is wanted.  Removes any previous
+	// reference in cur to a CURVE, and increments use-count for
+	// given CURVE.
+	// Makes a null pcurve and sets it in def.
+/**
+ * Sets <tt>def</tt> to the <i>n</i>th pcurve of an existing <tt>CURVE</tt>, where <i>n</i> as a
+ * positive integer.
+ * <br><br>
+ * <b>Role:</b> The logical <tt>negate</tt> is <tt>TRUE</tt> for a reversed pcurve. Removes any
+ * previous reference in <tt>cur</tt> to a <tt>CURVE</tt>, and increments the use count for the
+ * given <tt>CURVE</tt>. Makes a <tt>NULL</tt> pcurve and puts it in <tt>def</tt>. Before performing the
+ * change, it checks if the data structure is posted on the bulletin board. If not, the
+ * method calls <tt>backup</tt> to put an entry on the bulletin board.
+ * <br><br>
+ * @param crv
+ * curve to which <tt>cur</tt> is to be set.
+ * @param index
+ * pcurve index.
+ * @param negate
+ * flags a reversed pcurve.
+ * @param offset
+ * parameter space vector.
+ */
+	void set_def(
+				CURVE *crv,
+				int index,
+				logical negate = FALSE,
+				const SPApar_vec &offset = SpaAcis::NullObj::get_par_vec()
+			);
+
+
+	// Return the curve equation, for reading only
     // Logical flag indicating if the pcurve is temporary
-    /**
-     * Returns the equation of <tt>this</tt> <tt>PCURVE</tt>, for reading only.
-     * <br><br>
-     * @param temporary
-     * internal use only.
-     */
-    pcurve equation(logical temporary = FALSE) const;
+/**
+ * Returns the equation of <tt>this</tt> <tt>PCURVE</tt>, for reading only.
+ * <br><br>
+ * @param temporary
+ * internal use only.
+ */
+	pcurve equation(logical temporary = FALSE) const;
 
-    // Shift the PCURVE in SPAparameter space, required to move it
-    // by integral multiples of the period on a periodic surface.
-    /**
-     * Shifts <tt>this</tt> <tt>PCURVE</tt> in parameter space by integral multiples of the period
-     * on a periodic surface.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure is
-     * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
-     * entry on the bulletin board.
-     * <br><br>
-     * @param shift_vec
-     * parameter-space vector specifying the shift.
-     */
-    void shift(const SPApar_vec& shift_vec);
+	// Shift the PCURVE in SPAparameter space, required to move it
+	// by integral multiples of the period on a periodic surface.
+/**
+ * Shifts <tt>this</tt> <tt>PCURVE</tt> in parameter space by integral multiples of the period
+ * on a periodic surface.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure is
+ * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put an
+ * entry on the bulletin board.
+ * <br><br>
+ * @param shift_vec
+ * parameter-space vector specifying the shift.
+ */
+	void shift( const SPApar_vec &shift_vec );
 
-    // Negate the PCURVE, either by reversing the pcurve
-    // or by reversing the value of a non_zero def_type.
-    /**
-     * Negates the pcurve, either by reversing the pcurve or by reversing the value of a
-     * nonzero <tt>def_type</tt>.
-     * <br><br>
-     * <b>Role:</b> Before performing the change, it checks if the data structure is
-     * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put
-     * an entry on the bulletin board.
-     */
-    void negate();
 
-    // Construct a transformed pcurve.
-    /**
-     * Constructs a transformed pcurve.
-     * <br><br>
-     * <b>Role:</b> The logical <tt>negate</tt> is <tt>TRUE</tt> if the pcurve is considered to be
-     * reversed. Before performing the change, it checks if the data structure is posted
-     * on the bulletin board. If not, the method calls <tt>backup</tt> to put an entry on
-     * the bulletin board.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     * @param negate
-     * flag to consider the pcurve as reversed.
-     */
-    pcurve* trans_pcurve(const SPAtransf& t = *(SPAtransf*)NULL_REF, logical negate = FALSE) const;
+	// Negate the PCURVE, either by reversing the pcurve
+	// or by reversing the value of a non_zero def_type.
+/**
+ * Negates the pcurve, either by reversing the pcurve or by reversing the value of a
+ * nonzero <tt>def_type</tt>.
+ * <br><br>
+ * <b>Role:</b> Before performing the change, it checks if the data structure is
+ * posted on the bulletin board. If not, the method calls <tt>backup</tt> to put
+ * an entry on the bulletin board.
+ */
+	void negate();
 
-    // Transform the PCURVE. If the definition is a CURVE reference,
-    // assume that the curve will be transformed as well, so do nothing.
-    /**
-     * Transforms <tt>this</tt> <tt>PCURVE</tt>.
-     * <br><br>
-     * <b>Role:</b> If the definition is a <tt>CURVE</tt> reference, this method assumes that the curve
-     * will be transformed as well, so it does nothing. Before performing the change, it checks
-     * if the data structure is posted on the bulletin board. If not, the method calls
-     * <tt>backup</tt> to put an entry on the bulletin board.
-     * <br><br>
-     * @param t
-     * transform to apply.
-     */
-    void operator*=(const SPAtransf& t);
+	// Construct a transformed pcurve.
+/**
+ * Constructs a transformed pcurve.
+ * <br><br>
+ * <b>Role:</b> The logical <tt>negate</tt> is <tt>TRUE</tt> if the pcurve is considered to be
+ * reversed. Before performing the change, it checks if the data structure is posted
+ * on the bulletin board. If not, the method calls <tt>backup</tt> to put an entry on
+ * the bulletin board.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ * @param negate
+ * flag to consider the pcurve as reversed.
+ */
+	pcurve *trans_pcurve(
+					const SPAtransf &t = SPAtransf(),
+					logical negate = FALSE
+				) const;
 
-    // Routine used for system debugging
-    /**
-     * @nodoc
-     */
-    virtual int lookup(logical) const;
 
-    // STI ROLL
-    /**
-     * @nodoc
-     */
-    void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
-    // STI ROLL
+	// Transform the PCURVE. If the definition is a CURVE reference,
+	// assume that the curve will be transformed as well, so do nothing.
+/**
+ * Transforms <tt>this</tt> <tt>PCURVE</tt>.
+ * <br><br>
+ * <b>Role:</b> If the definition is a <tt>CURVE</tt> reference, this method assumes that the curve
+ * will be transformed as well, so it does nothing. Before performing the change, it checks
+ * if the data structure is posted on the bulletin board. If not, the method calls
+ * <tt>backup</tt> to put an entry on the bulletin board.
+ * <br><br>
+ * @param t
+ * transform to apply.
+ */
+	void operator*=( const SPAtransf &t );
 
-  public:
-    // SHIVELINO: acisadaptor module add.
-    int get_def_type();
-    pcurve get_def();
-    pcurve* get_def_ptr();
-    void** get_cur_ptr();
+	// Routine used for system debugging
+/**
+ * @nodoc
+ */
+	virtual int lookup( logical ) const;
+
+	// STI ROLL
+/**
+ * @nodoc
+ */
+	void full_size(SizeAccumulator& est, logical countSelf = TRUE) const;
+	// STI ROLL
 };
 
 /** @} */

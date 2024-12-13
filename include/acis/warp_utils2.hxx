@@ -50,7 +50,8 @@ const DECL_WARP SPAtransf* GetTheBodyTransform(BODY* body);
 int DECL_WARP subset_faces_by_plane(/*const */ENTITY_LIST & whole_face_list, 
 						 const SPAposition & plane_origin, 
 						 const SPAunit_vector & plane_normal,
-						 ENTITY_LIST & partial_face_list
+						 ENTITY_LIST & partial_face_list,
+						 logical differentiate_coincident = FALSE
 						 );
 
 // Given a list of edges (whole_edge_list),

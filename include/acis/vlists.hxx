@@ -111,7 +111,8 @@ class DECL_BASE VOID_LIST : public ACIS_OBJECT {
  * @param vp
  * void pointer.
  */
-	int add( void * vp);
+	int add(void* vp);
+	int add( void * vp, logical check);
 
 
 	// Search for an item in the list.

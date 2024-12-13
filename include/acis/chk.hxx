@@ -17,6 +17,8 @@
 #include "base.hxx"
 // ywoo: end
 #include "chk_stat.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 
 ////////////////////////////////////////////////////////////////////////////////
 //									      //
@@ -39,13 +41,13 @@
 class surface;
 DECL_INTR check_status_list* 
     d3_sf_check( const surface&, 
-		 const check_fix& input = *(const check_fix*) NULL_REF, 
+		 const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 		         // supplies a set of flags which say which fixes 
 		         // are allowable (the default is to fix nothing)
-		 check_fix& result = *(check_fix*) NULL_REF, 		
+		 check_fix& result = SpaAcis::NullObj::get_check_fix(),
 		         // returns a set of flags which say which fixes 
 		         // were applied
-		 const check_status_list* = (const check_status_list*) NULL_REF 
+		 const check_status_list* = nullptr
 		         // list of checks that are to be made.  If the 
 		         // list is null, then every possible check will 
 		         // be made; otherwise, the function will only 
@@ -63,13 +65,13 @@ DECL_INTR check_status_list*
 class curve;
 DECL_INTR check_status_list* 
     d3_cu_check( const curve&,
-		 const check_fix& input = *(const check_fix*) NULL_REF, 
+		 const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 		         // supplies a set of flags which say which fixes 
 		         // are allowable (the default is to fix nothing)
-		 check_fix& result = *(check_fix*) NULL_REF, 		
+		 check_fix& result = SpaAcis::NullObj::get_check_fix(),
 		         // returns a set of flags which say which fixes 
 		         // were applied
-		 const check_status_list* = (const check_status_list*) NULL_REF,
+		 const check_status_list* = nullptr,
 		         // list of checks that are to be made.  If the 
 		         // list is null, then every possible check will 
 		         // be made; otherwise, the function will only 
@@ -96,9 +98,13 @@ DECL_INTR check_status_list* d3_pcu_check( pcurve &pcu, COEDGE *coed );
 class SPApar_pos;
 class SPApar_box;
 
-extern DECL_INTR int do_approx_test( surface& sf, bs3_surface bs3, double fitol, logical close,
-                                     double& ret_max_error = *(double *)NULL_REF, 
-                                     SPApar_pos& ret_uv_max_err = *(SPApar_pos *)NULL_REF );
+extern DECL_INTR int do_approx_test( surface& sf, 
+									 bs3_surface bs3, 
+									 double fitol, 
+									 logical close,
+                                     double& ret_max_error		= SpaAcis::NullObj::get_double(),
+                                     SPApar_pos& ret_uv_max_err = SpaAcis::NullObj::get_par_pos() );
+
 extern DECL_INTR logical out_of_vb_polygon( const surface& sf,
 									const SPApar_pos& uv );
 extern DECL_INTR logical supported_by_pipe( const surface& sf );
@@ -115,7 +121,7 @@ class sf_clash_list;
 DECL_INTR check_status_list* self_intersects( check_status_list* list,
 											 BOUNDED_SURFACE& bsf,
 											 sf_clash_list* clashes_in = NULL, 
-											 SPApar_box &exclude_region = *(SPApar_box*)NULL_REF,
+											 SPApar_box &exclude_region = SpaAcis::NullObj::get_par_box(),
 											 logical points_on_surface = FALSE );
 // STI rr end
 

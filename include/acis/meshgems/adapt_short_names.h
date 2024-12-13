@@ -29,5 +29,6 @@
 #define adapt_set_sizemap meshgems_adapt_set_sizemap
 #define adapt_set_surface_mesh meshgems_adapt_set_surface_mesh
 #define adapt_session_t meshgems_adapt_session_t
+#define adapt_unlock_product meshgems_adapt_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_ADAPT_SHORT_NAMES__ */

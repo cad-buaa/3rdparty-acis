@@ -13,6 +13,8 @@
 #include "law_base.hxx"
 #include "unitvec.hxx"
 #include "position.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_law.hxx"
 
 /**
  * @file main_law.hxx
@@ -40,9 +42,7 @@ DECL_LAW logical initialize_law();
  **/
 DECL_LAW logical terminate_law();
 
-// STI ROLL
 class SizeAccumulator;
-// STI ROLL
 
 class multiple_data_law;
 
@@ -131,8 +131,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        int&            count   = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const override; 
 /**
  * @nodoc
  */
@@ -218,8 +218,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        int&            count   = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const override; 
 /**
  * @nodoc
  */
@@ -297,8 +297,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        int&            count   = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -376,12 +376,11 @@ public:
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
 
-	// STI ROLL
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const; // virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -471,8 +470,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        int&            count   = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const override; 
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -545,12 +544,11 @@ public:
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
 
-	// STI ROLL
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -607,9 +605,9 @@ public:
  * @nodoc
  */
 	char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        law_symbol_type type  = DEFAULT,
+        int&            count = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn   = SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 /**
  * Returns a pointer to a law of this type.
  * <br><br>
@@ -675,12 +673,12 @@ public:
  * @nodoc
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -755,9 +753,9 @@ public:
  * @nodoc
  */
 	char* string(
-        law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        law_symbol_type type  = DEFAULT,
+        int&            count = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn   = SpaAcis::NullObj::get_law_data_node_ptr() ) const override; 
 /**
  * @nodoc
  */
@@ -790,13 +788,12 @@ public:
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
 
-	// STI ROLL
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
-/**
+
+																   /**
  * @nodoc
  */
 	virtual void hasa(int type, VOID_LIST& out_laws);// virtual method in base class
@@ -899,8 +896,8 @@ public:
  */
 	char* string(
         law_symbol_type type    = DEFAULT,
-        int&            count   = *(int*) NULL_REF,
-        law_data_node*& ldn     = *(law_data_node**) NULL_REF) const; // virtual method in base class
+        int&            count   = SpaAcis::NullObj::get_int(),
+        law_data_node*& ldn     = SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 /**
  * @nodoc
  */
@@ -922,12 +919,11 @@ public:
  */
 	virtual law* deep_copy(base_pointer_map* pm = NULL) const; // virtual method in base class
 
-	// STI ROLL
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -944,9 +940,9 @@ public:
 	static int   id();
 	int          type() const;
 	pi_law();
-	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) NULL_REF,
-                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+	char         *string(law_symbol_type type = DEFAULT,
+		                 int &count = SpaAcis::NullObj::get_int(),
+                         law_data_node *& ldn = SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 };
@@ -963,8 +959,8 @@ public:
 	int          type() const;
 	e_law();
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) NULL_REF,
-                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+		                 int &count= SpaAcis::NullObj::get_int(),
+                         law_data_node *& ldn= SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 };
@@ -980,8 +976,8 @@ public:
 	int          type() const;
 	true_law();
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) NULL_REF,
-                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+		                 int &count= SpaAcis::NullObj::get_int(),
+                         law_data_node *& ldn= SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 	int          date() const;
@@ -999,8 +995,8 @@ public:
 	int          type() const;
 	false_law();
 	char         *string(law_symbol_type type=DEFAULT,
-		                 int &count=*(int *) NULL_REF,
-                         law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+		                 int &count = SpaAcis::NullObj::get_int(),
+                         law_data_node *& ldn= SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const   *symbol(law_symbol_type type=DEFAULT) const;
     constant_law *make_one(double junk=0.0) const;
 	int          date() const;
@@ -1037,9 +1033,7 @@ public:
 					  double end=DBL_MAX,
 					  double **period=NULL) const;
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 /**
@@ -1211,7 +1205,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -1315,7 +1309,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -1341,7 +1335,7 @@ public:
 	law_domain *domain();
 	logical	   term_domain(int term,SPAinterval &domain) const;
 	law        *set_domain(SPAinterval *new_domain, logical set=FALSE);
-    virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
+    virtual law	*sub_simplify(int level=0, char const *& what = SpaAcis::NullObj::get_const_char_ptr()) const;
 };
 /**
  * Permanent domain law.
@@ -1446,7 +1440,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -1513,7 +1507,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -1588,10 +1582,8 @@ public:
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law  *make_one(law **subs,int size) const;
-	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
-	// STI ROLL
+	virtual law	*sub_simplify(int level=0, char const *& what = SpaAcis::NullObj::get_const_char_ptr()) const;
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
 /**
@@ -1668,6 +1660,12 @@ public:
 		                   int in_size) const;
 	int        return_size() const;
 	int        date() const;
+	logical	   term_domain(int term, SPAinterval &domain) const;
+	int singularities(double **where,
+		int    **type,
+		double start = -DBL_MAX,
+		double end = DBL_MAX,
+		double **period = NULL) const;
 };
 
 /**
@@ -1824,17 +1822,17 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
 	int date() const;   // virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -1922,17 +1920,17 @@ public:
  */
 //	virtual law* sub_simplify(
 //        int             level = 0,
-//        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+//        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
 	int date() const;   // virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -1976,14 +1974,12 @@ public:
 		                   int in_size) const;
 	int        return_size() const;	  // 3
 	int        take_size() const;
-	virtual law	*sub_simplify(int level=0,char const *& what= *(char const **)NULL_REF) const;
+	virtual law	*sub_simplify(int level=0,char const *& what= SpaAcis::NullObj::get_const_char_ptr()) const;
 	int        date() const;
 	virtual law *enable_branching() const;
 	virtual int  branches() const;
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
 
@@ -2070,7 +2066,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -2144,7 +2140,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -2226,7 +2222,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -2304,7 +2300,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -2316,18 +2312,32 @@ protected:
 	law        *deriv(int which=0) const;
 public:
     const char* class_name();    // virtual method in base class
+	
 	logical			isa(int t) const;
+	
 	static int		id();
+	
 	int				type() const;
+	
 	exponent_law(law *in_left_law, law *in_right_law);
+	
 	void			evaluate(double const *x,double *answer) const;
+	
 	void			evaluate_with_side(double const *x,double *answer,int const *side) const;
+	
 	int				precedence() const;
+	
 	char const 		*symbol(law_symbol_type type=DEFAULT) const;
+	
 	binary_law      *make_one(law *in_left_law,law *in_right_law) const;
+	
 	law_polynomial  *polynomial(law *in) const;
+	
 	logical          in_domain(double *where) const;
-	virtual law	    *sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
+	
+	virtual law	    *sub_simplify(int level=0, char const *& what = SpaAcis::NullObj::get_const_char_ptr()) const;
+
+	virtual logical term_domain(int term, SPAinterval& domain) const;
 };
 
 // This law has two constructors. The first one returns a law
@@ -2463,7 +2473,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -2509,6 +2519,12 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
+	int singularities(
+		double**    where,
+		int**       type,
+		double      start = -DBL_MAX,
+		double      end = DBL_MAX,
+		double**    period = NULL) const; // virtual method in base class
 };
 /**
  * Provides methods for the greater than boolean function.
@@ -2528,6 +2544,12 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
+	int singularities(
+		double**    where,
+		int**       type,
+		double      start = -DBL_MAX,
+		double      end = DBL_MAX,
+		double**    period = NULL) const; // virtual method in base class
 };
 /**
  * Provides methods for the less or equal than boolean function.
@@ -2547,6 +2569,12 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
+	int singularities(
+		double**    where,
+		int**       type,
+		double      start = -DBL_MAX,
+		double      end = DBL_MAX,
+		double**    period = NULL) const; // virtual method in base class
 };
 
 /**
@@ -2567,6 +2595,12 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	binary_law *make_one(law *in_left_law,law *in_right_law) const;
 	int        date() const;
+	int singularities(
+		double**    where,
+		int**       type,
+		double      start = -DBL_MAX,
+		double      end = DBL_MAX,
+		double**    period = NULL) const; // virtual method in base class
 };
 
 /**
@@ -2837,7 +2871,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 /**
  * Provides methods for the NATURAL LOG mathematical function.
@@ -2997,7 +3031,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -3062,7 +3096,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 /**
@@ -3228,9 +3262,7 @@ public:
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law  *make_one(law **in_sublaw,int size) const;
 	int        date() const;  // 600 if in_dim>1 else 202
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
 /*
@@ -3665,7 +3697,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 // Not defined for a value of zero lenght
@@ -3748,13 +3780,13 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	// STI ROLL
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -3852,13 +3884,13 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
-	// STI ROLL
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-    // STI ROLL
+
 /**
  * @nodoc
  */
@@ -3946,17 +3978,17 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
 	int date() const;   // virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;// virtual method in base class
-	// STI ROLL
+
 /**
  * @nodoc
  */
@@ -3985,12 +4017,10 @@ public:
 	void       evaluate_with_side(double const *x,double *answer,int const *side) const;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	unary_law  *make_one(law *in_sublaw) const;
-	virtual law	*sub_simplify(int level=0, char const *& what = *(char const **)NULL_REF ) const;
+	virtual law	*sub_simplify(int level=0, char const *& what = SpaAcis::NullObj::get_const_char_ptr()) const;
 	int        return_size() const;  // 1
 	int        date() const;
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 	virtual void hasa(int type, VOID_LIST &out_laws);
 };
 
@@ -4070,8 +4100,7 @@ public:
  * curve law data that contains a curve.
  */
 	curve_law(base_curve_law_data* in_law_data);
-//changed to make_curve_law
-//curve_law(EDGE *in_edge,SPAtransf &in_trans= *(SPAtransf *)NULL_REF);
+
 /**
  * @nodoc
  */
@@ -4118,7 +4147,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -4623,7 +4652,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 /**
  * @nodoc
  */
@@ -4835,7 +4864,7 @@ public:
  */
 	virtual law* sub_simplify(
         int             level = 0,
-        const char*&    what = *(const char**)NULL_REF) const; // virtual method in base class
+        const char*&    what = SpaAcis::NullObj::get_const_char_ptr()) const; // virtual method in base class
 };
 
 
@@ -4871,6 +4900,12 @@ public:
 	int        return_size() const; // 3
 	int        take_size() const;
 	logical    term_domain(int term,SPAinterval &domain) const;
+	int singularities(
+		double**    where,
+		int**       type,
+		double      start = -DBL_MAX,
+		double      end = DBL_MAX,
+		double**    period = NULL) const; // virtual method in base class
 };
 
 /**
@@ -5163,7 +5198,7 @@ class DECL_LAW multiple_curve_law: public multiple_law
     double *param_at_end;
     double total_length;
     mutable int last_segment;
-	logical closed;
+	int closed;
 protected:
 	law        *deriv(int which=0) const;
 	law	       *sub_inverse() const;
@@ -5177,8 +5212,8 @@ public:
 	void       evaluate(double const *x,double *answer) const;
 	void       evaluate_with_side(double const *x,double *answer,int const *side=NULL) const;
 	char       *string(law_symbol_type type=DEFAULT,
-		               int &count=*(int *) NULL_REF,
-                       law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+		               int &count= SpaAcis::NullObj::get_int(),
+                       law_data_node *& ldn= SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law *make_one(law **subs, int size) const;
 	logical	   term_domain(int term,SPAinterval &domain) const;
@@ -5194,9 +5229,7 @@ public:
 							 double **period=NULL) const;
 	int isclosed(){ return closed;}
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 // The multiple_curveperp_law represents the inverse of a
@@ -5230,8 +5263,8 @@ public:
 	void       evaluate(double const *x,double *answer) const;
 	void       evaluate_with_guess(double const *x,double *answer,double const *guess=NULL) const;
 	char       *string(law_symbol_type type=DEFAULT,
-		               int &count=*(int *) NULL_REF,
-                       law_data_node *& ldn=*(law_data_node **) NULL_REF) const;
+		               int &count = SpaAcis::NullObj::get_int(),
+                       law_data_node *& ldn= SpaAcis::NullObj::get_law_data_node_ptr() ) const override;
 	char const *symbol(law_symbol_type type=DEFAULT) const;
 	multiple_law *make_one(law **subs, int size) const;
     int        return_size() const;
@@ -5239,9 +5272,7 @@ public:
     int        date() const; // 500
     law        *set_range(SPAinterval *new_range, logical set=FALSE);
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 // swa 16Oct98 -- cyclide law stuff -- move this
@@ -5277,9 +5308,7 @@ public:
     int        take_size() const;
     int        date() const; // 500
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 /*
@@ -5310,9 +5339,7 @@ public:
     int        take_size() const;
     int        date() const; // 500
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 /*
@@ -5349,9 +5376,7 @@ public:
     int        take_size() const;
     int        date() const; // 500
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 };
 
 
@@ -5389,9 +5414,7 @@ public:
     int        take_size() const;
     int        date() const;
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 
 private:
 	double m_current_radians;
@@ -5425,9 +5448,7 @@ public:
     int        take_size() const;
     int        date() const;
 
-	// STI ROLL
 	virtual void full_size(SizeAccumulator&, logical = TRUE) const;
-	// STI ROLL
 
 private:
 	double m_deriv_level;

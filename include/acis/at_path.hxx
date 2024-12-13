@@ -80,9 +80,9 @@ public:
 
 	ATTRIB_STI_NOR_ATTR( 
 		    ENTITY* = NULL,
-			const SPAunit_vector & = *(const class SPAunit_vector *)NULL_REF,	// path nor
-			const SPAunit_vector & = *(const class SPAunit_vector *)NULL_REF,	// prof nor
-			const SPAunit_vector & = *(const class SPAunit_vector *)NULL_REF,	// mitre nor
+			const SPAunit_vector & = SpaAcis::NullObj::get_unit_vector(),	// path nor
+			const SPAunit_vector & = SpaAcis::NullObj::get_unit_vector(),	// prof nor
+			const SPAunit_vector & = SpaAcis::NullObj::get_unit_vector(),	// mitre nor
 			bs3_curve = NULL,								    // path bs
 			surface * = (surface *)NULL,					    // lateral sur
 			int = 1, 										    // path type

@@ -28,7 +28,7 @@
 # ifndef BUILDING_LOCAL_FILE
 #  if defined(_MSC_VER)
 #    define spa_lib_name "hlr_husk"
-#   if defined( _DEBUG ) && !defined( SPA_INTERNAL_BUILD )
+#   if defined( SPA_DEBUG ) && !defined( SPA_INTERNAL_BUILD ) && !defined( SPAACISDS )
 #    pragma comment( lib, CONCAT( spa_lib_name, "d.lib" ))
 #   else
 #    pragma comment( lib, CONCAT( spa_lib_name, ".lib" ))

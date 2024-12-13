@@ -14,6 +14,9 @@
 #include "api.hxx"
 #include "interval.hxx"
 #include "vector.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * \defgroup ACISPATTERNS Patterns
  * \ingroup KERNAPI
@@ -140,9 +143,9 @@ DECL_KERN outcome api_pattern_create_on_curve
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
     law*                rail_law        = NULL,
-    const SPAvector&    rail_dir        = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
-    const SPAtransf&    in_trans        = *(SPAtransf*)NULL_REF,
+    const SPAvector&    rail_dir        = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
+    const SPAtransf&    in_trans        = SPAtransf(),
 	AcisOptions*        ao              = NULL);
 /**
  * Creates a pattern with cylindrical symmetry.
@@ -353,11 +356,11 @@ DECL_KERN outcome api_pattern_create_cylindrical
  * <br><br>
  * <b>Effect:</b> Changes model.
  * <br><br>
-* <b>Journal: </b> Not Available
-* <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
  * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
  * <br><br>
-* @param pat
+ * @param pat
  * created pattern.
  * @param in_edge
  * edge.
@@ -381,8 +384,8 @@ DECL_KERN outcome api_pattern_create_on_edge
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    rail_dir        = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    rail_dir        = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -469,8 +472,8 @@ DECL_KERN outcome api_pattern_create_on_edge
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    normal_dir      = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    normal_dir      = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -563,8 +566,8 @@ DECL_KERN outcome api_pattern_create_on_edge
     int                 num_elements,
     const SPAposition&  root,
     logical             on_endpoints    = FALSE,
-    const SPAvector&    normal_dir      = *(SPAvector*)NULL_REF,
-    const SPAvector&    tangent_dir     = *(SPAvector*)NULL_REF,
+    const SPAvector&    normal_dir      = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    tangent_dir     = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -643,10 +646,10 @@ DECL_KERN outcome api_pattern_create_elliptical
     const SPAvector&    normal,
     int                 num_elements,
     logical             not_rotate      = FALSE,
-    const SPAposition&  root            = *(SPAposition*)NULL_REF,
+    const SPAposition&  root            = SpaAcis::NullObj::get_position(),
     double              angle           = 2.0 * M_PI,
     double              ratio           = 1.0,
-    const SPAvector&    major_axis      = *(SPAvector*)NULL_REF,
+    const SPAvector&    major_axis      = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -938,9 +941,9 @@ DECL_KERN outcome api_pattern_create_linear
     pattern*&           pat,
     const SPAvector&    x_vec,
     int                 num_x,
-    const SPAvector&    y_vec           = *(SPAvector*)NULL_REF,
+    const SPAvector&    y_vec           = SpaAcis::NullObj::get_vector(),
     int                 num_y           = 1,
-    const SPAvector&    z_vec           = *(SPAvector*)NULL_REF,
+    const SPAvector&    z_vec           = SpaAcis::NullObj::get_vector(),
     int                 num_z           = 1,
     logical             y_staggered     = FALSE,
     logical             z_staggered     = FALSE,
@@ -1025,7 +1028,7 @@ DECL_KERN outcome api_pattern_create_polar_grid
 	const SPAvector&    normal,
 	int					num_rings,
 	double				distance,
-	const SPAvector&    start           = *(SPAvector*)NULL_REF,
+	const SPAvector&    start           = SpaAcis::NullObj::get_vector(),
 	logical				not_rotate      = FALSE,
 	logical				hex_symmetry    = FALSE,
 	double				start_angle     = 0.0,
@@ -1114,7 +1117,7 @@ DECL_KERN outcome api_pattern_create_radial
 	int					num_radial,
 	int					num_angular,
 	double				spacing,
-	const SPAvector&    start           = *(SPAvector*)NULL_REF,
+	const SPAvector&    start           = SpaAcis::NullObj::get_vector(),
 	logical				not_rotate      = FALSE,
 	double				start_angle     = 0.0,
 	double				end_angle       = 2.0 * M_PI,
@@ -1349,8 +1352,8 @@ DECL_KERN outcome api_pattern_create_on_surface
     int                 num_v,
     const SPAposition&  root,
     logical             on_boundary     = FALSE,
-    const SPAvector&    u_dir           = *(SPAvector*)NULL_REF,
-    const SPAvector&    v_dir           = *(SPAvector*)NULL_REF,
+    const SPAvector&    u_dir           = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    v_dir           = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -1446,9 +1449,9 @@ DECL_KERN outcome api_pattern_create_on_surface
     int                 num_v,
     const SPAposition&  root,
     logical             on_boundary     = FALSE,
-    const SPAvector&    u_dir           = *(SPAvector*)NULL_REF,
-    const SPAvector&    v_dir           = *(SPAvector*)NULL_REF,
-    const SPAtransf&    in_trans        = *(SPAtransf*)NULL_REF,
+    const SPAvector&    u_dir           = SpaAcis::NullObj::get_vector(),
+    const SPAvector&    v_dir           = SpaAcis::NullObj::get_vector(),
+    const SPAtransf&    in_trans        = SPAtransf(),
 	AcisOptions*        ao              = NULL);
 
 // Pattern-modification functions
@@ -1622,7 +1625,7 @@ DECL_KERN outcome api_pattern_modify_scale_alternating
  * SPAvector normal(0, 0, 1);
  * int num_rings = 4;
  * double spacing = 4.0;
- * SPAvector& start = *(SPAvector*)NULL_REF;
+ * SPAvector& start = SpaAcis::NullObj::get_vector();
  * logical not_rotate = FALSE;
  * logical hex_symmetry = TRUE;
  * check_outcome(result = api_pattern_create_polar_grid(pat, center, normal, 
@@ -2279,9 +2282,9 @@ DECL_KERN outcome api_pattern_modify_orient_random
     pattern*            pat,
     const SPAposition&  root            = SPAposition(0, 0, 0),
     const SPAinterval&  axial_range     = SPAinterval(0.0, 2.0 * M_PI),
-    const SPAvector&    axial_dir       = *(SPAvector*)NULL_REF,
+    const SPAvector&    axial_dir       = SpaAcis::NullObj::get_vector(),
     const SPAinterval&  tilt_range      = SPAinterval(0, M_PI),
-    const SPAvector&    tilt_dir        = *(SPAvector*)NULL_REF,
+    const SPAvector&    tilt_dir        = SpaAcis::NullObj::get_vector(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -2469,7 +2472,7 @@ DECL_KERN outcome api_pattern_find_bump(
     const ENTITY*       seed,
     ENTITY_LIST&        faces,
     ENTITY_LIST&        loops,
-    ENTITY_LIST&        no_cross_list   = *(ENTITY_LIST*)NULL_REF,
+    ENTITY_LIST&        no_cross_list   = SpaAcis::NullObj::get_ENTITY_LIST(),
 	AcisOptions*        ao              = NULL);
 
 /**
@@ -3160,7 +3163,7 @@ DECL_KERN outcome api_pattern_modify_mirror(
  * check_outcome(result = api_make_wire(NULL, length_pnts, 
  *     array_pts, wire));
  * ENTITY_LIST faces;
- * check_outcome(result = api_cover_wires(wire, *(surface*)NULL_REF, faces));
+ * check_outcome(result = api_cover_wires(wire, SpaAcis::NullObj::get_surface(), faces));
  * SPAvector path(0.5, 0.5, 0.5);
  * sweep_options options;
  * BODY* prism1 = NULL;
@@ -3326,11 +3329,78 @@ DECL_KERN outcome api_pattern_modify_compose(
  * @param ao
  * acis options.
  **/
+[[deprecated("Deprecated Interface, \"api_pattern_modify_concatenate\" will be removed in 2025 1.0 release")]]
 DECL_KERN outcome api_pattern_modify_concatenate(
-    pattern*            head_pat,
-    const pattern*      tail_pat,
-    const SPAtransf&    in_trans    = *(const SPAtransf*)NULL_REF,
-	AcisOptions*        ao          = NULL);
+    pattern* head_pat,
+    const pattern* tail_pat,
+    const SPAtransf& in_trans = *(const SPAtransf*)NULL_REF,
+	AcisOptions* ao = NULL );
+
+/**
+ * Returns a pattern that is the concatenation of two given patterns.
+ * <br><br>
+ * <b>Role:</b> The result is a single pattern whose size is the sum of the
+ * number of elements of the two input patterns, <tt>pat1</tt> and <tt>pat2</tt>.
+ * The effect is that of applying the first pattern to the first set of elements
+ * and the second pattern to the rest. Optionally, the tail of the first set
+ * may be connected to the head of the second set by supplying a transform
+ * <tt>in_trans</tt>.
+ * <br><br>
+ * The following code snippet gives an example of using this API.
+ * <pre>
+ * // Create a pattern
+ * pattern* pat1 = NULL;
+ * SPAvector x_vec1(3, 0, 0);
+ * int num_x1 = 5;
+ * check_outcome(result = api_pattern_create_linear(pat1, x_vec1, num_x1));
+ *
+ * // Create another pattern
+ * pattern* pat2 = NULL;
+ * SPAposition center(-5, 0, 0);
+ * SPAvector normal(0, 0, 1);
+ * int num = 8;
+ * check_outcome(result = api_pattern_create_elliptical(pat2, center, normal, num));
+ *
+ * // Concatenate the patterns
+ * check_outcome(result = api_pattern_modify_concatenate(pat1, pat2));
+ *
+ * // Create a prism
+ * double height = 1.0;
+ * double maj_rad = 1.0;
+ * double min_rad = 0.5;
+ * int num_sides = 3;
+ * BODY* prism = NULL;
+ * check_outcome(result = api_make_prism(height, maj_rad,
+ *     min_rad, num_sides, prism));
+ *
+ * // Apply the pattern to the prism
+ * check_outcome(result = api_pattern_apply_to_entity(prism, pat1));
+ *
+ * // Clean up
+ * check_outcome(result = api_pattern_destroy(pat1));
+ * check_outcome(result = api_pattern_destroy(pat2));</pre>
+ * <b>Errors:</b> Either of the specified patterns is NULL.
+ * <br><br>
+ * <b>Effect:</b> Changes model.
+ * <br><br>
+* <b>Journal: </b> Not Available
+* <br><br>
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
+ * <br><br>
+* @param head_pat
+ * the pattern at the head of the concatenation.
+ * @param tail_pat
+ * the pattern at the tail of the concatenation.
+ * @param in_trans
+ * transform by which head_pat and tail_pat are related.
+ * @param ao
+ * acis options.
+ **/
+DECL_KERN outcome api_pattern_modify_concatenate(
+    pattern* head_pat,
+    const pattern* tail_pat,
+    const SPAtransf* in_trans,
+    AcisOptions* ao = NULL );
 
 /**
  * Creates a displacement pattern from an array of positions.
@@ -3396,7 +3466,7 @@ DECL_KERN outcome api_pattern_create_from_list(
     pattern*&           pat,
     const SPAposition*  in_positions,
     int                 num_positions,
-    const SPAposition&  in_root_position    = *(const SPAposition*)NULL_REF,
+    const SPAposition&  in_root_position    = SpaAcis::NullObj::get_position(),
 	AcisOptions*        ao                  = NULL);
 
 /**
@@ -3490,12 +3560,111 @@ DECL_KERN outcome api_pattern_create_from_list(
  * @param ao
  * acis options.
  **/
+[[deprecated("Deprecated Interface, \"api_pattern_create_from_list\" will be removed in 2025 1.0 release")]]
 DECL_KERN outcome api_pattern_create_from_list(
-    pattern*&           pat,
-    const SPAtransf*    in_transforms,
-    int                 num_transforms,
-    const SPAtransf&    in_root_transform   = *(const SPAtransf*)NULL_REF,
-	AcisOptions*        ao                  = NULL);
+    pattern*& pat,
+    const SPAtransf* in_transforms,
+    int num_transforms,
+    const SPAtransf& in_root_transform = *(const SPAtransf*)NULL_REF,
+	AcisOptions* ao = NULL );
+
+/**
+ * Creates a pattern from an array of transforms.
+ * <br><br>
+ * <b>Role:</b> The transforms in the array <tt>in_transforms</tt> are considered in
+ * a <i>relative</i> sense only. That is, the transform from element <i>n</i> to
+ * element <i>(n + 1)</i> is determined by the product
+ * <tt>in_transforms[n].inverse() * in_transforms[n + 1]</tt>. If one wants the seed element
+ * to be transformed, it is necessary to specify in addition the
+ * root transform via <tt>in_root_transform</tt>, which defines the transformation of
+ * the seed.
+ * <br><br>
+ * The following code snippet gives an example of using this API.
+ * <pre>
+ * // Create a pattern
+ * SPAposition origin[9];
+ * origin[0] = SPAposition(0, 0, 3);
+ * origin[1] = SPAposition(0, 6, 3);
+ * origin[2] = SPAposition(6, 0, 3);
+ * origin[3] = SPAposition(6, 6, 3);
+ * origin[4] = SPAposition(3, 3, 0);
+ * origin[5] = SPAposition(0, 0, -3);
+ * origin[6] = SPAposition(0, 6, -3);
+ * origin[7] = SPAposition(6, 0, -3);
+ * origin[8] = SPAposition(6, 6, -3);
+ *
+ * SPAunit_vector x_axis[9];
+ * x_axis[0] = SPAunit_vector(1, 0, 0);
+ * x_axis[1] = SPAunit_vector(1, 0, 0);
+ * x_axis[2] = SPAunit_vector(1, 0, 0);
+ * x_axis[3] = SPAunit_vector(1, 0, 0);
+ * x_axis[4] = SPAunit_vector(0, 1, 0);
+ * x_axis[5] = SPAunit_vector(0, 1, 0);
+ * x_axis[6] = SPAunit_vector(0, 1, 0);
+ * x_axis[7] = SPAunit_vector(0, 1, 0);
+ * x_axis[8] = SPAunit_vector(0, 1, 0);
+ *
+ * SPAunit_vector y_axis[9];
+ * y_axis[0] = SPAunit_vector(0, 1, 0);
+ * y_axis[1] = SPAunit_vector(0, 1, 0);
+ * y_axis[2] = SPAunit_vector(0, 1, 0);
+ * y_axis[3] = SPAunit_vector(0, 1, 0);
+ * y_axis[4] = SPAunit_vector(1, 0, 0);
+ * y_axis[5] = SPAunit_vector(0, 0, 1);
+ * y_axis[6] = SPAunit_vector(0, 0, 1);
+ * y_axis[7] = SPAunit_vector(0, 0, 1);
+ * y_axis[8] = SPAunit_vector(0, 0, 1);
+ *
+ * SPAtransf t[9];
+ *
+ * for (int i = 0; i < 9; i++)
+ *     t[i] = coordinate_transf(origin[i], x_axis[i], y_axis[i]);
+ *
+ * pattern* pat = NULL;
+ * SPAposition root(0, 0, 0);
+ * SPAvector disp = origin[0] - root;
+ * SPAtransf root_transf = translate_transf(disp);
+ * check_outcome(result = api_pattern_create_from_list(pat, t, 9, &root_transf));
+ *
+ * // Create a prism
+ * double height = 1.0;
+ * double maj_rad = 1.0;
+ * double min_rad = 0.5;
+ * int num_sides = 3;
+ * BODY* prism = NULL;
+ * check_outcome(result = api_make_prism(height, maj_rad,
+ *     min_rad, num_sides, prism));
+ *
+ * // Apply the pattern to the prism
+ * check_outcome(result = api_pattern_apply_to_entity(prism, pat));
+ *
+ * // Clean up
+ * check_outcome(result = api_pattern_destroy(pat));</pre>
+ * <b>Errors:</b> None.
+ * <br><br>
+ * <b>Effect:</b> Changes model.
+ * <br><br>
+ * <b>Journal: </b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
+ * <br><br>
+ * @param pat
+ * the created pattern.
+ * @param in_transforms
+ * the array of transforms defining the pattern.
+ * @param num_transforms
+ * the number of elements in the <tt>in_transforms</tt> array.
+ * @param in_root_transform
+ * the root transform of the pattern.
+ * @param ao
+ * acis options.
+ **/
+DECL_KERN outcome api_pattern_create_from_list(
+    pattern*& pat,
+    const SPAtransf* in_transforms,
+    int num_transforms,
+    const SPAtransf* in_root_transform,
+    AcisOptions* ao = NULL );
 
 /**
  * Creates a pattern from a set of laws.
@@ -3585,7 +3754,7 @@ DECL_KERN outcome api_pattern_create_from_laws(
     law*                in_zrot_law         = NULL,
     law*                in_scale_law        = NULL,
     law*                in_keep_law         = NULL,
-    const SPAtransf&    in_root_transform   = *(const SPAtransf*)NULL_REF,
+    const SPAtransf&    in_root_transform   = SPAtransf(),
 	AcisOptions*        ao                  = NULL);
 
 /**

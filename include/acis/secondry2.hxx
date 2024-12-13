@@ -59,7 +59,7 @@ bhl_trim_pcurve(COEDGE*, PCURVE*&);
 
 // GSSL/RS (Aug 16,2002):Added a new argument trim_not_needed
 DECL_STITCH logical
-bhl_trim_edge( EDGE* , logical &trim_not_needed = *(logical *)NULL_REF);
+bhl_trim_edge( EDGE* , logical &trim_not_needed = SpaAcis::NullObj::get_logical());
 
 DECL_STITCH logical
 bhl_trim_intcurve( const intcurve* , const SPAposition&, const SPAposition&, logical, intcurve*& );

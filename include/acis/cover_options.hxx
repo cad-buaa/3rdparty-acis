@@ -55,6 +55,8 @@ public:
 * Set the gap tolerance.
 * If a gap tolerance is specified and is reasonable (i.e., it is greater than <tt>SPAresabs</tt>), the covering API function
 * will fit a covering surface to the input loops (as long as gap is less than the gap tolerance) and tolerize the result.
+* The gap_tol specifies how far circuit geometry can be from the covering surface you specify, or how far the circuit can be from planar, and still get covered. 
+* When the APIs produce a cover where the circuit geometry is further than SPAresabs from the covering surface, the result is tolerized, to produce a valid body.
 * @param tol
 * given gap tolerance
 **/
@@ -66,6 +68,20 @@ public:
 **/
     double get_gap_tol() const;
 
+/**
+* Set the tangent tolerance.
+* If a tangent tolerance is specified and is reasonable (i.e., it is greater than <tt>SPAresabs</tt>), the covering API function
+* will consider adjacent edges whose tangents meet at an angle less than tol to be G1. The covering surface will be calculated
+* based on this merge but the original edges will not be merged. Merging nearly tangent edges can greatly simplify the model and 
+* improve the result of covering.
+* @param tol
+* given gap tolerance
+**/
+    void set_tan_tol(double tol);
+/**
+* Returns the tan tolerance. The default tolerance is <tt>SPAresabs</tt>.
+**/
+    double get_tan_tol() const;
 /**
 * Allows the user to customize tolerization behavior.
 * The user retains ownership of the <tt>tolerize_entity_opts</tt> object: i.e.,

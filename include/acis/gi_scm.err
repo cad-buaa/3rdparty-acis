@@ -9,5 +9,6 @@
 extern message_module gi_scm_gi_scm_errmod;
 
 #define ASM_PICK_NOT_IMPLEMENTED gi_scm_gi_scm_errmod.message_code(0)
+#define GI_ASM_PICK_INTERNAL_ERROR gi_scm_gi_scm_errmod.message_code(1)
 
 #endif /* GI_SCM_GI_SCM_ERRMOD_INCLUDED */

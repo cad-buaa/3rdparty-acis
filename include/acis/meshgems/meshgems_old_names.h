@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_OLD_NAMES__
 #define __MESHGEMS_OLD_NAMES__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * Old names.  Allow the caller to omit the distene prefix 
  */

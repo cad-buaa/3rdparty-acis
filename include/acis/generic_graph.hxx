@@ -14,6 +14,10 @@
 #include "dcl_kern.h"
 #include "acis3dt.h"
 #include "position.hxx"
+#include "logical.h"
+#include "lists.hxx"
+#include "vlists.hxx"
+#include "spa_null_kern.hxx"
 
 /**
  * \defgroup ACISGRAPHTHEORY Graph Theory
@@ -95,15 +99,22 @@ protected:
 	int *sort_items; // the result array
 	int sort_count;	// the amount of memory currently in the result array
 };
-
+//Forward declare. Container for high performance
+template <typename T>
+class SpaStdVector;
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  A class for generic vertices of a graph
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+//Forward declare. Used so graph components can have relationships with each other
 class gedge;
 class ENTITY;
+class gvertex_link;
+class generic_graph;
+class gedge_link;
+
 /*
 // tbrv
 */
@@ -145,14 +156,17 @@ private:
 	// The following three variables are NOT considered part of the gvertex
 	// as far as the == operator is concerned, and methods like set_kind
 	// can be declared as class const.
+
 	int      use_count;
 	logical  *kind_holder;
 	int      kind_size;
+
 
 protected:
 
 	char     *internal_name;
 	virtual ~gvertex();
+	gvertex_link* internal_data;
 
 public:
 
@@ -161,6 +175,14 @@ public:
 #else
 	static int how_many;
 #endif
+	/*
+	List of gedges which have this gvertex as one of their gvertices
+	*/
+	SpaStdVector<gedge*> *connected_gedges;
+	/*
+	List of graphs which this gvertex is used in
+	*/
+	SpaStdVector<generic_graph*> *contained_in;
     /**
      * Creates an instance of a graph vertex and supplies it with a name.
      * <br><br>
@@ -187,6 +209,11 @@ public:
 	 * <br><br>
 	 * <b>Role:</b> This method returns its name.
 	 */
+	 /**
+	  * @nodoc
+	  */
+	void mapto_link(const gvertex_link* in_link);
+	gvertex_link* get_vlink() const;
 	char const *name() const;
     /*
     // tbrv
@@ -245,14 +272,14 @@ public:
      * @param in_vertex
      * supplied vertex.
      */
-	logical operator==(gvertex const &in_vertex) const;
+	bool operator==(gvertex const &in_vertex) const;
 	/**
 	 * Determines whether or not the supplied vertex is not equal to this graph vertex.
 	 * <br><br>
 	 * @param in_vertex
 	 * gvertex.
 	 */
-	logical operator!=(gvertex const &in_vertex) const;
+	bool operator!=(gvertex const &in_vertex) const;
 	/*
 	// tbrv
 	*/
@@ -376,6 +403,7 @@ private:
 	logical *kind_holder;
 	int     kind_size;
 	double  weight;
+	gedge_link* internal_data;
 
 protected:
 
@@ -390,6 +418,7 @@ public:
 #else
 	static int how_many;
 #endif
+	SpaStdVector<generic_graph*> *contained_in;
     /**
      * Creates an instance of gedge between the two graph vertices supplied.
      * <br><br>
@@ -435,6 +464,8 @@ public:
     /**
      * @nodoc
      */
+	gedge_link* get_elink() const;
+	void mapto_link(const gedge_link* in_link);
 	virtual logical isa(int t) const;
 	/*
 	// tbrv
@@ -501,14 +532,14 @@ public:
      * @param in_edge
      * test graph edge.
      */
-	logical operator==(gedge const &in_edge) const;
+	bool operator==(gedge const &in_edge) const;
 	/**
 	 * Determines whether or not the supplied graph edge is not equal to this graph edge.
 	 * <br><br>
 	 * @param in_edge
 	 * test graph edge.
 	 */
-	logical operator!=(gedge const &in_edge) const;
+	bool operator!=(gedge const &in_edge) const;
 	/*
 	// tbrv
 	*/
@@ -596,10 +627,12 @@ private:
 	logical      connected;
 	logical      cyclic_order_flag;
 
+
+
 	void set_component(gvertex_link *) const;
 	void clear_vertex_index(int which) const;
-	gedge_link *find_edge_link(gedge const *) const;
-	gvertex_link *find_vertex_link(gvertex const *) const;
+	gedge_link *find_edge_link(gedge const *, logical performance = FALSE) const;
+	gvertex_link *find_vertex_link(gvertex const *, logical performance = FALSE) const;
 	gedge_link *find_edge_link(gedge_link const *) const;
 	gvertex_link *find_vertex_link(gvertex_link const *) const;
 	logical is_cut_vertex(gvertex_link *) const;
@@ -619,7 +652,10 @@ protected:
 	virtual ~generic_graph();
 
 public:
-
+	/**
+	* @nodoc
+	*/
+	ENTITY_LIST  included_attributes;
 	// Construction and destruction
 	/**
 	 * Increments the use count of how many references there are to this <tt>generic_graph</tt> instance.
@@ -645,7 +681,7 @@ public:
 	 * @param vertex
 	 * name of the vertex.
 	 */
-	void add_vertex(gvertex const * vertex);
+	void add_vertex(gvertex const * vertex, logical performance = FALSE);
 	/**
 	 * Adds a vertex to the graph structure by specifying a pointer to the graph vertex.
 	 * <br><br>
@@ -661,6 +697,7 @@ public:
 	 * pointer to edge.
 	 */
 	void add_edge(gedge const * edge);
+	void add_edge(gedge const* edge, logical performance);
 	/**
 	 * Adds a graph edge to the graph structure by specifying pointers to its vertices.
 	 * <br><br>
@@ -747,7 +784,7 @@ public:
 	 * @param no
 	 * number of components.
 	 */
-	int     component(gvertex const * no) const;
+	int     component(gvertex const * no, logical performance = FALSE) const;
 	/**
 	 * Returns an array of graph edges that are adjacent to the specified vertex.
 	 * <br><br>
@@ -785,7 +822,7 @@ public:
 	 * @param ent
 	 * entity to search.
 	 */
-	gvertex const *find_vertex_by_entity(ENTITY *ent) const;
+	gvertex const *find_vertex_by_entity(ENTITY *ent, logical performance = FALSE) const;
 	/**
 	 * Determines whether or not the specified graph vertex is a cycle vertex.
 	 * <br><br>
@@ -799,7 +836,7 @@ public:
 	 * @param in_vertex
 	 * gvertex.
 	 */
-	logical vertex_exists(gvertex const * in_vertex);
+	logical vertex_exists(gvertex const * in_vertex, logical performance = FALSE);
 	/**
 	 * Determines if the two specified gvertexes share a common gedge.
 	 * <br><br>
@@ -831,7 +868,7 @@ public:
 	 * @param no
 	 * number of components.
 	 */
-	int     component(gedge const * no) const;
+	int     component(gedge const * no, logical performance=FALSE) const;
 	/**
 	 * Locates a graph edge in the graph structure by its specified name.
 	 * <br><br>
@@ -861,8 +898,9 @@ public:
 	 * optionally return only gedges associated with a particular entity.
 	 */
 	gedge   const *find_edge_by_vertex(gvertex const * first_vertex,
-		                               gvertex const * sec_vertex,
-									   ENTITY  const *ref_ent = NULL) const;
+		                               gvertex const * sec_vertex,									   
+									   ENTITY  const *ref_ent = NULL,
+									   logical performance = FALSE) const;
 	/**
 	 * Uses the two given gvertexes to find all gedges that connects the gvertexes.
 	 * <br><br>
@@ -880,9 +918,31 @@ public:
 	 * @param no
 	 * target.
 	 */
+	int     find_all_edges_by_vertex(gvertex const* first_vertex,
+									 gvertex const* sec_vertex,
+									 VOID_LIST* ge_list = NULL,
+									 int no = 0) const;
+	/**
+ * Uses the two given gvertexes to find all gedges that connects the gvertexes.
+ * <br><br>
+ *<b>Role:</b> This method returns the number of gedges found. <tt>ge_list</tt> and
+ * target are optional. <tt>ge_list</tt> returns the gedges found as typoe void*. The caller may specify
+ * how many gedges are required by setting a target number. The default target
+ * is <tt>0</tt>, which gets all gedges.
+ * <br><br>
+ * @param first_vertex
+ * first gvertex.
+ * @param sec_vertex
+ * second gvertex.
+ * @param out
+ * ge_list.
+ * @param no
+ * target.
+ */
+	[[deprecated("Deprecated. Use version with VOID_LIST* ge_list instead.")]]
 	int     find_all_edges_by_vertex(gvertex const * first_vertex,
 		                             gvertex const * sec_vertex,
-								     gedge **&out = *(gedge ***) NULL_REF,
+								     gedge **&out = SpaAcis::NullObj::get_gedge_ptr_ptr(),
 									 int no = 0) const;
 	/**
 	 * Determines whether or not the specified graph edge is a cut edge.
@@ -1018,7 +1078,12 @@ public:
 	 * @param no
 	 * number of components.
 	 */
-	generic_graph *component(int no) const;
+	generic_graph* component(int no, logical performance = FALSE) const;
+	/**
+	*Gets a subgraph consisting of gvertices whose component is equal to int no	
+	*@param no
+	*/
+	generic_graph* gvertex_component(int no, logical performance = FALSE) const;
 	/**
 	 * Unites this graph with the specified graph. Graph edges and vertices only appear once.
 	 * <br><br>
@@ -1380,7 +1445,7 @@ public:
 /**
  * @nodoc
  */
-DECL_KERN generic_graph *create_graph_from_faces(ENTITY_LIST &face_list);
+DECL_KERN generic_graph *create_graph_from_faces(ENTITY_LIST &face_list, logical use_performance = FALSE);
 /*
 // tbrv
 */
@@ -1403,7 +1468,8 @@ DECL_KERN generic_graph *create_graph_from_edges(ENTITY_LIST &edge_list);
 /**
  * @nodoc
  */
-DECL_KERN generic_graph *create_graph_from_faces_and_edges(ENTITY_LIST &face_list, ENTITY_LIST &edge_list);
+DECL_KERN generic_graph *create_graph_from_faces_and_edges(ENTITY_LIST &face_list, ENTITY_LIST &edge_list, 
+															logical use_performance = FALSE);
 /** @} */
 #endif
 

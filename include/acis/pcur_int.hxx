@@ -175,7 +175,7 @@ private:
 	// Test for equality - not guaranteed to find all cases of curve
 	// superimposition, but reliably flagging cases of inequality.
 
-	virtual logical operator==( subtype_object const & ) const;
+	virtual bool operator==( subtype_object const & ) const;
 
 
 	// Parameter shift: this is disabled for non-periodic underlying
@@ -306,7 +306,7 @@ private:
 	// more than anyone could reasonably want.
 
 	virtual int accurate_derivs(
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 

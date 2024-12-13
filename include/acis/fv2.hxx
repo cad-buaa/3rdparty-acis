@@ -12,6 +12,9 @@
 #ifndef FV2H
 #define FV2H
 
+//#pragma message ("\nDeprecation Notice: Header file \"fv2.hxx\" will be removed in 2025 1.0 release.")
+//#pragma message ("\"fv2.hxx\" is for internal purposes only. \n")
+
 #include "dcl_kern.h"
 #include "logical.h"
 #include "cnc.hxx"
@@ -43,8 +46,12 @@ extern	DECL_KERN D3_istream& operator>>( D3_istream&, FVAL_2V_TYPE& );
 
 #endif
 
-class DECL_KERN FVAL_2V  : public ACIS_OBJECT
-    {
+class DECL_KERN 
+#ifdef  _WINDOWS_SOURCE
+    [[deprecated("\"class FVAL_2V\" will be removed in upcoming Release 2025 1.0.0")]]
+#endif
+FVAL_2V  : public ACIS_OBJECT
+{
 private:
     CONIC	_conic;		// Local expansion of the function
 
@@ -98,13 +105,15 @@ public:
 
     virtual	void	reset();
 
-    void set_to_null() 
-	{ _value = _fu = _fv = _fuu = _fuv = _fvv = _fuuu = _fuuv = _fuvv = _fvvv = SPAnull;
-	  _type = FVAL_2V_UNCLASSIFIED;
-	  }
+    void set_to_null()
+    {
+        _value = _fu = _fv = _fuu = _fuv = _fvv = _fuuu = _fuuv = _fuvv = _fvvv = SPAnull;
+        _type = FVAL_2V_UNCLASSIFIED;
+    }
 
-    virtual	int overwrite( const SPApar_pos& uv, 
-				   const SPApar_vec& dir = *(SPApar_vec*) NULL_REF ,int derivs = 2);
+    virtual	int overwrite ( const SPApar_pos& uv, 
+				            const SPApar_vec& dir = SpaAcis::NullObj::get_par_vec(),
+                            int derivs = 2);
 
     void	set_values( double, double, double, 
 				   double, double, double, const SPApar_pos& uv,
@@ -266,7 +275,7 @@ public:
     virtual void input( D3_istream& );
 
 #endif
-    };
+};
 
 
 #if defined D3_STANDALONE || defined D3_DEBUG

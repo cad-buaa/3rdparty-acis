@@ -79,7 +79,7 @@ DECL_INTR surf_surf_int *int_surf_surf(
 			surface const &,
 			FACE *,
 			SPAtransf const &,
-			SPAbox const & = *(SPAbox *)NULL_REF,
+			SPAbox const &	= SpaAcis::NullObj::get_box(),
             ssi_bool_info * = NULL
 		);
 
@@ -91,10 +91,10 @@ DECL_INTR surf_surf_int *int_surf_surf(
 			surface const &,
 			surface const &,
 			double const,
-			SPAbox const & = *(SPAbox *)NULL_REF,
-			ssi_bool_info * = NULL,
-			SPApar_box const & = *(SPApar_box *)NULL_REF,
-			SPApar_box const & = *(SPApar_box *)NULL_REF
+			SPAbox const &		= SpaAcis::NullObj::get_box(),
+			ssi_bool_info *		= NULL,
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box(),
+			SPApar_box const &	= SpaAcis::NullObj::get_par_box()
 		);
 
 #endif

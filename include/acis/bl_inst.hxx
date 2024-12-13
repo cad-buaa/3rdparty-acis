@@ -86,8 +86,9 @@ public:
  * @param pos
  * position.
  */
-	ATT_BL_INST( ENTITY * entity = NULL, blend_transition blnd_trans = blend_unknown,
-		 SPAposition const & pos=  *(const class SPAposition *)NULL_REF );
+	ATT_BL_INST( ENTITY * entity = NULL, 
+				blend_transition blnd_trans = blend_unknown,
+				SPAposition const & pos		=  SpaAcis::NullObj::get_position() );
 /**
  * Returns <tt>TRUE</tt> if this is pattern compatible.
  */

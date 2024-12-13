@@ -40,7 +40,7 @@ class stitch_output_handle;
 * @par Effects
 * Does not change model
 * @par Products
-* 3D InterOp, 3D ACIS Polyhedral 
+* 3D InterOp  
 * @param[in] bodies ENTITY_LIST of BODYs or FACEs
 * @param[out] sih pointer to stitch_input_handle
 * @param[in] sop pointer to mt_stitch_options (relevant is max_stitch_tol_option)
@@ -116,7 +116,7 @@ public:
 * BODYs become BODYs. If any of the BODYs have a transform it is applied
 * to all underlying geometries.
 * @par Products
-* 3D InterOp, 3D ACIS Polyhedral 
+* 3D InterOp 
 * @param[in] sih pointer to stitch_input_handle
 * @param[out] cntnr pointer to mt_stitch_preview_container
 * @param[in] aop pointer to AcisOptions
@@ -185,7 +185,7 @@ public:
 * BODYs become BODYs. If any of the BODYs have a transform it is applied
 * to all underlying geometries.
 * @par Products
-* 3D InterOp, 3D ACIS Polyhedral 
+* 3D InterOp 
 * @param[in] sih pointer to stitch_input_handle
 * @param[out] cntnr pointer to mt_stitch_manage_coins_container
 * @param[in] sop pointer to mt_stitch_options (relevant is manage_coins_option)
@@ -220,7 +220,7 @@ AcisOptions* aop = NULL);
 * @par Effects
 * Changes topology and geometry of the model
 * @par Products
-* 3D InterOp, 3D ACIS Polyhedral 
+* 3D InterOp 
 * @param[in,out] sih pointer to stitch_input_handle
 * @param[out] soh pointer to stitch_output_handle
 * @param[out] bodies ENTITY_LIST containing stitched bodies
@@ -297,7 +297,7 @@ public:
 * @par Effects
 * Does not change model
 * @par Products
-* 3D InterOp, 3D ACIS Polyhedral 
+* 3D InterOp 
 * @param[in] soh pointer to stitch_output_handle
 * @param[out] cntnr pointer to mt_stitch_query_container
 * @param[in] aop pointer to AcisOptions

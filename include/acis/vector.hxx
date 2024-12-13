@@ -58,7 +58,7 @@ class DECL_BASE SPAvector
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const &t );
 	friend DECL_BASE SPAvector operator*( SPAvector const &v, SPAtransf const *t );
 	friend DECL_BASE SPAunit_vector normalise( SPAvector const &v );
-	friend DECL_BASE logical same_vector( SPAvector const&v1, SPAvector const&v2, const double res);
+	friend DECL_BASE bool same_vector( SPAvector const&v1, SPAvector const&v2, const double res);
 	friend DECL_BASE logical parallel( SPAvector const &v1, SPAvector const &v2, const double res );
 	friend DECL_BASE logical parallel( SPAunit_vector const &v1, SPAvector const &v2, const double res );
 	friend DECL_BASE logical parallel( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res );
@@ -296,9 +296,14 @@ public:
 	 */
 	inline double len_sq() const
 	{
+			/*
 			double dp;
 			dp = comp[0] * comp[0], dp += comp[1] * comp[1], dp += comp[2] * comp[2];
 			return dp;
+			*/
+		return comp[0] * comp[0] +
+			   comp[1] * comp[1] +
+			   comp[2] * comp[2];
 	}
 
 	/**
@@ -306,9 +311,10 @@ public:
 	 */
 	inline double len() const
 	{
-			double dp;
+		/*	double dp;
 			dp = comp[0] * comp[0], dp += comp[1] * comp[1], dp += comp[2] * comp[2];
-			return ( sqrt(	dp ) );
+			return ( sqrt(	dp ) );*/
+		return sqrt(len_sq());
 	}
 
 	/**
@@ -455,7 +461,7 @@ inline double operator%( SPAvector const &v, SPAposition const &p )
  * @param v2
  * second vector
  */
-inline logical operator==( SPAvector const &v1, SPAvector const &v2 )
+inline bool operator==( SPAvector const &v1, SPAvector const &v2 )
 	{ return same_vector( v1, v2, SPAresabs ); }
 
 /**
@@ -466,7 +472,7 @@ inline logical operator==( SPAvector const &v1, SPAvector const &v2 )
  * @param v2
  * second vector
  */
-inline logical operator!=( SPAvector const &v1, SPAvector const &v2 )
+inline bool operator!=( SPAvector const &v1, SPAvector const &v2 )
 	{ return !same_vector( v1, v2, SPAresabs ); }
 
 /**
@@ -712,7 +718,7 @@ DECL_BASE SPAunit_vector normalise( SPAvector const &v );
 * @param res
 * resolution for comparison.
 **/
-DECL_BASE logical same_vector( SPAvector const&v1, SPAvector const&v2, const double res = SPAresabs);
+DECL_BASE bool same_vector( SPAvector const&v1, SPAvector const&v2, const double res = SPAresabs);
 
 /**
 * Determines if two vectors are parallel (within some resolution).
@@ -921,6 +927,7 @@ DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAvector const &v2, 
 * the tolerance (the cosine of the angle).
 **/
 DECL_BASE logical perpendicular( SPAunit_vector const &v1, SPAunit_vector const &v2, const double res = SPAresnor);
-/** @} */
+
+
 #endif
 

@@ -205,7 +205,7 @@ public:
  * @param other
  * what to test.
  */
-	logical operator==( ed_cvty_info const &other ) const;
+	bool operator==( ed_cvty_info const &other ) const;
 
 	// Debug. Prints the "string representation" to the file.
 

@@ -19,6 +19,8 @@
 #define UNLINK _unlink
 
 #else 
+
+#include <unistd.h>
 							// off_t is 8-bytes
 #define FSEEK64 fseeko		// int fseeko( FILE *stream, off_t offset, int origin );
 #define FTELL64 ftello		// off_t ftello( FILE *stream );

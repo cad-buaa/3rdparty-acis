@@ -69,6 +69,9 @@ class SPAbox;
  * <br><br>
  * For more information on generalized space warping see the Technical Article <i>Warping Using a Law</i>.
  * <br><br>
+ * <b>Limitations:</b> 
+ * In certain scenarios, if law definition is such that the body warps around itself, then warping operation may generate a body with check errors like duplicate vertices.
+ * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>
  * <b>Journal: </b> Available
@@ -89,62 +92,9 @@ class SPAbox;
 		);
 
 
-// Replace all faces and edges of the body to contain analytics or bsplines.
-/**
- * @nodoc
- * <b>Obsolete:</b> Instead, use @href api_simplify_entity.<br><br>
- * Simplifies the faces and edges of a body.
- * <br><br>
- * <b>Role:</b> The faces and edges of an entity are replaced by analytic surfaces and curves,
- * if possible. Otherwise, they are replaced by their B-spline approximations.
- * <br><br>
- * <b>Effect:</b> Changes model
- * <br><br>
-* <b>Journal: </b> Available
-* <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
- * <br><br>
-* @param in_body
- * body to be simplified.
- * @param ao
- * ACIS options.
- */
- DECL_WARP outcome api_simplify_body(
-		    BODY* in_body,					// Body to be simplified
-			AcisOptions* ao = NULL
-		);
-
-
-// Replace face and edges of the face to contain analytics or bsplines.
-/**
- * @nodoc
- * <b>Obsolete:</b> Instead, use @href api_simplify_entity.<br><br>
- * Simplifies the face and the edges of the face.
- * <br><br>
- * <b>Role:</b> The face and edges of the face are replaced by analytic surfaces and curves,
- * if possible. Otherwise, they are replaced by their B-spline approximations.
- * <br><br>
- * <b>Effect:</b> Changes model
- * <br><br>
-* <b>Journal: </b> Available
-* <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler
- * <br><br>
-* @param in_face
- * face to be simplified.
- * @param reparam
- * for future use.
- * @param ao
- * ACIS options.
- */
- DECL_WARP outcome api_simplify_face(
-		    FACE *in_face,				// Face to be simplified
-			logical reparam = FALSE,    // For future use
-			AcisOptions *ao = NULL
-		);
-
 /**
  * Modifies an entity by bending it about a specified axis.
+ * <br><b>Technical Article:</b> <i>[Entity Bending](http://doc.spatial.com/articles/e/n/t/Entity_Bending_c8f9.html)</i>
  * <br><br>
  * <b>Role:</b> The neutral root, bending axis, and bending direction together define
  * the neutral %plane for the bending operation.  The neutral %plane is the location
@@ -253,6 +203,7 @@ class SPAbox;
 
 /**
  * Modifies a bent entity by rebending it about a specified axis, through a new angle.
+ * <br><b>Technical Article:</b> <i>[Entity Bending](http://doc.spatial.com/articles/e/n/t/Entity_Bending_c8f9.html)</i>
  * <br><br>
  * <b>Role:</b> The purpose of this API is to undo a bend and replace it by a similar
  * bend, only through a different angle.  If the new angle is set to zero, the bend
@@ -383,6 +334,7 @@ class SPAbox;
 /**
  * Modifies an entity, or list of entities, by bending it according to the function that maps
  * a specified line to a specified curve.
+ * <br><b>Technical Article:</b> <i>[Entity Bending](http://doc.spatial.com/articles/e/n/t/Entity_Bending_c8f9.html)</i>
  * <br><br>
  * <b>Effect:</b> Changes model
  * <br><br>

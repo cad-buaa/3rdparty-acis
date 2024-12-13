@@ -414,8 +414,8 @@ public:
   *  add tombstones to array.
   */
 	component_handle** array( component_handle ** handle_array = NULL,
-					   int &array_count = *(int *)NULL_REF,
-					   logical tombstones = FALSE );
+							  int &array_count = SpaAcis::NullObj::get_int(),
+							  logical tombstones = FALSE );
 
  /**
   * Returns the size in bytes of this class.

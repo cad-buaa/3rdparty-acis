@@ -48,9 +48,9 @@ public:
 	length const& operator/(const double& rhs);
 	length const& operator/=(const double& rhs);
 
-	logical operator==(const length& rhs) const;
+	bool operator==(const length& rhs) const;
 
-	logical operator!=(const length& rhs) const;
+	bool operator!=(const length& rhs) const;
 
     double value() const {return _value;};
 

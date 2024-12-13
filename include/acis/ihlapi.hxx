@@ -144,7 +144,7 @@ DECL_IHL outcome api_ihl_clean(
 DECL_IHL outcome api_ihl_facet(
          const ENTITY_LIST&	entities,                  // entity list
 		 logical			unfacetted,               // True if you do not want to refacet the entity
-		 facet_options *	fo = (facet_options*) NULL_REF );
+		 facet_options *	fo = (facet_options*) NULL );
 /**
  * Gets a <tt>POLYEDGE_MESH</tt> for an entity, faceting the entity if necessary first.
  * <br>

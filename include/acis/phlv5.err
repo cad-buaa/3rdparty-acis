@@ -23,5 +23,6 @@ extern IMPORT_SYMBOL message_module spaphlv5_phlv5_errmod;
 #define NO_BODIES_FOUND spaphlv5_phlv5_errmod.message_code(6)
 #define PHLV5_BAD_BODY spaphlv5_phlv5_errmod.message_code(7)
 #define INCORRECT_HATCHLINE_INPUT spaphlv5_phlv5_errmod.message_code(8)
+#define MULTI_VIEW_INPUT_MISMATCH spaphlv5_phlv5_errmod.message_code(9)
 
 #endif /* SPAPHLV5_PHLV5_ERRMOD_INCLUDED */

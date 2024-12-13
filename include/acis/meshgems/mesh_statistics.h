@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_MESH_STATISTICS_H__
 #define __MESHGEMS_MESH_STATISTICS_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 
 #include <stdio.h>
 

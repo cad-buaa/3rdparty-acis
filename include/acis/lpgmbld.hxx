@@ -107,7 +107,7 @@ public:
  * @param q
  * new indicator.
  */
-	void set_closure (logical q) {closure = q;}
+	void set_closure (int q) {closure = q;}
 /**
  * Sets the value of the loop orientation indicator.
  * <br><br>

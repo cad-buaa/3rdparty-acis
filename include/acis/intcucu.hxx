@@ -16,6 +16,7 @@
 #include "debugmsc.hxx"
 #include "param.hxx"
 #include "position.hxx"
+#include "spa_null_base.hxx"
 
 class curve;
 class SPAbox;
@@ -110,7 +111,7 @@ public:
 				SPAposition const& pt,
 				double             cur1,
 				double             cur2,
-				SPApar_pos&        actual = *(class  SPApar_pos * ) NULL_REF
+				SPApar_pos&        actual = SpaAcis::NullObj::get_par_pos()
 			);
 /**
  * Copy constructor requests memory for this object and populates it 

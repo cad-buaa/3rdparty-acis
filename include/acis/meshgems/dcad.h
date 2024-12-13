@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_DCAD_H__
 #define __MESHGEMS_DCAD_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  *
  * \defgroup dcad meshgems_dcad_t

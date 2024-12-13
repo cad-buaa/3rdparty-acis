@@ -120,7 +120,7 @@ public:
 /**
  * @nodoc
  */
-	logical operator==(component_entity_handle const & other);
+	bool operator==(component_entity_handle const & other);
 
 	// might add models to global save model list
 /**

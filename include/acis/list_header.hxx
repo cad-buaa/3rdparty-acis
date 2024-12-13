@@ -99,7 +99,7 @@ public:
 	 * @param check
 	 * logical check for duplicates - TRUE by default
 	 */
-	int add( void * entry, logical check = TRUE );	
+	int add( const void* const entry, logical check = TRUE);
 	/**
 	 * Lookup the specified entry in the list and return its index.
   	 * <br><br>

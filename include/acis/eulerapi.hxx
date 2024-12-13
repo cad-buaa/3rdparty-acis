@@ -77,6 +77,10 @@ DECL_EULR outcome api_terminate_euler_ops();
 * equivalent to the unite function on disjoint objects with no check for
 * disjointedness. It is much faster than the unite function and can handle wires.
 * <br><br>
+* <b>Limitations:</b>
+* Operation does not support mix input bodies, i.e. either all bodies should be precise or 
+* should be polyhedral else the operation would throw an error.
+* <br><br>
 * <b>Errors:</b> The pointer to <tt>from_body</tt> or <tt>to_body</tt> is <tt>NULL</tt> 
 * or does not point to a <tt>BODY</tt>.
 * <br><br>
@@ -84,7 +88,7 @@ DECL_EULR outcome api_terminate_euler_ops();
 * <br><br>
 * <b>Journal: </b> Available
 * <br><br>
-* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral 
+* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral  
 * <br><br>
 * @param from_body
 * first body (deleted).
@@ -119,7 +123,7 @@ DECL_EULR outcome api_combine_body(
 * <br><br>
 * <b>Journal: </b> Available
 * <br><br>
-* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler, 3D ACIS Polyhedral 
+* <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler 
 * <br><br>
 * @param in_body
 * body to be separated.

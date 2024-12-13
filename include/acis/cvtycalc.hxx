@@ -49,15 +49,15 @@ public:
 	cvty_calculator();
 
 	// Given all the usual bits and pieces. Either pcurve may be a
-	// NULL_REF. The left_cur and right_cur should both be given or both
-	// be NULL_REFs. All curves, pcurves are assumed to have the same
+	// NULL object. The left_cur and right_cur should both be given or both
+	// be NULL objects. All curves, pcurves are assumed to have the same
 	// sense. Surfaces are assumed to have the appropriate outward
 	// normal direction. Additionally, cur may be the same as either the
 	// left_cur or right_cur (if these were given).
 
 	// Note that for a precise edge, the edge curve would be passed as
 	// the first (main) curve the left_cur and right_cur would be passed
-	// as NULL_REFs (though pcurves should be supplied where the
+	// as NULL objects (though pcurves should be supplied where the
 	// surfaces are parametric). In a tolerant edge situation, where the
 	// track of the curves in the surfaces is different from the main
 	// curve, then left_cur and right_cur should be given.
@@ -65,13 +65,13 @@ public:
 	cvty_calculator(
 			curve const &cur,
 			SPAinterval const &cur_range,
-			pcurve const &left_pcur,		// req'd if left_surf parametric
+			pcurve const &left_pcur,			// req'd if left_surf parametric
 			surface const &left_surf,
-			curve const &left_cur,			// may be NULL_REF
+			curve const &left_cur,				// may be NULL object
 			SPAinterval const &left_cur_range,	// if left_cur_given
-			pcurve const &right_pcur,		// req'd if right_surf parametric
+			pcurve const &right_pcur,			// req'd if right_surf parametric
 			surface const &right_surf,
-			curve const &right_cur,			// may be NULL_REF
+			curve const &right_cur,				// may be NULL object
 			SPAinterval const &right_cur_range	// if right_cur given
 			);
 
@@ -114,8 +114,8 @@ public:
 		SPAunit_vector const &dir,		// edge direction
 		SPAunit_vector const &left_N,	// left surface normal
 		SPAunit_vector const &right_N,	// right surface normal
-		double const &left_K = *(double const *)NULL_REF,	// left cross curvature
-		double const &right_K = *(double const *)NULL_REF	// right cross curvature
+		double const &left_K	= SpaAcis::NullObj::get_double(),	// left cross curvature
+		double const &right_K	= SpaAcis::NullObj::get_double()	// right cross curvature
 		);
 
 	// This works its way along the given edge computing the amalgamated

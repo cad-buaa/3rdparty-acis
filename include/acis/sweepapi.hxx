@@ -781,8 +781,9 @@ public:
 /**
  * Sets the derivatives of the path at the given parameters.
  */
-	void set_derivs( SPAvector_list const& first_derivs,
-		SPAvector_list const& second_derivs = *( SPAvector_list const* )NULL_REF );
+	void set_derivs( SPAvector_list const& first_derivs );
+
+	void set_derivs( SPAvector_list const& first_derivs, SPAvector_list const& second_derivs );
 /**
  * Returns the list of parameters.
  */

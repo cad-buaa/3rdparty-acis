@@ -72,13 +72,13 @@ public:
 	char *c_str(void) const
 		{ return s; }
 
-	logical operator==(const str& sR) const
+	bool operator==(const str& sR) const
 	{ return strcmp(this->s, sR.s) == 0;}
 
-	logical operator<(const str& sR) const
+	bool operator<(const str& sR) const
 	{ return strcmp(this->s, sR.s) < 0; }
 
-	logical operator>(const str& sR) const
+	bool operator>(const str& sR) const
 	{ return strcmp(this->s, sR.s) > 0; }
 
 };
@@ -112,13 +112,13 @@ public:
 		{ next = NULL; }
 	str_index_node(const str& s, int i)
 		{ key = s, val = i; }
-	str_index_node(const str_index_node& sin)
-		{ *this = sin; }
+	str_index_node(const str_index_node& indexNode)
+		{ *this = indexNode; }
 	
-	str_index_node& operator=(const str_index_node& sin)
+	str_index_node& operator=(const str_index_node& indexNode)
 	{ 
-		key = sin.key;
-		val = sin.val;
+		key = indexNode.key;
+		val = indexNode.val;
 		return *this; 
 	}
 
@@ -127,11 +127,11 @@ public:
 	int get_val(void)
 		{ return val; }
 
-	logical operator<( str_index_node const &sinR)const
+	bool operator<( str_index_node const &sinR)const
 	{ return this->key < sinR.key; }
-	logical operator>( str_index_node const &sinR)
+	bool operator>( str_index_node const &sinR)
 	{ return this->key > sinR.key; }
-	logical operator==( str_index_node const &sinR)
+	bool operator==( str_index_node const &sinR)
 	{ return this->key == sinR.key; }
 
 };
@@ -176,11 +176,11 @@ public:
 	str get_val(void)
 		{ return val; }
 
-	logical operator<(const index_str_node& isnR)
+	bool operator<(const index_str_node& isnR)
 		{ return this->key < isnR.key; }
-	logical operator>(const index_str_node& isnR)
+	bool operator>(const index_str_node& isnR)
 		{ return this->key > isnR.key; }
-	logical operator==(const index_str_node& isnR)
+	bool operator==(const index_str_node& isnR)
 	{ return this->key == isnR.key; 	}
 
 };
@@ -224,12 +224,12 @@ public:
 	{
 		for (int i = 0; i < HASH_SIZE; i++)
 		{
-			str_index_node *sin = table[i], *next;
-			while (sin)
+			str_index_node *indexNode = table[i], *next;
+			while (indexNode)
 			{
-				next = sin->next;
-				ACIS_DELETE sin;
-				sin = next;
+				next = indexNode->next;
+				ACIS_DELETE indexNode;
+				indexNode = next;
 			}
 		}
 		memset(table, 0, HASH_SIZE * sizeof(str_index_node *));

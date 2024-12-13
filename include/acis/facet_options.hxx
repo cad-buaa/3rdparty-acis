@@ -491,6 +491,11 @@ enum DECL_FCT tolerance_specification_mode
  * remove the nodes that are within a certain distance to a tolerant edge. The distance
  * is computed as the product of <tt>min_node_tedge_distance_factor</tt> and the edge tolerance. Default value is zero.</td>
  * </tr>
+ * <tr>
+ * <td valign = "top"><tt>regularize_uv_polygon</tt></td>
+ * <td valign = "top"> If set to <tt>TRUE</tt>, and the faceter detects a self-intersecting polygon,
+ * a full regularization will be performed on the polygon in the uv plane. Default value is <tt>FALSE</tt>.</td>
+ * </tr>
  * </table>
  * <br><br>
  * The interface to this facet options class also allows you to specify the following parameters to control the faceting algorithm. 
@@ -898,6 +903,18 @@ public:
 	* the <tt>min_node_tedge_distance_factor</tt> value will be removed by the faceter.
 	**/
 	double get_min_node_tedge_distance_factor() const;
+
+	/**
+	* Sets the <tt>regularize_uv_polygon</tt> value. If set to <tt>TRUE</tt>, and the faceter detects a self-intersecting polygon,
+	* a full regularization will be performed on the polygon in the uv plane.
+	**/
+	void set_regularize_uv_polygon(logical regularize);
+
+	/**
+	* Returns the current value of <tt>regularize_uv_polygon</tt>. If set to <tt>TRUE</tt>, and the faceter detects a self-intersecting polygon,
+	* a full regularization will be performed on the polygon in the uv plane.
+	**/
+	logical get_regularize_uv_polygon() const;
 
 	facet_options_expert& get_expert_options();
 };

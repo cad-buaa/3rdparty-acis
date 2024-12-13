@@ -1,6 +1,12 @@
 #ifndef __MESHGEMS_PATCHSURF_SHORT_NAMES__
 #define __MESHGEMS_PATCHSURF_SHORT_NAMES__
 
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * Short names. Allow the caller to omit the meshgems_ prefix.
  */

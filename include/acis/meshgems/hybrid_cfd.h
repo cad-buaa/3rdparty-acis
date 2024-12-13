@@ -1,6 +1,11 @@
 #ifndef __HYBRID_CFD_H__
 #define __HYBRID_CFD_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/mdecl.h>
 #include <meshgems/basic_types.h>
 #include <meshgems/status.h>
@@ -54,6 +59,12 @@ typedef meshgems_cvm_size_specification_boundary_layer_distribution_t
  */
 #define meshgems_hybrid_cfd_size_specification_delete                           \
         meshgems_cvm_size_specification_delete
+
+/**
+ * Unlock MeshGems-Hybrid_CFD with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+#define  meshgems_hybrid_cfd_unlock_product meshgems_cvm_unlock_product
 
 /**
   * Add a new null boundary layer constraint on a given mesh face.

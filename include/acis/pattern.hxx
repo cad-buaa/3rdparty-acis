@@ -27,6 +27,7 @@
 
 #include "api.hxx"
 #include "lists.hxx"
+#include "spa_null_base.hxx"
 
 class law;
 class SPAtransf;
@@ -176,7 +177,7 @@ private:
                         law* keep_this, law* keep_that, const SPAtransf& rel_transf);
     void            concatenate_keep(pattern& that_pat, law* keep_this, law* keep_that,
                         law** offset_law, logical keep_that_root);
-    void            concatenate_dl(const pattern& that_pat, const SPAtransf& cat_trans);
+    void            concatenate_dl(const pattern& that_pat, const SPAtransf* cat_trans);
 	void            set_scale_shear(law* scale_law,
                         const SPAposition& root = SPAposition(0, 0, 0), logical merge = TRUE);
     logical         scale_element(int index, const SPAtransf& in_scale,
@@ -213,15 +214,14 @@ public:
  * internal use only.
  */
 	pattern(
-        law*                in_trans_vec,           // translation law
-		law*                in_x_vec        = NULL, // x-axis orientation law
-		law*                in_y_vec        = NULL, // y-axis orientation law
-		law*                in_scale        = NULL, // scaling law
-		law*                in_z_vec        = NULL, // z-axis orientation law
-		law*                in_keep         = NULL, // keep-filter law
-		const SPAtransf&    in_root_transf          // root transformation
-                                            = *(const class SPAtransf*)NULL_REF,
-        PAT_TYPE            in_type         = PAT_UNKNOWN
+        law* in_trans_vec,
+		law* in_x_vec = NULL, 
+		law* in_y_vec = NULL, 
+		law* in_scale = NULL, 
+		law* in_z_vec = NULL, 
+		law* in_keep = NULL, 
+		const SPAtransf& in_root_transf = SPAtransf(),
+        PAT_TYPE in_type = PAT_UNKNOWN
         );// internal use only
 
 /**
@@ -338,7 +338,13 @@ public:
  * @param cat_trans
  * transformation to be applied to cat_pat.
  */
+    [[deprecated("Deprecated Interface, \"concatenate\" will be removed in 2025 1.0 release")]]
     void concatenate(const pattern& cat_pat, const SPAtransf& cat_trans = *(SPAtransf*)NULL_REF);
+
+    /**
+     * @nodoc
+     */
+    void concatenate( const pattern& cat_pat, const SPAtransf* cat_trans );
 
 /**
  * @nodoc
@@ -418,7 +424,7 @@ public:
  * @param pat
  * pattern to compare with this pattern.
  */
-    logical operator==(const pattern& pat);// internal use only
+    bool operator==(const pattern& pat);// internal use only
 
 /**
  * @nodoc
@@ -429,7 +435,7 @@ public:
  * @param pat
  * pattern to compare.
  */
-    logical operator!=(const pattern& pat);// internal use only
+    bool operator!=(const pattern& pat);// internal use only
 
     // If the indices being used have already been mapped, turn off
     // mapping within get_rel_transf() by setting use_map=FALSE, thus
@@ -669,7 +675,7 @@ public:
 	logical classify_linear(
 		const SPAtransf*    transfs,
 		int                 num_transfs,
-        SPAvector&          out_vec  = *(SPAvector*)NULL_REF
+        SPAvector&          out_vec  = SpaAcis::NullObj::get_vector()
 		);// internal use only
 /**
  * @nodoc
@@ -679,18 +685,18 @@ public:
 		const SPAvector&    in_test_vec,
 		const SPAtransf*    transfs,
 		int                 num_transfs,
-        SPAposition&        out_pos  = *(SPAposition*)NULL_REF,
-        SPAvector&          out_vec  = *(SPAvector*)NULL_REF
+        SPAposition&        out_pos  = SpaAcis::NullObj::get_position(),
+        SPAvector&          out_vec  = SpaAcis::NullObj::get_vector()
 		);// internal use only
 /**
  * @nodoc
  */
     PAT_TYPE classify(
-        SPAposition&        out_pos  = *(SPAposition*)NULL_REF,
-        SPAvector&          out_vec  = *(SPAvector*)NULL_REF,
+        SPAposition&        out_pos  = SpaAcis::NullObj::get_position(),
+        SPAvector&          out_vec  = SpaAcis::NullObj::get_vector(),
         logical             force_redo = FALSE,
-        const SPAposition&  test_pos = *(SPAposition*)NULL_REF,
-        const SPAvector&    test_vec = *(SPAvector*)NULL_REF
+        const SPAposition&  test_pos = SpaAcis::NullObj::get_position(),
+        const SPAvector&    test_vec = SpaAcis::NullObj::get_vector()
         );// internal use only
 /**
  * @nodoc

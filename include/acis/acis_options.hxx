@@ -164,10 +164,15 @@ private:
  * @param av
  * acis version to be copied.
  **/
-DECL_KERN outcome api_set_acis_options(
-									   AcisOptions* ao,
-									   AcisJournal& aj = *(AcisJournal*)NULL_REF,
-									   AcisVersion& av = *(AcisVersion*)NULL_REF);
+
+DECL_KERN outcome api_set_acis_options(	AcisOptions* ao );
+
+DECL_KERN outcome api_set_acis_options( AcisOptions* ao,
+										AcisJournal& aj );
+
+DECL_KERN outcome api_set_acis_options( AcisOptions* ao,
+										AcisJournal& aj ,
+										AcisVersion& av );
 
 /** @} */
 /**

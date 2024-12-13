@@ -50,7 +50,7 @@ DECL_INTR curve_surf_int *int_cur_sur(
 				curve const &,
 				surface const &,
 				curve_bounds &,
-				SPAbox const & = *(SPAbox *)NULL_REF
+				SPAbox const & = SpaAcis::NullObj::get_box()
 			);
 
 // Tolerant intersection version, internally both use the same code
@@ -60,7 +60,7 @@ DECL_INTR curve_surf_int *int_cur_sur(
 				surface const &,
 				curve_bounds &,
 				double const,
-				SPAbox const & = *(SPAbox *)NULL_REF
+				SPAbox const & = SpaAcis::NullObj::get_box()
 			);
 
 #endif

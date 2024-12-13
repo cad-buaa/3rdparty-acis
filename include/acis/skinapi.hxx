@@ -29,6 +29,7 @@ struct Loft_Connected_Coedge_List;
 #include "api.hxx"
 #include "logical.h"
 #include "vector.hxx"
+#include "spa_null_base.hxx"
 /**
  * \defgroup ADVSURF Advanced Surfacing
  * \defgroup SKINAPI Skinning
@@ -3580,9 +3581,9 @@ DECL_SKIN outcome api_lose_surface_conditions_li(
 DECL_SKIN outcome api_estimate_tangent_factor_scale_li(
 		AcisLoftingInterface *obj,
 		SPAinterval &range,
-		double &optimum = *(double *)NULL_REF,
-		double &min_radius = *(double *)NULL_REF,
-		AcisOptions *opts = NULL
+		double &optimum		= SpaAcis::NullObj::get_double(),
+		double &min_radius	= SpaAcis::NullObj::get_double(),
+		AcisOptions *opts	= NULL
 	);
 
 /**

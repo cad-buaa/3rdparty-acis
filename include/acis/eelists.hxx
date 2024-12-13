@@ -204,18 +204,17 @@ public:
  */
  	int remove( ENTITY const *e_rem );
 
-  // virtual void ENTITY::remove(int) is hidden by remove(ENTITY const*).
-  // Expose it again by defining a pass thru here.
 /**
- * Returns the indexed entity.
+ * Decrements the use count of this <tt>ENTITY</tt>.
  * <br><br>
- * <b>Role:</b> <tt>NULL</tt> if the index is out of range, or <tt>LIST_ENTRY_DELETED</tt> if the indexed entry has
- * been deleted.
+ * <b>Role:</b> If the use count reaches 0, the <tt>ENTITY</tt>'s <tt>lose</tt> method is called if
+ * the argument <tt>lose_if_zero</tt> is set to <tt>TRUE</tt>. Since <tt>EE_LIST</tt> is not use counted, 
+ * an error (REMOVE_NO_USECOUNT) is signaled when this method is called.
  * <br><br>
- * @param i
- * index into list.
+ * @param lose_if_zero
+ * flag to lose the ENTITY when the use count drops to 0.
  */
-   void remove(int i) { ENTITY::remove(i); }
+   void remove(logical lose_if_zero) { ENTITY::remove(lose_if_zero); }
 
 	// STI let (r3891): added another removal method that is more efficient
 	// if the ENTITY's index value is already known.

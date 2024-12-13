@@ -1,6 +1,13 @@
 #ifndef  __MESHGEMS_CADSURF_OLD_NAMES__
 #define  __MESHGEMS_CADSURF_OLD_NAMES__
 
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
+
 #ifndef MESHGEMS_NO_OLD_NAMES
 
 #define distene_blsurf_session_new meshgems_cadsurf_session_new

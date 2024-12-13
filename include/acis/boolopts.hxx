@@ -56,6 +56,9 @@ extern DECL_BOOL option_header check_ee_int_always;
 // SESSION_GLOBAL_VAR option_header check_ff_int( "check_ff_int", FALSE );
 extern DECL_BOOL option_header check_ff_int;
 
+// SESSION_GLOBAL_VAR option_header thread_hot_check_ff_int( "thread_hot_check_ff_int", FALSE );
+extern DECL_BOOL option_header thread_hot_check_ff_int;
+
 // SESSION_GLOBAL_VAR option_header new_periodic_splitting( "new_periodic_splitting", 0);
 extern DECL_BOOL option_header new_periodic_splitting;
 
@@ -76,6 +79,9 @@ extern DECL_BOOL option_header bool_fs_imprint;
 
 // SESSION_GLOBAL_VAR option_header bool_examine_mode( "bool_examine_mode", FALSE );
 extern DECL_BOOL option_header bool_examine_mode;
+
+// SESSION_GLOBAL_VAR option_header bool_examine_mode( "short_edge_allow_ZLE_lump", FALSE );
+extern DECL_BOOL option_header short_edge_allow_ZLE_lump;
 
 
 #endif

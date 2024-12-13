@@ -4,7 +4,7 @@
 /*    Protected by U.S. Patents 5,257,205; 5,351,196; 6,369,815;   */
 /*                              5,982,378; 6,462,738; 6,941,251    */
 /*    Protected by European Patents 0503642; 69220263.3            */
-/*    Protected by Hong Kong Patent 1008101A                       */
+/*    Protected by Hong Kong Patent 1008101A                      */
 /*******************************************************************/
 #if !defined( SWEEP_OPTIONS_CLASS )
 #define SWEEP_OPTIONS_CLASS
@@ -386,14 +386,14 @@ public:
     * @param in_sw_opt
     * <tt>sweep_options</tt> object to test.
     */
-    int operator== (sweep_options& in_sw_opt);
+    bool operator== (sweep_options& in_sw_opt);
 
    /**
     * Tests to see whether this <tt>sweep_options</tt> instance is not equal to the given <tt>sweep_options</tt>.
     * @param in_sw_opt
     * <tt>sweep_options</tt> object to test.
     */
-    int operator!= (sweep_options& in_sw_opt);
+    bool operator!= (sweep_options& in_sw_opt);
     
    /**
     * Makes a copy of this <tt>sweep_options</tt> object and returns a pointer to it.
@@ -998,8 +998,8 @@ public:
     * end position.
     */
     void set_sweep_portion( sweep_portion por_opt,
-        SPAposition &in_st= *(SPAposition *) NULL_REF,
-        SPAposition &in_end= *(SPAposition *) NULL_REF);
+        SPAposition &in_st= SpaAcis::NullObj::get_position(),
+        SPAposition &in_end= SpaAcis::NullObj::get_position());
     
    /**
     * Specifies a pointer to the body where sweeping is to finish.

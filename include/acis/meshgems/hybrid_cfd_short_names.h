@@ -1,6 +1,11 @@
 #ifndef __MESHGEMS_HYBRID_CFD_SHORT_NAMES__
 #define __MESHGEMS_HYBRID_CFD_SHORT_NAMES__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
  * Short names. Allow the caller to omit the meshgems_ prefix.
  */
@@ -72,5 +77,6 @@
 #define hybrid_cfd_size_specification_boundary_layer_distribution_t meshgems_hybrid_cfd_size_specification_boundary_layer_distribution_t
 #define hybrid_cfd_size_specification_t meshgems_hybrid_cfd_size_specification_t
 #define hybrid_cfd_tetrahedron_quality_callback_t meshgems_hybrid_cfd_tetrahedron_quality_callback_t
+#define hybrid_cfd_unlock_product meshgems_hybrid_cfd_unlock_product
 #endif /* MESHGEMS_NO_SHORT_NAMES */
 #endif /* __MESHGEMS_HYBRID_CFD_SHORT_NAMES__ */

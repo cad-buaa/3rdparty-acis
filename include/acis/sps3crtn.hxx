@@ -21,6 +21,7 @@
 #include "unitvec.hxx"
 #include "position.hxx"
 #include "sp3crtn.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file sps3crtn.hxx
  * @CAA2Level L1
@@ -143,21 +144,22 @@ DECL_SPLINE void bs3_curve_determine_form( bs3_curve bs );
 
 DECL_SPLINE bs3_curve
 bs3_curve_from_ctrlpts(
-	int degree,					// degree
-	logical rational,			// rational
-	logical closed,				// closed
-	logical periodic,			// periodic
+	int degree,						// degree
+	logical rational,				// rational
+	logical closed,					// closed
+	logical periodic,				// periodic
 	int num_ctrlpts,				// number of control points
 	const SPAposition ctrlpts[],	// control points
 	const double weights[],			// weights
 	double ctrlpt_tol,				// control point tolerance
 	int num_knots,					// number of knots
 	const double knots[],			// knots
-	double knot_tol,			 		// knot tolerance
-	const int &dimension = *(int *)NULL_REF	// Control point dimension specified in ctrlpts array.
-										// Allowed values are 1, 2, or 3.
-										// Default corresponds to 3 ==> x, y, and z.
-										// Note: dimension does NOT depend on rational or non-rational
+	double knot_tol,			 	// knot tolerance
+	const int &dimension = SpaAcis::NullObj::get_int()
+									// Control point dimension specified in ctrlpts array.
+									// Allowed values are 1, 2, or 3.
+									// Default corresponds to 3 ==> x, y, and z.
+									// Note: dimension does NOT depend on rational or non-rational
 	);
 
 /**  THIS FUNCTION (bs3_curve_from_periodic_ctrlpts) NEEDS TO BE
@@ -175,10 +177,11 @@ bs3_curve_from_periodic_ctrlpts(
 	int num_knots,					// number of knots
 	const double knots[],			// knots
 	double knot_tol,			 		// knot tolerance
-	const int &dimension = *(int *)NULL_REF // Control point dimension specified in ctrlpts array.
-										// Allowed values are 1, 2, or 3.
-										// Default corresponds to 3 ==> x, y, and z.
-										// Note: dimension does NOT depend on rational or non-rational
+	const int &dimension = SpaAcis::NullObj::get_int()
+									// Control point dimension specified in ctrlpts array.
+									// Allowed values are 1, 2, or 3.
+									// Default corresponds to 3 ==> x, y, and z.
+									// Note: dimension does NOT depend on rational or non-rational
 	);
 
 // Return the dimension, degree, control points, weights, and knots
@@ -561,7 +564,7 @@ bs3_curve_offset_by_dist(
 		const bs3_curve bs,		// bs3_curve to offset
 		double dist,			// distance to offset
 		logical to_right,		// direction (left or right) to offset
-		const SPAunit_vector& plane_nor = *(SPAunit_vector *)NULL_REF	// Curve normal
+		const SPAunit_vector& plane_nor = SpaAcis::NullObj::get_unit_vector()	// Curve normal
 	);
 
 // STI dgh begin
@@ -608,7 +611,7 @@ bs3_curve_offset_by_dist(
 		logical to_right,		// direction (left or right) to offset
 		logical make_seg_list,
 		bs3_offset_seg *&seg_list,
-		SPAunit_vector& plane_nor = *(SPAunit_vector *)NULL_REF	// Curve normal
+		SPAunit_vector& plane_nor = SpaAcis::NullObj::get_unit_vector()	// Curve normal
 	);
 
 // END TEMPORARY INTERFACE
@@ -1383,17 +1386,17 @@ bs3_curve_line_tan_pt_crv(
 DECL_SPLINE logical
 bs3_curve_tan_pt_crv(
     const SPAposition& point,                   // Input: the given SPAposition
-    bs3_curve crv,                           // Input: the curve
+    bs3_curve crv,								// Input: the curve
     const SPAunit_vector& normal,               // Input: the curve normal
-    double *t,                               // Input/Output: curve SPAparameter
-	logical old_method = FALSE,               // Input: solution method
-								              //     (FALSE is preferred)
-	const SPAvector& xa = (*(SPAvector*)NULL_REF),  // Input: xaxis
-											  // (only needed with old method)
-	const SPAvector& ya = (*(SPAvector*)NULL_REF),  // Input: yaxis
-											  // (only needed with old method)
-	const SPAposition& guess_pt = (*(SPAposition*)NULL_REF)  // Input: guess point
-							                  // (only needed with old method)
+    double *t,									// Input/Output: curve SPAparameter
+	logical old_method = FALSE,					// Input: solution method
+												//     (FALSE is preferred)
+	const SPAvector& xa = SpaAcis::NullObj::get_vector(),  // Input: xaxis
+												// (only needed with old method)
+	const SPAvector& ya = SpaAcis::NullObj::get_vector(),  // Input: yaxis
+												// (only needed with old method)
+	const SPAposition& guess_pt = SpaAcis::NullObj::get_position()  // Input: guess point
+												// (only needed with old method)
     );
 
 // CUSTOMER MODIFICATION END

@@ -63,7 +63,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==(law_data const& rhs) const;
+	virtual bool operator==(law_data const& rhs) const;
 
 /**
  * Saves the <tt>law_data</tt> with its encapsulated data.
@@ -101,8 +101,8 @@ public:
  */
 	virtual char* string(
             law_symbol_type type    =   DEFAULT,
-            int&            count   =   *(int*) NULL_REF,
-            law_data_node*& ldn     =   *(law_data_node**) NULL_REF);
+            int&            count   =   SpaAcis::NullObj::get_int(),
+            law_data_node*& ldn     =   SpaAcis::NullObj::get_law_data_node_ptr() );
 /**
  * Increments the use count of this <tt>law_data</tt>.
  * <br><br>
@@ -567,7 +567,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==(law_data const& rhs) const;
+	virtual bool operator==(law_data const& rhs) const;
 
 /**
  * Constructs a <tt>law_law_data</tt>.
@@ -646,7 +646,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==(law_data const& rhs) const;
+	virtual bool operator==(law_data const& rhs) const;
 
 /**
  * Constructs a <tt>base_transform_law_data</tt>, creating a <tt>transform_law_data</tt> that is a  wrapper for specified ACIS <tt>SPAtransf</tt> object.
@@ -739,7 +739,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==(law_data const& rhs) const;
+	virtual bool operator==(law_data const& rhs) const;
 
 	base_position_array_law_data(
             const SPAposition*  in_data,

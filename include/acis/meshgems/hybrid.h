@@ -346,6 +346,13 @@ MESHGEMS_METHOD meshgems_hybrid_session_t *meshgems_hybrid_session_new(
 MESHGEMS_METHOD void meshgems_hybrid_session_delete(
 		meshgems_hybrid_session_t *hxs);
 
+/**
+ * Unlock MeshGems-Hybrid with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+MESHGEMS_METHOD meshgems_status_t meshgems_hybrid_unlock_product(const char * unlock_str);
+
+
 /**@}*/
 
 /** @name Setting message and interrupt callbacks

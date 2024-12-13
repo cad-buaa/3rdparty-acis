@@ -46,9 +46,9 @@ public:
 
 	length_units const& operator=(const length_units& rhs) ;
 
-	logical operator==(const length_units& rhs) const;
+	bool operator==(const length_units& rhs) const;
 
-	logical operator!=(const length_units& rhs) const;
+	bool operator!=(const length_units& rhs) const;
 
 	static length_units mm();
 

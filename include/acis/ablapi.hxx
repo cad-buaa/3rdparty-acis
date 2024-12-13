@@ -281,7 +281,7 @@ DECL_ABL outcome api_set_ee_cr_blend(
 		ENTITY_LIST const &left_ents,		// left entities
 		ENTITY_LIST const &right_ents,		// right entities
 		double radius,						// blend radius
-		SPAposition const &help_pos = *(SPAposition const *)NULL_REF,	// rough starting point for center of ball
+		SPAposition const &help_pos = SpaAcis::NullObj::get_position(),	// rough starting point for center of ball
 		bl_convexity cxty = bl_convexity_unknown,	// bl_convex or bl_concave
 		AcisOptions *ao = NULL
 		);
@@ -404,7 +404,7 @@ DECL_ABL outcome api_set_inst_blend(
 		ENTITY *owner,		// entity with which the spring curve will interact
 		blend_transition action,	// blend_cap, blend_runout, blend_rollon,
 							// or blend_unknown
-		SPAposition const &p = *(SPAposition const *)NULL_REF,
+		SPAposition const &p = SpaAcis::NullObj::get_position(),
 							// SPAposition indicator to resolve ambiguities
 		AcisOptions *ao = NULL
 		);
@@ -1307,7 +1307,7 @@ DECL_ABL outcome api_blend_holdline_face_face(
 	FACE *face2,
 	ENTITY_LIST const &hl_list,			// EDGEs or CURVEs defining holdline
 	logical find_smooth_hl = TRUE,		// Whether to find edges smoothly connected to holdline(s)
-	SPAposition const &help_pos = *(SPAposition*) NULL_REF,
+	SPAposition const &help_pos = SpaAcis::NullObj::get_position(),
 	bl_convexity convexity = bl_convexity_unknown,
 	AcisOptions *ao = NULL 				// options, journal, version
     );
@@ -1372,7 +1372,7 @@ DECL_ABL outcome api_blend_three_ent(
 	ENTITY_LIST const &right_face_list,
 	ENTITY_LIST const &center_face_list,
 	logical find_smooth_bl = TRUE,
-	SPAposition const &help_pos = *(SPAposition const *)NULL_REF,
+	SPAposition const &help_pos = SpaAcis::NullObj::get_position(),
 	bl_convexity convexity = bl_convexity_unknown,
 	AcisOptions *ao = NULL	// options, journal, version
 	);
@@ -1440,7 +1440,7 @@ DECL_ABL outcome api_blend_three_ent(
 DECL_ABL outcome api_set_cc_blend(ENTITY_LIST const &left_face_list,
                                   ENTITY_LIST const &right_face_list,
                                   double             radius,
-                                  SPAposition const &help_pos  = *((SPAposition const *)NULL_REF),
+                                  SPAposition const &help_pos  = SpaAcis::NullObj::get_position(),
                                   bl_convexity       convexity = bl_convexity_unknown,
                                   AcisOptions       *ao        = NULL
                                   );

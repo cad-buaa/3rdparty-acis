@@ -30,9 +30,11 @@
 #define ACISMMGR_HXX_INCLUDED
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "dcl_base.h"
 #include "logical.h"
 #include "static_types.hxx"
+
 /**
  * \defgroup ACISMEMORYMANAGEMENT Memory Management
  * \ingroup ACISBASE
@@ -497,6 +499,14 @@ DECL_BASE void   acis_free( void * alloc_ptr);
 
         /**
          * ACIS wrapper for C++ new - Complements <tt>ACIS_DELETE</tt>.
+         * <br>
+         * Use ACIS_DELETE in following two cases <br>
+         *  • Class/struct derived from ACIS_OBJECT <br>
+         *           Example: ENTITY class <br>
+         *  • Class/struct has MMGR_FREELIST_THIS macro inside its definition.  <br>
+         *           Example: SPAPosition class <br>
+         * <br> <br>
+         * For all other cases use ACIS_DELETE with STD_CAST. <br>
          * @see ACIS_DELETE
          */
         #define ACIS_NEW  new(eDefault,__FILE__,__LINE__,&alloc_file_index)
@@ -541,6 +551,10 @@ DECL_BASE void   acis_free( void * alloc_ptr);
         /**
          * Informs the ACIS memory manager that a simple data type is being deleted.
          * <br>
+         * here simple data types referes to <br>
+         *  • Datatypes such as int, char, float, double, union etc and its pointers<br>
+         *  • Class/struct not derived from ACIS_OBJECT <br>
+         *  • Class/struct does not have MMGR_FREELIST_THIS macro inside its definition<br>
          * <b>Role:</b> When deleting a simple data type using <tt>ACIS_DELETE</tt>, you
          * must use the <tt>STD_CAST</tt> macro.
          * <br><br>
@@ -637,16 +651,16 @@ DECL_BASE void   acis_free( void * alloc_ptr);
         /**
          * @nodoc
          */
-        inline void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) {
-	        return acis_allocate( alloc_size, alloc_type, eGlobDeco, alloc_file, alloc_line, alloc_file_index);
+        inline void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *_alloc_file_index) {
+	        return acis_allocate( alloc_size, alloc_type, eGlobDeco, alloc_file, alloc_line, _alloc_file_index);
         }
 
         /* globally scoped decorated array new */
         /**
           * @nodoc
           */
-        inline void * operator new []( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) {
-	        return acis_allocate( alloc_size, alloc_type, eGlobDecoArray, alloc_file, alloc_line, alloc_file_index);
+        inline void * operator new []( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int * _alloc_file_index) {
+	        return acis_allocate( alloc_size, alloc_type, eGlobDecoArray, alloc_file, alloc_line, _alloc_file_index);
         }
 
         /**
@@ -665,11 +679,11 @@ DECL_BASE void   acis_free( void * alloc_ptr);
 	        void operator delete [](void * alloc_ptr ) { \
 		        acis_discard( alloc_ptr, eClassArray, 0 ); \
 	        } \
-	        void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
-		        return acis_allocate( alloc_size, alloc_type, eClassDeco, alloc_file, alloc_line, alloc_file_index ); \
+	        void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *_alloc_file_index) { \
+		        return acis_allocate( alloc_size, alloc_type, eClassDeco, alloc_file, alloc_line, _alloc_file_index ); \
 	        } \
-	        void * operator new[]( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
-		        return acis_allocate( alloc_size, alloc_type, eClassDecoArray, alloc_file, alloc_line, alloc_file_index ); \
+	        void * operator new[]( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *_alloc_file_index) { \
+		        return acis_allocate( alloc_size, alloc_type, eClassDecoArray, alloc_file, alloc_line, _alloc_file_index ); \
 	        }
 
 
@@ -683,11 +697,11 @@ DECL_BASE void   acis_free( void * alloc_ptr);
 	        void operator delete [](void * alloc_ptr ) { \
 		        acis_discard( alloc_ptr, eClassSizeArray, 0 ); \
 	        } \
-	        void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
-		        return acis_allocate( alloc_size, alloc_type, eClassSizeDeco, alloc_file, alloc_line, alloc_file_index ); \
+	        void * operator new( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *_alloc_file_index) { \
+		        return acis_allocate( alloc_size, alloc_type, eClassSizeDeco, alloc_file, alloc_line, _alloc_file_index ); \
 	        } \
-	        void * operator new[]( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
-		        return acis_allocate( alloc_size, alloc_type, eClassSizeDecoArray, alloc_file, alloc_line, alloc_file_index ); \
+	        void * operator new[]( size_t alloc_size, AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *_alloc_file_index) { \
+		        return acis_allocate( alloc_size, alloc_type, eClassSizeDecoArray, alloc_file, alloc_line, _alloc_file_index ); \
 	        }
 
         #ifdef NEED_EXCEPTION_DELETE
@@ -695,20 +709,20 @@ DECL_BASE void   acis_free( void * alloc_ptr);
              * @nodoc
              */
             #define MMGR_NO_FREELIST_EXCEPTION_SUPPORT \
-	            void operator delete(void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
+	            void operator delete(void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *) { \
 		            alloc_file = alloc_file; alloc_file_index = alloc_file_index; alloc_line = alloc_line; alloc_type = alloc_type; acis_discard( alloc_ptr, eClassDecoEx, 0); \
 	            } \
-	            void operator delete [](void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
+	            void operator delete [](void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *) { \
 		            alloc_file = alloc_file; alloc_file_index = alloc_file_index; alloc_line = alloc_line; alloc_type = alloc_type; acis_discard( alloc_ptr, eClassDecoArrayEx, 0); \
 	            }
             /**
              * @nodoc
              */
             #define MMGR_FREELIST_EXCEPTION_SUPPORT \
-	            void operator delete(void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
+	            void operator delete(void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *) { \
 		            alloc_file = alloc_file; alloc_file_index = alloc_file_index; alloc_line = alloc_line; alloc_type = alloc_type; acis_discard( alloc_ptr, eClassSizeDecoEx, 0); \
 	            } \
-	            void operator delete [](void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *alloc_file_index) { \
+	            void operator delete [](void * alloc_ptr, enum AcisMemType alloc_type, const char *alloc_file, int alloc_line, int *) { \
 		            alloc_file = alloc_file; alloc_file_index = alloc_file_index; alloc_line = alloc_line; alloc_type = alloc_type; acis_discard( alloc_ptr, eClassSizeDecoArrayEx, 0); \
 	            }
         #else
@@ -795,7 +809,7 @@ logical mmgr_running();
 // For internal use only
 struct spa_mac_null
 {
-int i;
+intptr_t i;
 template<typename T>
 operator T*()
 {

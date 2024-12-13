@@ -1,6 +1,11 @@
 #ifndef __TETRA_HPC_H__
 #define __TETRA_HPC_H__
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/mdecl.h>
 #include <meshgems/basic_types.h>
 #include <meshgems/status.h>
@@ -95,6 +100,12 @@ typedef meshgems_cvm_session_t meshgems_tetra_hpc_session_t;
  *   meshgems_tetra_hpc_session_t *ts);
  */
 #define meshgems_tetra_hpc_session_delete meshgems_cvm_session_delete
+
+/**
+ * Unlock MeshGems-Tetra_HPC with Spatial licensing key.
+ * @retval STATUS_OK or another STATUS_* in case of error
+ */
+#define  meshgems_tetra_hpc_unlock_product meshgems_cvm_unlock_product
 
 /**
  * Sets the message callback function.

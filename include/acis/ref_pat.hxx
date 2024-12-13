@@ -14,6 +14,8 @@
 #include "api.hxx"
 #include "dcl_bool.h"
 #include "pattern_enum.hxx"
+#include "spa_null_kern.hxx"
+
 /**
  * @file ref_pat.hxx
  * @CAA2Level L1
@@ -95,7 +97,7 @@ DECL_BOOL outcome api_pattern_update_entities(
     ENTITY_LIST&    refresh_list,
     pattern*        in_pat,
     int             seed_index      = 0,
-    ENTITY_LIST&    no_cross_faces  = *(ENTITY_LIST*)NULL_REF,
+    ENTITY_LIST&    no_cross_faces  = SpaAcis::NullObj::get_ENTITY_LIST(),
     PAT_CHECK_TYPE  check           = PAT_DONT_CHECK,
 	AcisOptions*    ao              = NULL);
 
@@ -176,7 +178,7 @@ DECL_BOOL outcome api_pattern_apply_to_entity(
     ENTITY*         in_ent,
     pattern*        in_pat,
     int             seed_index      = 0,
-    ENTITY_LIST&    no_cross_faces  = *(ENTITY_LIST*)NULL_REF,
+    ENTITY_LIST&    no_cross_faces  = SpaAcis::NullObj::get_ENTITY_LIST(),
     PAT_CHECK_TYPE  check           = PAT_DONT_CHECK,
     AcisOptions*    ao              = NULL);
 
@@ -256,7 +258,7 @@ DECL_BOOL outcome api_pattern_apply_to_entity(
     ENTITY_LIST     in_ents,
     pattern*        in_pat,
     int             seed_index      = 0,
-    ENTITY_LIST&    no_cross_faces  = *(ENTITY_LIST*)NULL_REF,
+    ENTITY_LIST&    no_cross_faces  = SpaAcis::NullObj::get_ENTITY_LIST(),
     PAT_CHECK_TYPE  check           = PAT_DONT_CHECK,
     AcisOptions*    ao              = NULL);
 

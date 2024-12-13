@@ -1,7 +1,12 @@
 #ifndef __MESHGEMS_BASIC_TYPES_H__
 #define __MESHGEMS_BASIC_TYPES_H__
 
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
 
 \defgroup basic_types Basic Types

@@ -29,8 +29,8 @@
 //		section curves( curves to be skinned ) are reparametrized as
 //		below:
 //
-//		SPAparameter t be the SPAparameter on the original curve.
-//		Than SPAparameter u on the skin surface is determined such that
+//		parameter t be the parameter on the original curve.
+//		Than parameter u on the skin surface is determined such that
 //		The u-partial at the ends on the skin surface is equal to the
 //		matching tangent magnitude.
 //
@@ -38,7 +38,7 @@
 //		f(u) = ts * H03(u) + m0 * H13(u) + m1 * H23(u) + te * H33(u)
 //
 //		The H's are the hermite polynomials and the ts and te are the
-//		start and end SPAparameter values of the original curves to be
+//		start and end parameter values of the original curves to be
 //		skinned, which here are ( 0.0 - 1.0 ) respectively.
 //
 //		So, ds/du on the ends will be = dc/du
@@ -67,8 +67,8 @@
 //	STEP 3:
 //		Now the skin/loft surface is defined as hermite interpolants between
 //		sections, which join each other C1 continuosly.  So, is one wants to
-//		evaluate the surface S(u,v) at a particular "v" SPAparameter, the first
-//		step is to find the segment to which this SPAparameter corresponds too.
+//		evaluate the surface S(u,v) at a particular "v" parameter, the first
+//		step is to find the segment to which this parameter corresponds too.
 //		Than a local paramter vi is computed which ranges from (0.0-1.0)
 //		and the section curves ci and ci+1, and the v_tangents ti and ti+1
 //		are also obtained, then the surface	is defined as:
@@ -113,18 +113,6 @@ class SizeAccumulator;
 #include "lists.hxx"
 #include "vlists.hxx"
 
-/*
-// tbrv
-*/
-/**
- * @nodoc
- */
-//DECL_KERN bs3_surface make_skin_approx( skin_spl_sur const &,
-//	SPAinterval const&,  SPAinterval const&,  double const&,  double &,
-//	logical  = FALSE, 
-//	VOID_LIST& = *(VOID_LIST*)NULL_REF, 
-//	SPApar_box& = *(SPApar_box*) NULL_REF, 
-//	SPApar_box& = *(SPApar_box*) NULL_REF); 
 /*
 // tbrv
 */
@@ -302,14 +290,14 @@ public:
 
 DECL_KERN bs3_surface make_skin_approx(
 	skin_spl_sur const &,
-	SPAinterval const&,			// u SPAparameter range
-	SPAinterval const&,			// v SPAparameter range
-	double const&,			// tol requested
-	double &, 				// tol returned.
+	SPAinterval const&,										// u parameter range
+	SPAinterval const&,										// v parameter range
+	double const&,											// tol requested
+	double &, 												// tol returned.
 	logical self_int_test = FALSE,							// logical
-	VOID_LIST& bad_uvs = *(VOID_LIST*)NULL_REF,				// bad_uvs
-	SPApar_box& exclude_region = *(SPApar_box*)NULL_REF,	// exclude region
-	SPApar_box& extension_box = *(SPApar_box*)NULL_REF);	// extension_box
+	VOID_LIST& bad_uvs = SpaAcis::NullObj::get_void_list(),			// bad_uvs
+	SPApar_box& exclude_region = SpaAcis::NullObj::get_par_box(),	// exclude region
+	SPApar_box& extension_box = SpaAcis::NullObj::get_par_box());	// extension_box
 
 /**
  * Defines a skin surface between a list of curves.
@@ -388,20 +376,20 @@ protected:
 
 	friend DECL_KERN bs3_surface make_skin_approx(
 							skin_spl_sur const &,
-							SPAinterval const&,        // u SPAparameter range
-							SPAinterval const&,        // v SPAparameter range
-							double const&,			// tol requested
-							double &, 				// tol returned.
-							logical self_int_test,							// logical
-							VOID_LIST& bad_uvs,				// bad_uvs  
+							SPAinterval const&,			// u parameter range
+							SPAinterval const&,			// v parameter range
+							double const&,				// tol requested
+							double &, 					// tol returned.
+							logical self_int_test,		// logical
+							VOID_LIST& bad_uvs,			// bad_uvs  
 							SPApar_box& exclude_region,	// exclude region
 							SPApar_box& extension_box);	// extension_box
 						
 
 	friend DECL_KERN bs3_surface make_skin_approx_old(
 							skin_spl_sur const &,
-							SPAinterval const&,        // u SPAparameter range
-							SPAinterval const&,        // v SPAparameter range
+							SPAinterval const&,        // u parameter range
+							SPAinterval const&,        // v parameter range
 							double const&,			// tol requested
 							double & 				// tol returned.
 						);
@@ -439,7 +427,7 @@ protected:
 											);
 	// STI let: end
 
-	// Make or remake the approximating surface.  This function, which is a
+	// Make or remake the approximating surface. This function, which is a
     // virtual function of spl_sur, is implemented using make_skin_approx.
 	// The function stores the approximating surface and the actual fit error
     // that was achieved in the spl_sur, overriding the declared const-ness
@@ -447,9 +435,9 @@ protected:
 
     virtual void make_approx(
 							 double fit,
-							 const spline& spl = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const;
+							) const;
 
 	void compute_bernstein_polynomials (
 				logical first_required,
@@ -688,16 +676,14 @@ protected:
 			evaluate_surface_quadrant quadrant,
 			int,			// section number.
 			curve *, 		// Curve to evaluated.
-			double,			// u SPAparameter
+			double,			// u parameter
 			SPAposition &, 	// SPAposition returned.
 			SPAvector &, 		// First derivative returned
 			SPAvector &, 		// Second derivative returned
-			SPAvector & = *( SPAvector *)NULL_REF, // 3'rd derivative , Used for
-										// computing second partials on a
-			SPAvector & = *( SPAvector *)NULL_REF	// 4'rd derivative , Used for
-										// computing second partials on a
-										// loft surface.
-										// loft surface.
+			SPAvector & = SpaAcis::NullObj::get_vector(),	// 3'rd derivative, 
+										// Used for computing second partials on a loft surface.
+			SPAvector & = SpaAcis::NullObj::get_vector()	// 4'rd derivative, 
+										// Used for computing second partials on a loft surface.
 		) const;
 
 	// Calculate and add the dicontinuities from the generating curves
@@ -942,7 +928,7 @@ public:
  * area for deriv
  */
    int accurate_derivs(
-               SPApar_box const &area = *(SPApar_box *)NULL_REF
+               SPApar_box const &area = SpaAcis::NullObj::get_par_box()
                                    // Defaults to the whole surface
            ) const;
 
@@ -983,7 +969,7 @@ protected:
 	// does guarantee that different surfaces are correctly
 	// identified as such.
 
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 
 
 	// Transform this skin by the given SPAtransf.
@@ -991,7 +977,7 @@ protected:
 	virtual void operator*=( SPAtransf const &	);
 
 
-    // Parameter shift: adjust the spline surface to have a SPAparameter
+    // Parameter shift: adjust the spline surface to have a parameter
     // range increased by the argument value (which may be negative).
     // This is only used to move portions of a periodic surface by
     // integral multiples of the period.
@@ -999,10 +985,10 @@ protected:
     virtual void shift_u( double );
     virtual void shift_v( double );
 
-	// Divide a surface into two pieces at a given SPAparameter value.
-	// If the split is at the end of the SPAparameter range, the spl_sur
+	// Divide a surface into two pieces at a given parameter value.
+	// If the split is at the end of the parameter range, the spl_sur
 	// is just returned as the appropriate half (in increasing
-	// SPAparameter order), and the other is NULL. Otherwise a new spl_sur
+	// parameter order), and the other is NULL. Otherwise a new spl_sur
 	// is used for one part, and the old one is modified for the other.
 
 	virtual void split_u(
@@ -1017,8 +1003,8 @@ protected:
 
 	// Concatenate the contents of two surfaces into one. The surfaces
 	// are guaranteed to be the same base or derived type, and to have
-	// contiguous SPAparameter ranges ("this" is the beginning part of
-	// the combined surface (i.e. lower SPAparameter values), the
+	// contiguous parameter ranges ("this" is the beginning part of
+	// the combined surface (i.e. lower parameter values), the
 	// argument gives the end part).
 
 	// virtual void append_u( spl_sur & );
@@ -1027,11 +1013,11 @@ protected:
 
 	// Geometric evaluation.
 
-	// Find the SPAparameter values of a point on the surface
+	// Find the parameter values of a point on the surface
 
 	virtual SPApar_pos param(
 				 SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	// Find the SPAposition and first and second  derivatives of the
@@ -1059,7 +1045,7 @@ protected:
 
    virtual int evaluate(
                SPApar_pos const &,    // Parameter
-               SPAposition &,         // Point on surface at given SPAparameter
+               SPAposition &,         // Point on surface at given parameter
                SPAvector ** = NULL,   // Array of pointers to arrays of
                                    // vectors, of size nd. Any of the
                                    // pointers may be null, in which
@@ -1072,7 +1058,7 @@ protected:
                int = 0,            // Number of derivatives required (nd)
                evaluate_surface_quadrant = evaluate_surface_unknown
                                    // the evaluation location - above,
-                                   // below for each SPAparameter direction,
+                                   // below for each parameter direction,
                                    // or don't care.
            ) const;
 

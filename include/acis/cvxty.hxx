@@ -260,7 +260,7 @@ public:
  * @param other
  * other convexity.
  */
-	logical operator==( cvty const &other ) const
+	bool operator==( cvty const &other ) const
 	{
 		return bits_data == other.bits_data;
 	}

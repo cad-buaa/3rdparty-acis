@@ -126,7 +126,7 @@ public:
 	page_system();
 	~page_system();
 
-	size_t init( char* page_file_name = NULL, page_run_mode run_mode = PS_EMPTY_DELETE );
+	size_t init(const char* page_file_name = NULL, page_run_mode run_mode = PS_EMPTY_DELETE );
 	size_t init( FILE* page_file, page_run_mode run_mode = PS_EMPTY_DELETE );
 	page_system_state term( logical force );
 	

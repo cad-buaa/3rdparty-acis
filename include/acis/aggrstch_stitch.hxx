@@ -166,6 +166,8 @@ public:
 
 	double m_sliver_param;
 
+	logical bhl_stitch_split_flag;	// Control the spliiting of edge to find potential vertex partner.
+
 	//constructor function
 	bhl_stitch_options()
 	{
@@ -187,6 +189,8 @@ public:
 		// RS (Jul 05,2001) : Initialize the tang_tol to 0.1
 		bhl_tang_tol = 0.1 ;
 		bhl_eff_stitch_max_tol = bhl_stitch_min_tol;
+		
+		bhl_stitch_split_flag = TRUE;	// Control the spliiting of edge to find potential vertex partner, default TRUE.
 	}
 };
 

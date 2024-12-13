@@ -132,7 +132,7 @@ DECL_REM outcome api_terminate_face_removal();
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
  * @param nface
  * number of faces.
@@ -235,7 +235,7 @@ DECL_REM outcome api_remove_faces(
  * <br><br>
  * <b>Journal: </b> Not Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
  * @param nface
  * number of faces.
@@ -391,7 +391,7 @@ DECL_REM outcome api_remove_wire_edges(
  * <br><br>
  * <b>Journal:</b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler  
  * <br><br>
 * @param edge
  * Specifies the edge which is part of the open gap that is being removed.
@@ -480,7 +480,7 @@ DECL_REM outcome api_remove_open_gap(
  * <br><br>
  * <b>Journal: </b> Available
  * <br><br>
- * <b>Product(s):</b> 3D ACIS Modeler, 3D ACIS Polyhedral 
+ * <b>Product(s):</b> 3D ACIS Modeler 
  * <br><br>
  * @param edge1
  * Specifies the edge which is part of the first open gap being removed.
@@ -510,8 +510,12 @@ DECL_REM outcome api_remove_open_gap(
 * <br><br>
 *  <b>Role:</b> The input EDGEs supplied to the API must all belong to the same shell of a sheet body but do not have to connect.
 * The API will remove the EDGEs from the sheet body and extend the neighboring EDGEs (naturally) and intersect them
-* to close the gap. If no intersection exists among the neighboring EDGEs, then the input EDGEs will not be removed. 
-* The API also takes a bounding box as input. If intersection of neighboring EDGEs falls outside of the bounding box, then the removal of such input EDGEs will fail. 
+* to close the gap. The API also takes a bounding box as input. The necessary intersections and extension of neighboring topology and geometry of input edges are limited by the size of the user supplied box.
+* If the supplied box is smaller than desired, the intersection of neighboring EDGEs may fall outside the supplied box resulting in failure of operation.
+* However, an overly large box will result in wasted computation. The box should account for body transform. SPAposition(0,0,0) can be used as default value for both box-low and box-high when user is unable to specify a valid box. 
+* If a degenerate box is supplied, the API calculates the appropriate bounding box based on the owner body box and the neighboring edges of the input edges.
+* The default box is twice the size of owner body box.
+* <br><br>
 * If the API fails to remove any input EDGE, it leaves the body unchanged. If the neighboring EDGEs involve two identical curves, then a VERTEX
 * is placed between the two EDGEs based on an average distance.
 * <br><br>

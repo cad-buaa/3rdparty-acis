@@ -16,9 +16,8 @@
 
 #include "dcl_cstr.h"
 #include "bs3curve.hxx"
-// ywoo 08Jan01: added the header file.
-#include "base.hxx"
-// ywoo: end.
+#include "base.hxx"			  // For logical
+#include "spa_null_base.hxx"  // For Null Objects
 
 class ENTITY_LIST;
 class BODY;
@@ -65,11 +64,11 @@ DECL_CSTR EDGE *make_edge_intcurve(
 		);
 DECL_CSTR EDGE *make_edge_bs3_curve(
 			bs3_curve,			// curve for edge
-			SPAposition const & = *(SPAposition *)NULL_REF,
+			SPAposition const & = SpaAcis::NullObj::get_position(),
 								// start point, NULL if the start of
 								// the curve is to be the start of the
 								// edge
-			SPAposition const & = *(SPAposition *)NULL_REF
+			SPAposition const & = SpaAcis::NullObj::get_position()
 								// end point
 		);
 

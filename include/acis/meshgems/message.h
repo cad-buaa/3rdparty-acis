@@ -1,7 +1,12 @@
 #ifndef __MESSAGE_H__
 #define __MESSAGE_H__
 
-
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 /**
 
 \defgroup message meshgems_message_t

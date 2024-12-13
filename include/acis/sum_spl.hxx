@@ -16,6 +16,7 @@
 #include "interval.hxx"
 #include "spldef.hxx"
 #include "position.hxx"
+#include "spa_null_kern.hxx"
 class SizeAccumulator;
 /**
 * @file sum_spl.hxx
@@ -108,9 +109,9 @@ public:
 	sum_spl_sur(
 				curve const &cur1,
 				curve const &cur2,
-				SPAinterval const &range1 = *(const class SPAinterval *)NULL_REF,
-				SPAinterval const &range2 = *(const class SPAinterval *)NULL_REF,
-				SPAposition const &pos = *(const class SPAposition *)NULL_REF
+				SPAinterval const &range1 = SpaAcis::NullObj::get_interval(),
+				SPAinterval const &range2 = SpaAcis::NullObj::get_interval(),
+				SPAposition const &pos	  = SpaAcis::NullObj::get_position()
 			);
 
 	/**
@@ -207,18 +208,19 @@ protected:
 	/**
 	* Makes or remakes the approximating surface.
 	* <br><br>
-	* <b>Role:</b> The force flag forces the approximating surface to be made even if it is illegal.  This can be
-	* used to restore old parts that were not checked properly before being
-	* saved.  The spline argument 'spl' may be null but if it is supplied the
-	* function may be a little faster.  The function stores the approximating
-    * surface and the actual fit error that was achieved in the <tt>spl_sur</tt>,
-	* overriding the declared const-ness of the function to do this.
+	* <b>Role:</b> The force flag forces the approximating surface to be made
+	* even if it is illegal. This can be used to restore old parts that were
+	* not checked properly before being saved. The spline argument 'spl' may
+	* be null but if it is supplied the function may be a little faster. The
+	* function stores the approximating surface and the actual fit error that
+	* was achieved in the <tt>spl_sur</tt>, overriding the declared const-ness
+	* of the function to do this.
 	*/
-    virtual void	make_approx(
+    virtual void make_approx(
 							 double fit,
-							 const spline& spl  = *(spline*) NULL_REF,
+							 const spline& spl = SpaAcis::NullObj::get_spline(),
 						     logical force = FALSE
-							 ) const;
+							) const;
 
 
 	/**
@@ -229,7 +231,7 @@ protected:
 	* as it uses <tt>subset()</tt>, which is itself not const.
 	*/
 	virtual SPAbox bound(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 			);
 
 	// For internal use only.
@@ -286,7 +288,7 @@ private:
 	/**
 	 * Test for equality. This does not guarantee that all effectively equal surfaces are determined to be equal, but does guarantee that different surfaces are correctly identified as such.
 	 */
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 
 	/**
 	 * Is this surface contained.
@@ -337,7 +339,7 @@ private:
 	 */
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 
 	/**
@@ -353,7 +355,7 @@ private:
 			) const;
 
 	/**
-	 * Find the principal axes of curvature of the surface at a point with given <tt>SPAparameter</tt> values, and the curvatures in those directions.
+	 * Find the principal axes of curvature of the surface at a point with given <tt>SPApar_pos</tt> values, and the curvatures in those directions.
 	 */
 	virtual void eval_prin_curv(
 				SPApar_pos const &,
@@ -378,7 +380,7 @@ private:
 
 	virtual int evaluate(
                 SPApar_pos const &,	// Parameter
-                SPAposition &,			// Point on surface at given SPAparameter
+                SPAposition &,			// Point on surface at given parameter
                 SPAvector ** = NULL, 	// Array of pointers to arrays of
 									// vectors, of size nd. Any of the
 									// pointers may be null, in which
@@ -391,7 +393,7 @@ private:
                 int = 0,       		// Number of derivatives required (nd)
 				evaluate_surface_quadrant = evaluate_surface_unknown
 									// the evaluation location - above,
-									// below for each SPAparameter direction,
+									// below for each parameter direction,
 									// or don't care.
             ) const;
 
@@ -411,7 +413,7 @@ private:
 	virtual int evaluate_iter(
                 SPApar_pos const &,	// Parameter
 				surface_evaldata *,	// Initialisation data for iterations.
-                SPAposition &,			// Point on surface at given SPAparameter
+                SPAposition &,			// Point on surface at given parameter
                 SPAvector ** = NULL, 	// Array of pointers to arrays of
 									// vectors, of size nd. Any of the
 									// pointers may be null, in which
@@ -424,7 +426,7 @@ private:
                 int = 0,       		// Number of derivatives required (nd)
 				evaluate_surface_quadrant = evaluate_surface_unknown
 									// the evaluation location - above,
-									// below for each SPAparameter direction,
+									// below for each parameter direction,
 									// or don't care.
             ) const;
 
@@ -449,7 +451,7 @@ private:
 	* more than anyone could reasonably want.
 	*/
 	virtual int accurate_derivs(
-				SPApar_box const & = *(SPApar_box *)NULL_REF
+				SPApar_box const & = SpaAcis::NullObj::get_par_box()
 								 	// Defaults to the whole surface
 			) const;
 
@@ -465,7 +467,7 @@ private:
 	* deleted.
 	*/
 	virtual curve *u_param_line(
-				double,			// constant v SPAparameter
+				double,			// constant v parameter
 				spline const &	// owning surface
 			) const;
     /**
@@ -478,7 +480,7 @@ private:
 	* responsibility of the caller to ensure that it is correctly deleted.
 	*/
 	virtual curve *v_param_line(
-				double,			// constant u SPAparameter
+				double,			// constant u parameter
 				spline const &	// owning surface
 			) const;
 
@@ -489,7 +491,7 @@ private:
 	*/
 	curve *iso_param_line( 
 		bool,				//u_param_line if true, v_param_line if false
-		double				//SPAparameter
+		double				//parameter
 		) const;
 
 	// Test whether a point lies on the surface, within a user-defined
@@ -499,8 +501,8 @@ private:
 	//	virtual logical test_point_tol(
 	//				SPAposition const &,
 	//				double,
-	//				SPApar_pos const & = *(SPApar_pos *)NULL_REF,
-	//				SPApar_pos & = *(SPApar_pos *)NULL_REF
+	//				SPApar_pos const & = SpaAcis::NullObj::get_par_pos(),
+	//				SPApar_pos & = SpaAcis::NullObj::get_par_pos()
 	//			) const;
 
 	/**
@@ -542,17 +544,17 @@ private:
 	* them on the defining curves.
 	*/
 	virtual	check_status_list*	check(
-  		        const check_fix& input = *(const check_fix*) NULL_REF,
+  		        const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 						 // supplies a set of flags which say which fixes
 						 // are allowable (the default is to fix nothing)
-				check_fix& result = *(check_fix*) NULL_REF,
+				check_fix& result = SpaAcis::NullObj::get_check_fix(),
 						 // returns a set of flags which say which fixes
 						 // were applied
-				const check_status_list* = (const check_status_list*) NULL_REF
-						 // list of checks that are to be made.  If the
+				const check_status_list* = nullptr
+						 // list of checks that are to be made. If the
 						 // list is null, then every possible check will
 						 // be made; otherwise, the function will only
-						 // check for things in the list.  The return
+						 // check for things in the list. The return
 						 // value for the function will then be a subset
 						 // of this list.
 				);

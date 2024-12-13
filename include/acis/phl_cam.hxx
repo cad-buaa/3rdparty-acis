@@ -174,32 +174,32 @@ logical perspective() const { return( persp_data ); };
 
 // STI jmb begin:  Need to check camera equivalence
 // ==============================================================================
-// Public Function: operator==  Return nonzero if arg is same as this
-// O: True if camera same within SPAresabs
+// Public Function: operator==  Return true if arg is same as this
+// O: true if camera same within SPAresabs
 // ------------------------------------------------------------------------------
 /**
  * Compares the eye position and target position of the current camera with those of the given camera .
  * <br><br>
- * <b>Role:</b> Returns  <tt>TRUE</tt> if the cameras' positions are the same within <tt>SPAresabs</tt>, and their perspective flags are the same else it returns <tt>FALSE</tt>.
+ * <b>Role:</b> Returns  <tt>true</tt> if the cameras' positions are the same within <tt>SPAresabs</tt>, and their perspective flags are the same else it returns <tt>false</tt>.
  * <br><br>
  * @param c
  * other camera to check.
  */
-logical operator==( PHL_CAMERA const& c) const;
+bool operator==( PHL_CAMERA const& c) const;
 
 // ==============================================================================
-// Public Function: operator!=  Return zero if arg is same as this
-// O: False if camera same within SPAresabs
+// Public Function: operator!=  Return false if arg is same as this
+// O: false if camera same within SPAresabs
 // ------------------------------------------------------------------------------
 /**
  * Compares the eye position and target position of the current camera with those of the given camera .
  * <br><br>
- * <b>Role:</b> Returns <tt>FALSE</tt> if the cameras' positions are the same within <tt>SPAresabs</tt>, and their perspective flags are the same else it returns <tt>TRUE</tt>.
+ * <b>Role:</b> Returns <tt>false</tt> if the cameras' positions are the same within <tt>SPAresabs</tt>, and their perspective flags are the same else it returns <tt>true</tt>.
  * <br><br>
  * @param c
  * other camera to check.
  */
-logical operator!=( PHL_CAMERA const& c ) const { return ( ! ( *this == c ) ); };
+bool operator!=( PHL_CAMERA const& c ) const { return ( ! ( *this == c ) ); };
 
 /**
  * @nodoc

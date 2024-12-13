@@ -14,6 +14,7 @@
 #include "dcl_warp.h"
 #include "logical.h"
 #include "base.hxx"
+#include "spa_null_kern.hxx"
 
 class BODY;
 class FACE;
@@ -37,7 +38,7 @@ logical DECL_WARP space_warp( BODY *in_body,
                            logical do_split = TRUE,
                            logical transform_owning_bodies = TRUE,
                            logical do_simplify = TRUE, 
-                           ENTITY_LIST &no_simplify_list = *(ENTITY_LIST*)NULL_REF); 
+                           ENTITY_LIST &no_simplify_list = SpaAcis::NullObj::get_ENTITY_LIST() );
 
 // Whenever partial space warping is required,
 // call this once instead of calling space_warp multiple times.
@@ -56,7 +57,7 @@ void DECL_WARP partial_space_warp(
 				law         **face_laws, // the number of these must be the same as the number of faces
                 logical transform_owning_bodies = TRUE,
                 logical do_simplify = TRUE,
-                ENTITY_LIST &no_simplify_list = *(ENTITY_LIST*)NULL_REF); 
+                ENTITY_LIST &no_simplify_list = SpaAcis::NullObj::get_ENTITY_LIST() );
 
 // The same law is duplicated for all faces and edges.
 void DECL_WARP partial_space_warp( 

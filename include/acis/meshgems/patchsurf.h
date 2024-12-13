@@ -1,6 +1,12 @@
 #ifndef __MESHGEMS_PATCHSURF_H__
 #define __MESHGEMS_PATCHSURF_H__
 
+// COPYRIGHT DASSAULT SYSTEMES 2022
+//=============================================================================
+/**
+ * @CAA2Level L0
+ * @CAA2Usage U0
+ */
 #include <meshgems/meshgems.h>
 #include <meshgems/patchsurf_short_names.h>
 

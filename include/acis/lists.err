@@ -1,19 +1,19 @@
-// Error code definitions for module "spaacis/src"
+// Error code definitions for module "spaacisds/src"
 
-#ifndef SPAACIS_LISTS_ERRMOD_INCLUDED
-#define SPAACIS_LISTS_ERRMOD_INCLUDED
+#ifndef SPAACISDS_LISTS_ERRMOD_INCLUDED
+#define SPAACISDS_LISTS_ERRMOD_INCLUDED
 
 #include "errorbase.hxx"
 #include "errmsg.hxx"
 
 #include "importexport.h"
-#ifdef __SpaACIS
-extern EXPORT_SYMBOL message_module spaacis_lists_errmod;
+#ifdef __SPAAcisDs
+extern EXPORT_SYMBOL message_module spaacisds_lists_errmod;
 
 #else
-extern IMPORT_SYMBOL message_module spaacis_lists_errmod;
+extern IMPORT_SYMBOL message_module spaacisds_lists_errmod;
 
 #endif
-#define MAP_CONFUSION spaacis_lists_errmod.message_code(0)
+#define MAP_CONFUSION spaacisds_lists_errmod.message_code(0)
 
-#endif /* SPAACIS_LISTS_ERRMOD_INCLUDED */
+#endif /* SPAACISDS_LISTS_ERRMOD_INCLUDED */

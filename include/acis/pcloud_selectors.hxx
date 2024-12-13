@@ -118,11 +118,11 @@ public:
 	/**
 	*@nodoc
 	**/
-	logical operator==(position_distance_pair_set_iterator const&) const;
+	bool operator==(position_distance_pair_set_iterator const&) const;
 	/**
 	*@nodoc
 	**/ 
-	logical operator!=(position_distance_pair_set_iterator const& other) const;
+	bool operator!=(position_distance_pair_set_iterator const& other) const;
 	/**
 	*@nodoc
 	**/ 

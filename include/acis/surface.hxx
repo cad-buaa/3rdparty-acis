@@ -19,6 +19,7 @@
 #include "logical.h"
 #include "en_macro.hxx"
 #include "usecount.hxx"
+#include "transf.hxx"
 /**
  * \defgroup ACISGEOMETRY Geometry
  * \ingroup KERNAPI
@@ -35,7 +36,6 @@
 class LOOP;
 class FACE;
 class surface;
-class SPAtransf;
 class SPAbox;
 class pattern_holder;
 class pattern;
@@ -179,7 +179,15 @@ public:
 #if 0
 ; // semicolon needed for mkman (doc tool) parsing)
 #endif
-
+	
+	/**
+	 * @nodoc
+	 */
+	TRANSFORM_PTR_FUNCTION
+#if 0
+; // semicolon needed for mkman (doc tool) parsing)
+#endif
+	
 	// Indicate whether this entity is normally destroyed by lose(),
 	// or whether it gets destroyed implicitly when every owner has
 	// been lost. Most entities are destroyed explicitly using lose(),
@@ -353,7 +361,7 @@ public:
  * flag to reverse the surface.
  */
 	virtual surface* trans_surface(
-	    const SPAtransf &t = *(SPAtransf*)NULL_REF, logical reverse = FALSE) const;
+	    const SPAtransf &t = SPAtransf(), logical reverse = FALSE) const;
 /**
  * Transforms the equation of this <tt>SURFACE</tt>.
  * <br><br>
@@ -408,7 +416,7 @@ public:
  * @nodoc
  */
     virtual logical box_clash(const SPAbox &test_box,
-                              const SPAtransf &surf_transf = *(SPAtransf*)NULL_REF,
+                              const SPAtransf &surf_transf = SPAtransf(),
                               double tol = SPAresabs) const;
 
 

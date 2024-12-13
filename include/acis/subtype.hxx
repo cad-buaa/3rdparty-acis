@@ -158,7 +158,7 @@ public:
  * @param obj
  * subtype-object.
  */
-	virtual logical operator==( subtype_object const &obj ) const;
+	virtual bool operator==( subtype_object const &obj ) const;
 /**
  * <tt>TRUE</tt> if two subtype objects are not the same.
  * <br><br>
@@ -167,7 +167,7 @@ public:
  * @param rhs
  * subtype-object.
  */
-	logical operator!=( subtype_object const &rhs ) const {
+	bool operator!=( subtype_object const &rhs ) const {
 		return !(*this == rhs );
 	}
 

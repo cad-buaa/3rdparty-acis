@@ -8,6 +8,9 @@
 /*    Protected by European Patents 0503642; 69220263.3            */
 /*    Protected by Hong Kong Patent 1008101A                       */
 /*******************************************************************/
+/**
+ * @file acisio.h
+ */
 
 /* Redefine several stdio functions so we can redirect I/O to windows		*/
 /* and/or other files.														*/
@@ -150,12 +153,38 @@ DECL_BASE int acis_feof(FILE*);
 DECL_BASE int acis_ferror(FILE*);
 DECL_BASE void acis_clearerr(FILE*);
 
+/**
+ * Opens the file whose name is specified in the parameter filename and associates it 
+ * with a stream that can be identified in future operations by the FILE pointer returned.
+ * <br><br>
+ * @param filename
+ * name of the input file.
+ * @param mode
+ * denotes the file access mode.
+ */
 DECL_BASE FILE* acis_fopen( const char *filename, const char *mode );
+
+/**
+* Closes the file associated with the stream
+* <br><br>
+* @param stream
+* Pointer to a FILE object that specifies the stream to be closed.
+*/
 DECL_BASE int acis_fclose( FILE *stream );
 
 #ifdef _MSC_VER
 #ifdef __cplusplus
-DECL_BASE FILE* acis_wfopen( const SPAWCHAR_T*, const SPAWCHAR_T* );
+/**
+ * The wfopen function opens the file whose name is the wide character string pointed to by path
+ * and associates a stream with it.
+ * <br><br>
+ * @param filename
+ * name of the input file.
+ * @param mode
+ * denotes the file access mode.
+ */
+
+DECL_BASE FILE* acis_wfopen( const SPAWCHAR_T* filename, const SPAWCHAR_T* mode);
 #endif
 #endif
 

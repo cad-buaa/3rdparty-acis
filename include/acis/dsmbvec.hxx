@@ -307,6 +307,12 @@ class DS_multi_banded_vec : public DS_abs_vec // identifier = mbv
      EQ_FLAG flag)
       const;
 
+  double Short_Dotprod             // eff: evaluates dot product
+  (const DS_multi_banded_vec &a,
+      const DS_multi_banded_vec &b,
+      int first,
+      int second)const;
+
    double                                  // out: result = (*this).v
     Dotprod(                               // eff: evaluates dot product
             const DS_multi_banded_vec & v) // in : with concrete SPAvector v

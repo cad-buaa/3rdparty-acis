@@ -13,8 +13,7 @@
 
 /**
 * @file api_convex_hull.hxx
-* \addtogroup hlc
-* \addtogroup
+* \addtogroup HLC
 * @{
 */
 

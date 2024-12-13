@@ -535,7 +535,7 @@ public:
 	double  coin_tolerance() const { return _coin_tolerance; }
 
 	// STI let 3 December 2021 : Fixed a typo
-    logical fix_mask( fix_option fix_opt ) const  
+    int fix_mask( fix_option fix_opt ) const  
 		{ return (GET_ALGORITHMIC_VERSION() > AcisVersion(32, 0, 0)) ? 
 			_fix_mask & fix_opt : _fix_mask && fix_opt; }
 
@@ -606,10 +606,10 @@ extern DECL_KERN self_intersect_test_fn_fn self_intersect_test_fn;
  * points from the surface to do the checks.
  */
 DECL_KERN logical sg_check_surface_self_intersections(surface*   sf,
-									SPApar_box &exclude_region	 = *(SPApar_box*)NULL_REF,
-									SPApar_box &range            = *(SPApar_box*)NULL_REF,
+									SPApar_box &exclude_region	 = SpaAcis::NullObj::get_par_box(),
+									SPApar_box &range            = SpaAcis::NullObj::get_par_box(),
 									logical    points_on_surface = FALSE,
-									SPApar_pos &uv				 = *(SPApar_pos*)NULL_REF);
+									SPApar_pos &uv				 = SpaAcis::NullObj::get_par_pos());
 
 /**
  * @nodoc
@@ -627,9 +627,9 @@ DECL_KERN logical sg_check_surface_self_intersections(surface*   sf,
 DECL_KERN logical
 sg_check_surface_self_intersections(bs3_surface       sf,
 									SPApar_box const& range,
-									SPApar_box&       exclude_region    = *(SPApar_box*)NULL_REF,
+									SPApar_box&       exclude_region    = SpaAcis::NullObj::get_par_box(),
 									logical           points_on_surface = FALSE,
-									SPApar_pos &uv				 = *(SPApar_pos*)NULL_REF);
+									SPApar_pos		& uv				= SpaAcis::NullObj::get_par_pos());
 
 
 #if defined D3_DEBUG

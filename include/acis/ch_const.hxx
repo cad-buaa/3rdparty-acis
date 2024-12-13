@@ -25,6 +25,7 @@
 #include "usecount.hxx"
 #include "cvc.hxx"
 #include "bl_cxty.hxx"
+#include "spa_null_base.hxx"
 
 class ATT_BL_ENT_ENT;
 
@@ -234,7 +235,7 @@ public:
  * @param blnd
  * blend.
  */
-	virtual logical operator==( ATTRIB_BLEND const& blnd ) const;
+	virtual bool operator==( ATTRIB_BLEND const& blnd ) const;
 
 /**
  * Notifies the <tt>ATTRIB_CONST_CHAMFER</tt> that its owner is about to be transformed.
@@ -300,11 +301,9 @@ public:
  * @nodoc
  */
 	virtual logical is_constant_offset( 
-						double &left_offset 
-							= *( double *)NULL_REF, 
-						double &right_offset 
-							= *( double *)NULL_REF 
-						) const;
+					double &left_offset = SpaAcis::NullObj::get_double(),
+					double &right_offset = SpaAcis::NullObj::get_double()
+				) const;
 
 	// Returns TRUE if chamfer is flat
 /**
@@ -360,8 +359,7 @@ public:
 									logical at_end,				// open at end
 									segend *start_seg,			// start segend if any
 									segend *end_seg,			// end segend if any
-									SPAbox const &bound_box = 
-										* (SPAbox const *) NULL_REF
+									SPAbox const &bound_box = SpaAcis::NullObj::get_box()
 									);
 
 	// Find the spring curves.  They have the same sense as the spine.
@@ -388,8 +386,7 @@ public:
 									logical at_end,				// open at end
 									segend *start_seg,			// start segend if any
 									segend *end_seg,			// end segend if any
-									SPAbox const &bound_box = 
-										* (SPAbox const *) NULL_REF
+									SPAbox const &bound_box = SpaAcis::NullObj::get_box()
 									);
 
 	// Find the cross curve in given plane (normal to spine and spring
@@ -418,12 +415,9 @@ public:
 									ffblend_geom *spine,
 									plane const &pla,
 									SPAbox const &bound_box,
-									SPAposition &pt1 = 
-										*(SPAposition *)NULL_REF,
-									SPAposition &pt2 = 
-										*(SPAposition *)NULL_REF,
-									SPAposition &pt3 = 
-										*(SPAposition *)NULL_REF
+									SPAposition &pt1 = SpaAcis::NullObj::get_position(),
+									SPAposition &pt2 = SpaAcis::NullObj::get_position(),
+									SPAposition &pt3 = SpaAcis::NullObj::get_position()
 									);
 
 	// Given blend boundary details in a ffblend_geom, find the
@@ -452,10 +446,8 @@ public:
 										logical open_at_end = FALSE,            
 										segend *start_segend = NULL,            
 										segend *end_segend = NULL,
-										SPAbox const &r = 
-											* (SPAbox const *) NULL_REF,
-										double &modified_resabs = 
-											* (double*) NULL_REF
+										SPAbox const &r = SpaAcis::NullObj::get_box(),
+										double &modified_resabs = SpaAcis::NullObj::get_double()
 										);
 
 	// Remove any cached geometry data. 
@@ -689,13 +681,13 @@ set_exp_const_chamfer(
 				FACE *left_face = NULL,
 				FACE *right_face = NULL,
 				double const &left_range = 
-					* (double *) NULL_REF,	
+					SpaAcis::NullObj::get_double(),
 				double const &right_range = 
-					* (double *) NULL_REF,	
+					SpaAcis::NullObj::get_double(),
 				logical const &blend_cvxty = 
-					* (logical *)NULL_REF,	
+					SpaAcis::NullObj::get_logical(),
 				plane const &mid_plane = 
-					* (plane *) NULL_REF		
+					SpaAcis::NullObj::get_plane()
 				);
 
 /** @} */

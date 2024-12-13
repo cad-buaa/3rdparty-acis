@@ -556,14 +556,14 @@ public:
  * @param in_skin_opt
  * other <tt>skin_options</tt>.
  */
-	logical operator== (skin_options const& in_skin_opt) const;
+	bool operator== (skin_options const& in_skin_opt) const;
 
 /**
  * Tests two <tt>skin_options</tt> for inequality.
  * @param in_skin_opt
  * other <tt>skin_options</tt>.
  */
-	logical operator!= (skin_options const& in_skin_opt) const;
+	bool operator!= (skin_options const& in_skin_opt) const;
 
 /**
  * Returns the current value of the <tt>guide_tol</tt> option.

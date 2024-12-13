@@ -104,8 +104,8 @@ class DECL_HEAL ATTRIB_HH_ENT_GEOMBUILD_EDGE : public ATTRIB_HH_ENT_GEOMBUILD_BA
 		int m_vertices_do_not_deviate;
 
 		// Whether it is a tangential junction
-		logical m_tangential;
-		logical m_tangential_stringent;
+		int m_tangential;
+		int m_tangential_stringent;
 
 		// Tolerance from computing tangency
 		//double m_tang_tol;

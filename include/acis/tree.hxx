@@ -53,7 +53,7 @@
 // by octrees (due to their multiple references to objects bounded).
 
 // The size of the largest element with respect to the current tree SPAbox
-// is used to control subdivision.  If the current tree has a "large"
+// is used to control subdivision. If the current tree has a "large"
 // element, it is marked as FULL and never subdivided any further as
 // subdivision will usually be pointless.
 
@@ -64,6 +64,7 @@
 #include "param.hxx"
 #include "box.hxx"
 #include "surdef.hxx"
+#include "spa_null_kern.hxx"
 
 // Forward references.
 
@@ -78,7 +79,7 @@ class ELEM2D;
 class SPAtransf;
 class scan_list;
 
-// 2D SPAparameter tree class definition.  This makes a search for an element
+// 2D SPAparameter tree class definition. This makes a search for an element
 // associated with a uv value fast.
 
 class DECL_KERN par2_tree : public ACIS_OBJECT {
@@ -102,13 +103,13 @@ public:
 	}
 	~par2_tree();
 
-	// Make a copy.  If the scan lists are non-null, make a copy/fix
-	// copy.  Otherwise point to the same elements.
+	// Make a copy. If the scan lists are non-null, make a copy/fix
+	// copy. Otherwise point to the same elements.
 
-	par2_tree *copy(scan_list & = *(scan_list *)NULL_REF,
-				scan_list & = *(scan_list *)NULL_REF ) const;
+	par2_tree *copy(scan_list & = SpaAcis::NullObj::get_scan_list(),
+				scan_list & = SpaAcis::NullObj::get_scan_list() ) const;
 
-	// Reading functions.  The tree classes are sometimes searched
+	// Reading functions. The tree classes are sometimes searched
 	// in non-member functions.
 
 	SPApar_box domain() const { return domain_data; }
@@ -149,7 +150,7 @@ public:
 
 	// Range-based bounding SPAbox function.
 
-	virtual SPAbox bound(const SPApar_box & = *(SPApar_box *)NULL_REF);
+	virtual SPAbox bound(const SPApar_box & = SpaAcis::NullObj::get_par_box());
 
 	// Transform.
 
@@ -165,7 +166,7 @@ public:
 
 };
 
-// 1D SPAparameter tree class definition.  This makes a search for an element
+// 1D SPAparameter tree class definition. This makes a search for an element
 // associated with a t value fast.
 
 class DECL_KERN par1_tree : public ACIS_OBJECT {
@@ -180,7 +181,7 @@ class DECL_KERN par1_tree : public ACIS_OBJECT {
 
 public:
 
-	// Constructor and destructor.  The destructor deletes the branches.
+	// Constructor and destructor. The destructor deletes the branches.
 
 	par1_tree(const SPAinterval& domain, tree_branches *bptr = NULL)
 	{
@@ -192,10 +193,10 @@ public:
 	// Make a copy.  If the scan lists are non-null, make a copy/fix
 	// copy.  Otherwise point to the same elements.
 
-	par1_tree *copy(scan_list & = *(scan_list *)NULL_REF,
-				scan_list & = *(scan_list *)NULL_REF ) const;
+	par1_tree *copy(scan_list & = SpaAcis::NullObj::get_scan_list(),
+				scan_list & = SpaAcis::NullObj::get_scan_list() ) const;
 
-	// Reading functions.  The tree classes are sometimes searched
+	// Reading functions. The tree classes are sometimes searched
 	// in non-member functions.
 
 	SPAinterval domain() const { return domain_data; }
@@ -299,8 +300,8 @@ public:
 	// Make a copy.  If the scan lists are non-null, make a copy/fix
 	// copy.  Otherwise point to the same elements.
 
-	virtual mesh_tree *copy(scan_list & = *(scan_list *)NULL_REF,
-				scan_list & = *(scan_list *)NULL_REF ) const = 0;
+	virtual mesh_tree *copy(scan_list & = SpaAcis::NullObj::get_scan_list(),
+				scan_list & = SpaAcis::NullObj::get_scan_list() ) const = 0;
 
 	// Return the list of elements in a leaf (if leaf, otherwise NULL).
 
@@ -438,8 +439,8 @@ public:
 	// Make a copy.  If the scan lists are non-null, make a copy/fix
 	// copy.  Otherwise point to the same elements.
 
-	virtual mesh_tree *copy(scan_list & = *(scan_list *)NULL_REF,
-				scan_list & = *(scan_list *)NULL_REF ) const;
+	virtual mesh_tree *copy(scan_list & = SpaAcis::NullObj::get_scan_list(),
+				scan_list & = SpaAcis::NullObj::get_scan_list() ) const;
 
 	// Bound computation.  Const and non-const.
 
@@ -579,8 +580,8 @@ public:
 	// Make a copy.  If the scan lists are non-null, make a copy/fix
 	// copy.  Otherwise point to the same elements.
 
-	virtual mesh_tree *copy(scan_list & = *(scan_list *)NULL_REF,
-				scan_list & = *(scan_list *)NULL_REF ) const;
+	virtual mesh_tree *copy(scan_list & = SpaAcis::NullObj::get_scan_list(),
+				scan_list & = SpaAcis::NullObj::get_scan_list() ) const;
 
 	// Read the list pointer.
 

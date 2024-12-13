@@ -17,6 +17,9 @@
 #include "bs3curve.hxx"
 #include "debugmsc.hxx"
 #include "unitvec.hxx"
+#include "param.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 /**
  * @file sp3srtn.hxx
  * @CAA2Level L1
@@ -93,13 +96,13 @@ DECL_SPLINE void bs3_surface_term();
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_sur(
-			surface const &sur,		// given surface
-			SPAbox const &region_of_interest,			// region of interest
-			double requested_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			surface const &sur,					// given surface
+			SPAbox const &region_of_interest,	// region of interest
+			double requested_fit = 0,			// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+												// returns actual fit tolerance
+			SPApar_transf &pt = SpaAcis::NullObj::get_par_transf()
+												// returns parameter space mapping
 		);
 
 
@@ -136,13 +139,13 @@ bs3_surface_make_sur(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_pla(
-			plane const &pl,			// given plane
-			SPAbox const &region_of_interest,			// region of interest
+			plane const &pl,						// given plane
+			SPAbox const &region_of_interest,		// region of interest
 			double positional_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
+			double &actual_fit = SpaAcis::NullObj::get_double(),
 									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			SPApar_transf &pt = SpaAcis::NullObj::get_par_transf()
+									// returns parameter space mapping
 		);
 
 
@@ -183,13 +186,13 @@ bs3_surface_make_pla(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_con(
-			cone const &c,			// given cone
-			SPAbox const &region_of_interest,			// region of interest
+			cone const &c,							// given cone
+			SPAbox const &region_of_interest,		// region of interest
 			double positional_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+													// returns actual fit tolerance
+			SPApar_transf &pt = SpaAcis::NullObj::get_par_transf()
+													// returns parameter space mapping
 		);
 
 
@@ -230,13 +233,13 @@ bs3_surface_make_con(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_sph(
-			sphere const &sph,			// given sphere
-			SPAbox const &region_of_interest,			// region of interest
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			sphere const &sph,					// given sphere
+			SPAbox const &region_of_interest,	// region of interest
+			double fit_tol = 0,					// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+												// returns actual fit tolerance
+			SPApar_transf &pt = SpaAcis::NullObj::get_par_transf()
+												// returns parameter space mapping
 		);
 
 
@@ -276,13 +279,13 @@ bs3_surface_make_sph(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_tor(
-			torus const &tor,			// given torus
-			SPAbox const &region_of_interest,			// region of interest
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &pt = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			torus const &tor,					// given torus
+			SPAbox const &region_of_interest,	// region of interest
+			double fit_tol = 0,					// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+												// returns actual fit tolerance
+			SPApar_transf &pt = SpaAcis::NullObj::get_par_transf()
+												// returns parameter space mapping
 		);
 
 
@@ -312,13 +315,13 @@ bs3_surface_make_tor(
 **/
 DECL_SPLINE bs3_surface
 bs3_surface_make_spl(
-			spline const &spl,			// given spline
+			spline const &spl,				// given spline
 			SPAbox const &reg_int,			// region of interest
 			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
-									// returns actual fit tolerance
-			SPApar_transf &space_mapping = *(SPApar_transf*)NULL_REF
-									// returns SPAparameter space mapping
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+											// returns actual fit tolerance
+			SPApar_transf &space_mapping = SpaAcis::NullObj::get_par_transf()
+											// returns parameter space mapping
 		);
 
 
@@ -362,8 +365,8 @@ DECL_SPLINE bs3_surface
 bs3_surface_sum_curves(
 			bs3_curve u_bs,				// curve in u direction
 			bs3_curve v_bs,				// curve in v direction
-			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
+			double fit_tol = 0,			// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double()
 									// returns actual fit tolerance
 		);
 
@@ -413,7 +416,7 @@ bs3_surface_revolve_curve(
 			double start_ang = 0.0,			// start angle
 			double  end_ang = 0.0,			// stop angle
 			double fit_tol = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
+			double &actual_fit = SpaAcis::NullObj::get_double()
 									// returns actual fit tolerance
 		);
 
@@ -457,7 +460,7 @@ bs3_surface_make_pipe(
 			curve const &zero,			// curve giving zero u direction
 			SPAinterval const &u_range,		// angle range for cross-sections
 			double requested_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
+			double &actual_fit = SpaAcis::NullObj::get_double()
 									// returns actual fit tolerance
 		);
 
@@ -500,12 +503,12 @@ bs3_surface_make_pipe_boundary(
 			curve const &highu,			// boundary curve on the high u
 									// side
 			double requested_fit,					// requested fit tolerance
-			double &actual_fit = *(double *)NULL_REF,
+			double &actual_fit = SpaAcis::NullObj::get_double(),
 									// returns actual fit tolerance
-			bs2_curve &lowp = *(bs2_curve *)NULL_REF,
+			bs2_curve &lowp = SpaAcis::NullObj::get_bs2_curve(),
 									// returns SPAparameter-space curve
 									// for low-u boundary
-			bs2_curve &highp = *(bs2_curve *)NULL_REF
+			bs2_curve &highp = SpaAcis::NullObj::get_bs2_curve()
 									// returns SPAparameter-space curve
 									// for high-u boundary
 		);
@@ -549,7 +552,7 @@ bs3_surface_subset(
 			bs3_surface old_bs,			// given surface
 			SPApar_box const &new_range,		// required bounds
 			double position_fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
+			double &actual_fit = SpaAcis::NullObj::get_double()
 									// returns actual fit tolerance
 		);
 
@@ -1613,7 +1616,7 @@ DECL_SPLINE SPApar_pos
 bs3_surface_invert(
 			SPAposition const &pos,		// given point
 			bs3_surface bs,			// given surface
-			SPApar_pos const &uv = *(SPApar_pos *)NULL_REF
+			SPApar_pos const &uv = SpaAcis::NullObj::get_par_pos()
 		);
 
 
@@ -1695,11 +1698,9 @@ DECL_SPLINE logical
 bs3_surface_testpt(
 			SPAposition const &pos,		// given point
 			double tol,					// permitted tolerance
-			bs3_surface bs,			// given surface
-			SPApar_pos const &uv_guess = *(SPApar_pos *)NULL_REF,
-									// (u, v) guess
-			SPApar_pos &uv_actual = *(SPApar_pos *)NULL_REF
-									// (u, v) actual
+			bs3_surface bs,				// given surface
+			SPApar_pos const &uv_guess	= SpaAcis::NullObj::get_par_pos(),	// (u, v) guess
+			SPApar_pos &uv_actual		= SpaAcis::NullObj::get_par_pos()	// (u, v) actual
 		);
 
 
@@ -1743,12 +1744,12 @@ bs3_surface_testpt(
 DECL_SPLINE void
 bs3_surface_perp(
 			SPAposition const &point,		// given point
-			bs3_surface bs,			// given surface
+			bs3_surface bs,					// given surface
 			SPAposition &foot,				// foot of perp. returned
 			SPAunit_vector &norm,			// normal returned
-			SPApar_pos const &uv_guess = *(SPApar_pos *)NULL_REF,	// (u,v) guess if known
-			SPApar_pos &uv_actual = *(SPApar_pos *)NULL_REF,	// (u,v) returned if wanted
-			SPApar_box const &var = *(SPApar_box *)NULL_REF
+			SPApar_pos const &uv_guess	= SpaAcis::NullObj::get_par_pos(),	// (u,v) guess if known
+			SPApar_pos &uv_actual		= SpaAcis::NullObj::get_par_pos(),	// (u,v) returned if wanted
+			SPApar_box const &var		= SpaAcis::NullObj::get_par_box()
 		);
 
 
@@ -1810,7 +1811,7 @@ bs3_surface_estimate_param(
 DECL_SPLINE SPAbox
 bs3_surface_box(
 			bs3_surface bs,		// given surface
-			SPApar_box const &test = *(SPApar_box *)NULL_REF
+			SPApar_box const &test = SpaAcis::NullObj::get_par_box()
 								// SPAparameter range of interest (full
 								// surface if not given).
 		);
@@ -2220,6 +2221,17 @@ bs3_surface_debug(
 			FILE *fp = debug_file_ptr
 		);
 
+/**
+ * @nodoc
+ * Get degree of bs3 surface.
+ */
+DECL_SPLINE void
+bs3_surface_debug_degree(
+	bs3_surface sur,			// given surface
+	char const* leader,
+	FILE* fp = debug_file_ptr
+);
+
 
 // STI dgh }		// End 
 
@@ -2346,8 +2358,8 @@ bs3_surface_make_tor_nubs(
 			torus const &tor,
 			SPAbox const &region_of_interest,
 			double requested_fit,
-			double &actual_fit=*(double*)NULL_REF,
-			SPApar_transf &pt=*(SPApar_transf*)NULL_REF
+			double &actual_fit = SpaAcis::NullObj::get_double(),
+			SPApar_transf &pt  = SpaAcis::NullObj::get_par_transf()
 			);
 
 

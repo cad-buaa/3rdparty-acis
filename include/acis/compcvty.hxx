@@ -23,6 +23,7 @@
 
 #include "pt_cvty.hxx"
 #include "ed_cvty.hxx"
+#include "spa_null_base.hxx"
 
 class COEDGE;
 class EDGE;
@@ -107,8 +108,7 @@ DECL_INTR ed_cvty_info compute_ed_cvty_info(
 						  EDGE *edge,
 						  logical use_curvatures = TRUE,
 						  logical approx_ok = FALSE,
-						  SPAinterval const &range = *(SPAinterval const *)NULL_REF
-						  );
+						  SPAinterval const &range = SpaAcis::NullObj::get_interval());
 
 // As above, but taking the given coedge's 3D curve to drive the angle
 // definition.
@@ -117,7 +117,6 @@ DECL_INTR ed_cvty_info compute_ed_cvty_info(
 						  COEDGE *coedge,
 						  logical use_curvatures = TRUE,
 						  logical approx_ok = FALSE,
-						  SPAinterval const &range = *(SPAinterval const *)NULL_REF
-						  );
+						  SPAinterval const &range = SpaAcis::NullObj::get_interval());
 
 #endif

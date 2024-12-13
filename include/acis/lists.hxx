@@ -27,7 +27,7 @@
 #include "logical.h"
 #include "list_header.hxx"
 #include "lists_iterator.hxx"
-
+#include "spa_null_base.hxx"
 /**
  * @file lists.hxx
  * @CAA2Level L1
@@ -149,6 +149,11 @@ public:
 	ENTITY_LIST& operator=(ENTITY_LIST &&other) /*noexcept*/;
 
 /**
+ * Swap the two ENTITY_LISTs.
+ */
+	void swap(ENTITY_LIST& rhs) noexcept;
+
+/**
  * Clear all entries from the list and reset indexes and counters for reuse.
  */
 	void clear();
@@ -163,7 +168,7 @@ public:
   * @param check
   * check unique.
   */
-	int add( ENTITY *entity_name, logical check = TRUE );
+	int add(const ENTITY* const entity_name, logical check = TRUE);
 
  /**
   * Adds the entities of an <tt>ENTITY_LIST</tt> to this <tt>ENTITY_LIST</tt>.
@@ -340,7 +345,7 @@ public:
   */
 	ENTITY **
 	array( ENTITY ** entity_array = NULL,
-					   int &array_count = *(int *)NULL_REF,
+					   int &array_count = SpaAcis::NullObj::get_int(),
 					   logical tombstones = FALSE ) const;
 
 

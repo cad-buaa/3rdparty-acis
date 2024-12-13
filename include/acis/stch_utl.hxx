@@ -153,10 +153,10 @@ public:
     * @param rhs
     * unstitch_nm_options object.
     */
-    logical operator== ( unstitch_nm_options const &rhs ) const
+    bool operator== ( unstitch_nm_options const &rhs ) const
     {
         SPAUNUSED( rhs );
-        return FALSE;
+        return false;
     }
     /**
     * @nodoc
@@ -164,10 +164,10 @@ public:
     * @param rhs
     * unstitch_nm_options object.
     */
-    logical operator!= ( unstitch_nm_options const &rhs ) const
+    bool operator!= ( unstitch_nm_options const &rhs ) const
     {
         SPAUNUSED( rhs );
-        return TRUE;
+        return true;
     }
 
 private:

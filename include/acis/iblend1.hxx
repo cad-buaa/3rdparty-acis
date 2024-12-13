@@ -74,6 +74,8 @@
 
 #include "dcl_blnd.h"
 #include "bl_att.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
 
 class ATTRIB_BLEND;
 class ATTRIB_FFBLEND;
@@ -135,7 +137,7 @@ DECL_BLND logical axial_str_on_cone(surface const *, curve const *);
 
 // bl_edge_param_smooth_opp removed - no one uses it.
 
-// Check edge at SPAparameter value is smooth. Note that this calls
+// Check edge at parameter value is smooth. Note that this calls
 // bl_edge_param_convex which makes it expensive on non-trivial
 // geometries (at least compared to bl_edge_mid_smooth which can used
 // cached convexity values). bl_edge_mid_smooth (or the start/end
@@ -145,8 +147,7 @@ DECL_BLND logical
 bl_edge_param_smooth(
 	EDGE*,
 	double,
-	bl_ed_convexity & = 
-        * (bl_ed_convexity *) NULL_REF
+	bl_ed_convexity& = SpaAcis::NullObj::get_bl_ed_convexity()
     );
 
 // Return whether the middle (and therefore the entire length, excluding
@@ -155,8 +156,7 @@ bl_edge_param_smooth(
 DECL_BLND logical 
 bl_edge_mid_smooth(
     EDGE *,
-    bl_ed_convexity & = 
-        * (bl_ed_convexity *) NULL_REF,
+    bl_ed_convexity& = SpaAcis::NullObj::get_bl_ed_convexity(),
 	double tol = SPAresnor
     );
 
@@ -167,15 +167,13 @@ bl_edge_mid_smooth(
 DECL_BLND logical 
 bl_edge_start_smooth(
     EDGE *,
-    bl_ed_convexity & = 
-        * (bl_ed_convexity *) NULL_REF
+    bl_ed_convexity& = SpaAcis::NullObj::get_bl_ed_convexity()
     );
 
 DECL_BLND logical 
 bl_edge_end_smooth(
     EDGE *,
-    bl_ed_convexity & = 
-        * (bl_ed_convexity *) NULL_REF
+    bl_ed_convexity& = SpaAcis::NullObj::get_bl_ed_convexity()
     );
 
 // Remove each mergeable bi-valent vertex and one of its edges
@@ -185,16 +183,16 @@ bl_edge_end_smooth(
 
 DECL_BLND void bl_merge( ENTITY_LIST & );
 
-// Test whether a vertex is mergeable (i.e only two edges attached,
+// Test whether a vertex is mergeable (i.e., only two edges attached,
 // with compatible geometries), and merge it out if so. Return TRUE
-// if the vertex deleted, FALSE otherwise.  Remove its blend
+// if the vertex was deleted, FALSE otherwise.  Remove its blend
 // attribute from the given list of blend attributes (if any).
 
 DECL_BLND logical
 bl_merge_vertex(
     VERTEX *test_vert,
     ENTITY_LIST &bl_attrib_list = 
-        * (ENTITY_LIST *) NULL_REF,
+		SpaAcis::NullObj::get_ENTITY_LIST(),
     logical only_check = FALSE // but don't modify
     );
 
@@ -211,7 +209,7 @@ DECL_BLND logical
 rb_vbl_distinguished_edge(
 	COEDGE *,
 	ENTITY_LIST const & = 
-        * (ENTITY_LIST *) NULL_REF
+		SpaAcis::NullObj::get_ENTITY_LIST()
     );
 
 // Find a range describing a portion of an ellipse when exactly
@@ -231,7 +229,7 @@ DECL_BLND ATTRIB_BLEND *
 blended_in_list(
 	ENTITY*,
 	ENTITY_LIST const & = 
-        * (ENTITY_LIST *) NULL_REF
+		SpaAcis::NullObj::get_ENTITY_LIST()
     );
 
 // Make a four-sided blend face.  The sequence is vert-coed-vert etc.
@@ -462,7 +460,7 @@ fill_gap_in_chain(
 	ffsegment *seg,
 	ATTRIB_FFBLEND *att,
 	BODY *sheet_body,
- 	ENTITY_LIST const & = *(ENTITY_LIST *)NULL_REF	// temp default
+ 	ENTITY_LIST const & = SpaAcis::NullObj::get_ENTITY_LIST()	// unused - default
     );
 
 // Return given coedge if its start vertex is a bi-blend (or a coedge
@@ -556,7 +554,7 @@ find_cross_curve(
 	SPAposition const&,
 	SPAposition const&,
 	SPAposition const&,
-	SPAbox const & = *(SPAbox *)NULL_REF
+	SPAbox const & = SpaAcis::NullObj::get_box()
     );
 
 // Finds details of the mating configuration at the start of
@@ -675,7 +673,7 @@ look_ahead_for_mate(
 	segend *,
 	ffsegment *,
 	ATTRIB_FFBLEND *,
-	logical const & = *(logical const *)NULL_REF
+	logical const & = SpaAcis::NullObj::get_logical()
     );
 
 // Joins coedges from two sheet faces.
@@ -713,17 +711,16 @@ make_curve_on_surface(
 	SPAposition	const &pos_b,
 	surface	const *this_surf,
 	SPAvector const &pos_a_dir = 
-        * (SPAvector const *) NULL_REF,	// tangent at pos_a
+        SpaAcis::NullObj::get_vector(),	// tangent at pos_a
 	SPAvector const &pos_b_dir = 
-        * (SPAvector const *) NULL_REF,	// tangent at pos_b
+        SpaAcis::NullObj::get_vector(),	// tangent at pos_b
 	SPApar_pos const &pp_a_guess = 
-        * (SPApar_pos const *) NULL_REF,	
+		SpaAcis::NullObj::get_par_pos(),
 	SPApar_pos const &pp_b_guess = 
-        * (SPApar_pos const *) NULL_REF,	
-	surface	*&aux_surf = 
-        * (surface **) NULL_REF,		
+		SpaAcis::NullObj::get_par_pos(),
+	surface	*&aux_surf = SpaAcis::NullObj::get_surface_ptr(),
 	pcurve *&pcur_made = 
-        * (pcurve **) NULL_REF,	
+        SpaAcis::NullObj::get_pcurve_ptr(),
     bl_param_info u_param_info = 
         param_info_unknown,		// u param info along curve
     bl_param_info v_param_info = 
@@ -736,17 +733,16 @@ make_par_int_curve(
 	SPAposition	const &pos_b,
 	surface	const *this_surf,
 	SPAvector const &pos_a_dir = 
-        * (SPAvector const *) NULL_REF,	// tangent at pos_a
+        SpaAcis::NullObj::get_vector(),	// tangent at pos_a
 	SPAvector const &pos_b_dir = 
-        * (SPAvector const *) NULL_REF,	// tangent at pos_b
+		SpaAcis::NullObj::get_vector(),	// tangent at pos_b
 	SPApar_pos const &pp_a_guess = 
-        * (SPApar_pos const *) NULL_REF,	
+		SpaAcis::NullObj::get_par_pos(),
 	SPApar_pos const &pp_b_guess = 
-        * (SPApar_pos const *) NULL_REF,	
-	surface	*&aux_surf = 
-        * (surface **) NULL_REF,		
+		SpaAcis::NullObj::get_par_pos(),
+	surface	*&aux_surf = SpaAcis::NullObj::get_surface_ptr(),
 	pcurve *&pcur_made = 
-        * (pcurve **) NULL_REF,	
+        SpaAcis::NullObj::get_pcurve_ptr(),	
     bl_param_info u_param_info = 
         param_info_unknown,		// u param info along curve
     bl_param_info v_param_info = 
@@ -774,7 +770,7 @@ make_ffblend_geometry(
 	logical,			// open_at_end
 	segend * = NULL,	// start segend if any
 	segend * = NULL,	// end segend if any
-    double & = *(double*)NULL_REF // reduced_resabs
+    double & = SpaAcis::NullObj::get_double() // reduced_resabs
     );
 
 // Create the blend geometry for a non-simple constant radius blend,
@@ -856,7 +852,7 @@ pos_from_edge_sur(
 	SPAparameter &cur_param,
 	SPAposition &this_pos,
 	logical &pos_off_edge 
-        = *(logical *) NULL_REF	
+        = SpaAcis::NullObj::get_logical()
 	);
 
 // Process left and right intercept lists.
@@ -896,8 +892,8 @@ DECL_BLND logical process_open_end
 	ffsegment *,	// descriptor of this end of the blend sheet
 	logical,		// TRUE if at start of segment, FALSE for end
 	bl_ed_convexity,
-	logical & = *(logical *)NULL_REF,	// returned as true if 1st coedge deleted
-	logical & = *(logical *)NULL_REF	// returned as true if 2nd coedge deleted
+	logical & = SpaAcis::NullObj::get_logical(),	// returned as true if 1st coedge deleted
+	logical & = SpaAcis::NullObj::get_logical()	// returned as true if 2nd coedge deleted
 );
 
 DECL_BLND void process_univex_open_end(
@@ -970,7 +966,7 @@ DECL_BLND vsegment *
 vertex_blend_vsegment(
     ATTRIB_VBLEND *,
 	segend **segs = NULL, 
-	int &num_segs = *(int*)NULL_REF
+	int &num_segs = SpaAcis::NullObj::get_int()
     );
 
 DECL_BLND logical vertex_smooth(VERTEX *this_vertex);
@@ -978,8 +974,7 @@ DECL_BLND logical vertex_smooth(VERTEX *this_vertex);
 DECL_BLND logical 
 vertex_univex( 
         VERTEX *this_vertex, 
-        bl_ed_convexity &vtx_cvty =
-            * ( bl_ed_convexity * ) NULL_REF
+        bl_ed_convexity &vtx_cvty = SpaAcis::NullObj::get_bl_ed_convexity()
         );
 
 DECL_BLND logical zero_width_segend(segend *);
@@ -993,7 +988,7 @@ bl_find_blend_face_at_end(
 	ATTRIB_FFBLEND *bl_edge_att,
 	COEDGE *mitre_vtx,
 	ENTITY_LIST const &att_list =
-        * ( ENTITY_LIST * ) NULL_REF,
+		SpaAcis::NullObj::get_ENTITY_LIST(),
 	logical partial_ok = FALSE // whether end face created by edge blending is sufficient
 	                           // for cases where entity-entity blends are created at ends
 	);
@@ -1008,7 +1003,7 @@ bl_find_cross_at_end(
     logical partial_ok = FALSE, // whether end face created by edge blending is sufficient
                                 // for cases where entity-entity blends are created at ends
     ENTITY_LIST const &att_list =
-        * ( ENTITY_LIST * ) NULL_REF
+		SpaAcis::NullObj::get_ENTITY_LIST()
 	);
 
 // Find the support entities of the given blend entities, this is needed as the blend
@@ -1020,7 +1015,7 @@ bl_find_blend_supports(
 	support_entity *&left_support,
 	support_entity *&right_support,
     logical &same_sense =
-        * (logical *) NULL_REF
+		SpaAcis::NullObj::get_logical()
 	);
 
 // Check if the given sequence contains variable radius blends, in addition checks
@@ -1030,9 +1025,9 @@ logical
 var_blend_sequence(
 	blend_seq *seq,
 	logical &all_const = 
-        * ( logical * ) NULL_REF,
+		SpaAcis::NullObj::get_logical(),
 	logical &all_var = 
-        * ( logical * ) NULL_REF
+		SpaAcis::NullObj::get_logical()
 	);
 
 // Check if an entity-entity attribute was created to process this edge and 
@@ -1041,9 +1036,7 @@ var_blend_sequence(
 logical 
 abl_entity_entity_switched( 
 		 blend_edge *bl_edge,   // Edge being blended
-         ATT_BL_ENT_ENT *&ent_att =
-            * ( ATT_BL_ENT_ENT ** ) NULL_REF
-		 );
+         ATT_BL_ENT_ENT **ent_att = NULL);
 
 // Find the cross coedge corresponding to the segend.
 
@@ -1107,7 +1100,7 @@ public:
 		FACE* = NULL,
 		SPAunit_vector const & = null_unitvec,
 		SPApar_pos const & = 
-            * (const class SPApar_pos *) NULL_REF,
+			SpaAcis::NullObj::get_par_pos(),
 		logical is_in_face = TRUE,	// Whether the point is inside the face.
         double tol = SPAresabs
 	  );
@@ -1156,7 +1149,7 @@ public:
 				logical acwise,             // whether to search acwise.   
 				VERTEX *blank_v = NULL,     // end of the sequence.
 				logical &this_far =			// Whether this incpt is farther
-					* (logical *) NULL_REF  // away from the blank vertex.				                        
+					SpaAcis::NullObj::get_logical()  // away from the blank vertex.				                        
 				) const;
 
 	// Whether the intercepts from two adjacents blends intersect at the

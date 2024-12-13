@@ -14,6 +14,8 @@
 #include "dcl_kern.h"
 #include "vbl_bdy.hxx"
 #include "spldef.hxx"
+#include "spa_null_kern.hxx"
+#include "spa_null_base.hxx"
 
 /**
 * @file vbl.hxx
@@ -83,7 +85,7 @@ SPApar_pos param_internal(VBL_SURF& vbl, const SPAposition& iX, logical on_surf,
 * found to be bigger than a requested tolerance, in which case the errors are
 * approximated.
 */
-enum error_type{ exact_error, approximate_error, approx_if_too_big };
+enum error_type:int { exact_error, approximate_error, approx_if_too_big };
 
 // This is to do with blending the true surface onto the approximating one
 // outside the polygon. We use TRUE_SUR to indicate we only need the true
@@ -174,7 +176,7 @@ private:
     double		_cosine_1( int i ) const
 	{ return _boundaries[ i % _n ]->cosine_1(); };
 
-    // Local SPAparameter s_i and t_i = 1 - s_i-1, and derivs wrt u,v.
+    // Local parameter s_i and t_i = 1 - s_i-1, and derivs wrt u,v.
 
     double		_s( int i ) const { return _boundaries[ i ]->s(); };
     double&		_su( int i ) const { return _boundaries[ i ]->su(); };
@@ -274,7 +276,7 @@ private:
 
     void		_ensure_blend_fn( int ) const;
 
-    // Compute the SPAparameter used in blending onto approx surface, plus derivs.
+    // Compute the parameter used in blending onto approx surface, plus derivs.
 
     void		_compute_blend_param( int, int, double&, double*,
 					      double* ) const;
@@ -351,7 +353,7 @@ private:
     SPApar_pos&		_uvp( int i ) const
 	{ return _boundaries[ ( i + 1 ) % _n ]->uvp; };
 
-    // Telax to a SPAparameter on a boundary, the final argument containing the
+    // Relax to a parameter on a boundary, the final argument containing the
     // boundary curve you think it's on. It will contain the actual boundary at
     // the end.
 
@@ -474,10 +476,14 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const pcurve &pcur, logical cross_curve,
-				      const curve &cur, double fullness = 0, logical mark = 1,
-				      logical smooth = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const pcurve &pcur, 
+                        logical cross_curve,
+				        const curve &cur, 
+                        double fullness = 0, 
+                        logical mark = 1,
+                        logical smooth = 1,
+                        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a curve on a plane.
 /**
@@ -516,10 +522,16 @@ public:
  * @param bulge.
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const curve& cur, const SPAunit_vector& nor_plane,
-				      double u_val, double v_val, double fullness = 0, logical mark = 0,
-				      logical smooth_beg = 1, logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const curve& cur, 
+                        const SPAunit_vector& nor_plane,
+				        double u_val, 
+                        double v_val, 
+                        double fullness = 0, 
+                        logical mark = 0,
+				        logical smooth_beg = 1, 
+                        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a circle on the end of a cylinder.
 /**
@@ -544,10 +556,14 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const ellipse& ellipse, double start, double end,
-				      double fullness = 0, logical mark = 1, logical smooth_beg = 1,
-				      logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const ellipse& ellipse, 
+                        double start, double end,
+				        double fullness = 0, 
+                        logical mark = 1, 
+                        logical smooth_beg = 1,
+				        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a circle on the end of a torus.
 /**
@@ -574,10 +590,16 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const ellipse& ellipse, double start, double end,
-				      const SPAposition& pt, double fullness = 0, logical mark = 1,
-				      logical smooth_beg = 1, logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const ellipse& ellipse, 
+                        double start, 
+                        double end,
+				        const SPAposition& pt, 
+                        double fullness = 0, 
+                        logical mark = 1,
+				        logical smooth_beg = 1, 
+                        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a circle on the end of a pipe.
 /**
@@ -604,10 +626,16 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const ellipse& ellipse, double start, double end,
-				      const pcurve& pcur, double fullness = 0, logical mark = 1,
-				      logical smooth_beg = 1, logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const ellipse& ellipse, 
+                        double start, 
+                        double end,
+				        const pcurve& pcur, 
+                        double fullness = 0, 
+                        logical mark = 1,
+				        logical smooth_beg = 1, 
+                        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a circle with given twist vectors at the ends of the boundary.
 /**
@@ -636,11 +664,17 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const ellipse& ellipse, double start, double end,
-				      const SPAvector& first_vec, const SPAvector& second_vec,
-				      double fullness = 0,
-				      logical mark = 1, logical smooth_beg = 1, logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const ellipse& ellipse, 
+                        double start, 
+                        double end,
+				        const SPAvector& first_vec, 
+                        const SPAvector& second_vec,
+				        double fullness = 0,
+				        logical mark = 1, 
+                        logical smooth_beg = 1, 
+                        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a degenerate zero-radius 'cross curve', or just a point.
 /**
@@ -665,10 +699,15 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const SPAposition& pos, const SPAunit_vector& nor_start,
-				      const SPAunit_vector& nor_end, double fullness = 0,
-				      logical mark = 1, logical smooth_beg = 1, logical smooth_end = 1,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const SPAposition& pos, 
+                        const SPAunit_vector& nor_start,
+				        const SPAunit_vector& nor_end, 
+                        double fullness = 0,
+				        logical mark = 1, 
+                        logical smooth_beg = 1, 
+                        logical smooth_end = 1,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
     // ...as a curve across which the blend is not smooth.
 /**
@@ -689,9 +728,12 @@ public:
  * @param bulge
  * bulge faceter direction.
  */
-    void		set_geometry( int no_bound, const curve& cur,
-				      double start, double end, double fullness = 0, logical mark = 0,
-				      const SPAunit_vector& bulge = *(SPAunit_vector*)NULL_REF );
+    void set_geometry ( int no_bound, 
+                        const curve& cur,
+				        double start, double end, 
+                        double fullness = 0, 
+                        logical mark = 0,
+				        const SPAunit_vector& bulge = SpaAcis::NullObj::get_unit_vector() );
 
 
     // Check for any data errors in the surface, and correct the errors if
@@ -720,17 +762,17 @@ public:
  * checks to be made,default is none.
  */
     virtual	check_status_list*
-	check( const check_fix& input = *(const check_fix*) NULL_REF,
+        check( const check_fix& input = SpaAcis::NullObj::get_check_fix(),
 	           // supplies a set of flags which say which fixes
 	           // are allowable (the default is to fix nothing)
-	       check_fix& result = *(check_fix*) NULL_REF,
+	       check_fix& result = SpaAcis::NullObj::get_check_fix(),
 	           // returns a set of flags which say which fixes
 	           // were applied
-	       const check_status_list* status = (const check_status_list*) NULL_REF
-	           // list of checks that are to be made.  If the
+	       const check_status_list* status = nullptr
+	           // list of checks that are to be made. If the
 	           // list is null, then every possible check will
 	           // be made; otherwise, the function will only
-	           // check for things in the list.  The return
+	           // check for things in the list. The return
 	           // value for the function will then be a subset
 	           // of this list.
 	       );
@@ -775,7 +817,7 @@ public:
  */
     BDY_GEOM& boundary( int i ) const	{ return *_boundaries[ i ]; };
 
-    // Guess uv SPAparameter for SPAposition, and optionally whether it reckons it's
+    // Guess uv parameter for SPAposition, and optionally whether it reckons it's
     // guessed bang-on.
 
 /**
@@ -786,10 +828,10 @@ public:
  * @param pos_cur
  * position correct.
  */
-    SPApar_pos	param_guess( const SPAposition& pos, logical& pos_cur = *(logical*)NULL_REF ) const;
+    SPApar_pos	param_guess( const SPAposition& pos, logical& pos_cur = SpaAcis::NullObj::get_logical()) const;
 
-    // Relax to a SPAparameter on a boundary, the first argument being a
-    // guessed boundary SPAparameter, the final argument containing the
+    // Relax to a parameter on a boundary, the first argument being a
+    // guessed boundary parameter, the final argument containing the
     // boundary curve you think it's on. Both arguments should be set
     // correctly at the end. Returns TRUE if it thinks it found a
     // perpendicular to the boundary.
@@ -805,7 +847,7 @@ public:
  */
     logical	bdy_relax( const SPAposition& pos, double& dval, int& ival ) const;
 
-    // Is this uv SPAparameter on the surface?
+    // Is this uv parameter on the surface?
 /**
  * Returns <tt>TRUE</tt> if the <i>uv</i>-parameter is on the surface; otherwise, it returns <tt>FALSE</tt>.
  * <br><br>
@@ -851,8 +893,11 @@ public:
  * @param vlen
  * length along edge in v.
  */
-    logical	v_for_u_on_i( int i_bound, double u_val, double& ulen,
-				      double& vlen = *(double*)NULL_REF ) const;
+    logical	v_for_u_on_i( 
+                    int i_bound, 
+                    double u_val, 
+                    double& ulen,
+                    double& vlen = SpaAcis::NullObj::get_double() ) const;
 
     // as above, mut. mut.
 /**
@@ -870,8 +915,11 @@ public:
  * @param vlen
  * length along edge in v.
  */
-    logical	u_for_v_on_i( int i_bound, double v_val, double& ulen,
-				      double& vlen = *(double*)NULL_REF ) const;
+    logical	u_for_v_on_i( 
+                    int i_bound, 
+                    double v_val, 
+                    double& ulen, 
+                    double& vlen = SpaAcis::NullObj::get_double() ) const;
 
     // uv coords of vertex i.
 
@@ -915,8 +963,11 @@ public:
  * @param check_tol
  * check fit tolerance.
  */
-    bs3_surface	   make_sur( double tol, int& grid = *(int*)NULL_REF, int test = 0,
-				 double check_tol = -1 );
+    bs3_surface make_sur( 
+                    double tol, 
+                    int& grid = SpaAcis::NullObj::get_int(),
+                    int test = 0,
+				    double check_tol = -1 );
 
     // Function to make up several four-sided approximating bs3_surface's
     // to cover the vbl surface. The arguments supplied are an integer,
@@ -947,11 +998,11 @@ public:
 
     // Function to make up a bs3_surface approximating the i'th patch
     // of the supplied VBL_SURF, using the supplied number of points
-    // across the s and t SPAparameter ranges. If the reference values
+    // across the s and t parameter ranges. If the reference values
     // int_fit, fit_s and fit_t are supplied, the approximation error
     // inside the patch and on the boundaries is calculated. If the logical
     // argument approx_s_fit is set to TRUE and any of the errors along the
-    // s SPAparameter boundary are found to be greater than the requested
+    // s parameter boundary are found to be greater than the requested
     // tolerance, after this point the errors will be calculated
     // approximately. Similarly for the logical approx_t_fit. If either of
     // the logical arguments are set to TRUE, the references int_fit, fit_s,
@@ -986,15 +1037,15 @@ public:
  */
     bs3_surface
 	make_approximating_patch( int i, int ns, int nt,
-				  double &int_fit = *( double *) NULL_REF,
-				  double &fit_s = *( double *) NULL_REF,
-				  double &fit_t = *( double *) NULL_REF,
-				  int approx_s_fit = 0,
-				  int approx_t_fit = 0 ) const;
+				  double &int_fit   = SpaAcis::NullObj::get_double(),
+				  double &fit_s     = SpaAcis::NullObj::get_double(),
+				  double &fit_t     = SpaAcis::NullObj::get_double(),
+				  int approx_s_fit  = 0,
+				  int approx_t_fit  = 0 ) const;
 
     // Mapping function which, given an st SPApar_pos on the four-sided kite-
     // shaped patch i of the VBL_SURF, calculates and returns the u and v
-    // SPAparameter values, and if required, the SPAposition, the first partial
+    // parameter values, and if required, the SPAposition, the first partial
     // derivatives with respect to s and t, and the second partial
     // derivative with respect to s and t. The function returns a logical,
     // which denotes the success of the function.
@@ -1075,7 +1126,7 @@ public:
  */
     double st_measure_side_fit( bs3_surface bs3_sf, int i, int side,
 				error_type &err_type =
-				*( error_type * ) NULL_REF,
+                     SpaAcis::NullObj::get_error_type(),
 				double requested_fit = 0.0 ) const;
 
     // Function to find the maximum error on the interior of a four-sided
@@ -1118,14 +1169,16 @@ public:
  */
     double st_measure_interior_fit( bs3_surface bs3_sf, int i,
 				    error_type &err_type =
-				    *( error_type * ) NULL_REF,
+                        SpaAcis::NullObj::get_error_type(),
 				    double requested_fit = 0.0 ) const;
 
     // Return the ith boundary as a 3-space curve on the heap, and return its
     // range on the blend surface (which may not be the actual range of the
     // curve) and its uv range on the blend surface.
 /**
- * Returns the ith boundary as a three-space curve on the heap, its range on the blend surface (which may not be the actual range of the curve), and its <i>uv</i> range on the blend surface.
+ * Returns the ith boundary as a three-space curve on the heap, 
+ * its range on the blend surface (which may not be the actual range of the curve), 
+ * and its <i>uv</i> range on the blend surface.
  * <br><br>
  * @param i
  * ith boundary.
@@ -1138,11 +1191,13 @@ public:
  * @param end_uv
  * end uv-parameter.
  */
-    virtual curve*	boundary_curve( int i, double& start_par,
+    virtual curve*	boundary_curve( 
+                    int i, 
+                    double& start_par,
 					double& end_par,
-					SPApar_pos& start_uv = *(SPApar_pos*)NULL_REF,
-					SPApar_pos& end_uv =
-					*(SPApar_pos*)NULL_REF ) const;
+					SPApar_pos& start_uv    = SpaAcis::NullObj::get_par_pos(),
+					SPApar_pos& end_uv      = SpaAcis::NullObj::get_par_pos()
+    ) const;
 
     // Whether a boundary is degenerate.
 /**
@@ -1209,7 +1264,7 @@ public:
 			  ) const;
 
     // Find an outward direction from the surface at a point with
-    // given SPAparameter values.
+    // given parameter values.
 /**
  * Finds an outward direction from the surface at a point with given parameter values.
  * <br><br>
@@ -1236,7 +1291,7 @@ public:
  */
     virtual SPAunit_vector point_outdir(
 				     SPAposition const &pos,
-				     SPApar_pos const &param_val = *(SPApar_pos *)NULL_REF
+				     SPApar_pos const &param_val = SpaAcis::NullObj::get_par_pos()
 				     ) const;
 
     // Special versions of some spl_sur member functions which can be called
@@ -1281,8 +1336,9 @@ public:
  * @param par
  * parameter guess.
  */
-    virtual SPApar_pos	param( const SPAposition& pt,
-			       const SPApar_pos& par = *(SPApar_pos*)NULL_REF ) const;
+    virtual SPApar_pos	param( 
+        const SPAposition& pt,
+		const SPApar_pos& par = SpaAcis::NullObj::get_par_pos() ) const;
 
     // Wouldn't need to provide our own param_unitvec were it not for
     // degenerate blend singularities.
@@ -1317,10 +1373,15 @@ public:
  * @param box
  * bounding box.
  */
-    virtual void	point_perp( const SPAposition& pos1, SPAposition& pos2,
-				    SPAunit_vector& vec, surf_princurv& curv,
-				    const SPApar_pos& par_pos1, SPApar_pos& par_pos2, logical l=FALSE,
-                    const SPApar_box & box = *(SPApar_box *)NULL_REF ) const;
+    virtual void	point_perp( 
+                    const SPAposition& pos1, 
+                    SPAposition& pos2,
+				    SPAunit_vector& vec, 
+                    surf_princurv& curv,
+				    const SPApar_pos& par_pos1, 
+                    SPApar_pos& par_pos2, 
+                    logical l = FALSE,
+                    const SPApar_box & box = SpaAcis::NullObj::get_par_box() ) const;
 /**
  * Tests whether a given point lies on the surface to within a given fit tolerance.
  * <br><br>
@@ -1478,7 +1539,7 @@ public:
  * @param box
  * bounding box.
  */
-    virtual int accurate_derivs( const SPApar_box& box = *(SPApar_box*)NULL_REF ) const;
+    virtual int accurate_derivs( const SPApar_box& box = SpaAcis::NullObj::get_par_box() ) const;
 
     // Obviously this must include the effect of any offset (for
     // Make an offset vertex blend on the heap. May also be called on an

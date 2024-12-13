@@ -26,6 +26,9 @@
 #include "bl_end.hxx"
 #include "bl_enum.hxx"
 #include "lists.hxx"
+#include "spa_null_base.hxx"
+#include "spa_null_kern.hxx"
+
 class SPAposition;
 class SizeAccumulator;
 class curve;
@@ -349,11 +352,9 @@ public:
  * @nodoc
  */
 	virtual logical is_constant_offset( 
-						double &left_offset 
-							= *( double *)NULL_REF, 
-						double &right_offset 
-							= *( double *)NULL_REF 
-						) const;
+					double &left_offset  = SpaAcis::NullObj::get_double(),
+					double &right_offset = SpaAcis::NullObj::get_double()
+				) const;
 
 
 /**
@@ -538,7 +539,7 @@ public:
  * @param blnd
  * blend.
  */
-	virtual logical operator==( ATTRIB_BLEND const& blnd) const;
+	virtual bool operator==( ATTRIB_BLEND const& blnd) const;
 
 	// Return a measure of continuity at blend spring curves.
 /**
@@ -964,12 +965,9 @@ protected:
 									plane const &on_pln,
 									SPAbox const &in_box,
 									var_cross_section const &cs,
-									SPAposition const &left_pos = 
-										*(SPAposition const *)NULL_REF,	
-									SPAposition const &right_pos = 
-										*(SPAposition const *)NULL_REF, 
-									SPAposition const &spine_pos = 
-										*(SPAposition const *)NULL_REF	
+									SPAposition const &left_pos		= SpaAcis::NullObj::get_position(),
+									SPAposition const &right_pos	= SpaAcis::NullObj::get_position(),
+									SPAposition const &spine_pos	= SpaAcis::NullObj::get_position()
 									);
 
     // Find the blend geometry for a blend with constant left / right
@@ -1253,12 +1251,12 @@ public:
  * @nodoc
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        left_reorder(logical &convex = *(logical*)NULL_REF);
+		        left_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 /**
  * @nodoc
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        right_reorder(logical &convex = *(logical*)NULL_REF);
+		        right_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 
 	// Member setting functions. These ensure that the attribute
 	// is safely backed up before making the change.
@@ -1476,7 +1474,7 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==( ATTRIB_BLEND const& blnd) const;
+	virtual bool operator==( ATTRIB_BLEND const& blnd) const;
 
 	// Return the v-SPAparameter range.
 	// This is not guaranteed to be identical to that of the finished blend.
@@ -1595,8 +1593,8 @@ public:
 		logical op_end = FALSE,			// open at end
 		segend * start_seg= NULL,			// start segend if any
 		segend * end_seg= NULL,			// end segend if any
-		SPAbox const &bound_box = *(SPAbox const *)NULL_REF,
-        double & reduced_resabs = *(double*)       NULL_REF
+		SPAbox const &bound_box = SpaAcis::NullObj::get_box(),
+        double & reduced_resabs = SpaAcis::NullObj::get_double()
 	  );
 
 	// Find the spine curve or point.
@@ -1609,7 +1607,7 @@ public:
 		logical op_end,			// open at end
 		segend * start_seg,			// start segend if any
 		segend * end_seg,			// end segend if any
-		SPAbox const & bound_box= *(SPAbox const *)NULL_REF
+		SPAbox const & bound_box= SpaAcis::NullObj::get_box()
 	  );
 
 	// Find spring curves.  The curves returned have the same sense
@@ -1623,7 +1621,7 @@ public:
 		logical op_end,			// open at end
 		segend * start_seg,			// start segend if any
 		segend * end_seg,			// end segend if any
-		SPAbox const & bound_box = *(SPAbox const *)NULL_REF
+		SPAbox const & bound_box = SpaAcis::NullObj::get_box()
 	  );
 
 	// Find cross curve in given plane (must be normal to spine and
@@ -1636,9 +1634,9 @@ public:
 		ffblend_geom *,
 		plane const &,
 		SPAbox const &,
-		SPAposition & = *(SPAposition *)NULL_REF,	// left_pos
-		SPAposition & = *(SPAposition *)NULL_REF, // right_pos
-		SPAposition & = *(SPAposition *)NULL_REF	// spine_pos
+		SPAposition & = SpaAcis::NullObj::get_position(),	// left_pos
+		SPAposition & = SpaAcis::NullObj::get_position(),	// right_pos
+		SPAposition & = SpaAcis::NullObj::get_position()	// spine_pos
 	  );
 
 	// Given blend boundary details in a ffblend_geom, find the
@@ -1705,9 +1703,9 @@ public:
                 SPAposition* &pts_ptr, 
                 double *params = NULL,
                 SPAunit_vector &start_dir =
-                  * ( SPAunit_vector * ) NULL_REF,
+                  SpaAcis::NullObj::get_unit_vector(),
                 SPAunit_vector &end_dir =
-                  * ( SPAunit_vector * ) NULL_REF
+                  SpaAcis::NullObj::get_unit_vector()
                 );
 
 	// If a face-face blend will not fit anywhere along the blend,
@@ -1718,9 +1716,8 @@ public:
  * @nodoc
  */
 	ATT_BL_ENT_ENT *make_ent_ent_blend( 
-							SPAparameter const &v_param = 
-								* ( SPAparameter * ) NULL_REF 
-							);
+					SPAparameter const &v_param = SpaAcis::NullObj::get_parameter()
+	);
 
     // Return if an entity-entity blend can be done for this type of
     // blend.
@@ -1875,7 +1872,7 @@ public:
 				FACE * = NULL,				// support face
 				logical = TRUE,				// true if support is on the left
 				bl_ed_convexity = bl_ed_undefined_cvxty,
-				plane const & = *(plane const *)NULL_REF,	// def-plane
+				plane const & = SpaAcis::NullObj::get_plane(),	// def-plane
 				blend_status = bl_stat_unset,
 				bl_end_condition = bl_end_unset,	// bl_end_condit at start
 				bl_end_condition = bl_end_unset		// bl_end_condit at end
@@ -1977,7 +1974,7 @@ public:
 
 	// Test two blends for equality.
 
-	virtual logical operator==( ATTRIB_BLEND const& ) const;
+	virtual bool operator==( ATTRIB_BLEND const& ) const;
 
 	// Return a measure of continuity at blend spring curves
 	// i.e. unset_continuity, position_continuous, slope_continuous,
@@ -2002,7 +1999,7 @@ public:
 		logical = FALSE,			// open at end
 		segend * = NULL,			// start segend if any
 		segend * = NULL,			// end segend if any
-		SPAbox const & = *(SPAbox const *)NULL_REF
+		SPAbox const & = SpaAcis::NullObj::get_box()
 	  );
 
 	// Find the spine curve or point.
@@ -2012,7 +2009,7 @@ public:
 		logical,			// open at end
 		segend *,			// start segend if any
 		segend *,			// end segend if any
-		SPAbox const & = *(SPAbox const *)NULL_REF
+		SPAbox const & = SpaAcis::NullObj::get_box()
 	  );
 
 	// Given blend boundary details in a ffblend_geom, find the
@@ -2393,10 +2390,13 @@ public:
 
 	// For accessing and manipulating the prev/next face lists. First,
 	// simple access. The size of the array is the return argument.
+	int prev_faces() const;
 
-	int prev_faces( FACE **& = *(FACE ***)NULL_REF ) const;
+	int prev_faces( FACE **& ) const;
 
-	int next_faces( FACE **& = *(FACE ***)NULL_REF ) const;
+	int next_faces() const;
+
+	int next_faces( FACE **& ) const;
 
 	// Handy variants of the above. Returns the *first* face only.
 
@@ -2755,10 +2755,9 @@ public:
 	ATTRIB_ADJFACE(
 				ENTITY *,					// sheet vertex
 				FACE *,						// adjacent face                
-				SPApar_pos	const & =
-					* ( SPApar_pos const * ) NULL_REF,	
+				SPApar_pos	const & = SpaAcis::NullObj::get_par_pos(),
                                             // face SPAparameter at sheet vertex
-                COEDGE * = NULL             // coedge of blend edge lying on "adj_face"
+                COEDGE *			= NULL  // coedge of blend edge lying on "adj_face"
 			);
 
 	ATTRIB_ADJFACE();
@@ -3042,7 +3041,7 @@ public:
 				VERTEX * = NULL,	// sheet vertex
 				EDGE * = NULL,		// corresponding body vertex
 			    double = 0.0,		// SPAparameter along edge
-				SPApar_pos const & = *(const class SPApar_pos*)NULL_REF   // pos on sf
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()   // pos on sf
 			);
 
 	/**
@@ -3166,10 +3165,10 @@ public:
 
 	ATTRIB_XPOS(
 				EDGE * = NULL,		// owner
-				SPAposition const & = *(const class SPAposition *)NULL_REF,
-				SPAunit_vector const & = *(const class SPAunit_vector *)NULL_REF,
-				SPAposition const & = *(const class SPAposition *)NULL_REF,
-				SPAposition const & = *(const class SPAposition *)NULL_REF
+				SPAposition const &		= SpaAcis::NullObj::get_position(),
+				SPAunit_vector const &	= SpaAcis::NullObj::get_unit_vector(),
+				SPAposition const &		= SpaAcis::NullObj::get_position(),
+				SPAposition const &		= SpaAcis::NullObj::get_position()
 			);
 
 	/**

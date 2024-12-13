@@ -73,7 +73,7 @@ DECL_SPLINE void bs3_surface_determine_form_v( bs3_surface bs );
 //							1	:	surface is singular at u-start.
 //							2	:	surface is singular at u-end.
 //							3	:	surface is singular at bot u-start & u-end.
-//					*(int *)NULL_REF:	Surface singularity is determined.
+//					SpaAcis::NullObj::get_int():	Surface singularity is determined.
 //		num_ctrlpts_u:	Input the number of control points in u-direction
 //		degree_v	:	Input the surface degree in v direction.
 //		rational_v	:	Input TRUE, if the surface has to rational in
@@ -88,7 +88,7 @@ DECL_SPLINE void bs3_surface_determine_form_v( bs3_surface bs );
 //							1	:	surface is singular at v-start.
 //							2	:	surface is singular at v-end.
 //							3	:	surface is singular at bot v-start & v-end.
-//					*(int *)NULL_REF:	Surface singularity is determined.
+//					SpaAcis::NullObj::get_int():	Surface singularity is determined.
 //		num_ctrlpts_v:	Input the number of control points in v-direction
 //		ctrlpts		:	Array of positions input which specify the control
 //						points.  The order in which the control points are

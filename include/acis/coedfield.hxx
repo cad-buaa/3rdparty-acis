@@ -9,7 +9,7 @@
 /*******************************************************************/
 //
 // This file processes the boundary condition of a coedge and generates a law to describe
-// the cross boundary SPAvector field.
+// the cross boundary vector field.
 //
 #if !defined( COEDFIELD_HXX )
 #define COEDFIELD_HXX
@@ -22,6 +22,7 @@
 #include "position.hxx"
 #include "interval.hxx"
 #include "unitvec.hxx"
+#include "spa_null_kern.hxx"
 
 /**
 * @file coedfield.hxx
@@ -65,11 +66,11 @@ class ENTITY_LIST;
 enum fieldtype {
 	EMPTY_FIELD,		// no base face
 	UNIFORM_VEC_FIELD,	// defined by a central SPAvector
-	FACE_NORMAL_FIELD,	// SPAvector field generated from the face normal SPAvector
-	FACE_TANGENT_FIELD,	// SPAvector field generated from the face normal SPAvector
-	FACE_SIDE_FIELD,	// SPAvector field generated from the side face cross boundary SPAvector
-	DRAFT_NORMAL_FIELD,	// SPAvector field generated from an angle to a base SPAvector (field)
-	DRAFT_SIDE_FIELD	// SPAvector field generated from an angle to side faces of a base face
+	FACE_NORMAL_FIELD,	// vector field generated from the face normal vector
+	FACE_TANGENT_FIELD,	// vector field generated from the face normal vector
+	FACE_SIDE_FIELD,	// vector field generated from the side face cross boundary vector
+	DRAFT_NORMAL_FIELD,	// vector field generated from an angle to a base vector (field)
+	DRAFT_SIDE_FIELD	// vector field generated from an angle to side faces of a base face
 };
 
 /** @} */
@@ -150,27 +151,29 @@ class DECL_INTR CoedgeField : public ACIS_OBJECT
 public:
 
 	CoedgeField(COEDGE *,				// base coedge
-				fieldtype,				// mark how the resulting SPAvector field relates to the field face
+				fieldtype,				// mark how the resulting vector field relates to the field face
 		        law *,					// normal law
 				int fwd=TRUE,			// coedge direction to use
 				int rev=FALSE,			// reverse flag
 				double draft=0,			// draft angle
-				SPAinterval &range=*(class SPAinterval *) NULL_REF);
+				SPAinterval &range = SpaAcis::NullObj::get_interval());
 
 	CoedgeField(COEDGE *,				// base coedge
-				fieldtype,				// mark how the resulting SPAvector field relates to the field face
+				fieldtype,				// mark how the resulting vector field relates to the field face
 		        FACE *,					// face associated with the coedge
 				int fwd=TRUE,			// coedge direction to use
 				int rev=FALSE,			// reverse flag
 				double draft=0,			// draft angle
-				SPAinterval &range=*(class SPAinterval *) NULL_REF);
+				SPAinterval &range = SpaAcis::NullObj::get_interval());
 
 	~CoedgeField();
 	law *field(PositionVector *st=NULL, PositionVector *nd=NULL);
 
 	int		     set_next(CoedgeField *);
 	int			 validate();
-	logical      compatible_vector(SPAunit_vector &, double, SPAunit_vector &mod= *(SPAunit_vector *) NULL_REF);
+	logical      compatible_vector(SPAunit_vector &, 
+								double, 
+								SPAunit_vector &mod= SpaAcis::NullObj::get_unit_vector());
 	int			 make_complete();
 	void		 align_next();
 	void		 align_prev();
@@ -208,9 +211,9 @@ DECL_INTR law ** create_boundary_field(
 	fieldtype    ftype,
 	int		     rev=FALSE,
 	double       draft=0,
-	SPAvector      &uniform_vec= *(SPAvector *) NULL_REF,
-	ENTITY_LIST &cons_eds= *(ENTITY_LIST *) NULL_REF,
-	int          global=FALSE);
+	SPAvector	&uniform_vec= SpaAcis::NullObj::get_vector(),
+	ENTITY_LIST &cons_eds	= SpaAcis::NullObj::get_ENTITY_LIST(),
+	int			global		= FALSE);
 /*
 // tbrv
 */
@@ -222,8 +225,8 @@ DECL_INTR law ** create_boundary_field(
 	fieldtype    ftype,
 	int		     rev=FALSE,
 	double       draft=0,
-	SPAvector      &uniform_vec= *(SPAvector *) NULL_REF,
-	ENTITY_LIST &cons_eds= *(ENTITY_LIST *) NULL_REF,
+	SPAvector   &uniform_vec= SpaAcis::NullObj::get_vector(),
+	ENTITY_LIST &cons_eds= SpaAcis::NullObj::get_ENTITY_LIST(),
 	int          global=FALSE);
 /*
 // tbrv
@@ -237,8 +240,8 @@ DECL_INTR law ** create_boundary_field(
 	fieldtype    ftype=FACE_SIDE_FIELD,
 	int		     rev=FALSE,
 	double       draft=0,
-	SPAvector      &uniform_vec= *(SPAvector *) NULL_REF,
-	ENTITY_LIST &cons_eds= *(ENTITY_LIST *) NULL_REF,
+	SPAvector      &uniform_vec= SpaAcis::NullObj::get_vector(),
+	ENTITY_LIST &cons_eds= SpaAcis::NullObj::get_ENTITY_LIST(),
 	int          global=FALSE);
 /*
 // tbrv
@@ -250,7 +253,7 @@ DECL_INTR law ** create_boundary_field(
 	ENTITY_LIST &coeds,
 	law        **field_laws,
 	double       draft=0,
-	ENTITY_LIST &cons_eds= *(ENTITY_LIST *) NULL_REF,
+	ENTITY_LIST &cons_eds= SpaAcis::NullObj::get_ENTITY_LIST(),
 	int		     global=FALSE);
 
 #endif // COEDFIELD_HXX

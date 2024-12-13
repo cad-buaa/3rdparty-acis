@@ -543,11 +543,12 @@ DECL_GA void
 add_generic_named_attribute(
     ENTITY* ent,
     const char* name,
-	ENTITY *,
+	ENTITY * value,
 	split_action=SplitKeep,
 	merge_action=MergeKeepKept,
 	trans_action=TransIgnore,
-	copy_action=CopyCopy
+	copy_action=CopyCopy,
+	bool delete_value_on_lose = false
     );
 
 /**

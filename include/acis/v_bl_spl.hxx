@@ -48,8 +48,6 @@
 //					micro-kernel).
 //	07-Feb-96 bd	Replace var_rad_spl_sur with var_blend_spl_sur.
 //	01-Feb-96 bd	Remove open_end arg from eval_springs and set_save_slice.
-//	28-Jan-96 aed	Change null refs to NULL_REF;
-//					also rename locals to be different from member data.
 //	05-Jan-96 aed	Use dispatch tables for save/restore of derived types of
 //					var_radius and forms of var_cross_section.
 //	27-Sep-95 bd	New method get_slicing_plane(), for sliding-disc algorithm.
@@ -120,6 +118,8 @@ public:
     mutable v_bl_contacts *save_slice;
 
 	// Constructors.
+
+	double hyperbolic_conformal_scale = 1;
 
 	// Construct a generally null blend surface.
 	// This is to allow flexibility for constructors for derived classes to set
@@ -218,7 +218,8 @@ public:
 
 	// Utilities.
 
-	virtual logical operator==( subtype_object const &other ) const;
+	virtual bool operator==( subtype_object const &other ) const;
+
 	virtual void operator*=( SPAtransf const &xfm );
 
 	virtual void shift_v( double delta );
@@ -228,6 +229,8 @@ public:
 
 	logical explicit_radius() const { return rad->explicit_var_radius(); }
 	logical implicit_radius() const { return rad->implicit_var_radius(); }
+
+	logical is_var_rounded_chamfer() const;
 
 	// Radius evaluation.
 
@@ -270,18 +273,18 @@ public:
 
 	double minimum_radius(
 		            SPAinterval const &vrange = 
-                        *( SPAinterval * ) NULL_REF,
+                        SpaAcis::NullObj::get_interval(),
 		            logical const &left_only  = 
-                        *( logical * ) NULL_REF
+						SpaAcis::NullObj::get_logical()
 		            ) const;
 
 	// Find the maximum of both the left and the right radii.
 
 	double maximum_radius(
 		            SPAinterval const &vrange = 
-                        *( SPAinterval * ) NULL_REF,
+                        SpaAcis::NullObj::get_interval(),
 		            logical const &left_only = 
-                        *( logical * ) NULL_REF
+						SpaAcis::NullObj::get_logical()
                     ) const;
 
 	// Find the SPAparameter value (if any) at which either the left or the
@@ -294,7 +297,7 @@ public:
 		        logical left_side,
 		        double	closest_param,
 		        SPAinterval &vrange = 
-                    *( SPAinterval * ) NULL_REF 
+                    SpaAcis::NullObj::get_interval()
                 ) const;
 
 	// Eventually we might need versions of these for the left & right radii:
@@ -317,6 +320,7 @@ public:
                         ) const;
 
 	// Geometric evaluation.
+
 
 	// The evaluate() function calculates derivatives, of any order up to the
 	// number requested, and stores them in vectors provided by the user. It
@@ -356,8 +360,7 @@ public:
     // Defaults to the whole surface
 
 	virtual int accurate_derivs(
-		                SPApar_box const &pbx = 
-                            *(SPApar_box *)NULL_REF 
+		                SPApar_box const &pbx = SpaAcis::NullObj::get_par_box()
 	                    ) const;
 
 	// Implement (stubs for) new pure virtual functions: start: Find the
@@ -371,10 +374,8 @@ public:
 		                    SPAunit_vector &Tan,
 		                    SPAvector const &R0,
 		                    SPAvector const &R1,
-		                    double &rr_sina = 
-                                *(double*) NULL_REF,
-		                    double &rr_cosa = 
-                                *(double*) NULL_REF,
+		                    double &rr_sina = SpaAcis::NullObj::get_double(),
+		                    double &rr_cosa = SpaAcis::NullObj::get_double(),
 		                    double v_value = 0.
 		                    ) const;
 
@@ -385,10 +386,8 @@ public:
 		                    SPAunit_vector &Tan,
 		                    SPAvector const &R0,
 		                    SPAvector const &R1,
-		                    double &rr_sina = 
-                                *(double*) NULL_REF,
-		                    double &rr_cosa = 
-                                *(double*) NULL_REF,
+		                    double &rr_sina = SpaAcis::NullObj::get_double(),
+		                    double &rr_cosa = SpaAcis::NullObj::get_double(),
 		                    double v_value  = 0.
 		                    ) const;
 
@@ -401,8 +400,7 @@ public:
 		                SPApar_pos const &uv_guess,	// surface SPAparameter guess
 		                SPApar_pos &uv_actual,	// resulting surface parameters
 		                logical f_weak = FALSE,
-		                SPApar_box const &subset_range = 
-                            *(SPApar_box *)NULL_REF
+		                SPApar_box const &subset_range = SpaAcis::NullObj::get_par_box()
 		                ) const;
 
 	// Find the SPAparameter values of a point on the surface.
@@ -496,11 +494,10 @@ public:
 		                    curve const &sfcrv,
 		                    logical left_srf,
 		                    int n_derivs,
-		                    v_bl_contacts *guess = NULL,
-		                    logical approx_ok = FALSE,
-		                    logical	repeat_order = FALSE,
-		                    SPAparameter &incpt_t = 
-                                *( SPAparameter * ) NULL_REF
+		                    v_bl_contacts *guess	= NULL,
+		                    logical approx_ok		= FALSE,
+		                    logical	repeat_order	= FALSE,
+		                    SPAparameter &incpt_t	= SpaAcis::NullObj::get_parameter()
 		                    ) const = 0;
 
 	// Cross-section evaluation.
@@ -606,7 +603,7 @@ public:
 
 	void param_from_plane_point(
 				SPAposition	const &pt,
-				const double &guess_param,	// may be NULL_REF.
+				const double &guess_param,	// may be NULL Object.
 				double *v_param				// result.
 				) const;
 
@@ -616,13 +613,16 @@ public:
 	// just how much too big the blend would be here, suitable for use in a
 	// root-finding iteration. Negative values are too big, positive are ok.
 
-	logical blend_too_big( double v_param, double &value = *(double*)NULL_REF );
+	logical blend_too_big( 
+						double v_param, 
+						double &value = SpaAcis::NullObj::get_double() 
+						);
 
 	// slice must have first derivatives set: slice->num_derivs >= 1
 
 	logical blend_too_big(
 					v_bl_contacts *slice,
-					double &value = *(double*)NULL_REF 
+					double &value = SpaAcis::NullObj::get_double()
 					);
 
 	// Make a bs3_curve from a ratBez_section
@@ -863,22 +863,26 @@ public:
 		SPAposition const &pt,
 		SPAposition &perp_pt,
 		SPAunit_vector &perp_tan,
-		double const &param_guess = *(double *)NULL_REF,
-		double &perp_param = *(double *)NULL_REF,
-		logical f_weak = FALSE
-				);
+		double const &param_guess	= SpaAcis::NullObj::get_double(),
+		double &perp_param			= SpaAcis::NullObj::get_double(),
+		logical f_weak				= FALSE 
+	);
 
 	void point_perp(
 		SPAposition const &given_pt,
 		SPAposition &perp_pt,
-		double const &param_guess = *(double *)NULL_REF,
-		double &perp_param = *(double *)NULL_REF,
+		double const &param_guess	= SpaAcis::NullObj::get_double(),
+		double &perp_param			= SpaAcis::NullObj::get_double(),
 		logical f_weak = FALSE
 		)
 		{
 			this->point_perp(
-				given_pt, perp_pt, *(SPAunit_vector *)NULL_REF,
-				param_guess, perp_param, f_weak );
+				given_pt, 
+				perp_pt, 
+				SpaAcis::NullObj::get_unit_vector(),
+				param_guess, 
+				perp_param, 
+				f_weak );
 		}
 
 };

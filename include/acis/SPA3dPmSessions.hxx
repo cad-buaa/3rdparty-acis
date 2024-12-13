@@ -18,9 +18,8 @@ extern "C"
 	#include "meshgems/hybrid.h"
 	#include "meshgems/hybrid_cfd.h"
 	#include "meshgems/tetra.h"
-//	#include "meshgems/tetra_hpc.h"
-	struct meshgems_tetra_hpc_session_t_;
-	typedef struct meshgems_tetra_hpc_session_t_ meshgems_tetra_hpc_session_t;
+	#include "meshgems/tetra_hpc.h"
+	#include "meshgems/cvm.h"
 }
 
 #include "face.hxx"

@@ -73,7 +73,7 @@ public:
 
 	sub_spl_sur(
 				spline const     &spl,
-				SPApar_box const &range = *(const class SPApar_box *)NULL_REF
+				SPApar_box const &range = SpaAcis::NullObj::get_par_box()
 			);
 /**
  * C++ copy constructor requests memory for this object and populates it with the data from the object supplied as an argument.
@@ -202,7 +202,7 @@ private:
  * does guarantee that different surfaces are correctly
  * identified as such.
 */
-	logical operator==( subtype_object const & ) const;
+	bool operator==( subtype_object const & ) const;
 /**
  * Transformation.<br><br>
  * <b>Role:</b> The base class transforms the spline and fit
@@ -254,7 +254,7 @@ private:
 
 	virtual SPApar_pos param(
 				SPAposition const &,
-				SPApar_pos const & = *(SPApar_pos *)NULL_REF
+				SPApar_pos const & = SpaAcis::NullObj::get_par_pos()
 			) const;
 /**
  * Find the position and first and second derivatives of the

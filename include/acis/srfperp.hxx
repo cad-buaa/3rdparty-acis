@@ -22,6 +22,7 @@
 #include "dcl_kern.h"
 #include "position.hxx"
 #include "vector.hxx"
+#include "spa_null_base.hxx"
 
 class surface;
 class SPApar_pos;
@@ -44,17 +45,16 @@ class SPApar_pos;
 //
 
 DECL_KERN logical surface_perp(	
-		surface  const &srf,				// input args
+		surface  const &srf,			// input args
 		SPAposition const &pt,
-		SPApar_pos  const &uv_guess,			// may be NULL
+		SPApar_pos  const &uv_guess,	// may be NULL
 		double tol,
-
-		SPApar_pos &uv_actual = *(SPApar_pos *)NULL_REF,	// output args
-		SPAposition &foot = *(SPAposition *)NULL_REF,
-		SPAvector derivs1[2] = NULL,
-		SPAvector derivs2[3] = NULL,
-	    logical constrained = TRUE  // TRUE if constrained min wanted
-						            // FALSE if unconstrained min wanted
+		SPApar_pos &uv_actual			= SpaAcis::NullObj::get_par_pos(),	// output args
+		SPAposition &foot				= SpaAcis::NullObj::get_position(),
+		SPAvector derivs1[2]			= NULL,
+		SPAvector derivs2[3]			= NULL,
+	    logical constrained				= TRUE  // TRUE if constrained min wanted
+												// FALSE if unconstrained min wanted
 	);
 
 #endif

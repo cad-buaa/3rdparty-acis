@@ -205,6 +205,9 @@ public:
 	virtual int				get_engine_version_major() = 0;
 	virtual int				get_engine_version_minor() = 0;
 	virtual int				get_engine_version_point() = 0;	
+	virtual int				set_unlit(int) = 0; // Returns old value. Currently only color_shading. Similar to no shading, cel shading or toon shading.
+	virtual int				get_unlit() = 0; // Currently only color_shading. Similar to no shading, cel shading, toon shading or flat shading.
+	virtual void			RenderRebuild(PART* in_part = nullptr) = 0; // Remove everything and add it back
 };
 
 // A class to be used by those who don't want to explicitly code Release()
@@ -212,18 +215,34 @@ class SchemeViewPtr: public ACIS_OBJECT
 {
 	SchemeView* m_pView;
 public:
-	SchemeViewPtr(SchemeView* v = NULL) : m_pView(v) {if(m_pView != (SchemeView*)NULL_REF) m_pView->AddRef();}
-	~SchemeViewPtr() { if(m_pView != (SchemeView*)NULL_REF) m_pView->Release(); }
+	SchemeViewPtr(SchemeView* v = nullptr) : m_pView(v)
+	{
+		if(nullptr != m_pView)
+			m_pView->AddRef();
+	}
+
+	~SchemeViewPtr() 
+	{ 
+		if(nullptr != m_pView)
+			m_pView->Release(); 
+	}
+
 	SchemeView* operator->() { return m_pView; }
-	operator SchemeView*() { return m_pView; }
-	SchemeView* operator=(SchemeView* v) {
-		if(m_pView != v) {
-			if(m_pView != (SchemeView*)NULL_REF) m_pView->Release();
+	operator SchemeView*() const { return m_pView; }
+
+	SchemeView* operator=(SchemeView* v) 
+	{
+		if(m_pView != v) 
+		{
+			if(nullptr != m_pView)
+				m_pView->Release();
+
 			m_pView = v;
-			//if(v) v->AddRef();
-			if (m_pView != (SchemeView*)NULL_REF)
+
+			if (nullptr != m_pView)
 				m_pView->AddRef();
 		}
+
 		return m_pView;
 	}
 };

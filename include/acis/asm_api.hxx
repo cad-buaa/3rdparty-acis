@@ -218,16 +218,38 @@ class asm_info {
 	logical ended;
 	asm_info();
 public:
-	asm_info( asm_model const* m) : model(m), ended(FALSE) { model->begin(); }
-	~asm_info() { if(!ended) { outcome o(0); model->end( o, ASM_NO_CHANGE);}}
-	void end( outcome o, asm_event_type e) { ended = TRUE; model->end(o,e,NULL); }
-	void end( outcome o, asm_event_type e, asm_event_info* ei) { ended = TRUE; model->end(o,e,ei); }
+	asm_info( asm_model const* m) : model(m), ended(FALSE) 
+	{ 
+		if(model!=nullptr) 
+			model->begin(); 
+	}
+	~asm_info() 
+	{ 
+		if(!ended) 
+		{ 
+			outcome o(0); 
+			if (model != nullptr) 
+				model->end( o, ASM_NO_CHANGE);
+		}
+	}
+	void end( outcome o, asm_event_type e) 
+	{ 
+		ended = TRUE; 
+		if (model != nullptr) 
+			model->end(o,e,NULL); 
+	}
+	void end( outcome o, asm_event_type e, asm_event_info* ei) 
+	{ 
+		ended = TRUE; 
+		if (model != nullptr) 
+			model->end(o,e,ei); 
+	}
 };
 /**
  *.
  */
-#define API_MODEL_BEGIN(_model_) asm_info this_asm_info( _model_); API_BEGIN asm_model_entity_mgr* mgr = (_model_)->mgr();
-/**
+#define API_MODEL_BEGIN(_model_) asm_info this_asm_info( _model_); API_BEGIN asm_model_entity_mgr* mgr = nullptr; if (_model_) mgr = (_model_)->mgr();
+ /**
  *.
  */
 #define API_MODEL_END(_event_type_) API_END this_asm_info.end( result, _event_type_);
@@ -238,8 +260,8 @@ public:
 /**
  * Make model active
  */
-#define MODEL_BEGIN(_model_) asm_info this_asm_info( _model_); outcome result; EXCEPTION_BEGIN asm_model_entity_mgr* mgr = (_model_)->mgr(); EXCEPTION_TRY 
-/**
+#define MODEL_BEGIN(_model_) asm_info this_asm_info( _model_); outcome result; EXCEPTION_BEGIN asm_model_entity_mgr* mgr = nullptr; if (_model_) mgr = (_model_)->mgr(); EXCEPTION_TRY 
+ /**
  *.
  */
 #define MODEL_END(_event_type_) EXCEPTION_CATCH_FALSE result = outcome(resignal_no); EXCEPTION_END_NO_RESIGNAL this_asm_info.end( result, _event_type_ );
@@ -492,7 +514,7 @@ DECL_ASM outcome asmi_model_get_entity_mgr(asm_model const* model,
  * a model.
  * <br><br>
  * <b>Role:</b> Does <i>not</i> include the model's assembly entity, if any, in the list.
- * This query does not take into account suppressed and over-ridden models.
+ * This query does not take into account suppressed and overridden models.
  * <br><br>
  * <b>Errors:</b> NULL model pointer.
  * <br><br>
@@ -512,6 +534,40 @@ DECL_ASM outcome asmi_model_get_entity_mgr(asm_model const* model,
 DECL_ASM outcome asmi_model_get_entities(asm_model const* model,
 								entity_handle_list & ents,
 								AcisOptions* ao = NULL );
+
+
+//////////////////////
+// Interface to query for the entities managed by the model's entity manager
+//////////////////////
+/**
+ * Returns a list of entity handles for the top-level part-modeling entities contained within
+ * a model.
+ * <br><br>
+ * <b>Role:</b> Does <i>not</i> include the model's assembly entity, if any, in the list.
+ * This query does not take into account suppressed and overridden models.
+ * <br><br>
+ * <b>Errors:</b> NULL model pointer.
+ * <br><br>
+ * <b>Effect:</b> Read-only.
+ * <br><br>
+ * <b>Journal:</b> Not Available
+ * <br><br>
+ * <b>Product(s):</b> 3D ACIS Exchange, 3D Viz Exchange, 3D ACIS Modeler
+ * <br><br>
+ * @param model
+ * model to be queried.
+ * @param check_entity_owner
+ * Check if the entity belongs to the owning model before creating a handle. 
+ * Setting this to FALSE help in reducing the time taken if there are large entities in model.
+ * @param ents
+ * list of entity handles of the requested entities.
+ * @param ao
+ * ACIS options such as versioning and journaling.
+ **/
+DECL_ASM outcome asmi_model_get_entities(asm_model const* model,
+								logical check_entity_owner,
+								entity_handle_list& ents,
+								AcisOptions* ao = NULL);
 
 //////////////////////
 // Interfaces to query model for part information, including units and tolerances

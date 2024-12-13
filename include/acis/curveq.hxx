@@ -12,6 +12,7 @@
 #define curveq_hxx
 #include "dcl_kern.h"
 #include "base.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file curveq.hxx
  * @CAA2Level L1
@@ -137,10 +138,10 @@ DECL_KERN logical get_plane_from_curve_list(
 	int					n_ents,
 	curve*				clist[],
 	logical				same_plane,
-	SPAposition&           centroid,
-    SPAunit_vector&        normal,
+	SPAposition&        centroid,
+    SPAunit_vector&     normal,
 	double&				deviation,
-	double&	= *(double *)NULL_REF
+	double&				= SpaAcis::NullObj::get_double()
 	);
 /**
  * @nodoc

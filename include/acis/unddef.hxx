@@ -32,6 +32,7 @@
 #include "position.hxx"
 #include "vector.hxx"
 #include "unitvec.hxx"
+#include "spa_null_base.hxx"
 
 class SPAbox;
 
@@ -164,7 +165,7 @@ public:
 
 //	virtual curve *split(
 //				double,
-//				SPAposition const & = *(SPAposition *)NULL_REF
+//				SPAposition const & = SpaAcis::NullObj::get_position()
 //			);
 
 
@@ -174,11 +175,12 @@ public:
 	virtual SPAbox bound(
 				SPAposition const &,
 				SPAposition const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
+
 	virtual SPAbox bound(
 				SPAinterval const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
 
 	// Return a SPAbox surrounding that portion of the curve within the
@@ -186,7 +188,7 @@ public:
 
 	virtual SPAbox bound(
 				SPAbox const &,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
 
 
@@ -196,7 +198,7 @@ public:
 	SPAbox bound(
 				double start,
 				double end,
-				SPAtransf const &t = *(SPAtransf *)NULL_REF
+				SPAtransf const &t = SPAtransf()
 			) const
 	{
 		return bound( SPAinterval( start, end ), t );
@@ -216,7 +218,7 @@ public:
 	virtual curve_tancone tangent_cone(
 				SPAinterval const &,
 				logical = FALSE,
-				SPAtransf const & = *(SPAtransf *)NULL_REF
+				SPAtransf const & = SPAtransf()
 			) const;
 
 
@@ -226,7 +228,7 @@ public:
 
 	virtual SPAunit_vector point_direction(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -234,7 +236,7 @@ public:
 
 	virtual SPAvector point_curvature(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -252,16 +254,17 @@ public:
 				SPAposition &,
 				SPAunit_vector &,
 				SPAvector &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF,
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter(),
 				logical f_weak = FALSE
 			) const;
+
 	void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
 				SPAunit_vector &foot_dt,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &actual = *(SPAparameter *)NULL_REF,
+				SPAparameter const &guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter &actual = SpaAcis::NullObj::get_parameter(),
 				logical f_weak = FALSE
 			) const
 	{
@@ -269,7 +272,7 @@ public:
 					pos,
 					foot,
 					foot_dt,
-					*(SPAvector *)NULL_REF,
+					SpaAcis::NullObj::get_vector(),
 					guess,
 					actual, f_weak
 				);
@@ -277,16 +280,16 @@ public:
 	void point_perp(
 				SPAposition const &pos,
 				SPAposition &foot,
-				SPAparameter const &guess = *(SPAparameter *)NULL_REF,
-				SPAparameter &actual = *(SPAparameter *)NULL_REF,
+				SPAparameter const &guess = SpaAcis::NullObj::get_parameter(),
+				SPAparameter &actual = SpaAcis::NullObj::get_parameter(),
 				logical f_weak = FALSE
 			) const
 	{
 		point_perp(
 					pos,
 					foot,
-					*(SPAunit_vector *)NULL_REF,
-					*(SPAvector *)NULL_REF,
+					SpaAcis::NullObj::get_unit_vector(),
+					SpaAcis::NullObj::get_vector(),
 					guess,
 					actual, f_weak
 				);
@@ -299,7 +302,7 @@ public:
 
 	virtual double param(
 				SPAposition const &,
-				SPAparameter const & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -308,8 +311,8 @@ public:
 	virtual void eval(
 				double,
 				SPAposition &,
-				SPAvector & = *(SPAvector *)NULL_REF,	// first derivative
-				SPAvector & = *(SPAvector *)NULL_REF,	// second derivative
+				SPAvector & = SpaAcis::NullObj::get_vector(),	// first derivative
+				SPAvector & = SpaAcis::NullObj::get_vector(),	// second derivative
 				logical = FALSE,
 				logical = FALSE
 			) const;
@@ -404,7 +407,7 @@ public:
 #define ALL_CURVE_DERIVATIVES 9999
 
 	virtual int accurate_derivs( 
-				SPAinterval const & = *(SPAinterval*)NULL_REF
+				SPAinterval const & = SpaAcis::NullObj::get_interval()
 								 	// Defaults to the whole curve
 			) const;
 
@@ -433,7 +436,7 @@ public:
 	// Return the range of SPAparameter values.
 
 	virtual SPAinterval param_range(
-				SPAbox const & = *(SPAbox *)NULL_REF
+				SPAbox const & = SpaAcis::NullObj::get_box()
 			) const;
 
 
@@ -485,8 +488,8 @@ public:
 	virtual logical test_point_tol(
 				SPAposition const &,
 				double = 0,
-				SPAparameter const & = *(SPAparameter *)NULL_REF,
-				SPAparameter & = *(SPAparameter *)NULL_REF
+				SPAparameter const & = SpaAcis::NullObj::get_parameter(),
+				SPAparameter & = SpaAcis::NullObj::get_parameter()
 			) const;
 
 
@@ -494,7 +497,7 @@ public:
 	// SPAinterval. 
 
 	virtual BOUNDING_CYLINDER enclosing_cylinder( const SPAinterval& = 
-												    *(SPAinterval*)NULL_REF ) const;
+												  SpaAcis::NullObj::get_interval() ) const;
 
 
 	// Return an identifier uniquely specifying the curve type

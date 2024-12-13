@@ -16,6 +16,7 @@
 #include "bs3surf.hxx"
 #include "debugmsc.hxx"
 #include "param.hxx"
+#include "spa_null_base.hxx"
 /**
  * @file sp2crtn.hxx
  * @CAA2Level L1
@@ -99,10 +100,10 @@ bs2_curve_term();
 **/
 DECL_SPLINE bs2_curve
 bs2_curve_make_line(
-			SPApar_pos const &start,		// start SPAposition
+			SPApar_pos const &start,	// start SPAposition
 			SPApar_pos const &end,		// end SPAposition
-			double double1 = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
+			double double1 = 0,			// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -146,10 +147,10 @@ DECL_SPLINE bs2_curve
 bs2_curve_make_rho_conic(
 			SPApar_pos const &start,	// start
 			SPApar_pos const &tan_int,	// tangent intersection point
-			SPApar_pos const &end,	// end
-			double rho = 0.5,		// rho
-			double actual_fit = 0,				// required fit tolerance
-			double &acfitol = *(double *)NULL_REF
+			SPApar_pos const &end,		// end
+			double rho = 0.5,			// rho
+			double actual_fit = 0,		// required fit tolerance
+			double &acfitol   = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -183,10 +184,10 @@ DECL_SPLINE bs2_curve
 bs2_curve_interp(
 			int npts,					// number of points
 			SPApar_pos const *pts,		// array of points to interpolate or fit
-			SPApar_vec const &start_dir,		// start derivative
-			SPApar_vec const &end_dir,		// end derivative
-			double fitol = 0,				// fit tolerance, 0 for interpolate
-			double &acfitol = *(double *)NULL_REF
+			SPApar_vec const &start_dir,// start derivative
+			SPApar_vec const &end_dir,	// end derivative
+			double fitol	= 0,		// fit tolerance, 0 for interpolate
+			double &acfitol = SpaAcis::NullObj::get_double()
 									// set to actual fit tolerance
 		);
 
@@ -331,10 +332,10 @@ bs2_curve_v_param_line(
 DECL_SPLINE bs2_curve
 bs2_curve_subset(
 			bs2_curve old_bs,				// given curve
-			SPAinterval const &new_range,		// required bounds
-			double fit = 0,				// required fit tolerance
-			double &actual_fit = *(double *)NULL_REF
-									// returns actual fit tolerance
+			SPAinterval const &new_range,	// required bounds
+			double fit = 0,					// required fit tolerance
+			double &actual_fit = SpaAcis::NullObj::get_double()
+											// returns actual fit tolerance
 		);
 
 
@@ -480,9 +481,9 @@ bs2_curve_reverse(
 DECL_SPLINE bs2_curve
 bs2_curve_split(
 			bs2_curve &cur,					// given curve
-			double param,							// given SPAparameter value
-			SPApar_pos const &split_pt = *(SPApar_pos *)NULL_REF,	// given SPAposition
-			SPApar_dir const &split_dr = *(SPApar_dir *)NULL_REF	// UNUSED
+			double param,							// given parameter value
+			SPApar_pos const &split_pt = SpaAcis::NullObj::get_par_pos(),	// given split position
+			SPApar_dir const &split_dr = SpaAcis::NullObj::get_par_dir()	// UNUSED
 		);
 
 
@@ -926,13 +927,13 @@ bs2_curve_evaluate(
 **/
 DECL_SPLINE void
 bs2_curve_eval(
-			double param,					// given SPAparameter value
+			double param,				// given SPAparameter value
 			bs2_curve cur,				// given curve
 			SPApar_pos &x,				// parametric SPAposition returned
-			SPApar_vec &xdot = *(SPApar_vec *)NULL_REF,
-									// first derivative returned
-			SPApar_vec &xdotdot = *(SPApar_vec *)NULL_REF
-									// second derivative returned
+			SPApar_vec &xdot	= SpaAcis::NullObj::get_par_vec(),
+										// first derivative returned
+			SPApar_vec &xdotdot = SpaAcis::NullObj::get_par_vec()
+										// second derivative returned
 		);
 
 
@@ -1015,7 +1016,7 @@ DECL_SPLINE double
 bs2_curve_invert(
 			SPApar_pos const &,	// given point
 			bs2_curve,			// given curve
-			SPAparameter const & = *( SPAparameter * ) NULL_REF  // SPAparameter guess
+			SPAparameter const & = SpaAcis::NullObj::get_parameter()  // SPAparameter guess
 		);
 
 
@@ -1032,11 +1033,11 @@ DECL_SPLINE void
 bs2_curve_perp(
 			SPApar_pos const &,	// given point
 			bs2_curve,			// curve
-			SPApar_pos &,			// (returned) foot of perpendicular
+			SPApar_pos &,		// (returned) foot of perpendicular
 			SPApar_dir &,		// (returned) curve tangent
-			SPAparameter const & = *( SPAparameter * ) NULL_REF,
+			SPAparameter const & = SpaAcis::NullObj::get_parameter(),
 								// supplied approximate SPAparameter
-			SPAparameter & = *( SPAparameter * ) NULL_REF
+			SPAparameter & = SpaAcis::NullObj::get_parameter()
 								// (returned) actual SPAparameter
 		);
 
@@ -1289,7 +1290,9 @@ bs2_len_bs( ag_spline* bs, double tol, int &err );
 * within this tolerance.
 **/
 DECL_SPLINE int
-bs2_curve_linear( const bs2_curve& bc, SPApar_dir &direction = *(SPApar_dir*)NULL_REF, double tolerance = SPAresabs );
+bs2_curve_linear( const bs2_curve& bc, 
+				SPApar_dir &direction = SpaAcis::NullObj::get_par_dir(), 
+				double tolerance = SPAresabs );
 
 /** @} */
 #endif

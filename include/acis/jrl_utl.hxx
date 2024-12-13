@@ -33,7 +33,7 @@ void journal_write_now(const char* string);
 
 extern "C" void journal_add_char( char );
 
-void journal_comment( const char* = 0, unsigned limit = ~0 );
+void journal_comment( const char* = 0, uint64_t limit = ~0 );
 
 extern void journal_result( const char* result = 0 );
 
@@ -45,7 +45,7 @@ void journal_resume();
 
 void journal_close();
 
-extern "C" void journal_string(const char* string,	unsigned limit = ~0);
+extern "C" void journal_string(const char* string, uint64_t limit = ~0);
 
 logical journal_status_on();
 

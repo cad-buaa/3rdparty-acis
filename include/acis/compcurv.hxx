@@ -117,7 +117,7 @@ public:
 	// reversed in sense if the logical is true.
 
 	curve *trans_curve(
-						SPAtransf const & = *(SPAtransf *)NULL_REF,
+						SPAtransf const & = SPAtransf(),
 						logical = FALSE
 					) const;
 
@@ -167,8 +167,7 @@ public:
 					REVBIT,					// Curve sense wrt face
 					REVBIT,					// Surface sense wrt face
 					evaluate_curve_side,	// Curve neighborhood
-
-					const SPAtransf & = *(SPAtransf *)NULL_REF
+					const SPAtransf & = SPAtransf()
 											// Xform to get surf into curve
 											// space
 		) const;

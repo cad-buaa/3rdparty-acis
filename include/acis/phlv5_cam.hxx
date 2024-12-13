@@ -91,16 +91,16 @@ logical perspective() const { return( persp_data ); };
 
 // STI jmb begin:  Need to check camera equivalence
 // ==============================================================================
-// Public Function: operator==  Return nonzero if arg is same as this
-// O: True if camera same within SPAresabs
+// Public Function: operator==  Return true if arg is same as this
+// O: true if camera same within SPAresabs
 // ------------------------------------------------------------------------------
-logical operator==( PHLV5_CAMERA const& ) const;
+bool operator==( PHLV5_CAMERA const& ) const;
 
 // ==============================================================================
-// Public Function: operator!=  Return zero if arg is same as this
-// O: False if camera same within SPAresabs
+// Public Function: operator!=  Return false if arg is same as this
+// O: false if camera same within SPAresabs
 // ------------------------------------------------------------------------------
-logical operator!=( PHLV5_CAMERA const& c ) const { return ( ! ( *this == c ) ); };
+bool operator!=( PHLV5_CAMERA const& c ) const { return ( ! ( *this == c ) ); };
 
 }; 
 

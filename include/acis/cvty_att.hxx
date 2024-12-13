@@ -101,7 +101,7 @@ public:
 			 );
 									
 	// Test two LOPT_EDGE__CVTY_ATTRIBS for equality.
-	virtual logical operator==( ATTRIB_LOPT_EDGE_CVTY const& ) const;
+	virtual bool operator==( ATTRIB_LOPT_EDGE_CVTY const& ) const;
 
 	/**
 	 * @nodoc

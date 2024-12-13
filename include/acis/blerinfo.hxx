@@ -17,6 +17,7 @@
 #include "position.hxx"
 #include "errorsys.hxx"
 #include "err_info.hxx"
+#include "spa_null_base.hxx"
 
 class ENTITY;
 class ENTITY_LIST;
@@ -34,16 +35,14 @@ class DECL_BLND blend_error_info : public error_info
 
 		blend_error_info( 
 				ENTITY_LIST const &ent_list,
-				SPAposition const &pos = 
-				* (SPAposition const *) NULL_REF 
+				SPAposition const &pos = SpaAcis::NullObj::get_position()
 				);
 
 		blend_error_info( 
 				ENTITY *e0 = NULL, 
 				ENTITY *e1 = NULL,
 				ENTITY *e2 = NULL,
-				SPAposition const &pos = 
-				* (SPAposition const *) NULL_REF 
+				SPAposition const &pos = SpaAcis::NullObj::get_position()
 				);
 
 		~blend_error_info();
@@ -60,15 +59,13 @@ bl_sys_error(
         ENTITY *e1 = NULL,
 		ENTITY *e2 = NULL, 
 		ENTITY *e3 = NULL, 
-        SPAposition const &pos = 
-            * (SPAposition const *) NULL_REF  
+        SPAposition const &pos = SpaAcis::NullObj::get_position()
         );
 
 void
 bl_sys_error( 
         err_mess_type err_num, 
         ENTITY_LIST const &e_list,
-        SPAposition const &pos =
-			*( SPAposition const * ) NULL_REF
+        SPAposition const &pos = SpaAcis::NullObj::get_position()
         );
 #endif

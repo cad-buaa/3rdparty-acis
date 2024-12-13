@@ -330,11 +330,9 @@ public:
  * @nodoc
  */
 	virtual logical is_constant_offset( 
-						double &left_offset 
-							= *( double *)NULL_REF, 
-						double &right_offset 
-							= *( double *)NULL_REF 
-						) const;
+					double &left_offset = SpaAcis::NullObj::get_double(),
+					double &right_offset = SpaAcis::NullObj::get_double()
+				) const;
 
 	// Returns TRUE if chamfer is flat
 /**
@@ -416,7 +414,7 @@ public:
  * Derived versions should invoke the parent's corresponding method first, to check for "impossible".
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        left_reorder(logical &convex = *(logical*)NULL_REF);
+		        left_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 
 /**
  * Returns whether reordered blends should be computed.
@@ -426,7 +424,7 @@ public:
  * Derived versions should invoke the parent's corresponding method first, to check for "impossible".
  */
 	virtual bl_reorder_info::bl_face_reorder_info 
-		        right_reorder(logical &convex = *(logical*)NULL_REF);
+		        right_reorder(logical &convex = SpaAcis::NullObj::get_logical());
 
 
 // Return the v-SPAparameter range of the entire blend surface that
@@ -928,8 +926,8 @@ public:
 		logical open_at_end,
 		segend  *start_segend,
 		segend  *end_segend,
-		SPAbox const & b_box = *(SPAbox const *)NULL_REF,
-        double & reduced_resabs = *(double*)    NULL_REF
+		SPAbox const & b_box	= SpaAcis::NullObj::get_box(),
+        double & reduced_resabs = SpaAcis::NullObj::get_double()
 	);
 
 // Find the spine.
@@ -950,9 +948,11 @@ public:
   * bounding box.
   */
 	virtual ffblend_geom *
-	find_ffblend_spine( logical open_at_start, logical open_at_end, segend * start_segend,
+	find_ffblend_spine( logical open_at_start, 
+						logical open_at_end, 
+						segend * start_segend,
 						segend * end_segend,
-						SPAbox const & b_box = *(SPAbox const *)NULL_REF );
+						SPAbox const & b_box = SpaAcis::NullObj::get_box() );
 
 // Find spring curves.
 // The curves returned have the same sense as the spine.
@@ -981,7 +981,7 @@ public:
 			logical open_at_end,
 			segend  *start_segend,
 			segend  *end_segend,
-			SPAbox const & b_box = *(SPAbox const *)NULL_REF
+			SPAbox const & b_box = SpaAcis::NullObj::get_box()
 		);
 
 // Find cross curve at given v SPAparameter.
@@ -1108,7 +1108,8 @@ public:
 /**
  * @nodoc
  */
-	virtual logical operator==( ATTRIB_BLEND const& ) const;
+	virtual bool operator==( ATTRIB_BLEND const& ) const;
+
 
 // Return a measure of continuity at blend spring curves
 // i.e. unset_continuity, position_continuous, slope_continuous,
@@ -1373,6 +1374,10 @@ private:
 	SPAinterval v_range_from_edge( logical ignore_prop = FALSE ) const;
 
 	void show_marching_failure(err_mess_type slice_error) const;
+
+	double calculate_hyperbolic_conformal_scaling(list_of_contacts &slice_list) const;
+	double find_local_hyperbolic_scaling(v_bl_contacts* in_slice) const;
+	SPAvector find_Bezier_ctrl_pt(v_bl_contacts* in_slice) const;
 
 protected:
 

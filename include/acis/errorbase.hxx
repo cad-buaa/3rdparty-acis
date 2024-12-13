@@ -454,55 +454,31 @@ public:
 /**
  * @nodoc
  */
-class acis_exception /* : public ACIS_OBJECT no memory managment for this class */ {
+class DECL_BASE acis_exception 
+{
 public:
 	err_mess_type mess;
 	error_info_base*   info;
 	const char * file;
 	int line;
 
-    acis_exception( err_mess_type m, error_info_base* i = NULL, const char * f = NULL, int l = 0)
-	  :
-	  mess(m), info(i), file(f), line(l) {
-		if(NULL!=i) i->add();
-	  }
+    acis_exception( err_mess_type m, 
+					error_info_base* i = NULL, 
+					const char * f = NULL, 
+					int l = 0 );
 
-      acis_exception(const acis_exception &old)
-		  : mess(old.mess), info(old.info), file(old.file), line(old.line) {
-          if(info) info->add();
-      }
+	acis_exception( const acis_exception& old );
 
-      ~acis_exception() {
-          if(info) info->remove();
-      }
+	~acis_exception();
 
-      error_info_base* set_info( error_info_base* i, const char * f = NULL, int l = 0 ) {
-		  SPAUNUSED(f)
-		  SPAUNUSED(l)
-          if ( i != info ) {
-              if ( info ) info->remove();
-              info = i;
-              if ( info ) info->add();
-          }
+	error_info_base* set_info (	error_info_base* i, 
+								const char* f = NULL, 
+								int l = 0 );
 
-#ifdef SPA_DEBUG
-		  if( f) {
-			file = f;
-			line = l;
-		  }
-#endif
+	acis_exception& operator=( const acis_exception& o );
 
-          return info;
-      }
-
-      acis_exception& operator=(const acis_exception& o) {
-          mess = o.mess;
-          set_info(o.info);
-		  file = o.file;
-		  line = o.line;
-          return *this;
-      }
 };
+
 /**
  * Exception block begin.
  */

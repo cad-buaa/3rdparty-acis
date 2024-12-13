@@ -27,6 +27,7 @@
 // ywoo: end
 
 // Tree branch factor.
+#include "spa_null_base.hxx"
 
 #define BRANCH_FACTOR 8
 
@@ -66,7 +67,7 @@ public:
 	// Add new pointer.  No attempt is made to eliminate
 	// duplicates.
 
-	int add(void *, logical & = *(logical *)NULL_REF);
+	int add(void *, logical & = SpaAcis::NullObj::get_logical());
 
 	// Index contents.  Contents are indexed in order added.
 
@@ -122,7 +123,7 @@ private:
 
 	// Branch class add routine.
 
-	int add(void *, logical & = *(logical *)NULL_REF);
+	int add(void *, logical & = SpaAcis::NullObj::get_logical());
 
 	// Branch class indexing.
 

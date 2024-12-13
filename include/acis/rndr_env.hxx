@@ -200,6 +200,8 @@ DECL_RB RNDR_ENVIRONMENT* rndr_modal_environment();
 ////window_handle Guyz_Window_Widget;
 //#endif
 
+class PART;
+
 class DECL_RB view_base : public ACIS_OBJECT
 {
 public:
@@ -269,6 +271,10 @@ public:
 	virtual int					get_engine_version_major() = 0;
 	virtual int					get_engine_version_minor() = 0;
 	virtual int					get_engine_version_point() = 0;	
+	virtual int					set_unlit( int ) = 0; // Returns old value. Currently only color_shading. Similar to no shading, cel shading or toon shading.
+	virtual int					get_unlit() = 0; // Currently only color_shading. Similar to no shading, cel shading, toon shading or flat shading.
+	virtual void				update_extrema() = 0;
+	virtual void				RenderRebuild(PART* in_part = nullptr) = 0; // Remove everything and add it back
 };
 
 #endif

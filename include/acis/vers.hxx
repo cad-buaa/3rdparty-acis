@@ -94,7 +94,7 @@ class AcisVersion;
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator==(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator==(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Compares two <tt>AcisVersion</tt> objects for inequality.
@@ -104,7 +104,7 @@ DECL_BASE logical operator==(AcisVersion const& avL, AcisVersion const& avR);
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator!=(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator!=(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Compares two <tt>AcisVersion</tt> objects for greater than or equal to.
@@ -114,7 +114,7 @@ DECL_BASE logical operator!=(AcisVersion const& avL, AcisVersion const& avR);
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator>=(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator>=(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Compares two <tt>AcisVersion</tt> objects for less than or equal to.
@@ -124,7 +124,7 @@ DECL_BASE logical operator>=(AcisVersion const& avL, AcisVersion const& avR);
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator<=(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator<=(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Compares two <tt>AcisVersion</tt> objects for less than.
@@ -134,7 +134,7 @@ DECL_BASE logical operator<=(AcisVersion const& avL, AcisVersion const& avR);
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator<(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator<(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Compares two <tt>AcisVersion</tt> objects for greater than.
@@ -144,7 +144,7 @@ DECL_BASE logical operator<(AcisVersion const& avL, AcisVersion const& avR);
  * @param avR
  * right AcisVersion.
  */
-DECL_BASE logical operator>(AcisVersion const& avL, AcisVersion const& avR);
+DECL_BASE bool operator>(AcisVersion const& avL, AcisVersion const& avR);
 
 /**
  * Creates an <tt>AcisVersion</tt> object.
@@ -158,12 +158,12 @@ DECL_BASE logical operator>(AcisVersion const& avL, AcisVersion const& avR);
  */
 class DECL_BASE AcisVersion : public ACIS_OBJECT
 {
-	friend DECL_BASE logical operator==(AcisVersion const& vt1, AcisVersion const& vt2);
-	friend DECL_BASE logical operator!=(AcisVersion const& vt1, AcisVersion const& vt2);
-	friend DECL_BASE logical operator>=(AcisVersion const& vt1, AcisVersion const& vt2);
-	friend DECL_BASE logical operator<=(AcisVersion const& vt1, AcisVersion const& vt2);
-	friend DECL_BASE logical operator<(AcisVersion const& vt1, AcisVersion const& vt2);
-	friend DECL_BASE logical operator>(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator==(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator!=(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator>=(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator<=(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator<(AcisVersion const& vt1, AcisVersion const& vt2);
+	friend DECL_BASE bool operator>(AcisVersion const& vt1, AcisVersion const& vt2);
 
 	int	m_version_tag;
 

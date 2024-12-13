@@ -59,7 +59,7 @@ DECL_KERN bipolynomial operator-(bipolynomial const &,bipolynomial const &);
 DECL_KERN bipolynomial operator*(bipolynomial const &,bipolynomial const &);
 DECL_KERN bipolynomial operator/(bipolynomial const &,double);
 DECL_KERN rat_bipoly operator/(bipolynomial const &,bipolynomial const &);
-DECL_KERN logical operator==( double d, bipolynomial const &p );
+DECL_KERN bool operator==( double d, bipolynomial const &p );
 
 class DECL_KERN bipolynomial : public ACIS_OBJECT {
 	bipoly_def *def;
@@ -131,8 +131,8 @@ public:
 	// Simple equality to a constant. Only likely to be used to
 	// compare with zero.
 
-	logical operator==( double ) const;
-	friend DECL_KERN logical operator==( double d, bipolynomial const &p ) {
+	bool operator==( double ) const;
+	friend DECL_KERN bool operator==( double d, bipolynomial const &p ) {
 		return p == d;
 	}
 

@@ -13,7 +13,6 @@
 
     #include "dcl_kern.h"
     class option_header;
- 
     extern DECL_KERN option_header careful_option;
     extern DECL_KERN option_header api_checking_option;
     extern DECL_KERN option_header unknown_attribs_pat_compatible;
@@ -222,7 +221,7 @@
 	extern DECL_KERN option_header auto_merge_periodic_vertices;
 	extern DECL_KERN option_header restore_tags;
 	extern DECL_KERN option_header v_scheme_lazy_data_backup;
-
+    extern DECL_KERN option_header var_round_chmf_rel_to_simple;
 
 #endif
 

@@ -289,7 +289,7 @@ public:
  * var_cross_sec.
  */
 
-	logical operator==( var_cross_section const &other ) const;
+	bool operator==( var_cross_section const &other ) const;
 /**
  * Determines if two variable cross sections are unequal.
  * <br><br>
@@ -297,7 +297,7 @@ public:
  * var_cross_sec.
  */
 
-	logical operator!=( var_cross_section const &other ) const
+	bool operator!=( var_cross_section const &other ) const
 		{ return !(*this==other); }
 
 	// Transform operator.
